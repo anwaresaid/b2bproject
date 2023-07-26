@@ -35,8 +35,9 @@ export const useAuthStore = defineStore("auth", () => {
   }
 
   function login(credentials: User) {
-    return ApiService.post("login", credentials)
+    return ApiService.postTest("users/login", credentials)
       .then(({ data }) => {
+        console.log("data", data);
         setAuth(data);
       })
       .catch(({ response }) => {

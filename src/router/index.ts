@@ -160,6 +160,15 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/apps/games",
+        name: "apps-games-listing",
+        component: () => import("@/views/apps/games/GameListing.vue"),
+        meta: {
+          pageTitle: "Game Listing",
+          breadcrumbs: ["Apps", "Games"],
+        },
+      },
+      {
         path: "/apps/customers/customer-details",
         name: "apps-customers-details",
         component: () => import("@/views/apps/customers/CustomerDetails.vue"),
@@ -436,6 +445,15 @@ const routes: Array<RouteRecordRaw> = [
           pageTitle: "Password reset",
         },
       },
+      {
+        path: "/two-factor",
+        name: "two-factor",
+        component: () =>
+          import("@/views/crafted/authentication/basic-flow/TwoFactor.vue"),
+        meta: {
+          pageTitle: "Two Factor Authentication",
+        },
+      },
     ],
   },
   {
@@ -492,7 +510,7 @@ router.beforeEach((to, from, next) => {
   configStore.resetLayoutConfig();
 
   // verify auth token before each page change
-  authStore.verifyAuth();
+  // authStore.verifyAuth();
 
   // before page access check if page requires authentication
   if (to.meta.middleware == "auth") {

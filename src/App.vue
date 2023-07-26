@@ -10,6 +10,7 @@ import { useThemeStore } from "@/stores/theme";
 import { useBodyStore } from "@/stores/body";
 import { themeMode } from "@/core/helpers/config";
 import { initializeComponents } from "@/core/plugins/keenthemes";
+import ApiService from "@/core/services/ApiService";
 
 export default defineComponent({
   name: "app",
@@ -27,7 +28,19 @@ export default defineComponent({
        * remove this to use static config (@/core/config/DefaultLayoutConfig.ts)
        */
       configStore.overrideLayoutConfig();
-
+      console.log("token", localStorage.getItem("token"));
+      if (
+        localStorage.getItem("token") !== undefined &&
+        localStorage.getItem("token") !== "undefined"
+      ) {
+        console.log("local", localStorage.getItem("token"));
+        let token = JSON.parse(localStorage.getItem("token"));
+        if (token) {
+          ApiService.vueInstance.axios.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${token}`;
+        }
+      }
       /**
        *  Sets a mode from configuration
        */

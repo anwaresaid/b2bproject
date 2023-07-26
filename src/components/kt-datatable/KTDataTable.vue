@@ -38,6 +38,7 @@ export default defineComponent({
     header: { type: Array, required: true },
     data: { type: Array, required: true },
     itemsPerPage: { type: Number, default: 10 },
+    totalPages: { type: Number, required: true },
     itemsPerPageDropdownEnabled: {
       type: Boolean,
       required: false,
@@ -96,6 +97,11 @@ export default defineComponent({
     });
 
     const totalItems = computed(() => {
+      console.log("props.dotat", props.totalPages);
+      if (props.totalPages) {
+        console.log("total", props.totalPages);
+        return props.totalPages * 10;
+      }
       if (props.data) {
         if (props.data.length <= itemsInTable.value) {
           return props.total;

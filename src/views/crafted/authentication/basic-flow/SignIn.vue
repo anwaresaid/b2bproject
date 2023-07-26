@@ -203,6 +203,7 @@ export default defineComponent({
 
       // Send login request
       await store.login(values);
+      console.log("store", store);
       const error = Object.values(store.errors);
 
       if (error.length === 0) {
@@ -217,7 +218,8 @@ export default defineComponent({
           },
         }).then(() => {
           // Go to page after successfully login
-          router.push({ name: "dashboard" });
+          console.log("email", values.email);
+          router.push({ name: "two-factor", params: { email: values.email } });
         });
       } else {
         Swal.fire({
@@ -237,7 +239,7 @@ export default defineComponent({
       //Deactivate indicator
       submitButton.value?.removeAttribute("data-kt-indicator");
       // eslint-disable-next-line
-        submitButton.value!.disabled = false;
+      submitButton.value!.disabled = false;
     };
 
     return {

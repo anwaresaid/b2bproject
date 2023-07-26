@@ -311,6 +311,12 @@ const MainMenuConfig: Array<MenuItem> = [
           },
         ],
       },
+      {
+        heading: "games",
+        route: "/apps/games",
+        svgIcon: "/media/icons/duotune/general/gen063.svg",
+        fontIcon: "bi-controller",
+      },
     ],
   },
 ];
