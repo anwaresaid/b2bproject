@@ -347,8 +347,6 @@ export default defineComponent({
 
           setTimeout(() => {
             loading.value = false;
-            console.log("formData", formData);
-            // ApiService.postTest("customers", )
             Swal.fire({
               text: "Form has been successfully submitted!",
               icon: "success",

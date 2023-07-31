@@ -11,6 +11,10 @@ export interface User {
   api_token: string;
 }
 
+const isTokenValid = {
+  status: false,
+};
+
 export const useAuthStore = defineStore("auth", () => {
   const errors = ref({});
   const user = ref<User>({} as User);
@@ -24,9 +28,17 @@ export const useAuthStore = defineStore("auth", () => {
   }
 
   function setError(error: any) {
-    errors.value = { ...error };
+    errors.value = { error };
   }
 
+  function isLoggedIn() {
+    const token = localStorage.getItem("token");
+    if (token !== "undefined" && token !== undefined) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   function purgeAuth() {
     isAuthenticated.value = false;
     user.value = {} as User;
@@ -37,16 +49,25 @@ export const useAuthStore = defineStore("auth", () => {
   function login(credentials: User) {
     return ApiService.postTest("users/login", credentials)
       .then(({ data }) => {
-        console.log("data", data);
         setAuth(data);
       })
       .catch(({ response }) => {
-        setError(response.data.errors);
+        setError(response.data.message);
       });
   }
 
   function logout() {
     purgeAuth();
+  }
+
+  function validation() {
+    return ApiService.get("users/show")
+      .then((res) => {
+        isTokenValid.status = true;
+      })
+      .catch((e) => {
+        isTokenValid.status = false;
+      });
   }
 
   function register(credentials: User) {
@@ -89,6 +110,9 @@ export const useAuthStore = defineStore("auth", () => {
     errors,
     user,
     isAuthenticated,
+    isTokenValid,
+    validation,
+    isLoggedIn,
     login,
     logout,
     register,

@@ -317,6 +317,12 @@ const MainMenuConfig: Array<MenuItem> = [
         svgIcon: "/media/icons/duotune/general/gen063.svg",
         fontIcon: "bi-controller",
       },
+      {
+        heading: "Roles",
+        route: "/apps/roles",
+        svgIcon: "/media/icons/duotune/general/gen064.svg",
+        fontIcon: "bi-person-fill",
+      },
     ],
   },
 ];

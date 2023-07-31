@@ -58,7 +58,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/two-factor",
+        path: "/two-factor/:mail",
         name: "two-factor",
         component: () =>
           import("@/views/crafted/authentication/basic-flow/TwoFactor.vue"),

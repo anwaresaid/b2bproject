@@ -28,12 +28,10 @@ export default defineComponent({
        * remove this to use static config (@/core/config/DefaultLayoutConfig.ts)
        */
       configStore.overrideLayoutConfig();
-      console.log("token", localStorage.getItem("token"));
       if (
         localStorage.getItem("token") !== undefined &&
         localStorage.getItem("token") !== "undefined"
       ) {
-        console.log("local", localStorage.getItem("token"));
         let token = JSON.parse(localStorage.getItem("token"));
         if (token) {
           ApiService.vueInstance.axios.defaults.headers.common[

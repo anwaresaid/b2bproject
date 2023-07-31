@@ -275,7 +275,7 @@ export default defineComponent({
       }
     },
     fetchData() {
-      ApiService.getTest("games").then((res) => {
+      ApiService.postTest("games/all").then((res) => {
         this.gamesData = res.data.data.games;
       });
     },

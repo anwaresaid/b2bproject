@@ -203,9 +203,7 @@ export default defineComponent({
 
       // Send login request
       await store.login(values);
-      console.log("store", store);
       const error = Object.values(store.errors);
-
       if (error.length === 0) {
         Swal.fire({
           text: "You have successfully logged in!",
@@ -218,8 +216,7 @@ export default defineComponent({
           },
         }).then(() => {
           // Go to page after successfully login
-          console.log("email", values.email);
-          router.push({ name: "two-factor", params: { email: values.email } });
+          router.push({ name: "two-factor", params: { mail: values.email } });
         });
       } else {
         Swal.fire({

@@ -169,17 +169,14 @@ export default defineComponent({
   methods: {
     fetchData() {
       ApiService.getTest("customers?search", this.params, 3).then((res) => {
-        console.log("res", res);
         this.customersData = res.data.data.customers;
         this.paginationData = res.data.data.pagination;
       });
     },
     getItemsInTable(item) {
-      console.log("item", item);
       this.itemsInTable = item;
     },
     pageChange(page) {
-      console.log("current page", page);
       this.currentPage = page;
     },
   },
@@ -306,17 +303,14 @@ export default defineComponent({
   },
   watch: {
     itemsInTable() {
-      console.log("items in table", this.itemsInTable);
       this.params.per_page = this.itemsInTable;
       this.currentPage = 1;
     },
     currentPage() {
-      console.log("currentPage---", this.currentPage);
       this.params.current_page = this.currentPage;
     },
     params: {
       handler: function () {
-        console.log("params changes");
         this.fetchData();
       },
       deep: true,

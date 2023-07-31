@@ -169,6 +169,15 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/apps/roles",
+        name: "apps-roles-listing",
+        component: () => import("@/views/apps/roles/RolesListing.vue"),
+        meta: {
+          pageTitle: "Roles Listing",
+          breadcrumbs: ["Apps", "Roles"],
+        },
+      },
+      {
         path: "/apps/customers/customer-details",
         name: "apps-customers-details",
         component: () => import("@/views/apps/customers/CustomerDetails.vue"),
@@ -446,7 +455,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/two-factor",
+        path: "/two-factor/:mail",
         name: "two-factor",
         component: () =>
           import("@/views/crafted/authentication/basic-flow/TwoFactor.vue"),
@@ -505,23 +514,27 @@ router.beforeEach((to, from, next) => {
 
   // current page view title
   document.title = `${to.meta.pageTitle} - ${import.meta.env.VITE_APP_NAME}`;
-
   // reset config to initial state
   configStore.resetLayoutConfig();
 
   // verify auth token before each page change
   // authStore.verifyAuth();
-
-  // before page access check if page requires authentication
-  if (to.meta.middleware == "auth") {
-    if (authStore.isAuthenticated) {
-      next();
+  authStore.validation().then((res) => {
+    // before page access check if page requires authentication
+    if (to.meta.middleware == "auth") {
+      if (
+        authStore.isAuthenticated &&
+        authStore.isLoggedIn() &&
+        authStore.isTokenValid.status
+      ) {
+        next();
+      } else {
+        next({ name: "sign-in" });
+      }
     } else {
-      next({ name: "sign-in" });
+      next();
     }
-  } else {
-    next();
-  }
+  });
 
   // Scroll page to top on every route change
   window.scrollTo({

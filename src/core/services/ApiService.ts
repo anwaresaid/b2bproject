@@ -67,7 +67,7 @@ class ApiService {
     let temp;
 
     ApiService.vueInstance.axios.defaults.baseURL =
-      import.meta.env.VITE_APP_API_URL_TEST;
+      import.meta.env.VITE_APP_API_URL;
 
     if (dataType === this.consts().filter) {
       temp = "?" + new URLSearchParams(slug).toString();
@@ -87,12 +87,11 @@ class ApiService {
     params: any
   ): Promise<AxiosResponse> {
     ApiService.vueInstance.axios.defaults.baseURL =
-      import.meta.env.VITE_APP_API_URL_TEST;
-    if (resource === "users/login") {
-      ApiService.vueInstance.axios
+      import.meta.env.VITE_APP_API_URL;
+    if (resource === "users/two-factory") {
+      return ApiService.vueInstance.axios
         .post(`${resource}`, params)
         .then((response) => {
-          console.log("response", response);
           ApiService.vueInstance.axios.defaults.headers.common[
             "Authorization"
           ] = `Bearer ${response.data.data.token}`;
@@ -100,9 +99,9 @@ class ApiService {
             "token",
             JSON.stringify(response.data.data.token)
           );
+          return response;
         });
     }
-    console.log("api service", ApiService.vueInstance.axios.defaults);
     return ApiService.vueInstance.axios.post(`${resource}`, params);
   }
 
