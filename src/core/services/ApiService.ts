@@ -43,7 +43,10 @@ class ApiService {
   public static query(resource: string, params: any): Promise<AxiosResponse> {
     return ApiService.vueInstance.axios.get(resource, params);
   }
-
+  public static consts() {
+    const data = { filter: 1, filterSearch: 2, pagination: 3 };
+    return data;
+  }
   /**
    * @description send the GET HTTP request
    * @param resource: string
@@ -55,6 +58,51 @@ class ApiService {
     slug = "" as string
   ): Promise<AxiosResponse> {
     return ApiService.vueInstance.axios.get(`${resource}/${slug}`);
+  }
+  public static getTest(
+    resource: string,
+    slug = "" as string,
+    dataType: Number
+  ): Promise<AxiosResponse> {
+    let temp;
+
+    ApiService.vueInstance.axios.defaults.baseURL =
+      import.meta.env.VITE_APP_API_URL;
+
+    if (dataType === this.consts().filter) {
+      temp = "?" + new URLSearchParams(slug).toString();
+      return ApiService.vueInstance.axios.get(`${resource}${temp}`);
+    } else if (dataType === this.consts().filterSearch) {
+      temp = "?search=" + slug;
+      return ApiService.vueInstance.axios.get(`${resource}${temp}`);
+    } else if (dataType === this.consts().pagination) {
+      temp = "&" + new URLSearchParams(slug).toString();
+      return ApiService.vueInstance.axios.get(`${resource}${temp}`);
+    } else {
+      return ApiService.vueInstance.axios.get(`${resource}/${slug}`);
+    }
+  }
+  public static postTest(
+    resource: string,
+    params: any
+  ): Promise<AxiosResponse> {
+    ApiService.vueInstance.axios.defaults.baseURL =
+      import.meta.env.VITE_APP_API_URL;
+    if (resource === "users/two-factory") {
+      return ApiService.vueInstance.axios
+        .post(`${resource}`, params)
+        .then((response) => {
+          ApiService.vueInstance.axios.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${response.data.data.token}`;
+          localStorage.setItem(
+            "token",
+            JSON.stringify(response.data.data.token)
+          );
+          return response;
+        });
+    }
+    return ApiService.vueInstance.axios.post(`${resource}`, params);
   }
 
   /**

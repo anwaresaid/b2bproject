@@ -1,6 +1,7 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 import { Tooltip } from "bootstrap";
+import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import App from "./App.vue";
 
 /*
@@ -15,6 +16,7 @@ import ApiService from "@/core/services/ApiService";
 import { initApexCharts } from "@/core/plugins/apexcharts";
 import { initInlineSvg } from "@/core/plugins/inline-svg";
 import { initVeeValidate } from "@/core/plugins/vee-validate";
+import "vue-search-select/dist/VueSearchSelect.css";
 
 import "@/core/plugins/prismjs";
 const app = createApp(App);
@@ -22,6 +24,10 @@ const app = createApp(App);
 app.use(createPinia());
 app.use(router);
 app.use(ElementPlus);
+
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component);
+}
 
 ApiService.init(app);
 initApexCharts(app);

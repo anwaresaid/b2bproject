@@ -102,11 +102,14 @@
       <Datatable
         @on-sort="sort"
         @on-items-select="onItemSelect"
-        :data="tableData"
+        :data="customersData"
         :header="tableHeader"
+        :totalPages="paginationData.last_page"
         :enable-items-per-page-dropdown="true"
         :checkbox-enabled="true"
         checkbox-label="id"
+        @on-items-per-page-change="getItemsInTable"
+        @page-change="pageChange"
       >
         <template v-slot:name="{ row: customer }">
           {{ customer.name }}
@@ -117,51 +120,16 @@
           </a>
         </template>
         <template v-slot:company="{ row: customer }">
-          {{ customer.company }}
+          {{ customer.company_registration_number }}
         </template>
         <template v-slot:paymentMethod="{ row: customer }">
-          <img :src="customer.payment.icon" class="w-35px me-3" alt="" />{{
-            customer.payment.ccnumber
-          }}
+          {{ customer.payment_method }}
         </template>
-        <template v-slot:date="{ row: customer }">
-          {{ customer.date }}
+        <template v-slot:location="{ row: customer }">
+          {{ customer.location }}
         </template>
-        <template v-slot:actions="{ row: customer }">
-          <a
-            href="#"
-            class="btn btn-sm btn-light btn-active-light-primary"
-            data-kt-menu-trigger="click"
-            data-kt-menu-placement="bottom-end"
-            data-kt-menu-flip="top-end"
-            >Actions
-            <span class="svg-icon svg-icon-5 m-0">
-              <inline-svg src="/media/icons/duotune/arrows/arr072.svg" />
-            </span>
-          </a>
-          <!--begin::Menu-->
-          <div
-            class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-semobold fs-7 w-125px py-4"
-            data-kt-menu="true"
-          >
-            <!--begin::Menu item-->
-            <div class="menu-item px-3">
-              <router-link
-                to="/apps/customers/customer-details"
-                class="menu-link px-3"
-                >View</router-link
-              >
-            </div>
-            <!--end::Menu item-->
-            <!--begin::Menu item-->
-            <div class="menu-item px-3">
-              <a @click="deleteCustomer(customer.id)" class="menu-link px-3"
-                >Delete</a
-              >
-            </div>
-            <!--end::Menu item-->
-          </div>
-          <!--end::Menu-->
+        <template v-slot:vat_number="{ row: customer }">
+          {{ customer.vat_number }}
         </template>
       </Datatable>
     </div>
@@ -180,6 +148,7 @@ import AddCustomerModal from "@/components/modals/forms/AddCustomerModal.vue";
 import customers from "@/core/data/customers";
 import type { ICustomer } from "@/core/data/customers";
 import arraySort from "array-sort";
+import ApiService from "@/core/services/ApiService";
 
 export default defineComponent({
   name: "customers-listing",
@@ -187,6 +156,29 @@ export default defineComponent({
     Datatable,
     ExportCustomerModal,
     AddCustomerModal,
+  },
+  data() {
+    return {
+      customersData: [],
+      itemsInTable: 10,
+      currentPage: 1,
+      params: {},
+      paginationData: {},
+    };
+  },
+  methods: {
+    fetchData() {
+      ApiService.getTest("customers?search", this.params, 3).then((res) => {
+        this.customersData = res.data.data.customers;
+        this.paginationData = res.data.data.pagination;
+      });
+    },
+    getItemsInTable(item) {
+      this.itemsInTable = item;
+    },
+    pageChange(page) {
+      this.currentPage = page;
+    },
   },
   setup() {
     const tableHeader = ref([
@@ -215,17 +207,23 @@ export default defineComponent({
         columnWidth: 175,
       },
       {
-        columnName: "Created Date",
-        columnLabel: "date",
+        columnName: "Location",
+        columnLabel: "location",
         sortEnabled: true,
-        columnWidth: 225,
+        columnWidth: 100,
       },
       {
-        columnName: "Actions",
-        columnLabel: "actions",
-        sortEnabled: false,
-        columnWidth: 135,
+        columnName: "Vat Number",
+        columnLabel: "vat_number",
+        sortEnabled: true,
+        columnWidth: 175,
       },
+      // {
+      //   columnName: "Actions",
+      //   columnLabel: "actions",
+      //   sortEnabled: false,
+      //   columnWidth: 135,
+      // },
     ]);
     const selectedIds = ref<Array<number>>([]);
 
@@ -297,6 +295,26 @@ export default defineComponent({
       sort,
       onItemSelect,
     };
+  },
+  mounted() {
+    this.params.current_page = this.currentPage;
+    this.params.per_page = this.itemsInTable;
+    this.fetchData();
+  },
+  watch: {
+    itemsInTable() {
+      this.params.per_page = this.itemsInTable;
+      this.currentPage = 1;
+    },
+    currentPage() {
+      this.params.current_page = this.currentPage;
+    },
+    params: {
+      handler: function () {
+        this.fetchData();
+      },
+      deep: true,
+    },
   },
 });
 </script>

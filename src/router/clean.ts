@@ -57,6 +57,15 @@ const routes: Array<RouteRecordRaw> = [
           pageTitle: "Password reset",
         },
       },
+      {
+        path: "/two-factor/:mail",
+        name: "two-factor",
+        component: () =>
+          import("@/views/crafted/authentication/basic-flow/TwoFactor.vue"),
+        meta: {
+          pageTitle: "Two Factor Authentication",
+        },
+      },
     ],
   },
   {

@@ -204,7 +204,6 @@ export default defineComponent({
       // Send login request
       await store.login(values);
       const error = Object.values(store.errors);
-
       if (error.length === 0) {
         Swal.fire({
           text: "You have successfully logged in!",
@@ -217,7 +216,7 @@ export default defineComponent({
           },
         }).then(() => {
           // Go to page after successfully login
-          router.push({ name: "dashboard" });
+          router.push({ name: "two-factor", params: { mail: values.email } });
         });
       } else {
         Swal.fire({
@@ -237,7 +236,7 @@ export default defineComponent({
       //Deactivate indicator
       submitButton.value?.removeAttribute("data-kt-indicator");
       // eslint-disable-next-line
-        submitButton.value!.disabled = false;
+      submitButton.value!.disabled = false;
     };
 
     return {
