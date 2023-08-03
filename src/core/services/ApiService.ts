@@ -62,7 +62,8 @@ class ApiService {
   public static getTest(
     resource: string,
     slug = "" as string,
-    dataType: Number
+    dataType: Number,
+    sign: string
   ): Promise<AxiosResponse> {
     let temp;
 
@@ -76,7 +77,13 @@ class ApiService {
       temp = "?search=" + slug;
       return ApiService.vueInstance.axios.get(`${resource}${temp}`);
     } else if (dataType === this.consts().pagination) {
-      temp = "&" + new URLSearchParams(slug).toString();
+      let operator;
+      if (sign) {
+        operator = "?";
+      } else {
+        operator = "&";
+      }
+      temp = operator + new URLSearchParams(slug).toString();
       return ApiService.vueInstance.axios.get(`${resource}${temp}`);
     } else {
       return ApiService.vueInstance.axios.get(`${resource}/${slug}`);
