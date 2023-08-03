@@ -187,6 +187,15 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/apps/suppliers",
+        name: "suppliers-listing",
+        component: () => import("@/views/apps/suppliers/SuppliersListing.vue"),
+        meta: {
+          pageTitle: "Suppliers",
+          breadcrumbs: ["Apps", "Suppliers"],
+        },
+      },
+      {
         path: "/apps/subscriptions/getting-started",
         name: "apps-subscriptions-getting-started",
         component: () =>

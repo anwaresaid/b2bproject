@@ -1,6 +1,6 @@
 <template>
   <div class="dataTables_wrapper dt-bootstrap4 no-footer">
-    <TableContent
+    <!-- <TableContent
       @on-items-select="onItemSelect"
       @on-sort="onSort"
       :header="header"
@@ -15,7 +15,24 @@
       <template v-for="(_, name) in $slots" v-slot:[name]="{ row: item }">
         <slot :name="name" :row="item" />
       </template>
-    </TableContent>
+    </TableContent> -->
+    <el-table
+      :data="data"
+      :default-sort="{ prop: defaultSort, order: 'descending' }"
+      style="width: 100%"
+    >
+      <el-table-column
+        v-for="item in header"
+        :prop="item.columnLabel"
+        :label="item.columnName"
+        :sortable="item.sortEnabled"
+        :width="item.width"
+      >
+        <template v-if="item.custom" #default="scope">
+          <slot name="component1" :action="scope.row.id"></slot>
+        </template>
+      </el-table-column>
+    </el-table>
     <TableFooter
       @page-change="pageChange"
       :current-page="currentPage"
@@ -36,6 +53,8 @@ export default defineComponent({
   name: "kt-datatable",
   props: {
     header: { type: Array, required: true },
+    defaultSort: { type: String, required: false },
+    sortable: { type: Boolean, required: true, default: false },
     data: { type: Array, required: true },
     itemsPerPage: { type: Number, default: 10 },
     totalPages: { type: Number, required: true },
@@ -97,9 +116,7 @@ export default defineComponent({
     });
 
     const totalItems = computed(() => {
-      console.log("props.dotat", props.totalPages);
       if (props.totalPages) {
-        console.log("total", props.totalPages);
         return props.totalPages * 10;
       }
       if (props.data) {

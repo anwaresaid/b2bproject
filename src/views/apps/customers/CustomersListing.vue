@@ -111,26 +111,6 @@
         @on-items-per-page-change="getItemsInTable"
         @page-change="pageChange"
       >
-        <template v-slot:name="{ row: customer }">
-          {{ customer.name }}
-        </template>
-        <template v-slot:email="{ row: customer }">
-          <a href="#" class="text-gray-600 text-hover-primary mb-1">
-            {{ customer.email }}
-          </a>
-        </template>
-        <template v-slot:company="{ row: customer }">
-          {{ customer.company_registration_number }}
-        </template>
-        <template v-slot:paymentMethod="{ row: customer }">
-          {{ customer.payment_method }}
-        </template>
-        <template v-slot:location="{ row: customer }">
-          {{ customer.location }}
-        </template>
-        <template v-slot:vat_number="{ row: customer }">
-          {{ customer.vat_number }}
-        </template>
       </Datatable>
     </div>
   </div>
@@ -196,13 +176,13 @@ export default defineComponent({
       },
       {
         columnName: "Company",
-        columnLabel: "company",
+        columnLabel: "company_registration_number",
         sortEnabled: true,
         columnWidth: 175,
       },
       {
         columnName: "Payment Method",
-        columnLabel: "paymentMethod",
+        columnLabel: "payment_method",
         sortEnabled: true,
         columnWidth: 175,
       },

@@ -117,8 +117,8 @@
                   <!--end::Label-->
 
                   <!--begin::Input-->
-                  <el-form-item prop="vatNumber">
-                    <el-input v-model="formData.vatNumber" />
+                  <el-form-item prop="vat_number">
+                    <el-input v-model="formData.vat_number" />
                   </el-form-item>
                   <!--end::Input-->
                 </div>
@@ -133,7 +133,7 @@
                   <!--end::Label-->
 
                   <!--begin::Input-->
-                  <el-input v-model="formData.companyRegistrationNumber" />
+                  <el-input v-model="formData.company_registration_number" />
                   <!--end::Input-->
                 </div>
                 <!--end::Input group-->
@@ -147,8 +147,8 @@
                   <!--end::Label-->
 
                   <!--begin::Input-->
-                  <el-form-item prop="relatedPerson">
-                    <el-input v-model="formData.relatedPerson" />
+                  <el-form-item prop="related_person">
+                    <el-input v-model="formData.related_person" />
                   </el-form-item>
                   <!--end::Input-->
                 </div>
@@ -161,8 +161,8 @@
                   <!--end::Label-->
 
                   <!--begin::Input-->
-                  <el-form-item prop="website">
-                    <el-input v-model="formData.website" />
+                  <el-form-item prop="web_site">
+                    <el-input v-model="formData.web_site" />
                   </el-form-item>
                   <!--end::Input-->
                 </div>
@@ -177,8 +177,8 @@
                   <!--end::Label-->
 
                   <!--begin::Input-->
-                  <el-form-item prop="paymentMethod">
-                    <el-input v-model="formData.paymentMethod" />
+                  <el-form-item prop="payment_method">
+                    <el-input v-model="formData.payment_method" />
                   </el-form-item>
                   <!--end::Input-->
                 </div>
@@ -262,11 +262,11 @@ export default defineComponent({
       name: "",
       email: "",
       address: "",
-      vatNumber: 0,
-      companyRegistrationNumber: "",
-      relatedPerson: "",
-      website: "",
-      paymentMethod: "",
+      vat_number: "",
+      company_registration_number: "",
+      related_person: "",
+      web_site: "",
+      payment_method: "",
       info: "",
     });
 
@@ -292,35 +292,35 @@ export default defineComponent({
           trigger: "change",
         },
       ],
-      vatNumber: [
+      vat_number: [
         {
           required: true,
           message: "Vat Number is required",
           trigger: "change",
         },
       ],
-      companyRegistrationNumber: [
+      company_registration_number: [
         {
           required: true,
           message: "Company Registration Number is required",
           trigger: "change",
         },
       ],
-      relatedPerson: [
+      related_person: [
         {
           required: true,
           message: "Related Person is required",
           trigger: "change",
         },
       ],
-      paymentMethod: [
+      payment_method: [
         {
           required: true,
           message: "Payment Method is required",
           trigger: "change",
         },
       ],
-      website: [
+      web_site: [
         {
           required: true,
           message: "website is required",
@@ -344,33 +344,34 @@ export default defineComponent({
       formRef.value.validate((valid: boolean) => {
         if (valid) {
           loading.value = true;
-
-          setTimeout(() => {
-            loading.value = false;
-            Swal.fire({
-              text: "Form has been successfully submitted!",
-              icon: "success",
-              buttonsStyling: false,
-              confirmButtonText: "Ok, got it!",
-              heightAuto: false,
-              customClass: {
-                confirmButton: "btn btn-primary",
-              },
-            }).then(() => {
-              hideModal(addCustomerModalRef.value);
+          ApiService.postTest("customers", formData.value)
+            .then((res) => {
+              loading.value = false;
+              Swal.fire({
+                text: "Form has been successfully submitted!",
+                icon: "success",
+                buttonsStyling: false,
+                confirmButtonText: "Ok, got it!",
+                heightAuto: false,
+                customClass: {
+                  confirmButton: "btn btn-primary",
+                },
+              }).then(() => {
+                hideModal(addCustomerModalRef.value);
+              });
+            })
+            .catch((e) => {
+              Swal.fire({
+                text: "Sorry, looks like there are some errors detected, please try again.",
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "Ok, got it!",
+                heightAuto: false,
+                customClass: {
+                  confirmButton: "btn btn-primary",
+                },
+              });
             });
-          }, 2000);
-        } else {
-          Swal.fire({
-            text: "Sorry, looks like there are some errors detected, please try again.",
-            icon: "error",
-            buttonsStyling: false,
-            confirmButtonText: "Ok, got it!",
-            heightAuto: false,
-            customClass: {
-              confirmButton: "btn btn-primary",
-            },
-          });
           return false;
         }
       });

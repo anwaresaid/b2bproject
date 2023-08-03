@@ -3,133 +3,92 @@
     <div class="card-header border-0 pt-6">
       <!--begin::Card title-->
       <!--begin::Search-->
-      <div>
-        <!-- <label class="form-label fw-semobold d-flex justify-content-center"
-          >Games</label
-        >
-        <div class="d-flex align-items-center position-relative my-1">
-          <span class="svg-icon svg-icon-1 position-absolute ms-6">
-            <inline-svg src="/media/icons/duotune/general/gen021.svg" />
-          </span>
-          <input
-            type="text"
-            v-model="searchFilter"
-            class="form-control form-control-solid w-250px ps-15"
-            placeholder="Search Games"
-          />
-        </div> -->
-      </div>
       <!--filters-->
-      <div class="filterSelect">
-        <multi-list-select
-          :list="marketPlaceData"
-          :selectedItems="marketPlaceSearch"
-          optionValue="id"
-          optionText="name"
-          placeholder="Select Market Place"
-          @select="onSelect"
-          @searchchange="onChange"
-        >
-        </multi-list-select>
-        <!-- <select
-          class="form-select form-select-solid select2-hidden-accessible"
-          v-model="marketPlaceSearch"
-        >
-          <option
-            v-for="item in marketPlaceData"
-            :label="item.name"
-            :key="item.id"
-            :value="item.id"
+      <div class="filters">
+        <div class="filterSelect">
+          <multi-list-select
+            :list="marketPlaceData"
+            :selectedItems="marketPlaceSearch"
+            optionValue="id"
+            optionText="name"
+            placeholder="Select Market Place"
+            @select="onSelect"
+            @searchchange="onChange"
           >
-            {{ item.name }}
-          </option>
-        </select> -->
-      </div>
-      <div class="filterSelect">
-        <multi-list-select
-          :list="categoriesData"
-          :selectedItems="categoriesSearch"
-          optionValue="id"
-          optionText="name"
-          placeholder="Select Categories"
-          @select="onSelectCategories"
-          @searchchange="onCategoriesChange"
-        >
-        </multi-list-select>
-      </div>
-      <div class="filterSelect">
-        <model-select
-          :options="statusGames"
-          v-model="gameStatus"
-          placeholder="Select game status"
-        >
-        </model-select>
-        <!-- <label class="form-label fw-semobold d-flex justify-content-center"
-          >Market Place Status</label
-        >
-        <select
-          class="form-select form-select-solid select2-hidden-accessible"
-          v-model="marketPlaceStatus"
-        >
-          <option
-            v-for="item in status"
-            :label="item"
-            :key="status.indexOf(item)"
-            :value="status.indexOf(item)"
+          </multi-list-select>
+        </div>
+        <div class="filterSelect">
+          <multi-list-select
+            :list="categoriesData"
+            :selectedItems="categoriesSearch"
+            optionValue="id"
+            optionText="name"
+            placeholder="Select Categories"
+            @select="onSelectCategories"
+            @searchchange="onCategoriesChange"
           >
-            {{ item }}
-          </option>
-        </select> -->
-      </div>
-      <div class="filterSelect">
-        <multi-list-select
-          :list="publisherData"
-          :selectedItems="publisherSearch"
-          optionValue="id"
-          optionText="name"
-          placeholder="Select Publisher"
-          @select="onSelectPublisher"
-          @searchchange="onPublisherChange"
-        >
-        </multi-list-select>
-        <!-- <select
-          class="form-select form-select-solid select2-hidden-accessible"
-          v-model="publisherSearch"
-        >
-          <option
-            v-for="item in publisherData"
-            :label="item.name"
-            :key="item.id"
-            :value="item.id"
+          </multi-list-select>
+        </div>
+        <div class="filterSelect">
+          <model-select
+            :options="statusGames"
+            v-model="gameStatus"
+            placeholder="Select game status"
           >
-            {{ item.name }}
-          </option> -->
-        <!-- </select> -->
-      </div>
-      <div class="filterSelect">
-        <!-- <label class="form-label fw-semobold d-flex justify-content-center"
-          >Publishers Status</label
-        >
-        <select
-          class="form-select form-select-solid select2-hidden-accessible"
-          v-model="gameStatus"
-        >
-          <option
-            v-for="item in status"
-            :label="item"
-            :key="status.indexOf(item)"
-            :value="status.indexOf(item)"
+          </model-select>
+        </div>
+        <div class="filterSelect">
+          <multi-list-select
+            :list="publisherData"
+            :selectedItems="publisherSearch"
+            optionValue="id"
+            optionText="name"
+            placeholder="Select Publisher"
+            @select="onSelectPublisher"
+            @searchchange="onPublisherChange"
           >
-            {{ item }}
-          </option>
-        </select> -->
-        <!--end::Search-->
-        <model-select
-          :options="statusMarketPlace"
-          v-model="marketPlaceStatus"
-          placeholder="Select Market placee status"
-        >
-        </model-select>
+          </multi-list-select>
+        </div>
+        <div class="filterSelect">
+          <model-select
+            :options="statusMarketPlace"
+            v-model="marketPlaceStatus"
+            placeholder="Select Market placee status"
+          >
+          </model-select>
+        </div>
+      </div>
+      <div class="add-buttons">
+        <el-button
+          type="danger"
+          icon="Football"
+          @click="gameCreateVisible = true"
+          circle
+        />
+        <el-button
+          type="primary"
+          icon="MapLocation"
+          @click="regionCreateVisible = true"
+          circle
+        />
+        <el-button
+          type="success"
+          icon="Grape"
+          @click="categoryCreateVisible = true"
+          circle
+        />
+        <el-button
+          type="warning"
+          icon="House"
+          @click="publisherCreateVisible = true"
+          circle
+        />
+        <el-button
+          type="info"
+          icon="Eleme"
+          @click="languageCreateVisible = true"
+          circle
+        />
       </div>
       <!--begin::Card title-->
       <!--end::Card toolbar-->
@@ -140,38 +99,38 @@
         @on-items-select="onItemSelect"
         :data="gamesData"
         :header="tableHeader"
+        :totalPages="paginationData.last_page"
         :enable-items-per-page-dropdown="true"
         :checkbox-enabled="true"
         checkbox-label="id"
         :currentPage="currentPage"
+        @on-items-per-page-change="getItemsInTable"
+        @page-change="pageChange"
       >
-        <template v-slot:name="{ row: game }">
-          {{ game.name }}
-        </template>
-        <template v-slot:categorytype="{ row: game }">
-          <a href="#" class="text-gray-600 text-hover-primary mb-1">
-            {{ game.category_type }}
-          </a>
-        </template>
-        <template v-slot:languagename="{ row: game }">
-          {{ game.language.name }}
-        </template>
-        <template v-slot:status="{ row: game }">
-          {{ game.status }}
-        </template>
-        <template v-slot:categoryname="{ row: game }">
-          {{ game.category.name }}
-        </template>
-        <template v-slot:publishername="{ row: game }">
-          {{ game.publisher.name }}
-        </template>
-        <template v-slot:regionname="{ row: game }">
-          {{ game.region.name }}
-        </template>
       </Datatable>
     </div>
   </div>
-
+  <CategoryCreate
+    :isVisible="categoryCreateVisible"
+    @create-category="closeCreateCategory"
+  ></CategoryCreate>
+  <PublisherCreate
+    :isVisible="publisherCreateVisible"
+    @create-publisher="closeCreatePublisher"
+  >
+  </PublisherCreate>
+  <RegionCreate
+    :isVisible="regionCreateVisible"
+    @create-region="closeCreateRegion"
+  ></RegionCreate>
+  <LanguageCreate
+    :isVisible="languageCreateVisible"
+    @create-language="closeCreateLanguage"
+  ></LanguageCreate>
+  <GameCreate
+    :isVisible="gameCreateVisible"
+    @create-game="closeCreateGame"
+  ></GameCreate>
   <ExportCustomerModal></ExportCustomerModal>
   <AddCustomerModal></AddCustomerModal>
 </template>
@@ -182,6 +141,11 @@ import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import ExportCustomerModal from "@/components/modals/forms/ExportCustomerModal.vue";
 import AddCustomerModal from "@/components/modals/forms/AddCustomerModal.vue";
 import ApiService from "@/core/services/ApiService";
+import CategoryCreate from "./CategoryCreate.vue";
+import RegionCreate from "./RegionCreate.vue";
+import LanguageCreate from "./LanguageCreate.vue";
+import PublisherCreate from "./PublisherCreate.vue";
+import GameCreate from "./GameCreate.vue";
 import { MultiListSelect, ModelSelect } from "vue-search-select";
 
 export default defineComponent({
@@ -190,12 +154,22 @@ export default defineComponent({
     Datatable,
     ExportCustomerModal,
     AddCustomerModal,
+    CategoryCreate,
+    RegionCreate,
+    LanguageCreate,
+    PublisherCreate,
+    GameCreate,
     MultiListSelect,
     ModelSelect,
   },
 
   data() {
     return {
+      categoryCreateVisible: false,
+      publisherCreateVisible: false,
+      gameCreateVisible: false,
+      regionCreateVisible: false,
+      languageCreateVisible: false,
       marketPlaceData: [],
       publisherData: [],
       searchFilter: [],
@@ -204,6 +178,7 @@ export default defineComponent({
       publisherSearch: [],
       marketPlaceStatus: "",
       currentPage: 1,
+      itemsInTable: 10,
       statusGames: [
         { text: "Passive", value: 2 },
         { text: "Active", value: 1 },
@@ -213,6 +188,8 @@ export default defineComponent({
         { text: "Active", value: 2 },
       ],
       gameStatus: "",
+      params: {},
+      paginationData: {},
       filters: {},
       categoriesSearch: [],
       categoriesData: [],
@@ -220,6 +197,42 @@ export default defineComponent({
   },
 
   methods: {
+    closeCreateCategory(value) {
+      this.categoryCreateVisible = false;
+      if (value) {
+        this.fetchData();
+      }
+    },
+    closeCreatePublisher(value) {
+      this.publisherCreateVisible = false;
+      if (value) {
+        this.fetchData();
+      }
+    },
+    closeCreateRegion(value) {
+      this.regionCreateVisible = false;
+      if (value) {
+        this.fetchData();
+      }
+    },
+    closeCreateLanguage(value) {
+      this.languageCreateVisible = false;
+      if (value) {
+        this.fetchData();
+      }
+    },
+    getItemsInTable(item) {
+      this.itemsInTable = item;
+    },
+    pageChange(page) {
+      this.currentPage = page;
+    },
+    closeCreateGame(value) {
+      this.gameCreateVisible = false;
+      if (value) {
+        this.fetchData();
+      }
+    },
     onSelect(items, lastSelectedItem, check) {
       // console.log("selected ", items);
       // console.log("last selected item ", lastSelectedItem);
@@ -275,8 +288,9 @@ export default defineComponent({
       }
     },
     fetchData() {
-      ApiService.postTest("games/all").then((res) => {
+      ApiService.postTest("games/all", this.params, 3).then((res) => {
         this.gamesData = res.data.data.games;
+        this.paginationData = res.data.data.pagination;
       });
     },
   },
@@ -290,7 +304,7 @@ export default defineComponent({
       },
       {
         columnName: "Category Type",
-        columnLabel: "categorytype",
+        columnLabel: "category_type",
         sortEnabled: true,
         columnWidth: 230,
       },
@@ -302,25 +316,25 @@ export default defineComponent({
       },
       {
         columnName: "Language",
-        columnLabel: "languagename",
+        columnLabel: "language.name",
         sortEnabled: true,
         columnWidth: 175,
       },
       {
         columnName: "Category",
-        columnLabel: "categoryname",
+        columnLabel: "category.name",
         sortEnabled: true,
         columnWidth: 175,
       },
       {
         columnName: "Publisher",
-        columnLabel: "publishername",
+        columnLabel: "publisher.name",
         sortEnabled: true,
         columnWidth: 225,
       },
       {
         columnName: "Region",
-        columnLabel: "regionname",
+        columnLabel: "region.name",
         sortEnabled: false,
         columnWidth: 135,
       },
@@ -345,6 +359,19 @@ export default defineComponent({
   },
 
   watch: {
+    itemsInTable() {
+      this.params.per_page = this.itemsInTable;
+      this.currentPage = 1;
+    },
+    currentPage() {
+      this.params.current_page = this.currentPage;
+    },
+    params: {
+      handler: function () {
+        this.fetchData();
+      },
+      deep: true,
+    },
     searchFilter() {},
     marketPlaceStatus() {
       this.filters.market_place_status = this.marketPlaceStatus;
@@ -385,6 +412,11 @@ export default defineComponent({
 }
 .filterSelect {
   min-width: 200px;
+}
+.filters {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .card-header {
   display: flex;
