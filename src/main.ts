@@ -3,6 +3,7 @@ import { createPinia } from "pinia";
 import { Tooltip } from "bootstrap";
 import * as ElementPlusIconsVue from "@element-plus/icons-vue";
 import App from "./App.vue";
+import store from "./store";
 
 /*
 TIP: To get started with clean router change path to @/router/clean.ts.
@@ -24,6 +25,7 @@ const app = createApp(App);
 app.use(createPinia());
 app.use(router);
 app.use(ElementPlus);
+app.use(store);
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component);

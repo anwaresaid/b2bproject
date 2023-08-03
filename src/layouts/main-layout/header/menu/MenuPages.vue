@@ -125,6 +125,8 @@
             </div>
           </div>
           <div v-if="menuItem.heading" class="menu-item">
+            {{ output(menuItem) }}
+
             <router-link
               v-if="menuItem.route && menuItem.route"
               class="menu-link"
@@ -320,6 +322,9 @@ export default defineComponent({
     const hasActiveChildren = (match: string) => {
       return route.path.indexOf(match) !== -1;
     };
+    const output = (item) => {
+      console.log("item---", item);
+    };
 
     const translate = (text: string) => {
       if (te(text)) {
@@ -334,6 +339,7 @@ export default defineComponent({
       headerMenuIcons,
       MainMenuConfig,
       translate,
+      output,
     };
   },
 });

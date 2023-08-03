@@ -1,5 +1,7 @@
 <template>
   <el-dialog v-model="setVisible" title="Game Create" width="50%">
+    random text = {{ message }}
+
     <el-form
       :model="form"
       :rules="rules"
@@ -138,6 +140,7 @@ import {
   defineEmits,
 } from "vue";
 import ApiService from "@/core/services/ApiService";
+import PusherService from "@/core/services/PusherService";
 import {
   ModelListSelect,
   MultiListSelect,
@@ -165,6 +168,9 @@ const ruleFormRef = ref<FormInstance>();
 const visible = defineProps(["isVisible"]);
 const setVisible = ref("");
 setVisible.value = visible.isVisible;
+const channel = PusherService.subscribe("my-channel");
+const message = ref("");
+
 const form = reactive<RuleForm>({
   publisher: [],
   category: [],
@@ -174,6 +180,10 @@ const form = reactive<RuleForm>({
   name: "",
   description: "",
   categoryType: {},
+});
+
+channel.bind("my-event", (data) => {
+  message.value = data;
 });
 
 const statusData = ref(gameStatus);
@@ -344,8 +354,19 @@ watch(visible, (newValue) => {
   }
 });
 watch(setVisible, (newValue) => {
+  console.log("pusher channel", channel);
+  console.log("pusher message", message);
+
   if (!newValue) {
     emit("create-game", false);
+  }
+});
+watch(message, (newValue) => {
+  console.log("changed channel", channel);
+  console.log("changed message", message);
+
+  if (!newValue) {
+    // emit("create-game", false);
   }
 });
 
