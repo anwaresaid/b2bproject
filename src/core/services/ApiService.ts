@@ -47,6 +47,10 @@ class ApiService {
     const data = { filter: 1, filterSearch: 2, pagination: 3 };
     return data;
   }
+  public static constsPost() {
+    const data = { fileUpload: 0 };
+    return data;
+  }
   /**
    * @description send the GET HTTP request
    * @param resource: string
@@ -80,7 +84,7 @@ class ApiService {
       let operator;
       if (sign) {
         operator = "?";
-      } else {
+      } else if (slug && !dataType) {
         operator = "&";
       }
       temp = operator + new URLSearchParams(slug).toString();
@@ -91,7 +95,9 @@ class ApiService {
   }
   public static postTest(
     resource: string,
-    params: any
+    params: any,
+    type: number,
+    config: object
   ): Promise<AxiosResponse> {
     ApiService.vueInstance.axios.defaults.baseURL =
       import.meta.env.VITE_APP_API_URL;
@@ -108,6 +114,9 @@ class ApiService {
           );
           return response;
         });
+    }
+    if (type && type === this.constsPost().fileUpload) {
+      return ApiService.vueInstance.axios.post(`${resource}`, params, config);
     }
     return ApiService.vueInstance.axios.post(`${resource}`, params);
   }

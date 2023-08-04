@@ -124,9 +124,7 @@
               </template>
             </div>
           </div>
-          <div v-if="menuItem.heading" class="menu-item">
-            {{ output(menuItem) }}
-
+          <div v-if="checkCreateUserPermission(menuItem)" class="menu-item">
             <router-link
               v-if="menuItem.route && menuItem.route"
               class="menu-link"
@@ -311,6 +309,7 @@ import { useRoute } from "vue-router";
 import { useI18n } from "vue-i18n";
 import MainMenuConfig from "@/core/config/MainMenuConfig";
 import { headerMenuIcons } from "@/core/helpers/config";
+import { storeToRefs } from "pinia";
 
 export default defineComponent({
   name: "KTMenu",
@@ -319,11 +318,21 @@ export default defineComponent({
     const { t, te } = useI18n();
     const route = useRoute();
 
+    // v-if="menuItem.heading && menuItem.heading ==='create user' ? $store.state.permissions.canSeeUserCreatePage : true"
+
+    const checkCreateUserPermission = (menuItem) => {
+      if (menuItem.heading && menuItem.heading === "create user") {
+        if ($store.state.permissions.canSeeUserCreatePage) {
+          return true;
+        }
+        return false;
+      } else if (menuItem.heading) {
+        return true;
+      }
+      return false;
+    };
     const hasActiveChildren = (match: string) => {
       return route.path.indexOf(match) !== -1;
-    };
-    const output = (item) => {
-      console.log("item---", item);
     };
 
     const translate = (text: string) => {
@@ -339,7 +348,7 @@ export default defineComponent({
       headerMenuIcons,
       MainMenuConfig,
       translate,
-      output,
+      checkCreateUserPermission,
     };
   },
 });

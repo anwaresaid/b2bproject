@@ -197,6 +197,15 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/apps/createUser",
+        name: "create-user",
+        component: () => import("@/views/apps/createUser/CreateUser.vue"),
+        meta: {
+          pageTitle: "Create user",
+          breadcrumbs: ["Apps", "Create User"],
+        },
+      },
+      {
         path: "/apps/subscriptions/getting-started",
         name: "apps-subscriptions-getting-started",
         component: () =>

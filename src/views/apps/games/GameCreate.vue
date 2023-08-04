@@ -354,17 +354,11 @@ watch(visible, (newValue) => {
   }
 });
 watch(setVisible, (newValue) => {
-  console.log("pusher channel", channel);
-  console.log("pusher message", message);
-
   if (!newValue) {
     emit("create-game", false);
   }
 });
 watch(message, (newValue) => {
-  console.log("changed channel", channel);
-  console.log("changed message", message);
-
   if (!newValue) {
     // emit("create-game", false);
   }

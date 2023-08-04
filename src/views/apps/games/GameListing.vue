@@ -234,24 +234,6 @@ export default defineComponent({
       }
     },
     onSelect(items, lastSelectedItem, check) {
-      // console.log("selected ", items);
-      // console.log("last selected item ", lastSelectedItem);
-
-      // if (
-      //   this.marketPlaceSearch.some(
-      //     (element) => element.id === lastSelectedItem.id
-      //   )
-      // ) {
-      //   console.log("true");
-      //   this.marketPlaceSearch.splice(
-      //     this.marketPlaceSearch.findIndex(
-      //       (item) => item.id === lastSelectedItem.id
-      //     ),
-      //     1
-      //   );
-      // } else {
-      //   this.marketPlaceSearch.push(lastSelectedItem);
-      // }
       this.marketPlaceSearch = items;
     },
     onSelectPublisher(publisher) {

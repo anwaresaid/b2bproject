@@ -242,6 +242,12 @@ const MainMenuConfig: Array<MenuItem> = [
     route: "/apps",
     pages: [
       {
+        heading: "Create User",
+        route: "/apps/createUser",
+        svgIcon: "/media/icons/duotune/general/gen066.svg",
+        fontIcon: "bi-person-add",
+      },
+      {
         sectionTitle: "customers",
         route: "/customers",
         svgIcon: "/media/icons/duotune/finance/fin006.svg",
