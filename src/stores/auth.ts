@@ -2,6 +2,7 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 import ApiService from "@/core/services/ApiService";
 import JwtService from "@/core/services/JwtService";
+import store from "../store";
 
 export interface User {
   name: string;
@@ -64,6 +65,8 @@ export const useAuthStore = defineStore("auth", () => {
     return ApiService.get("users/show")
       .then((res) => {
         isTokenValid.status = true;
+        // console.log("sotre data", store.state.permissions);
+        store.dispatch("setPermissions", res.data.user.canSeeUserCreatePage);
       })
       .catch((e) => {
         isTokenValid.status = false;

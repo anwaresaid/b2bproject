@@ -56,19 +56,19 @@
       <div class="tab-pane fade" id="kt_topbar_notifications_1" role="tabpanel">
         <!--begin::Items-->
         <div class="scroll-y mh-325px my-5 px-8">
-          <template v-for="(item, index) in data1" :key="index">
+          <template v-for="(item, index) in message" :key="index">
             <!--begin::Item-->
             <div class="d-flex flex-stack py-4">
               <!--begin::Section-->
               <div class="d-flex align-items-center">
                 <!--begin::Symbol-->
                 <div class="symbol symbol-35px me-4">
-                  <span :class="`bg-light-${item.state}`" class="symbol-label">
+                  <span :class="`bg-light-primary`" class="symbol-label">
                     <span
-                      :class="`svg-icon-${item.state}`"
+                      :class="`svg-icon-primary`"
                       class="svg-icon svg-icon-2"
                     >
-                      <inline-svg :src="item.icon" />
+                      <inline-svg :src="item.image" />
                     </span>
                   </span>
                 </div>
@@ -79,10 +79,10 @@
                   <a
                     href="#"
                     class="fs-6 text-gray-800 text-hover-primary fw-bold"
-                    >{{ item.title }}</a
+                    >{{ item.marketPlace }}</a
                   >
                   <div class="text-gray-400 fs-7">
-                    {{ item.description }}
+                    {{ item.message }}
                   </div>
                 </div>
                 <!--end::Title-->
@@ -213,64 +213,76 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { getIllustrationsPath } from "@/core/helpers/assets";
+import PusherService from "@/core/services/PusherService";
 
 export default defineComponent({
   name: "notifications-menu",
   components: {},
   setup() {
-    const data1 = [
-      {
-        title: "Project Alice",
-        description: "Phase 1 development",
-        time: "1 hr",
-        icon: "/media/icons/duotune/technology/teh008.svg",
-        state: "primary",
-      },
-      {
-        title: "HR Confidential",
-        description: "Confidential staff documents",
-        time: "2 hrs",
-        icon: "/media/icons/duotune/general/gen044.svg",
-        state: "danger",
-      },
-      {
-        title: "Company HR",
-        description: "Corporeate staff profiles",
-        time: "5 hrs",
-        icon: "/media/icons/duotune/finance/fin006.svg",
-        state: "warning",
-      },
-      {
-        title: "Project Redux",
-        description: "New frontend admin theme",
-        time: "2 days",
-        icon: "/media/icons/duotune/files/fil023.svg",
-        state: "success",
-      },
-      {
-        title: "Project Breafing",
-        description: "Product launch status update",
-        time: "21 Jan",
-        icon: "/media/icons/duotune/maps/map001.svg",
-        state: "primary",
-      },
-      {
-        title: "Banner Assets",
-        description: "Collection of banner images",
-        time: "21 Jan",
-        icon: "/media/icons/duotune/general/gen006.svg",
-        state: "info",
-      },
-      {
-        title: "Icon Assets",
-        description: "Collection of SVG icons",
-        time: "20 March",
-        icon: "/media/icons/duotune/art/art002.svg",
-        state: "warning",
-      },
-    ];
+    const channel = PusherService.subscribe("private-App.Models.User.1");
+    const message = ref([]);
+
+    channel.bind(
+      "Illuminate\Notifications\Events\BroadcastNotificationCreated",
+      (data) => {
+        console.log("data", data);
+        message.value = data;
+      }
+    );
+
+    // const data1 = [
+    //   {
+    //     title: "Project Alice",
+    //     description: "Phase 1 development",
+    //     time: "1 hr",
+    //     icon: "/media/icons/duotune/technology/teh008.svg",
+    //     state: "primary",
+    //   },
+    //   {
+    //     title: "HR Confidential",
+    //     description: "Confidential staff documents",
+    //     time: "2 hrs",
+    //     icon: "/media/icons/duotune/general/gen044.svg",
+    //     state: "danger",
+    //   },
+    //   {
+    //     title: "Company HR",
+    //     description: "Corporeate staff profiles",
+    //     time: "5 hrs",
+    //     icon: "/media/icons/duotune/finance/fin006.svg",
+    //     state: "warning",
+    //   },
+    //   {
+    //     title: "Project Redux",
+    //     description: "New frontend admin theme",
+    //     time: "2 days",
+    //     icon: "/media/icons/duotune/files/fil023.svg",
+    //     state: "success",
+    //   },
+    //   {
+    //     title: "Project Breafing",
+    //     description: "Product launch status update",
+    //     time: "21 Jan",
+    //     icon: "/media/icons/duotune/maps/map001.svg",
+    //     state: "primary",
+    //   },
+    //   {
+    //     title: "Banner Assets",
+    //     description: "Collection of banner images",
+    //     time: "21 Jan",
+    //     icon: "/media/icons/duotune/general/gen006.svg",
+    //     state: "info",
+    //   },
+    //   {
+    //     title: "Icon Assets",
+    //     description: "Collection of SVG icons",
+    //     time: "20 March",
+    //     icon: "/media/icons/duotune/art/art002.svg",
+    //     state: "warning",
+    //   },
+    // ];
 
     const data2 = [
       {
@@ -348,7 +360,7 @@ export default defineComponent({
     ];
 
     return {
-      data1,
+      message,
       data2,
       getIllustrationsPath,
     };

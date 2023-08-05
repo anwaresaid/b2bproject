@@ -5,6 +5,7 @@ import {
 } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 import { useConfigStore } from "@/stores/config";
+import store from "../store";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -193,6 +194,15 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           pageTitle: "Suppliers",
           breadcrumbs: ["Apps", "Suppliers"],
+        },
+      },
+      {
+        path: "/apps/createUser",
+        name: "create-user",
+        component: () => import("@/views/apps/createUser/CreateUser.vue"),
+        meta: {
+          pageTitle: "Create user",
+          breadcrumbs: ["Apps", "Create User"],
         },
       },
       {
@@ -528,13 +538,27 @@ router.beforeEach((to, from, next) => {
 
   // verify auth token before each page change
   // authStore.verifyAuth();
-  authStore.validation().then((res) => {
-    // before page access check if page requires authentication
+  // authStore.validation().then((res) => {
+  //   // before page access check if page requires authentication
+  //   if (to.meta.middleware == "auth") {
+  //     if (
+  //       authStore.isAuthenticated &&
+  //       authStore.isLoggedIn() &&
+  //       authStore.isTokenValid.status
+  //     ) {
+  //       next();
+  //     } else {
+  //       next({ name: "sign-in" });
+  //     }
+  //   } else {
+  //     next();
+  //   }
+  store.dispatch("setToken").then((res) => {
     if (to.meta.middleware == "auth") {
       if (
         authStore.isAuthenticated &&
         authStore.isLoggedIn() &&
-        authStore.isTokenValid.status
+        store.state.isTokenValid
       ) {
         next();
       } else {
