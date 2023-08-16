@@ -1,7 +1,5 @@
 <template>
   <el-dialog v-model="setVisible" title="Key Create" width="50%">
-    random text = {{ message }}
-
     <el-form
       :model="form"
       :rules="rules"
@@ -115,7 +113,7 @@ import {
   MultiListSelect,
   ModelSelect,
 } from "vue-search-select";
-import { gameStatus, categoryType } from "../utils/constants";
+import { keysType } from "../utils/constants";
 import type { FormInstance, FormRules } from "element-plus";
 import { ElMessage, ElMessageBox } from "element-plus";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
@@ -239,17 +237,6 @@ const createGame = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
-      //   const submissionData = {
-      //     name: form.name,
-      //     category_id: form.category[0].id,
-      //     publisher_id: form.publisher[0].id,
-      //     status: form.stats.value,
-      //     min_sales: form.min_sales,
-      //     region_id: form.region[0].id,
-      //     language_id: form.language[0].id,
-      //     category_type: form.categoryType.value,
-      //     description: form.description,
-      //   };
       ApiService.post("keys", form).then((res) => {
         formEl.resetFields();
         confirmSubmission();

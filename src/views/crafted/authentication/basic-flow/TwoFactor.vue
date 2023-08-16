@@ -1,6 +1,6 @@
 <template>
   <el-form :model="form" label-width="120px">
-    <el-form-item label="Activity name">
+    <el-form-item label="Code">
       <el-input type="number" v-model="form.code" />
     </el-form-item>
     <el-form-item>

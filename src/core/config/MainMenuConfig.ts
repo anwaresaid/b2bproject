@@ -347,6 +347,12 @@ const MainMenuConfig: Array<MenuItem> = [
         svgIcon: "/media/icons/duotune/general/gen068.svg",
         fontIcon: "bi-gem",
       },
+      {
+        heading: "Orders",
+        route: "/apps/orders",
+        svgIcon: "/media/icons/duotune/general/get069-basket.svg",
+        fontIcon: "bi-basket",
+      },
     ],
   },
 ];

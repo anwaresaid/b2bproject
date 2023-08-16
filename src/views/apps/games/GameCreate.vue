@@ -1,7 +1,5 @@
 <template>
   <el-dialog v-model="setVisible" title="Game Create" width="50%">
-    random text = {{ message }}
-
     <el-form
       :model="form"
       :rules="rules"

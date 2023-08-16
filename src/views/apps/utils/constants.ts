@@ -71,17 +71,58 @@ export const currency = [
   {
     value: 1,
     label: "EUR",
+    symbol: "€",
   },
   {
     value: 2,
     label: "TRY",
+    symbol: "₺",
   },
   {
     value: 3,
     label: "GBP",
+    symbol: "£",
   },
   {
     value: 4,
     label: "USD",
+    symbol: "$",
+  },
+];
+
+export const orderType = [
+  {
+    value: 1,
+    label: "api",
+  },
+  {
+    value: 2,
+    label: "customer",
+  },
+];
+export const orderStatus = [
+  {
+    value: 1,
+    label: "approved",
+  },
+  {
+    value: 2,
+    label: "rejected",
+  },
+  {
+    value: 3,
+    label: "declined",
+  },
+  {
+    value: 4,
+    label: "created",
+  },
+  {
+    value: 5,
+    label: "delivered",
+  },
+  {
+    value: 6,
+    label: "reserved",
   },
 ];

@@ -206,6 +206,24 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/apps/orders",
+        name: "orders-listing",
+        component: () => import("@/views/apps/orders/OrdersListing.vue"),
+        meta: {
+          pageTitle: "Orders",
+          breadcrumbs: ["Apps", "Orders"],
+        },
+      },
+      {
+        path: "/apps/create-order",
+        name: "orders-create",
+        component: () => import("@/views/apps/orders/CreateOrder.vue"),
+        meta: {
+          pageTitle: "Orders",
+          breadcrumbs: ["Apps", "Orders"],
+        },
+      },
+      {
         path: "/apps/keys",
         name: "keys-listing",
         component: () => import("@/views/apps/Keys/KeysListing.vue"),

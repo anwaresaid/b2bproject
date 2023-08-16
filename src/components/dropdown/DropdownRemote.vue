@@ -8,13 +8,14 @@
     :remote-method="setParams"
     :loading="loading"
     remote-show-suffix
+    @change="handleChange"
     :style="wd ? style : null"
   >
     <el-option
       v-for="item in data"
       :key="item.id"
       :label="item.name"
-      :value="item.id"
+      :value="item"
     />
   </el-select>
 </template>
@@ -30,7 +31,7 @@ import {
   defineEmits,
 } from "vue";
 import ApiService from "@/core/services/ApiService";
-const props = defineProps(["url", "type", "keyg", "wd"]);
+const props = defineProps(["url", "type", "keyg", "wd", "returnType"]);
 
 const data = ref([]);
 const style = reactive({ width: props.wd });
@@ -41,6 +42,14 @@ const value = ref();
 const loading = ref([false]);
 const setParams = (query: string) => {
   params.value = query;
+};
+const handleChange = (value) => {
+  value.value = value.id;
+  if (props.returnType === "object") {
+    emit("selected-game", value);
+  } else {
+    emit("selected-game", value.id);
+  }
 };
 const fetchGames = () => {
   loading.value = true;
@@ -57,10 +66,6 @@ const fetchGames = () => {
 watch(params, (newValue) => {
   fetchGames();
 });
-watch(value, (newValue) => {
-  emit("selected-game", value.value);
-});
-
 onMounted(() => {});
 
 onBeforeUnmount(() => {
