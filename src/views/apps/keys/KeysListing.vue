@@ -79,6 +79,7 @@ import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import { keysType, keysTypeStatus } from "../utils/constants";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import CreateKey from "./CreateKey.vue";
+import PusherService from "@/core/services/PusherService";
 
 const keysData = ref([]);
 const gameUrl = "games/all";
@@ -95,6 +96,16 @@ const currentPage = ref(1);
 const paginationData = reactive({});
 const tableType = ref(5);
 const keyCreateVisible = ref(false);
+const pusherEvent =
+  "Illuminate\\Notifications\\Events\\BroadcastNotificationCreated";
+const channel = PusherService.subscribe("notification");
+const message = ref("");
+channel.bind(
+  "Illuminate\\Notifications\\Events\\BroadcastNotificationCreated",
+  (data) => {
+    console.log(data);
+  }
+);
 
 const tableHeaders = ref([
   {
@@ -216,7 +227,12 @@ watch(dropdownParams, (newValue) => {
   params.value = dropdownParams.value;
   fetchKeys("filer");
 });
+watch(message, (newValue) => {
+  console.log("message", message);
 
+  if (!newValue) {
+  }
+});
 onMounted(() => {
   params.value.current_page = currentPage;
   params.value.per_page = itemsInTable;

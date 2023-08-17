@@ -27,24 +27,6 @@
             >Alerts</a
           >
         </li>
-
-        <li class="nav-item">
-          <a
-            class="nav-link text-white opacity-75 opacity-state-100 pb-4 active"
-            data-bs-toggle="tab"
-            href="#kt_topbar_notifications_2"
-            >Updates</a
-          >
-        </li>
-
-        <li class="nav-item">
-          <a
-            class="nav-link text-white opacity-75 opacity-state-100 pb-4"
-            data-bs-toggle="tab"
-            href="#kt_topbar_notifications_3"
-            >Logs</a
-          >
-        </li>
       </ul>
       <!--end::Tabs-->
     </div>
@@ -53,48 +35,61 @@
     <!--begin::Tab content-->
     <div class="tab-content">
       <!--begin::Tab panel-->
-      <div class="tab-pane fade" id="kt_topbar_notifications_1" role="tabpanel">
+      <div
+        class="tab-pane fade show active"
+        id="kt_topbar_notifications_1"
+        role="tabpanel"
+      >
         <!--begin::Items-->
         <div class="scroll-y mh-325px my-5 px-8">
-          <template v-for="(item, index) in message" :key="index">
-            <!--begin::Item-->
-            <div class="d-flex flex-stack py-4">
-              <!--begin::Section-->
-              <div class="d-flex align-items-center">
-                <!--begin::Symbol-->
-                <div class="symbol symbol-35px me-4">
-                  <span :class="`bg-light-primary`" class="symbol-label">
-                    <span
-                      :class="`svg-icon-primary`"
-                      class="svg-icon svg-icon-2"
-                    >
-                      <inline-svg :src="item.image" />
-                    </span>
-                  </span>
-                </div>
-                <!--end::Symbol-->
-
-                <!--begin::Title-->
-                <div class="mb-0 me-2">
-                  <a
-                    href="#"
-                    class="fs-6 text-gray-800 text-hover-primary fw-bold"
-                    >{{ item.marketPlace }}</a
-                  >
-                  <div class="text-gray-400 fs-7">
-                    {{ item.message }}
-                  </div>
-                </div>
-                <!--end::Title-->
+          <div v-if="message.length === 0">
+            <div class="d-flex align-items-center justify-content-center">
+              <div class="text-primary" role="status">
+                <span>No Notifications</span>
               </div>
-              <!--end::Section-->
-
-              <!--begin::Label-->
-              <span class="badge badge-light fs-8">{{ item.time }}</span>
-              <!--end::Label-->
             </div>
-            <!--end::Item-->
-          </template>
+          </div>
+          <div v-else>
+            <template v-for="(item, index) in message" :key="index">
+              <!--begin::Item-->
+              <div class="d-flex flex-stack py-4">
+                <!--begin::Section-->
+                <div class="d-flex align-items-center">
+                  <!--begin::Symbol-->
+                  <div class="symbol symbol-35px me-4">
+                    <span :class="`bg-light-primary`" class="symbol-label">
+                      <span
+                        :class="`svg-icon-primary`"
+                        class="svg-icon svg-icon-2"
+                      >
+                        <inline-svg :src="item.image" />
+                      </span>
+                    </span>
+                  </div>
+                  <!--end::Symbol-->
+
+                  <!--begin::Title-->
+                  <div class="mb-0 me-2">
+                    <a
+                      href="#"
+                      class="fs-6 text-gray-800 text-hover-primary fw-bold"
+                      >{{ item.title }}</a
+                    >
+                    <div class="text-gray-400 fs-7">
+                      {{ item.message }}
+                    </div>
+                  </div>
+                  <!--end::Title-->
+                </div>
+                <!--end::Section-->
+
+                <!--begin::Label-->
+                <span class="badge badge-light fs-8">{{ item.date }}</span>
+                <!--end::Label-->
+              </div>
+              <!--end::Item-->
+            </template>
+          </div>
         </div>
         <!--end::Items-->
 
@@ -110,101 +105,9 @@
         <!--end::View more-->
       </div>
       <!--end::Tab panel-->
-
-      <!--begin::Tab panel-->
-      <div
-        class="tab-pane fade show active"
-        id="kt_topbar_notifications_2"
-        role="tabpanel"
-      >
-        <!--begin::Wrapper-->
-        <div class="d-flex flex-column px-9">
-          <!--begin::Section-->
-          <div class="pt-10 pb-0">
-            <!--begin::Title-->
-            <h3 class="text-dark text-center fw-bold">Get Pro Access</h3>
-            <!--end::Title-->
-
-            <!--begin::Text-->
-            <div class="text-center text-gray-600 fw-semobold pt-1">
-              Outlines keep you honest. They stoping you from amazing poorly
-              about drive
-            </div>
-            <!--end::Text-->
-
-            <!--begin::Action-->
-            <div class="text-center mt-5 mb-9">
-              <a
-                href="#"
-                class="btn btn-sm btn-primary px-6"
-                data-bs-toggle="modal"
-                data-bs-target="#kt_modal_upgrade_plan"
-                >Upgrade</a
-              >
-            </div>
-            <!--end::Action-->
-          </div>
-          <!--end::Section-->
-
-          <!--begin::Illustration-->
-          <img
-            class="mw-100 mh-200px"
-            alt="metronic"
-            :src="getIllustrationsPath('1.png')"
-          />
-          <!--end::Illustration-->
-        </div>
-        <!--end::Wrapper-->
-      </div>
       <!--end::Tab panel-->
 
-      <!--begin::Tab panel-->
-      <div class="tab-pane fade" id="kt_topbar_notifications_3" role="tabpanel">
-        <!--begin::Items-->
-        <div class="scroll-y mh-325px my-5 px-8">
-          <template v-for="(item, index) in data2" :key="index">
-            <!--begin::Item-->
-            <div class="d-flex flex-stack py-4">
-              <!--begin::Section-->
-              <div class="d-flex align-items-center me-2">
-                <!--begin::Code-->
-                <span
-                  class="w-70px badge me-4"
-                  :class="`badge-light-${item.state}`"
-                  >{{ item.code }}</span
-                >
-                <!--end::Code-->
-
-                <!--begin::Title-->
-                <a
-                  href="#"
-                  class="text-gray-800 text-hover-primary fw-semobold"
-                  >{{ item.message }}</a
-                >
-                <!--end::Title-->
-              </div>
-              <!--end::Section-->
-
-              <!--begin::Label-->
-              <span class="badge badge-light fs-8">{{ item.time }}</span>
-              <!--end::Label-->
-            </div>
-            <!--end::Item-->
-          </template>
-        </div>
-        <!--end::Items-->
-
-        <!--begin::View more-->
-        <div class="py-3 text-center border-top">
-          <a href="#" class="btn btn-color-gray-600 btn-active-color-primary">
-            View All
-            <span class="svg-icon-svg-icon-5">
-              <inline-svg src="/media/icons/duotune/arrows/arr064.svg" />
-            </span>
-          </a>
-        </div>
-        <!--end::View more-->
-      </div>
+      <!--end::View more-->
       <!--end::Tab panel-->
     </div>
     <!--end::Tab content-->
@@ -213,24 +116,30 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
 import { getIllustrationsPath } from "@/core/helpers/assets";
 import PusherService from "@/core/services/PusherService";
+import {
+  ref,
+  reactive,
+  onMounted,
+  defineComponent,
+  watch,
+  toRefs,
+  onBeforeUnmount,
+  defineEmits,
+} from "vue";
 
 export default defineComponent({
   name: "notifications-menu",
   components: {},
   setup() {
-    const channel = PusherService.subscribe("private-App.Models.User.1");
+    const pusherEvent =
+      "Illuminate\\Notifications\\Events\\BroadcastNotificationCreated";
+    const channel = PusherService.subscribe("notification");
     const message = ref([]);
-
-    channel.bind(
-      "Illuminate\Notifications\Events\BroadcastNotificationCreated",
-      (data) => {
-        console.log("data", data);
-        message.value = data;
-      }
-    );
+    channel.bind(pusherEvent, (data) => {
+      message.value.push(data);
+    });
 
     // const data1 = [
     //   {
@@ -359,6 +268,9 @@ export default defineComponent({
       },
     ];
 
+    watch(message, (newValue) => {
+      console.log("notification", message);
+    });
     return {
       message,
       data2,
@@ -367,3 +279,4 @@ export default defineComponent({
   },
 });
 </script>
+<style></style>

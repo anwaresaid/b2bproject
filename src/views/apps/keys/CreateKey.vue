@@ -107,7 +107,6 @@ import {
   defineEmits,
 } from "vue";
 import ApiService from "@/core/services/ApiService";
-import PusherService from "@/core/services/PusherService";
 import {
   ModelListSelect,
   MultiListSelect,
@@ -141,8 +140,6 @@ const ruleFormRef = ref<FormInstance>();
 const visible = defineProps(["isVisible"]);
 const setVisible = ref("");
 setVisible.value = visible.isVisible;
-const channel = PusherService.subscribe("my-channel");
-const message = ref("");
 
 const form = reactive<RuleForm>({
   game_id: null,
@@ -154,10 +151,6 @@ const form = reactive<RuleForm>({
   currency: null,
   cost: null,
   keys: "",
-});
-
-channel.bind("my-event", (data) => {
-  message.value = data;
 });
 
 const emit = defineEmits();
@@ -260,11 +253,6 @@ watch(setVisible, (newValue) => {
 });
 watch(form, (newValue) => {
   console.log("form", form);
-});
-watch(message, (newValue) => {
-  if (!newValue) {
-    // emit("create-game", false);
-  }
 });
 
 onBeforeUnmount(() => {
