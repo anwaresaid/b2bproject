@@ -46,6 +46,9 @@ const store = new Vuex.Store({
           context.commit("setToken", false);
         });
     },
+    readNotifications() {
+      ApiService.post("notifications/readAll");
+    }
   },
   getters: {
     // Your computed properties based on state go here

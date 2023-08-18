@@ -17,7 +17,7 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item label="Select Table">
+          <el-form-item label="Select Table Status">
             <el-select
               v-model="tableStatus"
               class="select-type"

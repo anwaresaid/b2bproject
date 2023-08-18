@@ -23,24 +23,29 @@
     <!--begin::Notifications-->
     <div class="app-navbar-item ms-1 ms-lg-3">
       <!--begin::Menu- wrapper-->
+
       <div
-        class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px w-md-40px h-md-40px"
+        class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px w-md-40px h-md-40px position-relative"
         data-kt-menu-trigger="click"
         data-kt-menu-attach="parent"
         data-kt-menu-placement="bottom-end"
+        @click="readNotifications"
       >
         <span class="svg-icon svg-icon-1">
-          <inline-svg src="/media/icons/duotune/general/gen022.svg" />
+          <inline-svg src="/media/icons/duotune/communication/com012.svg" />
         </span>
+        <span
+          class="bullet bullet-dot bg-success h-6px w-6px position-absolute translate-middle top-0 start-50 animation-blink"
+        ></span>
       </div>
       <KTNotificationMenu />
       <!--end::Menu wrapper-->
     </div>
     <!--end::Notifications-->
     <!--begin::Chat-->
-    <div class="app-navbar-item ms-1 ms-lg-3">
-      <!--begin::Menu wrapper-->
-      <div
+    <!----  <div class="app-navbar-item ms-1 ms-lg-3"> -->
+    <!--begin::Menu wrapper-->
+    <!----    <div
         class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px w-md-40px h-md-40px position-relative"
         id="kt_drawer_chat_toggle"
       >
@@ -50,9 +55,9 @@
         <span
           class="bullet bullet-dot bg-success h-6px w-6px position-absolute translate-middle top-0 start-50 animation-blink"
         ></span>
-      </div>
-      <!--end::Menu wrapper-->
-    </div>
+      </div>-->
+    <!--end::Menu wrapper-->
+    <!----  </div>-->
     <!--end::Chat-->
     <!--begin::Quick links-->
     <div class="app-navbar-item ms-1 ms-lg-3">
@@ -134,6 +139,7 @@ import KTQuickLinksMenu from "@/layouts/main-layout/menus/QuickLinksMenu.vue";
 import KTUserMenu from "@/layouts/main-layout/menus/UserAccountMenu.vue";
 import KTThemeModeSwitcher from "@/layouts/main-layout/theme-mode/ThemeModeSwitcher.vue";
 import { useThemeStore } from "@/stores/theme";
+import store from "../../../store";
 
 export default defineComponent({
   name: "header-navbar",
@@ -145,14 +151,18 @@ export default defineComponent({
     KTThemeModeSwitcher,
   },
   setup() {
-    const store = useThemeStore();
+    const store2 = useThemeStore();
+    const readNotifications = () => {
+      store.dispatch("readNotifications");
+    };
 
     const themeMode = computed(() => {
-      return store.mode;
+      return store2.mode;
     });
 
     return {
       themeMode,
+      readNotifications,
     };
   },
 });

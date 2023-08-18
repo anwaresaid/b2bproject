@@ -54,7 +54,7 @@
               <!--begin::Item-->
               <div class="d-flex flex-stack py-4">
                 <!--begin::Section-->
-                <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center rounded">
                   <!--begin::Symbol-->
                   <div class="symbol symbol-35px me-4">
                     <span :class="`bg-light-primary`" class="symbol-label">
@@ -84,7 +84,12 @@
                 <!--end::Section-->
 
                 <!--begin::Label-->
-                <span class="badge badge-light fs-8">{{ item.date }}</span>
+                <span v-if="!item.isRead" class="badge badge-light fs-8"
+                  >{{ item.date }} <span class="circleUnread"></span
+                ></span>
+                <span v-else class="badge badge-light fs-8">{{
+                  item.date
+                }}</span>
                 <!--end::Label-->
               </div>
               <!--end::Item-->
@@ -118,6 +123,8 @@
 <script lang="ts">
 import { getIllustrationsPath } from "@/core/helpers/assets";
 import PusherService from "@/core/services/PusherService";
+import ApiService from "@/core/services/ApiService";
+
 import {
   ref,
   reactive,
@@ -135,63 +142,20 @@ export default defineComponent({
   setup() {
     const pusherEvent =
       "Illuminate\\Notifications\\Events\\BroadcastNotificationCreated";
+    const fetchNotifications = () => {
+      ApiService.postTest("notifications/myList", fetchAllNotfications).then(
+        (res) => {
+          console.log("res", res.data.data);
+          message.value = res.data.data.notifications;
+        }
+      );
+    };
     const channel = PusherService.subscribe("notification");
     const message = ref([]);
+    const fetchAllNotfications = { all: 1 };
     channel.bind(pusherEvent, (data) => {
-      message.value.push(data);
+      fetchNotifications();
     });
-
-    // const data1 = [
-    //   {
-    //     title: "Project Alice",
-    //     description: "Phase 1 development",
-    //     time: "1 hr",
-    //     icon: "/media/icons/duotune/technology/teh008.svg",
-    //     state: "primary",
-    //   },
-    //   {
-    //     title: "HR Confidential",
-    //     description: "Confidential staff documents",
-    //     time: "2 hrs",
-    //     icon: "/media/icons/duotune/general/gen044.svg",
-    //     state: "danger",
-    //   },
-    //   {
-    //     title: "Company HR",
-    //     description: "Corporeate staff profiles",
-    //     time: "5 hrs",
-    //     icon: "/media/icons/duotune/finance/fin006.svg",
-    //     state: "warning",
-    //   },
-    //   {
-    //     title: "Project Redux",
-    //     description: "New frontend admin theme",
-    //     time: "2 days",
-    //     icon: "/media/icons/duotune/files/fil023.svg",
-    //     state: "success",
-    //   },
-    //   {
-    //     title: "Project Breafing",
-    //     description: "Product launch status update",
-    //     time: "21 Jan",
-    //     icon: "/media/icons/duotune/maps/map001.svg",
-    //     state: "primary",
-    //   },
-    //   {
-    //     title: "Banner Assets",
-    //     description: "Collection of banner images",
-    //     time: "21 Jan",
-    //     icon: "/media/icons/duotune/general/gen006.svg",
-    //     state: "info",
-    //   },
-    //   {
-    //     title: "Icon Assets",
-    //     description: "Collection of SVG icons",
-    //     time: "20 March",
-    //     icon: "/media/icons/duotune/art/art002.svg",
-    //     state: "warning",
-    //   },
-    // ];
 
     const data2 = [
       {
@@ -267,6 +231,9 @@ export default defineComponent({
         time: "Dec 10",
       },
     ];
+    onMounted(() => {
+      fetchNotifications();
+    });
 
     watch(message, (newValue) => {
       console.log("notification", message);
@@ -279,4 +246,12 @@ export default defineComponent({
   },
 });
 </script>
-<style></style>
+<style>
+.circleUnread {
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  background-color: lightblue;
+  margin-left: 3px;
+}
+</style>
