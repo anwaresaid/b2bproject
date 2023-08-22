@@ -30,6 +30,12 @@ const MainMenuConfig: Array<MenuItem> = [
     route: "/crafted",
     pages: [
       {
+        heading: "Users",
+        route: "/apps/users",
+        svgIcon: "/media/icons/duotune/general/genPeople.svg",
+        fontIcon: "bi-people-fill",
+      },
+      {
         sectionTitle: "pages",
         route: "/pages",
         svgIcon: "/media/icons/duotune/general/gen022.svg",
@@ -82,18 +88,14 @@ const MainMenuConfig: Array<MenuItem> = [
         ],
       },
       {
-        sectionTitle: "account",
+        sectionTitle: "Accounting",
         route: "/account",
         svgIcon: "/media/icons/duotune/communication/com006.svg",
         fontIcon: "bi-person",
         sub: [
           {
-            heading: "accountOverview",
-            route: "/crafted/account/overview",
-          },
-          {
-            heading: "settings",
-            route: "/crafted/account/settings",
+            heading: "General account",
+            route: "/account/general-account",
           },
         ],
       },
@@ -241,12 +243,6 @@ const MainMenuConfig: Array<MenuItem> = [
     heading: "apps",
     route: "/apps",
     pages: [
-      {
-        heading: "Create User",
-        route: "/apps/createUser",
-        svgIcon: "/media/icons/duotune/general/gen066.svg",
-        fontIcon: "bi-person-add",
-      },
       {
         sectionTitle: "customers",
         route: "/customers",

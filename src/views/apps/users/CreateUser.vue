@@ -1,87 +1,64 @@
 <template>
-  <div class="card">
-    <div class="card-header d-flex justify-content-start border-0 pt-6">
-      <el-form
-        :model="form"
-        :rules="rules"
-        ref="ruleFormRef"
-        status-icon
-        :size="formSize"
+  <el-dialog v-model="setVisible" title="User Create" width="50%">
+    <el-form
+      :model="form"
+      :rules="rules"
+      ref="ruleFormRef"
+      status-icon
+      :size="formSize"
+    >
+      <el-form-item label="Name" prop="name" label-width="250px" required>
+        <el-input v-model="form.name" autocomplete="off" />
+      </el-form-item>
+      <el-form-item label="Surname" label-width="250px" prop="surname" required>
+        <el-input v-model="form.surname" autocomplete="off" />
+      </el-form-item>
+      <el-form-item label="email" prop="email" label-width="250px" required>
+        <el-input v-model="form.email" type="email" autocomplete="off" />
+      </el-form-item>
+      <el-form-item label="Role" label-width="250px" prop="role_id" required>
+        <el-select v-model="form.role_id" placeholder="Select">
+          <el-option
+            v-for="item in rolesData"
+            :key="item.value"
+            :label="item.text"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item
+        label="Password"
+        label-width="250px"
+        prop="password"
+        required
       >
-        <div class="d-flex flex-row">
-          <el-form-item label="Name" prop="name" label-width="250px" required>
-            <el-input v-model="form.name" autocomplete="off" />
-          </el-form-item>
-          <el-form-item
-            label="Surname"
-            label-width="250px"
-            prop="surname"
-            required
-          >
-            <el-input v-model="form.surname" autocomplete="off" />
-          </el-form-item>
-        </div>
-        <div class="d-flex flex-row">
-          <el-form-item label="email" prop="email" label-width="250px" required>
-            <el-input v-model="form.email" type="email" autocomplete="off" />
-          </el-form-item>
-          <el-form-item
-            label="Role"
-            label-width="250px"
-            prop="role_id"
-            required
-          >
-            <el-select
-              v-model="form.role_id"
-              placeholder="Select"
-              style="width: 215px"
-            >
-              <el-option
-                v-for="item in rolesData"
-                :key="item.value"
-                :label="item.text"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item>
-        </div>
-        <div class="d-flex flex-row">
-          <el-form-item
-            label="Password"
-            label-width="250px"
-            prop="password"
-            required
-          >
-            <el-input
-              v-model="form.password"
-              type="password"
-              autocomplete="off"
-            />
-          </el-form-item>
-          <el-form-item
-            label="Confirm Password"
-            label-width="250px"
-            prop="password_confirmation"
-            required
-          >
-            <el-input
-              v-model="form.password_confirmation"
-              type="password"
-              autocomplete="off"
-            />
-          </el-form-item>
-        </div>
-        <el-form-item label="Avatar URL" label-width="250px" prop="avatar_url">
-          <input type="file" class="form-control" v-on:change="onImageChange" />
-        </el-form-item>
-        <div class="d-flex justify-content-end">
-          <el-button type="primary" @click="confirmSubmission(ruleFormRef)">
-            Create
-          </el-button>
-        </div>
-      </el-form>
-    </div>
-  </div>
+        <el-input v-model="form.password" type="password" autocomplete="off" />
+      </el-form-item>
+      <el-form-item
+        label="Confirm Password"
+        label-width="250px"
+        prop="password_confirmation"
+        required
+      >
+        <el-input
+          v-model="form.password_confirmation"
+          type="password"
+          autocomplete="off"
+        />
+      </el-form-item>
+      <el-form-item label="Avatar URL" label-width="250px" prop="avatar_url">
+        <input type="file" class="form-control" v-on:change="onImageChange" />
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="setVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="confirmSubmission(ruleFormRef)">
+          Create
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -112,6 +89,9 @@ interface RuleForm {
 const formSize = ref("large");
 const ruleFormRef = ref<FormInstance>();
 const uploadRef = ref<UploadInstance>();
+const visible = defineProps(["isVisible"]);
+const setVisible = ref("");
+setVisible.value = visible.isVisible;
 
 const form = reactive<RuleForm>({
   name: "",
@@ -227,6 +207,17 @@ watch(uploadRef, (newValue) => {
     form.avatar_url = newValue;
   }
 });
+watch(visible, (newValue) => {
+  setVisible.value = newValue.isVisible;
+  if (!newValue) {
+    // Emit event or perform other actions when dialog visibility changes
+  }
+});
+watch(setVisible, (newValue) => {
+  if (!newValue) {
+    emit("create-key", false);
+  }
+});
 onMounted(() => {
   fetchRoles();
 });
@@ -235,8 +226,4 @@ onBeforeUnmount(() => {
   // Cleanup or perform actions before component unmounts
 });
 </script>
-<style>
-.roles-select {
-  width: 215px !important;
-}
-</style>
+<style></style>

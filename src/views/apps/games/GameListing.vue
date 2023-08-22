@@ -270,7 +270,7 @@ export default defineComponent({
       }
     },
     fetchData() {
-      ApiService.postTest("games/all", this.params, 3).then((res) => {
+      ApiService.postTest("games/list", this.params, 3).then((res) => {
         this.gamesData = res.data.data.games;
         this.paginationData = res.data.data.pagination;
       });
@@ -298,25 +298,25 @@ export default defineComponent({
       },
       {
         columnName: "Language",
-        columnLabel: "language.name",
+        columnLabel: "language",
         sortEnabled: true,
         columnWidth: 175,
       },
       {
         columnName: "Category",
-        columnLabel: "category.name",
+        columnLabel: "category",
         sortEnabled: true,
         columnWidth: 175,
       },
       {
         columnName: "Publisher",
-        columnLabel: "publisher.name",
+        columnLabel: "publisher",
         sortEnabled: true,
         columnWidth: 225,
       },
       {
         columnName: "Region",
-        columnLabel: "region.name",
+        columnLabel: "region",
         sortEnabled: false,
         columnWidth: 135,
       },

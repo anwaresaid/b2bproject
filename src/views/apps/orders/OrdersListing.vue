@@ -11,7 +11,7 @@
               prefix-icon="Search"
             />
           </el-form-item>
-          <el-form-item label="Select Table">
+          <el-form-item label="Select Order Type">
             <el-select
               v-model="tableType"
               class="select-type"
@@ -25,7 +25,7 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item label="Select Table">
+          <el-form-item label="Select Order status">
             <el-select
               v-model="tableStatus"
               class="select-type"
@@ -59,7 +59,7 @@
         <Datatable
           :data="ordersData"
           :header="tableHeaders"
-          :totalPages="paginationData.last_page"
+          :totalPages="paginationData.value?.last_page"
           :enable-items-per-page-dropdown="true"
           :checkbox-enabled="true"
           checkbox-label="id"
@@ -67,6 +67,16 @@
           @on-items-per-page-change="getItemsInTable"
           @page-change="pageChange"
         >
+          <template v-slot:component1="slotProps">
+            <slot :action="slotProps.action">
+              <el-button
+                type="primary"
+                icon="View"
+                circle
+                @click="navigateOrderDetails(slotProps.action)"
+              />
+            </slot>
+          </template>
         </Datatable>
       </div>
     </div>
@@ -78,9 +88,12 @@ import { ref, reactive, onMounted, watch, toRefs, onBeforeUnmount } from "vue";
 import ApiService from "@/core/services/ApiService";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import { orderType, orderStatus } from "../utils/constants";
+import { useRouter } from "vue-router";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
+import store from "../../../store";
 
 const ordersData = ref([]);
+const router = useRouter();
 const customerUrl = "customers/all";
 const searchOrders = ref("");
 const customerKey = "search";
@@ -92,7 +105,6 @@ const itemsInTable = ref(10);
 const currentPage = ref(1);
 const paginationData = reactive({});
 const tableType = ref();
-const keyCreateVisible = ref(false);
 
 const tableHeaders = ref([
   {
@@ -137,6 +149,12 @@ const tableHeaders = ref([
     sortEnabled: false,
     columnWidth: 50,
   },
+  {
+    columnName: "DETIALS",
+    sortEnabled: false,
+    columnWidth: 135,
+    custom: "component1",
+  },
 ]);
 
 const fetchOrders = (type) => {
@@ -147,7 +165,6 @@ const fetchOrders = (type) => {
   }
   console.log("params", params);
   ApiService.postTest("orders/all", params.value).then((res) => {
-    console.log("ordersData", ordersData);
     ordersData.value = res.data.data.orders;
     paginationData.value = res.data.data.pagination;
   });
@@ -158,21 +175,24 @@ const setCustomerId = (value) => {
 };
 const getItemsInTable = (item) => {
   params.value.per_page = item;
+  fetchOrders();
 };
 const pageChange = (page: number) => {
   params.value.current_page = page;
+  fetchOrders();
 };
 
-const createKey = () => {
-  keyCreateVisible.value = true;
+const navigateOrderDetails = (item) => {
+  const order_id = item.order_code;
+  store.dispatch("setOrderCode", order_id);
+  router.push({
+    name: "order-details",
+    params: {
+      order_id: order_id,
+    },
+  });
 };
-const closeCreateKey = (value) => {
-  keyCreateVisible.value = false;
-  if (value) {
-    console.log("called close");
-    fetchOrders();
-  }
-};
+
 watch(tableType, (newValue) => {
   console.log("changed");
   params.value.order_type = tableType.value;
@@ -218,5 +238,10 @@ onBeforeUnmount(() => {
 <style>
 .select-type {
   width: 100px !important;
+}
+.el-form-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>

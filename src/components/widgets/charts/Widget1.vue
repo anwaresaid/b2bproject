@@ -1,35 +1,18 @@
 <template>
   <!--begin::Charts Widget 1-->
-  <div class="card" :class="widgetClasses">
+  <div class="card ms-20" :class="widgetClasses">
     <!--begin::Header-->
     <div class="card-header border-0 pt-5">
       <!--begin::Title-->
       <h3 class="card-title align-items-start flex-column">
-        <span class="card-label fw-bold fs-3 mb-1">Recent Statistics</span>
+        <span class="card-label fw-bold fs-3 mb-1">{{ title }}</span>
 
-        <span class="text-muted fw-semobold fs-7"
-          >More than 400 new members</span
-        >
+        <span class="text-muted fw-semobold fs-7">{{ subTitle }}</span>
       </h3>
       <!--end::Title-->
 
       <!--begin::Toolbar-->
-      <div class="card-toolbar">
-        <!--begin::Menu-->
-        <button
-          type="button"
-          class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
-          data-kt-menu-trigger="click"
-          data-kt-menu-placement="bottom-end"
-          data-kt-menu-flip="top-end"
-        >
-          <span class="svg-icon svg-icon-2">
-            <inline-svg src="/media/icons/duotune/general/gen024.svg" />
-          </span>
-        </button>
-        <Dropdown1></Dropdown1>
-        <!--end::Menu-->
-      </div>
+
       <!--end::Toolbar-->
     </div>
     <!--end::Header-->
@@ -64,6 +47,8 @@ export default defineComponent({
   props: {
     widgetClasses: String,
     height: Number,
+    title: String,
+    subTitle: String,
   },
   components: {
     Dropdown1,

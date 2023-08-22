@@ -96,7 +96,7 @@ interface RuleForm {
   sales_price: number;
 }
 
-const gameUrl = "games/all";
+const gameUrl = "games/list";
 const gameKey = "search_game";
 
 const gameType = "games";

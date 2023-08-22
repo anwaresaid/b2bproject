@@ -1,7 +1,6 @@
 <template>
   <KTMessengerDrawer />
   <KTActivityDrawer />
-  <KTToolButtons />
   <KTDemosDrawer />
   <KTHelpDrawer />
 </template>

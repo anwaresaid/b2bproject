@@ -319,7 +319,7 @@ const onSelectPublisher = (items, lastItem) => {
 
 const onRegionChange = (text) => {
   if (text !== "") {
-    ApiService.getTest("regions", text, 2).then((res) => {
+    ApiService.postTest("regions/all", { search: text }).then((res) => {
       regionData.value = res.data.data.regions;
     });
   } else {

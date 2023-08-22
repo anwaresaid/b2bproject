@@ -8,6 +8,7 @@
           :totalPages="paginationData.last_page"
           :enable-items-per-page-dropdown="true"
           :checkbox-enabled="true"
+          :current-page="currentPage"
           checkbox-label="id"
           @on-items-per-page-change="getItemsInTable"
           @page-change="pageChange"
@@ -128,7 +129,7 @@ export default defineComponent({
   },
   methods: {
     fetchData() {
-      ApiService.getTest("suppliers", this.params, 3, "?").then((res) => {
+      ApiService.postTest("suppliers/all", this.params).then((res) => {
         this.suppliersData = res.data.data.suppliers;
         this.paginationData = res.data.data.pagination;
       });
@@ -144,6 +145,8 @@ export default defineComponent({
       if (update) this.fetchData();
     },
     pageChange(page: number) {
+      console.log("called ------", page);
+
       this.currentPage = page;
     },
     getItemsInTable(item) {
@@ -157,6 +160,7 @@ export default defineComponent({
   },
   watch: {
     itemsInTable() {
+      console.log("called ------");
       this.params.per_page = this.itemsInTable;
       this.currentPage = 1;
       this.fetchData();

@@ -58,9 +58,10 @@
         <Datatable
           :data="keysData"
           :header="tableHeaders"
-          :totalPages="paginationData.last_page"
+          :totalPages="paginationData.value?.last_page"
           :enable-items-per-page-dropdown="true"
           :checkbox-enabled="true"
+          :current-page="params.value?.current_page"
           checkbox-label="id"
           @on-items-per-page-change="getItemsInTable"
           @page-change="pageChange"
@@ -82,7 +83,7 @@ import CreateKey from "./CreateKey.vue";
 import PusherService from "@/core/services/PusherService";
 
 const keysData = ref([]);
-const gameUrl = "games/all";
+const gameUrl = "games/list";
 const gameKey = "search_game";
 const dropdownParams = ref({});
 const supplierKey = "search";
@@ -185,6 +186,8 @@ const fetchKeys = (type) => {
   ApiService.postTest("keys/all", params.value).then((res) => {
     keysData.value = res.data.data.keys;
     console.log("keysdata", keysData);
+    console.log("paginationdata", res.data.data.pagination);
+
     paginationData.value = res.data.data.pagination;
   });
 };
@@ -198,9 +201,12 @@ const setSupplierId = (value) => {
 };
 const getItemsInTable = (item) => {
   params.value.per_page = item;
+  fetchKeys();
 };
 const pageChange = (page: number) => {
+  console.log("page changed");
   params.value.current_page = page;
+  fetchKeys();
 };
 
 const createKey = () => {
@@ -212,6 +218,7 @@ const closeCreateKey = (value) => {
 };
 watch(tableType, (newValue) => {
   console.log("changed");
+  params.value = {};
   params.value.page_type = tableType.value;
   fetchKeys();
 });

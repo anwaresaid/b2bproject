@@ -34,6 +34,7 @@ const routes: Array<RouteRecordRaw> = [
           breadcrumbs: ["Layout"],
         },
       },
+
       {
         path: "/crafted/pages/profile",
         name: "profile",
@@ -161,6 +162,15 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/account/general-account",
+        name: "general-account",
+        component: () => import("@/views/apps/accounting/GeneralAccount.vue"),
+        meta: {
+          pageTitle: "General Account",
+          breadcrumbs: ["Account", "General"],
+        },
+      },
+      {
         path: "/apps/games",
         name: "apps-games-listing",
         component: () => import("@/views/apps/games/GameListing.vue"),
@@ -197,15 +207,6 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/apps/createUser",
-        name: "create-user",
-        component: () => import("@/views/apps/createUser/CreateUser.vue"),
-        meta: {
-          pageTitle: "Create user",
-          breadcrumbs: ["Apps", "Create User"],
-        },
-      },
-      {
         path: "/apps/orders",
         name: "orders-listing",
         component: () => import("@/views/apps/orders/OrdersListing.vue"),
@@ -224,6 +225,16 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/apps/order-details",
+        name: "order-details",
+        component: () => import("@/views/apps/orders/EditOrder.vue"),
+        props: true,
+        meta: {
+          pageTitle: "Order Details",
+          breadcrumbs: ["Apps", "Order Details"],
+        },
+      },
+      {
         path: "/apps/keys",
         name: "keys-listing",
         component: () => import("@/views/apps/Keys/KeysListing.vue"),
@@ -239,6 +250,15 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           pageTitle: "Offers Listing",
           breadcrumbs: ["Apps", "Offers Listing"],
+        },
+      },
+      {
+        path: "/apps/users",
+        name: "users-listing",
+        component: () => import("@/views/apps/users/UsersListing.vue"),
+        meta: {
+          pageTitle: "Users Listing",
+          breadcrumbs: ["Apps", "Users Listing"],
         },
       },
       {

@@ -129,7 +129,7 @@ interface RuleForm {
   keys: string;
 }
 
-const gameUrl = "games/all";
+const gameUrl = "games/list";
 const gameKey = "search_game";
 const supplierKey = "search";
 const supplierUrl = "suppliers/all";

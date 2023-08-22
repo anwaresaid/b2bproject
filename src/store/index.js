@@ -9,6 +9,7 @@ const store = new Vuex.Store({
       permissions: {},
       isTokenValid: false,
       rolePermissions: [],
+      orderCode: null,
     };
   },
 
@@ -19,6 +20,9 @@ const store = new Vuex.Store({
     setToken(state, payload) {
       state.isTokenValid = payload;
     },
+    setOrderCode(state, payload) {
+      state.orderCode = payload;
+    },
     setRolesPermissions(state, payload) {
       state.rolePermission = payload.rolePermissions;
     },
@@ -27,6 +31,9 @@ const store = new Vuex.Store({
   actions: {
     setPermissions(context, value) {
       context.commit("setPermissions", value);
+    },
+    setOrderCode(context, value) {
+      context.commit("setOrderCode", value);
     },
     setRolePermissions(context, value) {
       context.commit("setRolesPermissions", value);
