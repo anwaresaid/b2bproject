@@ -1,5 +1,5 @@
 <template>
-  <button
+  <!-- <button
     id="kt_app_layout_builder_toggle"
     class="btn btn-dark app-layout-builder-toggle"
     data-bs-toggle="tooltip"
@@ -9,7 +9,7 @@
   >
     <i class="fonticon-equalizer fs-4 me-1"></i>Customize
   </button>
-
+-->
   <div
     id="kt_app_layout_builder"
     class="bg-body drawer drawer-end"

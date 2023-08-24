@@ -27,18 +27,16 @@
   </div>
   <!--end::Row-->
 
-  <!--begin::Row-->
-  <div class="w-100 h-50">
-    <div class="col-xl-6 w-100 h-50">
-      <ChartsWidget5
-        widget-classes="card-xl-stretch mb-xl-8 h-20"
-      ></ChartsWidget5>
+  <!--begin::Row
+  <div class="row g-5 g-xl-8">
+    <div class="col-xl-6">
+      <ChartsWidget5 widget-classes="card-xl-stretch mb-xl-8"></ChartsWidget5>
     </div>
     <div class="col-xl-6">
       <ChartsWidget6 widget-classes="card-xl-stretch mb-xl-8"></ChartsWidget6>
     </div>
   </div>
-  <!--end::Row-->
+  end::Row-->
 
   <!--begin::Row-->
   <div class="row g-5 g-xl-8">

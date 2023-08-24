@@ -344,6 +344,12 @@ const MainMenuConfig: Array<MenuItem> = [
         fontIcon: "bi-gem",
       },
       {
+        heading: "Stock List",
+        route: "/apps/stock-list",
+        svgIcon: "/media/icons/duotune/general/gen-stock.svg",
+        fontIcon: "bi-box2-fill",
+      },
+      {
         heading: "Orders",
         route: "/apps/orders",
         svgIcon: "/media/icons/duotune/general/get069-basket.svg",

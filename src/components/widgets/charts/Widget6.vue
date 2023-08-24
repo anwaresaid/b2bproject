@@ -4,15 +4,13 @@
     <!--begin::Header-->
     <div class="card-header border-0 pt-5">
       <h3 class="card-title align-items-start flex-column">
-        <span class="card-label fw-bold fs-3 mb-1">Recent Orders</span>
+        <span class="card-label fw-bold fs-3 mb-1">{{ props.title }}</span>
 
-        <span class="text-muted fw-semobold fs-7"
-          >More than 500+ new orders</span
-        >
+        <span class="text-muted fw-semobold fs-7">{{ props.subTitle }}</span>
       </h3>
 
       <!--begin::Toolbar-->
-      <div class="card-toolbar" data-kt-buttons="true">
+      <!--   <div class="card-toolbar" data-kt-buttons="true">
         <a
           class="btn btn-sm btn-color-muted btn-active btn-active-primary active px-4 me-1"
           id="kt_charts_widget_6_sales_btn"
@@ -25,7 +23,7 @@
           >Expenses</a
         >
       </div>
-      <!--end::Toolbar-->
+      end::Toolbar-->
     </div>
     <!--end::Header-->
 
@@ -45,81 +43,79 @@
   <!--end::Charts Widget 6-->
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { defineComponent, ref, computed, watch, onBeforeMount } from "vue";
 import { useThemeStore } from "@/stores/theme";
 import type { ApexOptions } from "apexcharts";
 import { getCSSVariableValue } from "@/assets/ts/_utils";
 import type VueApexCharts from "vue3-apexcharts";
 
-export default defineComponent({
-  name: "widget-1",
-  props: {
-    widgetClasses: String,
+const props = defineProps({
+  widgetClasses: String,
+  title: String,
+  subTitle: String,
+  options: Object,
+  categories: Array,
+  data: Object,
+});
+const chartRef = ref<typeof VueApexCharts | null>(null);
+let chart: ApexOptions = {};
+const store = useThemeStore();
+
+const series = [
+  {
+    name: "Net Profit",
+    type: "bar",
+    stacked: true,
+    data: [40, 50, 65, 70, 50, 30],
   },
-  components: {},
-  setup() {
-    const chartRef = ref<typeof VueApexCharts | null>(null);
-    let chart: ApexOptions = {};
-    const store = useThemeStore();
-
-    const series = [
-      {
-        name: "Net Profit",
-        type: "bar",
-        stacked: true,
-        data: [40, 50, 65, 70, 50, 30],
-      },
-      {
-        name: "Revenue",
-        type: "bar",
-        stacked: true,
-        data: [20, 20, 25, 30, 30, 20],
-      },
-      {
-        name: "Expenses",
-        type: "area",
-        data: [50, 80, 60, 90, 50, 70],
-      },
-    ];
-
-    const themeMode = computed(() => {
-      return store.mode;
-    });
-
-    onBeforeMount(() => {
-      Object.assign(chart, chartOptions());
-    });
-
-    const refreshChart = () => {
-      if (!chartRef.value) {
-        return;
-      }
-
-      Object.assign(chart, chartOptions());
-
-      chartRef.value.refresh();
-    };
-
-    watch(themeMode, () => {
-      refreshChart();
-    });
-
-    return {
-      chart,
-      series,
-      chartRef,
-    };
+  {
+    name: "Revenue",
+    type: "bar",
+    stacked: true,
+    data: [20, 20, 25, 30, 30, 20],
   },
+  {
+    name: "Expenses",
+    type: "area",
+    data: [50, 80, 60, 90, 50, 70],
+  },
+];
+
+const themeMode = computed(() => {
+  return store.mode;
+});
+
+onBeforeMount(() => {
+  console.log("options", chartOptions());
+  Object.assign(chart, chartOptions());
+});
+
+const refreshChart = () => {
+  if (!chartRef.value) {
+    return;
+  }
+
+  Object.assign(chart, chartOptions());
+
+  chartRef.value.refresh();
+};
+
+watch(themeMode, () => {
+  refreshChart();
 });
 
 const chartOptions = (): ApexOptions => {
-  const labelColor = getCSSVariableValue("--kt-gray-500");
-  const borderColor = getCSSVariableValue("--kt-gray-200");
+  // const labelColor = "rgb(161, 165, 183)";
+  console.log("monthsData", props.data?.monthsData);
+  const labelColor = props.options.labelColor;
+  const borderColor = props.options.borderColor;
 
-  const baseColor = getCSSVariableValue("--kt-primary");
+  const baseColor = getCSSVariableValue(`--kt-${props.options.baseColor}`);
   const baseLightColor = getCSSVariableValue("--kt-primary-light");
-  const secondaryColor = getCSSVariableValue("--kt-info");
+  const secondaryColor = getCSSVariableValue(
+    `--kt-${props.options.secondaryColor}`
+  );
 
   return {
     chart: {
@@ -150,7 +146,7 @@ const chartOptions = (): ApexOptions => {
       colors: ["transparent"],
     },
     xaxis: {
-      categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+      categories: props.data?.monthsData,
       axisBorder: {
         show: false,
       },

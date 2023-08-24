@@ -171,6 +171,15 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/apps/stock-list",
+        name: "stock-list",
+        component: () => import("@/views/apps/stock/StockList.vue"),
+        meta: {
+          pageTitle: "Stock List",
+          breadcrumbs: ["apps", "stock-list"],
+        },
+      },
+      {
         path: "/apps/games",
         name: "apps-games-listing",
         component: () => import("@/views/apps/games/GameListing.vue"),

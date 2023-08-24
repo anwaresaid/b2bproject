@@ -34,7 +34,7 @@
   <!--end::Charts Widget 1-->
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { defineComponent, ref, computed, watch, onBeforeMount } from "vue";
 import { useThemeStore } from "@/stores/theme";
 import type { ApexOptions } from "apexcharts";
@@ -42,69 +42,49 @@ import Dropdown1 from "@/components/dropdown/Dropdown1.vue";
 import { getCSSVariableValue } from "@/assets/ts/_utils";
 import type VueApexCharts from "vue3-apexcharts";
 
-export default defineComponent({
-  name: "widget-1",
-  props: {
-    widgetClasses: String,
-    height: Number,
-    title: String,
-    subTitle: String,
-  },
-  components: {
-    Dropdown1,
-  },
-  setup() {
-    const chartRef = ref<typeof VueApexCharts | null>(null);
-    let chart: ApexOptions = {};
-    const store = useThemeStore();
+const props = defineProps({
+  widgetClasses: String,
+  height: Number,
+  title: String,
+  subTitle: String,
+  options: Object,
+  data: Object,
+});
 
-    const series = [
-      {
-        name: "Net Profit",
-        data: [44, 55, 57, 56, 61, 58],
-      },
-      {
-        name: "Revenue",
-        data: [76, 85, 101, 98, 87, 105],
-      },
-    ];
+const chartRef = ref<typeof VueApexCharts | null>(null);
+let chart: ApexOptions = {};
+const store = useThemeStore();
 
-    const themeMode = computed(() => {
-      return store.mode;
-    });
+const series = ref(props.data?.series);
 
-    onBeforeMount(() => {
-      Object.assign(chart, chartOptions());
-    });
+const themeMode = computed(() => {
+  return store.mode;
+});
 
-    const refreshChart = () => {
-      if (!chartRef.value) {
-        return;
-      }
+onBeforeMount(() => {
+  Object.assign(chart, chartOptions());
+});
 
-      Object.assign(chart, chartOptions());
+const refreshChart = () => {
+  if (!chartRef.value) {
+    return;
+  }
 
-      chartRef.value.refresh();
-    };
+  Object.assign(chart, chartOptions());
 
-    watch(themeMode, () => {
-      refreshChart();
-    });
+  chartRef.value.refresh();
+};
 
-    return {
-      chart,
-      series,
-      chartRef,
-    };
-  },
+watch(themeMode, () => {
+  refreshChart();
 });
 
 const chartOptions = (): ApexOptions => {
   const labelColor = getCSSVariableValue("--kt-gray-500");
   const borderColor = getCSSVariableValue("--kt-gray-200");
   const baseColor = getCSSVariableValue("--kt-primary");
-  const secondaryColor = getCSSVariableValue("--kt-gray-300");
-
+  const secondaryColor = "#33FF64";
+  const tertiaryColor = "#8333FF";
   return {
     chart: {
       fontFamily: "inherit",
@@ -132,7 +112,7 @@ const chartOptions = (): ApexOptions => {
       colors: ["transparent"],
     },
     xaxis: {
-      categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+      categories: props.data?.monthsData,
       axisBorder: {
         show: false,
       },
@@ -184,11 +164,11 @@ const chartOptions = (): ApexOptions => {
       },
       y: {
         formatter: function (val) {
-          return "$" + val + " thousands";
+          return "€" + val;
         },
       },
     },
-    colors: [baseColor, secondaryColor],
+    colors: [baseColor, secondaryColor, tertiaryColor],
     grid: {
       borderColor: borderColor,
       strokeDashArray: 4,
