@@ -2,6 +2,10 @@ export const gameStatus = [
   { text: "active", value: 1 },
   { text: "passive", value: 2 },
 ];
+export const gamivoStatus = [
+  { text: "active", value: 0 },
+  { text: "passive", value: 1 },
+];
 
 export const categoryType = [
   {

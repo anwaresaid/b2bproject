@@ -153,6 +153,52 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/apps/marketplace/kinguin",
+        name: "apps-marketplace-kinguin",
+        component: () =>
+          import(
+            "@/views/apps/marketplace/marketplace-match/KinguinMarketplace.vue"
+          ),
+        meta: {
+          pageTitle: "Kinguin Match",
+          breadcrumbs: ["Marketplace", "Kinguin Match"],
+        },
+      },
+      {
+        path: "/apps/marketplace/gamivo",
+        name: "apps-marketplace-gamivo",
+        component: () =>
+          import(
+            "@/views/apps/marketplace/marketplace-match/GamivoMarketplace.vue"
+          ),
+        meta: {
+          pageTitle: "Gamivo Match",
+          breadcrumbs: ["Marketplace", "Gamivo Match"],
+        },
+      },
+      {
+        path: "/apps/marketplace/Eneba",
+        name: "apps-marketplace-eneba",
+        component: () =>
+          import(
+            "@/views/apps/marketplace/marketplace-match/EnebaMarketplace.vue"
+          ),
+        meta: {
+          pageTitle: "Eneba Match",
+          breadcrumbs: ["Marketplace", "Eneba Match"],
+        },
+      },
+      {
+        path: "/apps/marketplace-match-list",
+        name: "apps-marketplace-list",
+        component: () =>
+          import("@/views/apps/marketplace/marketplaceMatchListing.vue"),
+        meta: {
+          pageTitle: "Marketplace-match List",
+          breadcrumbs: ["Apps", "Marketplace-match-list"],
+        },
+      },
+      {
         path: "/apps/customers/customers-listing",
         name: "apps-customers-listing",
         component: () => import("@/views/apps/customers/CustomersListing.vue"),

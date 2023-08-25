@@ -31,29 +31,34 @@ import {
   defineEmits,
 } from "vue";
 import ApiService from "@/core/services/ApiService";
-const props = defineProps(["url", "type", "keyg", "wd", "returnType"]);
+const props = defineProps([
+  "url",
+  "type",
+  "keyg",
+  "wd",
+  "returnType",
+  "condition",
+]);
 
 const data = ref([]);
 const style = reactive({ width: props.wd });
 const params = ref();
 const emit = defineEmits();
 
-const value = ref();
+const value = ref(null);
 const loading = ref([false]);
 const setParams = (query: string) => {
   params.value = query;
 };
-const handleChange = (value) => {
-  value.value = value.id;
+const handleChange = (selected) => {
   if (props.returnType === "object") {
-    emit("selected-game", value);
+    emit("selected-game", selected);
   } else {
-    emit("selected-game", value.id);
+    emit("selected-game", selected.id);
   }
 };
 const fetchGames = () => {
   loading.value = true;
-  console.log("url", props.keyg);
   ApiService.postTest(
     `${props.url}`,
     { [props.keyg]: params.value },
@@ -64,7 +69,11 @@ const fetchGames = () => {
   });
 };
 watch(params, (newValue) => {
-  fetchGames();
+  if (props.condition) {
+    if (params.value?.length >= props.condition) fetchGames();
+  } else {
+    fetchGames();
+  }
 });
 onMounted(() => {});
 

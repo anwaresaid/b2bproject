@@ -11,13 +11,9 @@
               prefix-icon="Search"
             />
           </el-form-item>
-          <div class="all-stock p-5">
-            <h3>{{ sumStock }}</h3>
-            <span>Total value of all stocks</span>
-          </div>
         </div>
         <Datatable
-          :data="stockData"
+          :data="matchData"
           :header="tableHeaders"
           :totalPages="paginationData.value?.last_page"
           :enable-items-per-page-dropdown="true"
@@ -29,23 +25,19 @@
         >
           <template v-slot:api_component="slotProps">
             <slot :action="slotProps.action">
-              <div
-                v-if="slotProps.action.match_images.length > 0"
-                class="d-flex flex-row"
-              >
-                <img
-                  v-for="image in slotProps.action.match_images"
-                  :src="image"
-                  class="logos-stock"
-                />
+              <div class="d-flex flex-row">
+                {{ slotProps.action.marketplace }} Api
               </div>
             </slot>
           </template>
-          <template v-slot:status_component="slotProps">
+          <template v-slot:game_component="slotProps">
             <slot :action="slotProps.action">
-              <el-tag type="success">
-                {{ slotProps.action.status?.toLowerCase() }}</el-tag
-              >
+              <div v-if="slotProps.action.status === 0">
+                <span class="text-success">{{ slotProps.action.game }}</span>
+              </div>
+              <div v-else-if="slotProps.action.status === 1">
+                <span class="text-danger">{{ slotProps.action.game }}</span>
+              </div>
             </slot>
           </template>
         </Datatable>
@@ -63,7 +55,7 @@ import { useRouter } from "vue-router";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import store from "../../../store";
 
-const stockData = ref([]);
+const matchData = ref([]);
 const router = useRouter();
 const customerUrl = "customers/all";
 const searchGames = ref("");
@@ -86,52 +78,35 @@ const tableHeaders = ref([
     custom: "api_component",
   },
   {
-    columnName: "GAME NAME",
-    columnLabel: "name",
+    columnName: "OYUN ADI",
+    columnLabel: "game",
     sortEnabled: true,
     columnWidth: 230,
+    custom: "game_component",
   },
   {
-    columnName: "PUBLISHER",
-    columnLabel: "publisher",
+    columnName: "AUCTION",
+    columnLabel: "offer_id",
     sortEnabled: true,
     columnWidth: 175,
   },
   {
-    columnName: "AVERAGE VALUE",
-    columnLabel: "avg_value",
+    columnName: "API ID",
+    columnLabel: "product_id_in_api",
     sortEnabled: true,
     columnWidth: 175,
   },
   {
-    columnName: "STOCK VALUE",
-    columnLabel: "stock_value",
+    columnName: "ORTALAMA STOCK DEGERI",
+    columnLabel: "average_stock",
     sortEnabled: false,
     columnWidth: 135,
   },
   {
-    columnName: "STOCK",
-    columnLabel: "stock_count",
-    sortEnabled: false,
-    columnWidth: 135,
-  },
-  {
-    columnName: "RESERVE",
-    columnLabel: "reserve_count",
+    columnName: "RETAIL",
+    columnLabel: "retail",
     sortEnabled: false,
     columnWidth: 50,
-  },
-  {
-    columnName: "STOCK + RESERVE",
-    sortEnabled: false,
-    columnWidth: 135,
-    columnLabel: "reserve_plus_stock",
-  },
-  {
-    columnName: "STATUS",
-    sortEnabled: false,
-    columnWidth: 135,
-    custom: "status_component",
   },
 ]);
 
@@ -142,8 +117,9 @@ const fetchStock = (type) => {
     params.value.page_type = tableType.value;
   }
   console.log("params", params);
-  ApiService.postTest("games/stock", params.value).then((res) => {
-    stockData.value = res.data.data.games;
+  ApiService.postTest("marketplace/matches", params.value).then((res) => {
+    matchData.value = res.data.data.matches;
+    console.log("matchData", matchData);
     paginationData.value = res.data.data.pagination;
     sumStock.value = res.data.data.sum_stock;
   });

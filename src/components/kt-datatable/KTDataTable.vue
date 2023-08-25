@@ -29,7 +29,7 @@
         :width="item.width"
       >
         <template v-if="item.custom" #default="scope">
-          <slot name="component1" :action="scope.row"></slot>
+          <slot :name="item.custom" :action="scope.row"> </slot>
         </template>
       </el-table-column>
     </el-table>
@@ -116,7 +116,7 @@ export default defineComponent({
     });
 
     const totalItems = computed(() => {
-      console.log("totaaaaaal", props?.totalPages);
+      console.log("totaaaaaal", props.totalPages);
       if (props.totalPages) {
         console.log("total pages", props.totalPages);
         return props.totalPages * 10;

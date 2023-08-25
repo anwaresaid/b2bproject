@@ -264,6 +264,36 @@ const MainMenuConfig: Array<MenuItem> = [
         ],
       },
       {
+        sectionTitle: "Marketplace",
+        route: "/marketplace",
+        svgIcon: "/media/icons/duotune/general/gen070-shop.svg",
+        fontIcon: "bi-shop",
+        sub: [
+          {
+            sectionTitle: "Match",
+            route: "/marketplace",
+            sub: [
+              {
+                heading: "Eneba Match",
+                route: "/apps/marketplace/eneba",
+              },
+              {
+                heading: "Gamivo Match",
+                route: "/apps/marketplace/gamivo",
+              },
+              {
+                heading: "Kinguin Match",
+                route: "/apps/marketplace/kinguin",
+              },
+            ],
+          },
+          {
+            heading: "Marketplace match listing",
+            route: "/apps/marketplace-match-list",
+          },
+        ],
+      },
+      {
         sectionTitle: "subscriptions",
         route: "/subscriptions",
         svgIcon: "/media/icons/duotune/ecommerce/ecm002.svg",
