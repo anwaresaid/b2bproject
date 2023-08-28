@@ -235,7 +235,6 @@ const createGame = async (formEl: FormInstance | undefined) => {
         confirmSubmission();
       });
     } else {
-      console.log("error submit!", fields);
     }
   });
 };
@@ -251,9 +250,7 @@ watch(setVisible, (newValue) => {
     emit("create-key", false);
   }
 });
-watch(form, (newValue) => {
-  console.log("form", form);
-});
+watch(form, (newValue) => {});
 
 onBeforeUnmount(() => {
   // Cleanup or perform actions before component unmounts

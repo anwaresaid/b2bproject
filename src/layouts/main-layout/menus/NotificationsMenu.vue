@@ -100,7 +100,10 @@
 
         <!--begin::View more-->
         <div class="py-3 text-center border-top">
-          <a href="#" class="btn btn-color-gray-600 btn-active-color-primary">
+          <a
+            href="#/apps/all-notifications"
+            class="btn btn-color-gray-600 btn-active-color-primary"
+          >
             View All
             <span class="svg-icon svg-icon-5">
               <inline-svg src="/media/icons/duotune/arrows/arr064.svg" />
@@ -145,7 +148,6 @@ export default defineComponent({
     const fetchNotifications = () => {
       ApiService.postTest("notifications/myList", fetchAllNotfications).then(
         (res) => {
-          console.log("res", res.data.data);
           message.value = res.data.data.notifications;
         }
       );
@@ -235,9 +237,7 @@ export default defineComponent({
       fetchNotifications();
     });
 
-    watch(message, (newValue) => {
-      console.log("notification", message);
-    });
+    watch(message, (newValue) => {});
     return {
       message,
       data2,

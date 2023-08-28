@@ -116,9 +116,7 @@ export default defineComponent({
     });
 
     const totalItems = computed(() => {
-      console.log("totaaaaaal", props.totalPages);
       if (props.totalPages) {
-        console.log("total pages", props.totalPages);
         return props.totalPages * 10;
       }
       if (props.data) {

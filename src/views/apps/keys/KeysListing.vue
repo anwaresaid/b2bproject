@@ -103,9 +103,7 @@ const channel = PusherService.subscribe("notification");
 const message = ref("");
 channel.bind(
   "Illuminate\\Notifications\\Events\\BroadcastNotificationCreated",
-  (data) => {
-    console.log(data);
-  }
+  (data) => {}
 );
 
 const tableHeaders = ref([
@@ -185,8 +183,6 @@ const fetchKeys = (type) => {
   }
   ApiService.postTest("keys/all", params.value).then((res) => {
     keysData.value = res.data.data.keys;
-    console.log("keysdata", keysData);
-    console.log("paginationdata", res.data.data.pagination);
 
     paginationData.value = res.data.data.pagination;
   });
@@ -204,7 +200,6 @@ const getItemsInTable = (item) => {
   fetchKeys();
 };
 const pageChange = (page: number) => {
-  console.log("page changed");
   params.value.current_page = page;
   fetchKeys();
 };
@@ -217,26 +212,21 @@ const closeCreateKey = (value) => {
   if (value) fetchKeys();
 };
 watch(tableType, (newValue) => {
-  console.log("changed");
   params.value = {};
   params.value.page_type = tableType.value;
   fetchKeys();
 });
 watch(tableStatus, (newValue) => {
-  console.log("changed");
   params.value = {};
   params.value.status = tableStatus.value;
   fetchKeys("filter");
 });
 watch(dropdownParams, (newValue) => {
-  console.log("changed");
   params.value = {};
   params.value = dropdownParams.value;
   fetchKeys("filer");
 });
 watch(message, (newValue) => {
-  console.log("message", message);
-
   if (!newValue) {
   }
 });

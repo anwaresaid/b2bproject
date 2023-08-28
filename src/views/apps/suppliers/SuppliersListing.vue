@@ -145,8 +145,6 @@ export default defineComponent({
       if (update) this.fetchData();
     },
     pageChange(page: number) {
-      console.log("called ------", page);
-
       this.currentPage = page;
     },
     getItemsInTable(item) {
@@ -160,7 +158,6 @@ export default defineComponent({
   },
   watch: {
     itemsInTable() {
-      console.log("called ------");
       this.params.per_page = this.itemsInTable;
       this.currentPage = 1;
       this.fetchData();

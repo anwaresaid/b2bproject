@@ -284,7 +284,6 @@ const createGame = async (formEl: FormInstance | undefined) => {
         confirmSubmission();
       });
     } else {
-      console.log("error submit!", fields);
     }
   });
 };

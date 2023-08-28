@@ -208,6 +208,16 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/apps/all-notifications",
+        name: "apps-notifications-all",
+        component: () =>
+          import("@/views/apps/notifications/NotificationsAll.vue"),
+        meta: {
+          pageTitle: "Customers Listing",
+          breadcrumbs: ["Apps", "Customers"],
+        },
+      },
+      {
         path: "/account/general-account",
         name: "general-account",
         component: () => import("@/views/apps/accounting/GeneralAccount.vue"),

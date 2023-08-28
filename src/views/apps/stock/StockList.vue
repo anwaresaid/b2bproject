@@ -141,7 +141,6 @@ const fetchStock = (type) => {
     params.value.per_page = itemsInTable;
     params.value.page_type = tableType.value;
   }
-  console.log("params", params);
   ApiService.postTest("games/stock", params.value).then((res) => {
     stockData.value = res.data.data.games;
     paginationData.value = res.data.data.pagination;
@@ -159,10 +158,8 @@ const pageChange = (page: number) => {
 };
 
 watch(searchGames, (newValue) => {
-  console.log("changed");
   params.value = {};
   params.value = { search_game: searchGames.value };
-  console.log("called searchorders");
   fetchStock("filer");
 });
 
