@@ -48,13 +48,6 @@
               wd="100px"
             />
           </el-form-item>
-          <div>
-            <el-button type="primary" icon="plus" round
-              ><router-link to="/apps/create-order" class="text-white px-3"
-                >Add Order</router-link
-              ></el-button
-            >
-          </div>
         </div>
         <Datatable
           :data="ordersData"
@@ -108,52 +101,16 @@ const tableType = ref();
 
 const tableHeaders = ref([
   {
-    columnName: "ORDER NUMBER",
-    columnLabel: "order_code",
+    columnName: "TYPE",
+    columnLabel: "type",
     sortEnabled: true,
     columnWidth: 175,
   },
   {
-    columnName: "TOTAL AMOUNT",
-    columnLabel: "total_amount",
+    columnName: "MESSAGE",
+    columnLabel: "message",
     sortEnabled: true,
     columnWidth: 230,
-  },
-  {
-    columnName: "SOLD PIECE",
-    columnLabel: "sold_count",
-    sortEnabled: true,
-    columnWidth: 175,
-  },
-  {
-    columnName: "RESERVED PIECE",
-    columnLabel: "reserved_count",
-    sortEnabled: true,
-    columnWidth: 175,
-  },
-  {
-    columnName: "CUSTOMER",
-    columnLabel: "customer",
-    sortEnabled: false,
-    columnWidth: 135,
-  },
-  {
-    columnName: "CREATED BY",
-    columnLabel: "created_by",
-    sortEnabled: false,
-    columnWidth: 135,
-  },
-  {
-    columnName: "CREATED AT",
-    columnLabel: "created_at",
-    sortEnabled: false,
-    columnWidth: 50,
-  },
-  {
-    columnName: "DETIALS",
-    sortEnabled: false,
-    columnWidth: 135,
-    custom: "component1",
   },
 ]);
 
@@ -163,8 +120,8 @@ const fetchOrders = (type) => {
     params.value.per_page = itemsInTable;
     params.value.page_type = tableType.value;
   }
-  ApiService.postTest("orders/all", params.value).then((res) => {
-    ordersData.value = res.data.data.orders;
+  ApiService.postTest("notifications/all", params.value).then((res) => {
+    ordersData.value = res.data.data.notifications;
     paginationData.value = res.data.data.pagination;
   });
 };

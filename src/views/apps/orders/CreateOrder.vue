@@ -184,7 +184,6 @@ const addGame = () => {
   form.game.push({});
 };
 const setGame = (value, index, gameName) => {
-  console.log("index", gameName);
   gamesData.value[index] = gameName;
   form.game[index] = value;
 };
@@ -200,7 +199,6 @@ const createOrder = async (formEl: FormInstance | undefined) => {
         totalAmount: total.value,
       };
       // const data = { ...form, customer_id: form.customer.id };
-      console.log(data);
       ApiService.post("orders/create", data).then((res) => {
         formEl.resetFields();
         confirmSubmission();
@@ -213,7 +211,6 @@ const totalPieces = () => {
   return form.game.reduce((acc, current) => acc + current.quantity, 0);
 };
 const totalPrice = () => {
-  console.log("game", form.game);
   total.value = form.game.reduce(
     (acc, current) => acc + current.sales_price * current.quantity,
     0
@@ -221,14 +218,10 @@ const totalPrice = () => {
 };
 
 watch(form, (newValue) => {
-  console.log("form", form);
-  console.log("gamesData", gamesData.value[0].value);
   totalPrice();
-  console.log("total", total.value);
 });
 
 watch(form.customer, (newValue) => {
-  console.log("customer", form.customer);
   if (!newValue) {
     // emit("create-game", false);
   }

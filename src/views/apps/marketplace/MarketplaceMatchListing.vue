@@ -116,10 +116,8 @@ const fetchStock = (type) => {
     params.value.per_page = itemsInTable;
     params.value.page_type = tableType.value;
   }
-  console.log("params", params);
   ApiService.postTest("marketplace/matches", params.value).then((res) => {
     matchData.value = res.data.data.matches;
-    console.log("matchData", matchData);
     paginationData.value = res.data.data.pagination;
     sumStock.value = res.data.data.sum_stock;
   });
@@ -135,10 +133,8 @@ const pageChange = (page: number) => {
 };
 
 watch(searchGames, (newValue) => {
-  console.log("changed");
   params.value = {};
   params.value = { search_game: searchGames.value };
-  console.log("called searchorders");
   fetchStock("filer");
 });
 

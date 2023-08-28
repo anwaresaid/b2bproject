@@ -179,7 +179,6 @@ const giftData = ref({
 const fullData = ref({});
 const graphsData = ref({});
 const dateFormatter = (date) => {
-  console.log("date", date.value);
   const day =
     ("" + (date.value.getDate() + 1)).length > 1
       ? date.value.getDate()
@@ -193,7 +192,6 @@ const dateFormatter = (date) => {
   return fullDate;
 };
 const fetchData = () => {
-  console.log("dateTo", dateTo.value ? true : false);
   const date = dateTo.value
     ? { from: dateFormatter(dateFrom), to: dateFormatter(dateTo) }
     : { from: "01.01.2023" };
@@ -246,10 +244,6 @@ const fetchData = () => {
         graphsData.value[year] = handleAssignVariables(dataTemp);
       });
     }
-    console.log(
-      "----------------------------------------------------------------",
-      generalSummary.value
-    );
   });
 };
 
@@ -361,16 +355,11 @@ const cardTitles = (item) => {
   }
 };
 
-watch(dateFrom, (newValue) => {
-  console.log("changed", dateFrom);
-});
-watch(dateTo, (newValue) => {
-  console.log("changed", dateTo);
-});
+watch(dateFrom, (newValue) => {});
+watch(dateTo, (newValue) => {});
 
 onMounted(() => {
   dateFrom.value = new Date("2023, 01, 01");
-  console.log("date", dateFrom.value);
   fetchData();
 });
 </script>

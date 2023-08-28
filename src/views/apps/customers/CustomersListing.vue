@@ -11,7 +11,7 @@
           <input
             type="text"
             v-model="search"
-            @input="searchItems()"
+            @input="handleSearch()"
             class="form-control form-control-solid w-250px ps-15"
             placeholder="Search Customers"
           />
@@ -144,11 +144,12 @@ export default defineComponent({
       currentPage: 1,
       params: {},
       paginationData: {},
+      search: "",
     };
   },
   methods: {
     fetchData() {
-      ApiService.getTest("customers?search", this.params, 3).then((res) => {
+      ApiService.postTest("customers/all", this.params).then((res) => {
         this.customersData = res.data.data.customers;
         this.paginationData = res.data.data.pagination;
       });
@@ -158,6 +159,10 @@ export default defineComponent({
     },
     pageChange(page) {
       this.currentPage = page;
+    },
+    handleSearch() {
+      this.params.search = this.search;
+      this.fetchData();
     },
   },
   setup() {
@@ -198,12 +203,6 @@ export default defineComponent({
         sortEnabled: true,
         columnWidth: 175,
       },
-      // {
-      //   columnName: "Actions",
-      //   columnLabel: "actions",
-      //   sortEnabled: false,
-      //   columnWidth: 135,
-      // },
     ]);
     const selectedIds = ref<Array<number>>([]);
 
@@ -229,31 +228,6 @@ export default defineComponent({
       }
     };
 
-    const search = ref<string>("");
-    const searchItems = () => {
-      tableData.value.splice(0, tableData.value.length, ...initCustomers.value);
-      if (search.value !== "") {
-        let results: Array<ICustomer> = [];
-        for (let j = 0; j < tableData.value.length; j++) {
-          if (searchingFunc(tableData.value[j], search.value)) {
-            results.push(tableData.value[j]);
-          }
-        }
-        tableData.value.splice(0, tableData.value.length, ...results);
-      }
-    };
-
-    const searchingFunc = (obj: any, value: string): boolean => {
-      for (let key in obj) {
-        if (!Number.isInteger(obj[key]) && !(typeof obj[key] === "object")) {
-          if (obj[key].indexOf(value) != -1) {
-            return true;
-          }
-        }
-      }
-      return false;
-    };
-
     const sort = (sort: Sort) => {
       const reverse: boolean = sort.order === "asc";
       if (sort.label) {
@@ -268,8 +242,6 @@ export default defineComponent({
       tableData,
       tableHeader,
       deleteCustomer,
-      search,
-      searchItems,
       selectedIds,
       deleteFewCustomers,
       sort,

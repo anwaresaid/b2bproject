@@ -140,7 +140,6 @@ const setKinguinGameId = (value) => {
   form.product_api_id = value;
 };
 const setGameId = (value) => {
-  console.log("value", value);
   form.game_id = value;
 };
 const match = (formEl) => {
@@ -161,7 +160,6 @@ const match = (formEl) => {
         );
       });
     } else {
-      console.log("error submit!");
       return false;
     }
   });

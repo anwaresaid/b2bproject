@@ -87,7 +87,6 @@ const themeMode = computed(() => {
 });
 
 onBeforeMount(() => {
-  console.log("options", chartOptions());
   Object.assign(chart, chartOptions());
 });
 
@@ -107,7 +106,6 @@ watch(themeMode, () => {
 
 const chartOptions = (): ApexOptions => {
   // const labelColor = "rgb(161, 165, 183)";
-  console.log("monthsData", props.data?.monthsData);
   const labelColor = props.options.labelColor;
   const borderColor = props.options.borderColor;
 

@@ -116,9 +116,7 @@ const fetchUsers = (type) => {
     params.value.current_page = currentPage;
     params.value.per_page = itemsInTable;
   }
-  console.log("params", params);
   ApiService.postTest("users/all", params.value).then((res) => {
-    console.log("users", res.data);
     usersData.value = res.data.data.users;
     paginationData.value = res.data.data.pagination;
   });
@@ -134,7 +132,6 @@ const pageChange = (page: number) => {
 const closeCreateUser = (value) => {
   userCreateVisible.value = false;
   if (value) {
-    console.log("called close");
     fetchUsers();
   }
 };
@@ -143,10 +140,8 @@ const createUser = () => {
   userCreateVisible.value = true;
 };
 watch(searchUsers, (newValue) => {
-  console.log("changed");
   params.value = {};
   params.value = { search: searchUsers.value };
-  console.log("called search users");
   fetchUsers("filer");
 });
 
