@@ -1,24 +1,44 @@
 export const gameStatus = [
-  { text: "active", value: 1 },
-  { text: "passive", value: 2 },
+  { label: "active", value: 1 },
+  { label: "passive", value: 2 },
 ];
 export const gamivoStatus = [
-  { text: "active", value: 0 },
-  { text: "passive", value: 1 },
+  { label: "active", value: 0 },
+  { label: "passive", value: 1 },
 ];
 
 export const categoryType = [
   {
-    text: "console",
+    label: "console",
     value: 2,
   },
   {
-    text: "pc",
+    label: "pc",
     value: 1,
   },
   {
-    text: "giftcard/epin",
+    label: "giftcard/epin",
     value: 3,
+  },
+];
+export const generalStatus = [
+  {
+    label: "successful",
+    value: 1,
+  },
+  {
+    label: "failed",
+    value: 0,
+  },
+];
+export const processType = [
+  {
+    label: "update stock",
+    value: "UpdateStock",
+  },
+  {
+    label: "match",
+    value: "Match",
   },
 ];
 

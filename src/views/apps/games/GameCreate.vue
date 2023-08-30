@@ -16,16 +16,14 @@
         label-width="250px"
         required
       >
-        <multi-list-select
-          :list="categoriesData"
-          :selectedItems="form.category"
-          optionValue="id"
-          optionText="name"
-          placeholder="Select Category"
-          @select="onSelectCategory"
-          @searchchange="onCategoryChange"
-        >
-        </multi-list-select>
+        <DropdownRemote
+          :url="categoriesUrl"
+          :default="isUpdate ? props.update.category.name : null"
+          @selected-game="setCategoryId"
+          :type="categoriesType"
+          :keyg="categoriesKey"
+          wd="100%"
+        />
       </el-form-item>
       <el-form-item
         label="Publisher Name"
@@ -33,16 +31,14 @@
         prop="publisher"
         required
       >
-        <multi-list-select
-          :list="publisherData"
-          :selectedItems="form.publisher"
-          optionValue="id"
-          optionText="name"
-          placeholder="Select Publisher"
-          @select="onSelectPublisher"
-          @searchchange="onPublisherChange"
-        >
-        </multi-list-select>
+        <DropdownRemote
+          :url="publishersUrl"
+          @selected-game="setPublisherId"
+          :type="publishersType"
+          placeholder="please select Publisher"
+          :keyg="categoriesKey"
+          wd="100%"
+        />
       </el-form-item>
       <el-form-item
         label="Game Status"
@@ -50,12 +46,18 @@
         prop="stats"
         required
       >
-        <model-select
-          :options="statusData"
+        <el-select
           v-model="form.stats"
-          placeholder="select status"
+          placeholder="Select status"
+          :style="{ width: '100%' }"
         >
-        </model-select>
+          <el-option
+            v-for="item in statusData"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item
         label="Min Sale"
@@ -66,16 +68,14 @@
         <el-input v-model="form.min_sales" autocomplete="off" />
       </el-form-item>
       <el-form-item label="Region" label-width="250px" prop="region" required>
-        <multi-list-select
-          :list="regionData"
-          :selectedItems="form.region"
-          optionValue="id"
-          optionText="name"
-          placeholder="Select Region"
-          @select="onSelectRegion"
-          @searchchange="onRegionChange"
-        >
-        </multi-list-select>
+        <DropdownRemote
+          :url="regionUrl"
+          @selected-game="setRegionId"
+          :type="regionType"
+          placeholder="please select Region"
+          :keyg="categoriesKey"
+          wd="100%"
+        />
       </el-form-item>
       <el-form-item
         label="Language"
@@ -83,16 +83,14 @@
         prop="language"
         required
       >
-        <multi-list-select
-          :list="languageData"
-          :selectedItems="form.language"
-          optionValue="id"
-          optionText="name"
-          placeholder="Select Language"
-          @select="onSelectLanguage"
-          @searchchange="onLanguageChange"
-        >
-        </multi-list-select>
+        <DropdownRemote
+          :url="languageUrl"
+          @selected-game="setLanguageId"
+          :type="languageType"
+          placeholder="please select Language"
+          :keyg="categoriesKey"
+          wd="100%"
+        />
       </el-form-item>
       <el-form-item
         label="Category Type"
@@ -100,12 +98,18 @@
         prop="categoryType"
         required
       >
-        <model-select
-          :options="categoryType1"
+        <el-select
           v-model="form.categoryType"
-          placeholder="select category type"
+          placeholder="Select status"
+          :style="{ width: '100%' }"
         >
-        </model-select>
+          <el-option
+            v-for="item in categoryType1"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item
         label="description"
@@ -138,12 +142,7 @@ import {
   defineEmits,
 } from "vue";
 import ApiService from "@/core/services/ApiService";
-import PusherService from "@/core/services/PusherService";
-import {
-  ModelListSelect,
-  MultiListSelect,
-  ModelSelect,
-} from "vue-search-select";
+import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import { gameStatus, categoryType } from "../utils/constants";
 import type { FormInstance, FormRules } from "element-plus";
 import { ElMessage, ElMessageBox } from "element-plus";
@@ -152,43 +151,44 @@ import type { Action } from "element-plus";
 
 interface RuleForm {
   name: string;
-  category: [];
-  publisher: [];
-  language: [];
-  region: [];
-  stats: [];
+  category: number;
+  publisher: number;
+  language: number;
+  region: number;
+  stats: number;
   description: string;
-  categoryType: object;
+  categoryType: number;
 }
-
+const test = ref("Bethesda");
 const formSize = ref("default");
+const categoriesUrl = "categories/all";
+const categoriesType = "categories";
+const categoriesKey = "search";
+const publishersUrl = "publishers/all";
+const publishersType = "publishers";
+const regionUrl = "regions/all";
+const regionType = "regions";
+const languageUrl = "languages/all";
+const languageType = "languages";
 const ruleFormRef = ref<FormInstance>();
-const visible = defineProps(["isVisible"]);
+const props = defineProps(["isVisible", "update", "isUpdate"]);
 const setVisible = ref("");
-setVisible.value = visible.isVisible;
-const channel = PusherService.subscribe("my-channel");
+const isUpdate = ref(props.isUpdate);
+setVisible.value = props.isVisible;
 const message = ref("");
 
 const form = reactive<RuleForm>({
-  publisher: [],
-  category: [],
-  language: [],
-  region: [],
-  stats: [],
+  publisher: 1,
+  category: null,
+  language: null,
+  region: null,
+  stats: null,
   name: "",
   description: "",
-  categoryType: {},
-});
-
-channel.bind("my-event", (data) => {
-  message.value = data;
+  categoryType: null,
 });
 
 const statusData = ref(gameStatus);
-const publisherData = ref([]);
-const regionData = ref([]);
-const languageData = ref([]);
-const categoriesData = ref([]);
 const categoryType1 = ref(categoryType);
 const emit = defineEmits();
 
@@ -268,15 +268,16 @@ const createGame = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
+      console.log("formdata", form);
       const submissionData = {
         name: form.name,
-        category_id: form.category[0].id,
-        publisher_id: form.publisher[0].id,
-        status: form.stats.value,
+        category_id: form.category,
+        publisher_id: form.publisher,
+        status: form.stats,
         min_sales: form.min_sales,
-        region_id: form.region[0].id,
-        language_id: form.language[0].id,
-        category_type: form.categoryType.value,
+        region_id: form.region,
+        language_id: form.language,
+        category_type: form.categoryType,
         description: form.description,
       };
       ApiService.post("games", submissionData).then((res) => {
@@ -288,72 +289,84 @@ const createGame = async (formEl: FormInstance | undefined) => {
   });
 };
 
-const onCategoryChange = (text) => {
-  if (text !== "") {
-    ApiService.getTest("categories", text, 2).then((res) => {
-      categoriesData.value = res.data.data.categories;
-    });
-  } else {
-    categoriesData.value = [];
+const setPublisherId = (publishers) => {
+  form.publisher = publishers;
+};
+const setCategoryId = (categories) => {
+  form.category = categories;
+};
+const setLanguageId = (languages) => {
+  form.language = languages;
+};
+const setRegionId = (regions) => {
+  form.region = regions;
+};
+function setEmpty(input) {
+  console.log(
+    "form inside empty----------------------------------------------------------------",
+    input
+  );
+  if (typeof input === "object") {
+    let keys = Object.keys(input);
+
+    for (let key of keys) {
+      if (typeof input[key] != "object") {
+        input[key] = null;
+      } else {
+        setEmpty(input[key]);
+      }
+    }
+    return input;
   }
-};
+}
 
-const onSelectCategory = (items, lastItem) => {
-  form.category = [lastItem];
-};
+// const onSelectCategory = (items, lastItem) => {
+//   form.category = [lastItem];
+// };
 
-const onPublisherChange = (text) => {
-  if (text !== "") {
-    ApiService.getTest("publishers", text, 2).then((res) => {
-      publisherData.value = res.data.data.publishers;
-    });
-  } else {
-    publisherData.value = [];
-  }
-};
+// const onPublisherChange = (text) => {
+//   if (text !== "") {
+//     ApiService.getTest("publishers", text, 2).then((res) => {
+//       publisherData.value = res.data.data.publishers;
+//     });
+//   } else {
+//     publisherData.value = [];
+//   }
+// };
 
-const onSelectPublisher = (items, lastItem) => {
-  form.publisher = [lastItem];
-};
-
-const onRegionChange = (text) => {
-  if (text !== "") {
-    ApiService.postTest("regions/all", { search: text }).then((res) => {
-      regionData.value = res.data.data.regions;
-    });
-  } else {
-    regionData.value = [];
-  }
-};
-
-const onSelectRegion = (items, lastItem) => {
-  form.region = [lastItem];
-};
-
-const onLanguageChange = (text) => {
-  if (text !== "") {
-    ApiService.getTest("languages", text, 2).then((res) => {
-      languageData.value = res.data.data.languages;
-    });
-  } else {
-    languageData.value = [];
-  }
-};
-
-const onSelectLanguage = (items, lastItem) => {
-  form.language = [lastItem];
-};
-
-watch(visible, (newValue) => {
+// const onSelectPublisher = (items, lastItem) => {
+//   form.publisher = [lastItem];
+// };
+watch(props, (newValue) => {
   setVisible.value = newValue.isVisible;
   if (!newValue) {
     // Emit event or perform other actions when dialog visibility changes
   }
 });
 watch(setVisible, (newValue) => {
+  console.log("is update", isUpdate);
+  console.log("formbefore empty", form);
+  if (setVisible.value === true && props.update) {
+    isUpdate.value = true;
+    form.publisher = props.update.publisher;
+    form.category = props.update.category;
+    form.language = props.update.language;
+    form.region = props.update.region;
+    form.stats = props.update.status;
+    form.name = props.update.name;
+    form.categoryType = props.update.category_type;
+  } else if (setVisible.value === false && props.update) {
+    setEmpty(form);
+    console.log("form is empty", form);
+  }
+  console.log("from---", form);
+  console.log("from---", props.update);
   if (!newValue) {
     emit("create-game", false);
   }
+});
+watch(test, (newValue) => {
+  console.log("test", test);
 });
 watch(message, (newValue) => {
   if (!newValue) {
@@ -361,6 +374,9 @@ watch(message, (newValue) => {
   }
 });
 
+onMounted(() => {
+  console.log("mounted");
+});
 onBeforeUnmount(() => {
   // Cleanup or perform actions before component unmounts
 });
