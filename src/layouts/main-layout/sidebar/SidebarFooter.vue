@@ -1,6 +1,6 @@
 <template>
   <!--begin::Footer-->
-  <div
+  <!-- <div
     class="app-sidebar-footer flex-column-auto pt-2 pb-6 px-6"
     id="kt_app_sidebar_footer"
   >
@@ -17,7 +17,7 @@
         <inline-svg src="/media/icons/duotune/general/gen005.svg" />
       </span>
     </a>
-  </div>
+  </div>-->
   <!--end::Footer-->
 </template>
 

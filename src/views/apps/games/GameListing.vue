@@ -6,56 +6,65 @@
       <!--filters-->
       <div class="filters">
         <div class="filterSelect">
-          <multi-list-select
-            :list="marketPlaceData"
-            :selectedItems="marketPlaceSearch"
-            optionValue="id"
-            optionText="name"
-            placeholder="Select Market Place"
-            @select="onSelect"
-            @searchchange="onChange"
-          >
-          </multi-list-select>
+          <DropdownRemote
+            :url="marketPlaceUrl"
+            @selected-game="setPublisherId"
+            :multiple="true"
+            :type="marketPlaceType"
+            placeholder="please select marketplace"
+            :keyg="categoriesKey"
+            wd="220px"
+          />
         </div>
         <div class="filterSelect">
-          <multi-list-select
-            :list="categoriesData"
-            :selectedItems="categoriesSearch"
-            optionValue="id"
-            optionText="name"
-            placeholder="Select Categories"
-            @select="onSelectCategories"
-            @searchchange="onCategoriesChange"
-          >
-          </multi-list-select>
+          <DropdownRemote
+            :url="categoriesUrl"
+            @selected-game="setCategoryId"
+            :multiple="true"
+            :type="categoriesType"
+            :keyg="categoriesKey"
+            placeholder="please select a category"
+            wd="200px"
+          />
         </div>
         <div class="filterSelect">
-          <model-select
-            :options="statusGames"
+          <el-select
             v-model="gameStatus"
+            class="select-type"
             placeholder="Select game status"
           >
-          </model-select>
+            <el-option
+              v-for="item in statusGames"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </div>
         <div class="filterSelect">
-          <multi-list-select
-            :list="publisherData"
-            :selectedItems="publisherSearch"
-            optionValue="id"
-            optionText="name"
-            placeholder="Select Publisher"
-            @select="onSelectPublisher"
-            @searchchange="onPublisherChange"
-          >
-          </multi-list-select>
+          <DropdownRemote
+            :url="publishersUrl"
+            @selected-game="setPublisherId"
+            :multiple="true"
+            placeholder="please select publisher"
+            :type="publishersType"
+            :keyg="categoriesKey"
+            wd="200px"
+          />
         </div>
         <div class="filterSelect">
-          <model-select
-            :options="statusMarketPlace"
+          <el-select
             v-model="marketPlaceStatus"
-            placeholder="Select Market placee status"
+            class="select-type"
+            placeholder="Select marketplace status"
           >
-          </model-select>
+            <el-option
+              v-for="item in statusMarketPlace"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
         </div>
       </div>
       <div class="add-buttons">
@@ -107,6 +116,22 @@
         @on-items-per-page-change="getItemsInTable"
         @page-change="pageChange"
       >
+        <template v-slot:component1="slotProps">
+          <slot :action="slotProps.action">
+            <el-button
+              type="danger"
+              icon="Delete"
+              circle
+              @click="handleDelete(slotProps.action)"
+            />
+            <el-button
+              type="warning"
+              icon="Edit"
+              circle
+              @click="handleUpdate(slotProps.action)"
+            />
+          </slot>
+        </template>
       </Datatable>
     </div>
   </div>
@@ -130,6 +155,8 @@
   <GameCreate
     :isVisible="gameCreateVisible"
     @create-game="closeCreateGame"
+    :update="update"
+    :isUpdate="isUpdate"
   ></GameCreate>
   <ExportCustomerModal></ExportCustomerModal>
   <AddCustomerModal></AddCustomerModal>
@@ -140,6 +167,7 @@ import { defineComponent, ref, onMounted, handleError } from "vue";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import ExportCustomerModal from "@/components/modals/forms/ExportCustomerModal.vue";
 import AddCustomerModal from "@/components/modals/forms/AddCustomerModal.vue";
+import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import ApiService from "@/core/services/ApiService";
 import CategoryCreate from "./CategoryCreate.vue";
 import RegionCreate from "./RegionCreate.vue";
@@ -161,16 +189,26 @@ export default defineComponent({
     GameCreate,
     MultiListSelect,
     ModelSelect,
+    DropdownRemote,
   },
 
   data() {
     return {
+      categoriesUrl: "categories/all",
+      categoriesType: "categories",
+      categoriesKey: "search",
+      publishersUrl: "publishers/all",
+      publishersType: "publishers",
+      marketPlaceUrl: "marketplace/all",
+      marketPlaceType: "marketplace",
       categoryCreateVisible: false,
       publisherCreateVisible: false,
       gameCreateVisible: false,
       regionCreateVisible: false,
       languageCreateVisible: false,
+      isUpdate: false,
       marketPlaceData: [],
+      categories: [],
       publisherData: [],
       searchFilter: [],
       gamesData: [],
@@ -180,12 +218,12 @@ export default defineComponent({
       currentPage: 1,
       itemsInTable: 10,
       statusGames: [
-        { text: "Passive", value: 2 },
-        { text: "Active", value: 1 },
+        { label: "Passive", value: 2 },
+        { label: "Active", value: 1 },
       ],
       statusMarketPlace: [
-        { text: "Passive", value: 1 },
-        { text: "Active", value: 2 },
+        { label: "Passive", value: 1 },
+        { label: "Active", value: 2 },
       ],
       gameStatus: "",
       params: {},
@@ -193,6 +231,7 @@ export default defineComponent({
       filters: {},
       categoriesSearch: [],
       categoriesData: [],
+      update: null,
     };
   },
 
@@ -202,6 +241,12 @@ export default defineComponent({
       if (value) {
         this.fetchData();
       }
+    },
+    setCategoryId(category) {
+      this.filters.categories = category;
+    },
+    setPublisherId(publishers) {
+      this.filters.publishers = publishers;
     },
     closeCreatePublisher(value) {
       this.publisherCreateVisible = false;
@@ -239,9 +284,6 @@ export default defineComponent({
     onSelectPublisher(publisher) {
       this.publisherSearch = publisher;
     },
-    onSelectCategories(publisher) {
-      this.publisherSearch = publisher;
-    },
     onPublisherChange(text) {
       if (text !== "") {
         ApiService.getTest("publishers", text, 2).then((res) => {
@@ -269,6 +311,14 @@ export default defineComponent({
         this.marketPlaceData = [];
       }
     },
+    handleDelete(data) {
+      console.log("data", data);
+    },
+    handleUpdate(data) {
+      this.update = data;
+      this.isUpdate = true;
+      this.gameCreateVisible = true;
+    },
     fetchData() {
       ApiService.postTest("games/list", this.params, 3).then((res) => {
         this.gamesData = res.data.data.games;
@@ -286,39 +336,45 @@ export default defineComponent({
       },
       {
         columnName: "Category Type",
-        columnLabel: "category_type",
+        columnLabel: "category_type.name",
         sortEnabled: true,
         columnWidth: 230,
       },
       {
         columnName: "Status",
-        columnLabel: "status",
+        columnLabel: "status.name",
         sortEnabled: true,
         columnWidth: 230,
       },
       {
         columnName: "Language",
-        columnLabel: "language",
+        columnLabel: "language.name",
         sortEnabled: true,
         columnWidth: 175,
       },
       {
         columnName: "Category",
-        columnLabel: "category",
+        columnLabel: "category.name",
         sortEnabled: true,
         columnWidth: 175,
       },
       {
         columnName: "Publisher",
-        columnLabel: "publisher",
+        columnLabel: "publisher.name",
         sortEnabled: true,
         columnWidth: 225,
       },
       {
         columnName: "Region",
-        columnLabel: "region",
+        columnLabel: "region.name",
         sortEnabled: false,
         columnWidth: 135,
+      },
+      {
+        columnName: "Edit",
+        sortEnabled: false,
+        columnWidth: 135,
+        custom: "component1",
       },
     ]);
 
@@ -373,12 +429,9 @@ export default defineComponent({
       this.filters.marketPlaces = temp;
       this.filters.marketPlaces.splice(0, 1);
     },
-    categoriesSearch() {
-      this.filters.categories = this.categoriesSearch;
-    },
     filters: {
       handler: function () {
-        ApiService.postTest("games/all", this.filters, "body").then((res) => {
+        ApiService.postTest("games/list", this.filters).then((res) => {
           this.gamesData = res.data.data.games;
         });
       },
