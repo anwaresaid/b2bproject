@@ -11,12 +11,12 @@
       <!--begin::Heading-->
       <div class="text-center mb-10">
         <!--begin::Title-->
-        <h1 class="text-dark mb-3">Forgot Password ?</h1>
+        <h1 class="text-dark mb-3">Parolanızı mı unuttunuz ?</h1>
         <!--end::Title-->
 
         <!--begin::Link-->
         <div class="text-gray-400 fw-semobold fs-4">
-          Enter your email to reset your password.
+          Şifrenizi sıfırlamak için e-postanızı girin.
         </div>
         <!--end::Link-->
       </div>
@@ -48,9 +48,9 @@
           id="kt_password_reset_submit"
           class="btn btn-lg btn-primary fw-bold me-4"
         >
-          <span class="indicator-label"> Submit </span>
+          <span class="indicator-label"> Gönder </span>
           <span class="indicator-progress">
-            Please wait...
+            Lütfen bekleyiniz...
             <span
               class="spinner-border spinner-border-sm align-middle ms-2"
             ></span>
@@ -58,7 +58,7 @@
         </button>
 
         <router-link to="/sign-up" class="btn btn-lg btn-light-primary fw-bold"
-          >Cancel</router-link
+          >İptal Et</router-link
         >
       </div>
       <!--end::Actions-->
