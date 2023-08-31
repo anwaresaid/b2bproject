@@ -142,7 +142,11 @@ export default defineComponent({
       customersData: [],
       itemsInTable: 10,
       currentPage: 1,
-      params: {},
+      params: {
+        search: "",
+        per_page: 0,
+        current_page: 0,
+      },
       paginationData: {},
       search: "",
     };

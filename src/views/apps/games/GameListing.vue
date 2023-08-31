@@ -71,7 +71,7 @@
         <el-button
           type="danger"
           icon="Football"
-          @click="gameCreateVisible = true"
+          @click="handleCreateGame"
           circle
         />
         <el-button
@@ -277,6 +277,10 @@ export default defineComponent({
       if (value) {
         this.fetchData();
       }
+    },
+    handleCreateGame() {
+      this.gameCreateVisible = true;
+      this.isUpdate = false;
     },
     onSelect(items, lastSelectedItem, check) {
       this.marketPlaceSearch = items;

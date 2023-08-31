@@ -1,5 +1,9 @@
 <template>
-  <el-dialog v-model="setVisible" title="Game Create" width="50%">
+  <el-dialog
+    v-model="setVisible"
+    :title="isUpdate ? 'Game Update' : 'Game Create'"
+    width="50%"
+  >
     <el-form
       :model="form"
       :rules="rules"
@@ -16,10 +20,12 @@
         label-width="250px"
         required
       >
+        {{ form.category.name }}
         <DropdownRemote
           :url="categoriesUrl"
-          :default="isUpdate ? props.update.category.name : null"
+          :default="isUpdate ? form.category : null"
           @selected-game="setCategoryId"
+          returnType="object"
           :type="categoriesType"
           :keyg="categoriesKey"
           wd="100%"
@@ -34,8 +40,8 @@
         <DropdownRemote
           :url="publishersUrl"
           @selected-game="setPublisherId"
+          :default="isUpdate ? form.publisher?.name : null"
           :type="publishersType"
-          placeholder="please select Publisher"
           :keyg="categoriesKey"
           wd="100%"
         />
@@ -71,8 +77,8 @@
         <DropdownRemote
           :url="regionUrl"
           @selected-game="setRegionId"
+          :default="isUpdate ? form.region?.name : null"
           :type="regionType"
-          placeholder="please select Region"
           :keyg="categoriesKey"
           wd="100%"
         />
@@ -86,6 +92,7 @@
         <DropdownRemote
           :url="languageUrl"
           @selected-game="setLanguageId"
+          :default="isUpdate ? form.language?.name : null"
           :type="languageType"
           placeholder="please select Language"
           :keyg="categoriesKey"
@@ -123,7 +130,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="setVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="createGame(ruleFormRef)">
+        <el-button type="primary" @click="createUpdateGame(ruleFormRef)">
           Confirm
         </el-button>
       </span>
@@ -158,6 +165,7 @@ interface RuleForm {
   stats: number;
   description: string;
   categoryType: number;
+  min_sales: number;
 }
 const test = ref("Bethesda");
 const formSize = ref("default");
@@ -173,7 +181,7 @@ const languageType = "languages";
 const ruleFormRef = ref<FormInstance>();
 const props = defineProps(["isVisible", "update", "isUpdate"]);
 const setVisible = ref("");
-const isUpdate = ref(props.isUpdate);
+const isUpdate = ref(false);
 setVisible.value = props.isVisible;
 const message = ref("");
 
@@ -186,6 +194,7 @@ const form = reactive<RuleForm>({
   name: "",
   description: "",
   categoryType: null,
+  min_sales: null,
 });
 
 const statusData = ref(gameStatus);
@@ -252,38 +261,61 @@ const rules = reactive<FormRules<RuleForm>>({
   ],
 });
 const confirmSubmission = () => {
-  ElMessageBox.alert("new game created", "game creation", {
-    confirmButtonText: "OK",
-    callback: (action: Action) => {
-      ElMessage({
-        type: "info",
-        message: `action: ${action}`,
-      });
-      emit("create-game", true);
-    },
-  });
+  if (isUpdate) {
+    ElMessageBox.alert(`${form.name} is updated`, "game update", {
+      confirmButtonText: "OK",
+      callback: (action: Action) => {
+        ElMessage({
+          type: "info",
+          message: `action: ${action}`,
+        });
+        emit("create-game", true);
+      },
+    });
+  } else {
+    ElMessageBox.alert("new game created", "game creation", {
+      confirmButtonText: "OK",
+      callback: (action: Action) => {
+        ElMessage({
+          type: "info",
+          message: `action: ${action}`,
+        });
+        emit("create-game", true);
+      },
+    });
+  }
 };
 
-const createGame = async (formEl: FormInstance | undefined) => {
+const createUpdateGame = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
       console.log("formdata", form);
       const submissionData = {
         name: form.name,
-        category_id: form.category,
-        publisher_id: form.publisher,
-        status: form.stats,
+        category_id: form.category.id,
+        publisher_id: form.publisher.id,
+        status: form.stats.id,
         min_sales: form.min_sales,
-        region_id: form.region,
-        language_id: form.language,
-        category_type: form.categoryType,
+        region_id: form.region.id,
+        language_id: form.language.id,
+        category_type: form.categoryType.id,
         description: form.description,
       };
-      ApiService.post("games", submissionData).then((res) => {
-        formEl.resetFields();
-        confirmSubmission();
-      });
+      if (isUpdate) {
+        console.log("props id ", props.update.id);
+        ApiService.put(`games/${props.update.id}`, submissionData).then(
+          (res) => {
+            formEl.resetFields();
+            confirmSubmission();
+          }
+        );
+      } else {
+        ApiService.post("games", submissionData).then((res) => {
+          formEl.resetFields();
+          confirmSubmission();
+        });
+      }
     } else {
     }
   });
@@ -293,7 +325,8 @@ const setPublisherId = (publishers) => {
   form.publisher = publishers;
 };
 const setCategoryId = (categories) => {
-  form.category = categories;
+  console.log("categories", categories);
+  form.category = { id: categories.id, name: categories.name };
 };
 const setLanguageId = (languages) => {
   form.language = languages;
@@ -301,23 +334,28 @@ const setLanguageId = (languages) => {
 const setRegionId = (regions) => {
   form.region = regions;
 };
-function setEmpty(input) {
-  console.log(
-    "form inside empty----------------------------------------------------------------",
-    input
-  );
-  if (typeof input === "object") {
-    let keys = Object.keys(input);
+function setEmpty() {
+  // console.log(
+  //   "form inside empty----------------------------------------------------------------",
+  //   input
+  // );
+  // if (typeof input === "object") {
+  //   let keys = Object.keys(input);
 
-    for (let key of keys) {
-      if (typeof input[key] != "object") {
-        input[key] = null;
-      } else {
-        setEmpty(input[key]);
-      }
-    }
-    return input;
+  //   for (let key of keys) {
+  //     if (typeof input[key] != "object") {
+  //       input[key] = null;
+  //     } else {
+  //       setEmpty(input[key]);
+  //     }
+  //   }
+  //   return input;
+  // }
+  let keys = Object.keys(form);
+  for (let key of keys) {
+    form[key] = null;
   }
+  console.log("form after empty", form);
 }
 
 // const onSelectCategory = (items, lastItem) => {
@@ -346,8 +384,8 @@ watch(props, (newValue) => {
 watch(setVisible, (newValue) => {
   console.log("is update", isUpdate);
   console.log("formbefore empty", form);
-  if (setVisible.value === true && props.update) {
-    isUpdate.value = true;
+  isUpdate.value = props.isUpdate;
+  if (setVisible.value === true && props.isUpdate) {
     form.publisher = props.update.publisher;
     form.category = props.update.category;
     form.language = props.update.language;
@@ -355,6 +393,8 @@ watch(setVisible, (newValue) => {
     form.stats = props.update.status;
     form.name = props.update.name;
     form.categoryType = props.update.category_type;
+    form.min_sales = props.update.sale_price;
+    form.description = props.update.description;
   } else if (setVisible.value === false && props.update) {
     setEmpty(form);
     console.log("form is empty", form);

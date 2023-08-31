@@ -1,17 +1,30 @@
 <template>
+  <div>
+    {{ value }}
+  </div>
   <el-select
     v-model="value"
     filterable
     remote
+    :multiple="props.multiple"
     reserve-keyword
-    placeholder="Please enter a keyword"
+    :placeholder="label"
     :remote-method="setParams"
     :loading="loading"
     remote-show-suffix
     @change="handleChange"
     :style="wd ? style : null"
+    value-key="id"
   >
     <el-option
+      v-if="props.multiple"
+      v-for="item in data"
+      :key="item.id"
+      :label="item.name"
+      :value="item"
+    />
+    <el-option
+      v-else
       v-for="item in data"
       :key="item.id"
       :label="item.name"
@@ -38,20 +51,25 @@ const props = defineProps([
   "wd",
   "returnType",
   "condition",
+  "multiple",
+  "placeholder",
+  "default",
 ]);
 
 const data = ref([]);
 const style = reactive({ width: props.wd });
 const params = ref();
 const emit = defineEmits();
-
+const label = ref("Please enter a keyword");
+const selectedObject = ref({});
 const value = ref(null);
 const loading = ref([false]);
 const setParams = (query: string) => {
   params.value = query;
 };
 const handleChange = (selected) => {
-  if (props.returnType === "object") {
+  console.log("selected", value.value);
+  if (props.returnType === "object" || props.multiple) {
     emit("selected-game", selected);
   } else {
     emit("selected-game", selected.id);
@@ -68,6 +86,7 @@ const fetchGames = () => {
     data.value = res.data.data[props.type];
   });
 };
+
 watch(params, (newValue) => {
   if (props.condition) {
     if (params.value?.length >= props.condition) fetchGames();
@@ -75,7 +94,15 @@ watch(params, (newValue) => {
     fetchGames();
   }
 });
-onMounted(() => {});
+watch(value, (newValue) => {
+  console.log("category value", value);
+  console.log("prpos", props.multiple);
+});
+onMounted(() => {
+  if (props.placeholder) {
+    label.value = props.placeholder;
+  }
+});
 
 onBeforeUnmount(() => {
   // Cleanup or perform actions before component unmounts

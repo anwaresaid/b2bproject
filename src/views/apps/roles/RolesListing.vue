@@ -163,7 +163,7 @@ export default defineComponent({
       const filteredData = keys.filter((item) => this.checked[item]);
       const name = this.headers.filter((item) => {
         if (item.columnLabel === this.selectedRoleId) {
-          return item.columnName;
+          return item[columnName];
         }
       });
       const data = {
