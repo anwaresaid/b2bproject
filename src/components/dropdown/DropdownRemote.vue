@@ -68,7 +68,6 @@ const setParams = (query: string) => {
   params.value = query;
 };
 const handleChange = (selected) => {
-  console.log("selected", value.value);
   if (props.returnType === "object" || props.multiple) {
     emit("selected-game", selected);
   } else {
@@ -101,6 +100,9 @@ watch(value, (newValue) => {
 onMounted(() => {
   if (props.placeholder) {
     label.value = props.placeholder;
+  }
+  if (props.default) {
+    value.value = props.default;
   }
 });
 
