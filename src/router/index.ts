@@ -6,6 +6,10 @@ import {
 import { useAuthStore } from "@/stores/auth";
 import { useConfigStore } from "@/stores/config";
 import store from "../store";
+import KinguinMarketPlace from "@/views/apps/marketplace/marketplace-match/KinguinMarketPlace.vue";
+import GamivoMarketPlace from "@/views/apps/marketplace/marketplace-match/GamivoMarketPlace.vue";
+import EnebaMarketplace from "@/views/apps/marketplace/marketplace-match/EnebaMarketPlace.vue";
+import MarketplaceMatchListing  from "@/views/apps/marketplace/MarketplaceMatchListing.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -155,10 +159,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/marketplace/kinguin",
         name: "apps-marketplace-kinguin",
-        component: () =>
-          import(
-            "@/views/apps/marketplace/marketplace-match/KinguinMarketplace.vue"
-          ),
+        component: () =>KinguinMarketPlace,
         meta: {
           pageTitle: "Kinguin Match",
           breadcrumbs: ["Marketplace", "Kinguin Match"],
@@ -167,10 +168,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/marketplace/gamivo",
         name: "apps-marketplace-gamivo",
-        component: () =>
-          import(
-            "@/views/apps/marketplace/marketplace-match/GamivoMarketplace.vue"
-          ),
+        component: () =>GamivoMarketPlace,
         meta: {
           pageTitle: "Gamivo Match",
           breadcrumbs: ["Marketplace", "Gamivo Match"],
@@ -179,10 +177,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/marketplace/Eneba",
         name: "apps-marketplace-eneba",
-        component: () =>
-          import(
-            "@/views/apps/marketplace/marketplace-match/EnebaMarketplace.vue"
-          ),
+        component: () =>EnebaMarketplace,
         meta: {
           pageTitle: "Eneba Match",
           breadcrumbs: ["Marketplace", "Eneba Match"],
@@ -191,8 +186,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/marketplace-match-list",
         name: "apps-marketplace-list",
-        component: () =>
-          import("@/views/apps/marketplace/marketplaceMatchListing.vue"),
+        component: () => MarketplaceMatchListing,
         meta: {
           pageTitle: "Marketplace-match List",
           breadcrumbs: ["Apps", "Marketplace-match-list"],
