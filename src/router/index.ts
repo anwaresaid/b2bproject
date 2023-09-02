@@ -45,6 +45,32 @@ import Error404 from "@/views/crafted/authentication/Error404.vue";
 import Error500 from "@/views/crafted/authentication/Error500.vue";
 import Mixed from "@/views/crafted/widgets/Mixed.vue";
 import Charts from "@/views/crafted/widgets/Charts.vue";
+import DrawerChat from "@/views/apps/chat/DrawerChat.vue";
+import Chat from "@/views/apps/chat/Chat.vue";
+import Settings from "@/views/crafted/account/Settings.vue";
+import Overview from "@/views/crafted/pages/profile/Overview.vue";
+import Projects from "@/views/crafted/pages/profile/Projects.vue";
+import Campaigns from "@/views/crafted/pages/profile/Campaigns.vue";
+import Documents from "@/views/crafted/pages/profile/Documents.vue";
+import Connections from "@/views/crafted/pages/profile/Connections.vue";
+import Activity from "@/views/crafted/pages/profile/Activity.vue";
+import InviteFriends from "@/views/crafted/modals/general/InviteFriends.vue";
+import ViewUsers from "@/views/crafted/modals/general/ViewUsers.vue";
+import UpgradePlan from "@/views/crafted/modals/general/UpgradePlan.vue";
+import ShareAndEarn from "@/views/crafted/modals/general/ShareAndEarn.vue";
+import NewTarget from "@/views/crafted/modals/forms/NewTarget.vue";
+import NewCard from "@/views/crafted/modals/forms/NewCard.vue";
+import NewAddress from "@/views/crafted/modals/forms/NewAddress.vue";
+import CreateApiKey from "@/views/crafted/modals/forms/CreateApiKey.vue";
+import TwoFactorAuth from "@/views/crafted/modals/wizards/TwoFactorAuth.vue";
+import CreateApp from "@/views/crafted/modals/wizards/CreateApp.vue";
+import CreateAccount from "@/views/crafted/modals/wizards/CreateAccount.vue";
+import Lists from "@/views/crafted/widgets/Lists.vue";
+import Statistics from "@/views/crafted/widgets/Statistics.vue";
+import Tables from "@/views/crafted/widgets/Tables.vue";
+import Feeds from "@/views/crafted/widgets/Feeds.vue";
+import MultiStepSignUp from "@/views/crafted/authentication/MultiStepSignUp.vue";
+import SystemLayout from "@/layouts/SystemLayout.vue";
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -84,8 +110,7 @@ const routes: Array<RouteRecordRaw> = [
                     {
                         path: "overview",
                         name: "profile-overview",
-                        component: () =>
-                            import("@/views/crafted/pages/profile/Overview.vue"),
+                        component: () => Overview,
                         meta: {
                             pageTitle: "Overview",
                         },
@@ -93,8 +118,7 @@ const routes: Array<RouteRecordRaw> = [
                     {
                         path: "projects",
                         name: "profile-projects",
-                        component: () =>
-                            import("@/views/crafted/pages/profile/Projects.vue"),
+                        component: () => Projects,
                         meta: {
                             pageTitle: "Projects",
                         },
@@ -102,8 +126,7 @@ const routes: Array<RouteRecordRaw> = [
                     {
                         path: "campaigns",
                         name: "profile-campaigns",
-                        component: () =>
-                            import("@/views/crafted/pages/profile/Campaigns.vue"),
+                        component: () => Campaigns,
                         meta: {
                             pageTitle: "Campaigns",
                         },
@@ -111,8 +134,7 @@ const routes: Array<RouteRecordRaw> = [
                     {
                         path: "documents",
                         name: "profile-documents",
-                        component: () =>
-                            import("@/views/crafted/pages/profile/Documents.vue"),
+                        component: () => Documents,
                         meta: {
                             pageTitle: "Documents",
                         },
@@ -120,8 +142,7 @@ const routes: Array<RouteRecordRaw> = [
                     {
                         path: "connections",
                         name: "profile-connections",
-                        component: () =>
-                            import("@/views/crafted/pages/profile/Connections.vue"),
+                        component: () => Connections,
                         meta: {
                             pageTitle: "Connections",
                         },
@@ -129,8 +150,7 @@ const routes: Array<RouteRecordRaw> = [
                     {
                         path: "activity",
                         name: "profile-activity",
-                        component: () =>
-                            import("@/views/crafted/pages/profile/Activity.vue"),
+                        component: () => Activity,
                         meta: {
                             pageTitle: "Activity",
                         },
@@ -166,7 +186,7 @@ const routes: Array<RouteRecordRaw> = [
                     {
                         path: "overview",
                         name: "account-overview",
-                        component: () => import("@/views/crafted/account/Overview.vue"),
+                        component: () => Overview,
                         meta: {
                             pageTitle: "Overview",
                         },
@@ -174,7 +194,7 @@ const routes: Array<RouteRecordRaw> = [
                     {
                         path: "settings",
                         name: "account-settings",
-                        component: () => import("@/views/crafted/account/Settings.vue"),
+                        component: () => Settings,
                         meta: {
                             pageTitle: "Settings",
                         },
@@ -401,7 +421,7 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: "/apps/chat/private-chat",
                 name: "apps-private-chat",
-                component: () => import("@/views/apps/chat/Chat.vue"),
+                component: () => Chat,
                 meta: {
                     pageTitle: "Private Chat",
                     breadcrumbs: ["Apps", "Chat"],
@@ -410,7 +430,7 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: "/apps/chat/group-chat",
                 name: "apps-group-chat",
-                component: () => import("@/views/apps/chat/Chat.vue"),
+                component: () => Chat,
                 meta: {
                     pageTitle: "Group Chat",
                     breadcrumbs: ["Apps", "Chat"],
@@ -419,7 +439,7 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: "/apps/chat/drawer-chat",
                 name: "apps-drawer-chat",
-                component: () => import("@/views/apps/chat/DrawerChat.vue"),
+                component: () => DrawerChat,
                 meta: {
                     pageTitle: "Drawer Chat",
                     breadcrumbs: ["Apps", "Chat"],
@@ -428,8 +448,7 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: "/crafted/modals/general/invite-friends",
                 name: "modals-general-invite-friends",
-                component: () =>
-                    import("@/views/crafted/modals/general/InviteFriends.vue"),
+                component: () => InviteFriends,
                 meta: {
                     pageTitle: "Invite Friends",
                     breadcrumbs: ["Crafted", "Modals", "General"],
@@ -438,7 +457,7 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: "/crafted/modals/general/view-user",
                 name: "modals-general-view-user",
-                component: () => import("@/views/crafted/modals/general/ViewUsers.vue"),
+                component: () => ViewUsers,
                 meta: {
                     pageTitle: "View User",
                     breadcrumbs: ["Crafted", "Modals", "General"],
@@ -447,8 +466,7 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: "/crafted/modals/general/upgrade-plan",
                 name: "modals-general-upgrade-plan",
-                component: () =>
-                    import("@/views/crafted/modals/general/UpgradePlan.vue"),
+                component: () => UpgradePlan,
                 meta: {
                     pageTitle: "Upgrade Plan",
                     breadcrumbs: ["Crafted", "Modals", "General"],
@@ -457,8 +475,7 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: "/crafted/modals/general/share-and-earn",
                 name: "modals-general-share-and-earn",
-                component: () =>
-                    import("@/views/crafted/modals/general/ShareAndEarn.vue"),
+                component: () => ShareAndEarn,
                 meta: {
                     pageTitle: "Share And Earn",
                     breadcrumbs: ["Crafted", "Modals", "General"],
@@ -467,7 +484,7 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: "/crafted/modals/forms/new-target",
                 name: "modals-forms-new-target",
-                component: () => import("@/views/crafted/modals/forms/NewTarget.vue"),
+                component: () => NewTarget,
                 meta: {
                     pageTitle: "New Target",
                     breadcrumbs: ["Crafted", "Modals", "Forms"],
@@ -476,7 +493,7 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: "/crafted/modals/forms/new-card",
                 name: "modals-forms-new-card",
-                component: () => import("@/views/crafted/modals/forms/NewCard.vue"),
+                component: () => NewCard,
                 meta: {
                     pageTitle: "New Card",
                     breadcrumbs: ["Crafted", "Modals", "Forms"],
@@ -485,7 +502,7 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: "/crafted/modals/forms/new-address",
                 name: "modals-forms-new-address",
-                component: () => import("@/views/crafted/modals/forms/NewAddress.vue"),
+                component: () => NewAddress,
                 meta: {
                     pageTitle: "New Address",
                     breadcrumbs: ["Crafted", "Modals", "Forms"],
@@ -494,8 +511,7 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: "/crafted/modals/forms/create-api-key",
                 name: "modals-forms-create-api-key",
-                component: () =>
-                    import("@/views/crafted/modals/forms/CreateApiKey.vue"),
+                component: () => CreateApiKey,
                 meta: {
                     pageTitle: "Create Api Key",
                     breadcrumbs: ["Crafted", "Modals", "Forms"],
@@ -504,8 +520,7 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: "/crafted/modals/wizards/two-factor-auth",
                 name: "modals-wizards-two-factor-auth",
-                component: () =>
-                    import("@/views/crafted/modals/wizards/TwoFactorAuth.vue"),
+                component: () => TwoFactorAuth,
                 meta: {
                     pageTitle: "Two Factory Auth",
                     breadcrumbs: ["Crafted", "Modals", "Wizards"],
@@ -514,7 +529,7 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: "/crafted/modals/wizards/create-app",
                 name: "modals-wizards-create-app",
-                component: () => import("@/views/crafted/modals/wizards/CreateApp.vue"),
+                component: () => CreateApp,
                 meta: {
                     pageTitle: "Create App",
                     breadcrumbs: ["Crafted", "Modals", "Wizards"],
@@ -523,8 +538,7 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: "/crafted/modals/wizards/create-account",
                 name: "modals-wizards-create-account",
-                component: () =>
-                    import("@/views/crafted/modals/wizards/CreateAccount.vue"),
+                component: () => CreateAccount,
                 meta: {
                     pageTitle: "Create Account",
                     breadcrumbs: ["Crafted", "Modals", "Wizards"],
@@ -533,7 +547,7 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: "/crafted/widgets/lists",
                 name: "widgets-list",
-                component: () => import("@/views/crafted/widgets/Lists.vue"),
+                component: () => Lists,
                 meta: {
                     pageTitle: "Lists",
                     breadcrumbs: ["Crafted", "Widgets"],
@@ -542,7 +556,7 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: "/crafted/widgets/statistics",
                 name: "widgets-statistics",
-                component: () => import("@/views/crafted/widgets/Statistics.vue"),
+                component: () => Statistics,
                 meta: {
                     pageTitle: "Statistics",
                     breadcrumbs: ["Crafted", "Widgets"],
@@ -569,7 +583,7 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: "/crafted/widgets/tables",
                 name: "widgets-tables",
-                component: () => import("@/views/crafted/widgets/Tables.vue"),
+                component: () => Tables,
                 meta: {
                     pageTitle: "Tables",
                     breadcrumbs: ["Crafted", "Widgets"],
@@ -578,7 +592,7 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: "/crafted/widgets/feeds",
                 name: "widgets-feeds",
-                component: () => import("@/views/crafted/widgets/Feeds.vue"),
+                component: () => Feeds,
                 meta: {
                     pageTitle: "Feeds",
                     breadcrumbs: ["Crafted", "Widgets"],
@@ -593,7 +607,7 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: "/sign-in",
                 name: "sign-in",
-                component: () =>SignIn,
+                component: () => SignIn,
                 meta: {
                     pageTitle: "Sign In",
                 },
@@ -627,15 +641,14 @@ const routes: Array<RouteRecordRaw> = [
     {
         path: "/multi-step-sign-up",
         name: "multi-step-sign-up",
-        component: () =>
-            import("@/views/crafted/authentication/MultiStepSignUp.vue"),
+        component: () => MultiStepSignUp,
         meta: {
             pageTitle: "Multi-step Sign up",
         },
     },
     {
         path: "/",
-        component: () => import("@/layouts/SystemLayout.vue"),
+        component: () => SystemLayout,
         children: [
             {
                 // the 404 route, when none of the above matches
