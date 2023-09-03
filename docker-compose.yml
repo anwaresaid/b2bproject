@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  vue-metronic8:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+
+#
+#        services:
+#          vue-metronic8:
+#            build:
+#              context: .
+#              dockerfile: Dockerfile
+#            ports:
+#              - "5173:5173"
+#            environment:
+#              - NODE_ENV=development
+#            command: npm run dev -- --host 0.0.0.0
+
