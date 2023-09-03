@@ -28,11 +28,7 @@
           />
         </div>
         <div class="filterSelect">
-          <el-select
-            v-model="gameStatus"
-            class="select-type"
-            placeholder="Select game status"
-          >
+          <el-select v-model="gameStatus" placeholder="Select game status">
             <el-option
               v-for="item in statusGames"
               :key="item.value"
@@ -55,7 +51,6 @@
         <div class="filterSelect">
           <el-select
             v-model="marketPlaceStatus"
-            class="select-type"
             placeholder="Select marketplace status"
           >
             <el-option
