@@ -71,6 +71,7 @@ import Tables from "@/views/crafted/widgets/Tables.vue";
 import Feeds from "@/views/crafted/widgets/Feeds.vue";
 import MultiStepSignUp from "@/views/crafted/authentication/MultiStepSignUp.vue";
 import SystemLayout from "@/layouts/SystemLayout.vue";
+import MoneyBoxList from "@/views/apps/moneybox/MoneyBoxlist.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -556,7 +557,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/moneybox",
         name: "apps-money-box",
-        component: () => import("@/views/apps/moneybox/MoneyBoxlist.vue"),
+        component: () => MoneyBoxList ,
         meta: {
           pageTitle: "Private Chat",
           breadcrumbs: ["Apps", "Chat"],

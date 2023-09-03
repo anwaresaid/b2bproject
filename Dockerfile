@@ -1,15 +1,19 @@
-# Dockerfile
+# Base image olarak Node.js kullanın
+FROM node:18
 
-FROM node:lts
-
+# Çalışma dizinini /app olarak ayarlayın
 WORKDIR /app
 
-COPY package*.json ./
+# Bağımlılıkları kopyalayın ve yükleyin
+COPY package.json .
+COPY package-lock.json .
 
+# Node.js bağımlılıklarını yükleyin
 RUN npm install
 
+# Projeyi Docker içine kopyalayın
 COPY . .
 
-EXPOSE 5173
-
-CMD ["npm", "run", "dev"]
+# Uygulamayı çalıştırmak için komut
+#CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
