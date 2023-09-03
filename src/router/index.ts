@@ -385,6 +385,15 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/apps/moneybox",
+        name: "apps-money-box",
+        component: () => import("@/views/apps/moneybox/MoneyBoxlist.vue"),
+        meta: {
+          pageTitle: "Private Chat",
+          breadcrumbs: ["Apps", "Chat"],
+        },
+      },
+      {
         path: "/apps/chat/group-chat",
         name: "apps-group-chat",
         component: () => import("@/views/apps/chat/Chat.vue"),

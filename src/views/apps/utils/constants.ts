@@ -1,6 +1,6 @@
 export const gameStatus = [
-  { label: "active", value: 1 },
-  { label: "passive", value: 2 },
+  { label: "active", id: 1 },
+  { label: "passive", id: 2 },
 ];
 export const gamivoStatus = [
   { label: "active", value: 0 },
@@ -10,15 +10,15 @@ export const gamivoStatus = [
 export const categoryType = [
   {
     label: "console",
-    value: 2,
+    id: 2,
   },
   {
     label: "pc",
-    value: 1,
+    id: 1,
   },
   {
     label: "giftcard/epin",
-    value: 3,
+    id: 3,
   },
 ];
 export const generalStatus = [

@@ -127,6 +127,8 @@ interface RuleForm {
   currency: number;
   cost: number;
   keys: string;
+  percent_of_kdv: number;
+  kdv: number;
 }
 
 const gameUrl = "games/list";
@@ -137,9 +139,9 @@ const gameType = "games";
 const supplierType = "suppliers";
 const formSize = ref("default");
 const ruleFormRef = ref<FormInstance>();
-const visible = defineProps(["isVisible"]);
+const props = defineProps(["isVisible", "isUpdate", "data"]);
 const setVisible = ref("");
-setVisible.value = visible.isVisible;
+setVisible.value = props.isVisible;
 
 const form = reactive<RuleForm>({
   game_id: null,
@@ -239,8 +241,21 @@ const createGame = async (formEl: FormInstance | undefined) => {
   });
 };
 
-watch(visible, (newValue) => {
-  setVisible.value = newValue.isVisible;
+watch(props, (newValue) => {
+  console.log("visible", props.isVisible);
+  setVisible.value = props.isVisible;
+  if (props.isUpdate) {
+    form.game_id = props.data.game_id;
+    form.supplier_id = props.data.supplier_id;
+    form.status = props.data.status;
+    form.percent_of_kdv = props.data.percent_of_kdv;
+    form.invoice_no = props.data.invoice_no;
+    form.kdv = props.data.kdv;
+    form.currency = props.data.currency;
+    form.cost = props.data.cost;
+    form.keys = props.data.keys;
+  }
+  console.log("props data", props.data);
   if (!newValue) {
     // Emit event or perform other actions when dialog visibility changes
   }

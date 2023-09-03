@@ -20,7 +20,6 @@
         label-width="250px"
         required
       >
-        {{ form.category.name }}
         <DropdownRemote
           :url="categoriesUrl"
           :default="isUpdate ? form.category?.name : null"
@@ -40,6 +39,7 @@
         <DropdownRemote
           :url="publishersUrl"
           @selected-game="setPublisherId"
+          returnType="object"
           :default="isUpdate ? form.publisher?.name : null"
           :type="publishersType"
           :keyg="categoriesKey"
@@ -59,9 +59,9 @@
         >
           <el-option
             v-for="item in statusData"
-            :key="item.value"
+            :key="item.id"
             :label="item.label"
-            :value="item.value"
+            :value="item.id"
           />
         </el-select>
       </el-form-item>
@@ -77,6 +77,7 @@
         <DropdownRemote
           :url="regionUrl"
           @selected-game="setRegionId"
+          returnType="object"
           :default="isUpdate ? form.region?.name : null"
           :type="regionType"
           :keyg="categoriesKey"
@@ -92,6 +93,7 @@
         <DropdownRemote
           :url="languageUrl"
           @selected-game="setLanguageId"
+          returnType="object"
           :default="isUpdate ? form.language?.name : null"
           :type="languageType"
           placeholder="please select Language"
@@ -112,9 +114,9 @@
         >
           <el-option
             v-for="item in categoryType1"
-            :key="item.value"
+            :key="item.id"
             :label="item.label"
-            :value="item.value"
+            :value="item.id"
           />
         </el-select>
       </el-form-item>
@@ -190,7 +192,7 @@ const form = reactive<RuleForm>({
   category: null,
   language: null,
   region: null,
-  stats: null,
+  stats: 1,
   name: "",
   description: "",
   categoryType: null,
@@ -261,7 +263,7 @@ const rules = reactive<FormRules<RuleForm>>({
   ],
 });
 const confirmSubmission = () => {
-  if (isUpdate) {
+  if (isUpdate.value) {
     ElMessageBox.alert(`${form.name} is updated`, "game update", {
       confirmButtonText: "OK",
       callback: (action: Action) => {
@@ -270,6 +272,7 @@ const confirmSubmission = () => {
           message: `action: ${action}`,
         });
         emit("create-game", true);
+        window.location.reload();
       },
     });
   } else {
@@ -281,6 +284,7 @@ const confirmSubmission = () => {
           message: `action: ${action}`,
         });
         emit("create-game", true);
+        window.location.reload();
       },
     });
   }
@@ -289,22 +293,22 @@ const confirmSubmission = () => {
 const createUpdateGame = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
+    console.log("categorytype", form);
     if (valid) {
-      console.log("formdata", form);
       const submissionData = {
         name: form.name,
         category_id: form.category.id,
         publisher_id: form.publisher.id,
-        status: form.stats.id,
+        status: form.stats.id ?? form.stats,
         min_sales: form.min_sales,
         region_id: form.region.id,
         language_id: form.language.id,
-        category_type: form.categoryType.id,
+        category_type: form.categoryType.id ?? form.categoryType,
         description: form.description,
       };
-      if (isUpdate) {
-        console.log("props id ", props.update.id);
-        ApiService.put(`games/${props.update.id}`, submissionData).then(
+      console.log("formdata", form);
+      if (isUpdate.value) {
+        ApiService.put(`games/${props.update?.id}`, submissionData).then(
           (res) => {
             formEl.resetFields();
             confirmSubmission();
@@ -322,11 +326,12 @@ const createUpdateGame = async (formEl: FormInstance | undefined) => {
 };
 
 const setPublisherId = (publishers) => {
+  console.log("setPublisherId", publishers);
   form.publisher = publishers;
 };
 const setCategoryId = (categories) => {
   console.log("categories", categories);
-  form.category = { id: categories.id, name: categories.name };
+  form.category = categories;
 };
 const setLanguageId = (languages) => {
   form.language = languages;
@@ -390,9 +395,9 @@ watch(setVisible, (newValue) => {
     form.category = props.update.category;
     form.language = props.update.language;
     form.region = props.update.region;
-    form.stats = props.update.status;
+    form.stats = props.update.status.id * 1;
     form.name = props.update.name;
-    form.categoryType = props.update.category_type;
+    form.categoryType = props.update.category_type.id * 1;
     form.min_sales = props.update.sale_price;
     form.description = props.update.description;
   } else if (setVisible.value === false && props.update) {

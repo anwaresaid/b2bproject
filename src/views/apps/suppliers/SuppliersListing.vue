@@ -16,7 +16,13 @@
           <template v-slot:component1="slotProps">
             <slot :action="slotProps.action">
               <el-button
-                type="primary"
+                type="danger"
+                icon="Delete"
+                circle
+                @click="handleDelete(slotProps.action)"
+              />
+              <el-button
+                type="warning"
                 icon="Edit"
                 circle
                 @click="handleEdit(slotProps.action)"
@@ -43,6 +49,7 @@ import ApiService from "@/core/services/ApiService";
 import TablePagination from "@/components/kt-datatable/table-partials/table-content/table-footer/TablePagination.vue";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import UpdateSupplier from "./SupplierEditModal.vue";
+import { ElMessage, ElMessageBox } from "element-plus";
 
 export default defineComponent({
   name: "suppliers-listing",
@@ -137,9 +144,26 @@ export default defineComponent({
     handleVisibleChange(value) {
       this.visible = value;
     },
+    confirmSubmission(data) {
+      ElMessageBox.alert(`${data.name} is deleted`, "supplier delete", {
+        confirmButtonText: "OK",
+        callback: (action: Action) => {
+          ElMessage({
+            type: "info",
+            message: `action: ${action}`,
+          });
+          window.location.reload();
+        },
+      });
+    },
     handleEdit(item) {
       this.visible = true;
       this.selectedIndex = item;
+    },
+    handleDelete(item) {
+      ApiService.delete(`suppliers/${item.id}`).then((res) => {
+        this.confirmSubmission(item);
+      });
     },
     refetchData(update) {
       if (update) this.fetchData();

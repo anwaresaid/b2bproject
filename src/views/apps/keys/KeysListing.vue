@@ -66,11 +66,32 @@
           @on-items-per-page-change="getItemsInTable"
           @page-change="pageChange"
         >
+          <template v-slot:component1="slotProps">
+            <slot :action="slotProps.action">
+              <el-button
+                type="danger"
+                icon="Delete"
+                circle
+                @click="handleDelete(slotProps.action)"
+              />
+              <el-button
+                type="warning"
+                icon="Edit"
+                circle
+                @click="handleUpdate(slotProps.action)"
+              />
+            </slot>
+          </template>
         </Datatable>
       </div>
     </div>
   </div>
-  <CreateKey :isVisible="keyCreateVisible" @create-key="closeCreateKey" />
+  <CreateKey
+    :isVisible="keyCreateVisible"
+    :data="updateData"
+    :isUpdate="isUpdate"
+    @create-key="closeCreateKey"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -96,7 +117,9 @@ const itemsInTable = ref(10);
 const currentPage = ref(1);
 const paginationData = reactive({});
 const tableType = ref(5);
+const updateData = ref(null);
 const keyCreateVisible = ref(false);
+const isUpdate = ref(false);
 const pusherEvent =
   "Illuminate\\Notifications\\Events\\BroadcastNotificationCreated";
 const channel = PusherService.subscribe("notification");
@@ -173,6 +196,12 @@ const tableHeaders = ref([
     sortEnabled: false,
     columnWidth: 50,
   },
+  {
+    columnName: "ACTIONS",
+    sortEnabled: false,
+    columnWidth: 50,
+    custom: "component1",
+  },
 ]);
 
 const fetchKeys = (type) => {
@@ -203,8 +232,17 @@ const pageChange = (page: number) => {
   params.value.current_page = page;
   fetchKeys();
 };
+const handleDelete = (item) => {
+  console.log("delete", item);
+};
+const handleUpdate = (data) => {
+  isUpdate.value = true;
+  updateData.value = data;
+  keyCreateVisible.value = true;
+};
 
 const createKey = () => {
+  isUpdate.value = false;
   keyCreateVisible.value = true;
 };
 const closeCreateKey = (value) => {
@@ -226,10 +264,16 @@ watch(dropdownParams, (newValue) => {
   params.value = dropdownParams.value;
   fetchKeys("filer");
 });
+watch(keyCreateVisible, (newValue) => {
+  console.log(keyCreateVisible);
+  if (!newValue) {
+  }
+});
 watch(message, (newValue) => {
   if (!newValue) {
   }
 });
+
 onMounted(() => {
   params.value.current_page = currentPage;
   params.value.per_page = itemsInTable;

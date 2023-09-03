@@ -68,36 +68,71 @@
         </div>
       </div>
       <div class="add-buttons">
-        <el-button
-          type="danger"
-          icon="Football"
-          @click="handleCreateGame"
-          circle
-        />
-        <el-button
-          type="primary"
-          icon="MapLocation"
-          @click="regionCreateVisible = true"
-          circle
-        />
-        <el-button
-          type="success"
-          icon="Grape"
-          @click="categoryCreateVisible = true"
-          circle
-        />
-        <el-button
-          type="warning"
-          icon="House"
-          @click="publisherCreateVisible = true"
-          circle
-        />
-        <el-button
-          type="info"
-          icon="Eleme"
-          @click="languageCreateVisible = true"
-          circle
-        />
+        <el-tooltip
+          class="box-item"
+          effect="dark"
+          content="Add game"
+          placement="top-start"
+        >
+          <el-button
+            type="danger"
+            icon="Football"
+            @click="handleCreateGame"
+            circle
+          />
+        </el-tooltip>
+        <el-tooltip
+          class="box-item"
+          effect="dark"
+          content="Add region"
+          placement="top-start"
+        >
+          <el-button
+            type="primary"
+            icon="MapLocation"
+            @click="regionCreateVisible = true"
+            circle
+          />
+        </el-tooltip>
+        <el-tooltip
+          class="box-item"
+          effect="dark"
+          content="Add category"
+          placement="top-start"
+        >
+          <el-button
+            type="success"
+            icon="Grape"
+            @click="categoryCreateVisible = true"
+            circle
+          />
+        </el-tooltip>
+        <el-tooltip
+          class="box-item"
+          effect="dark"
+          content="Add publisher"
+          placement="top-start"
+        >
+          <el-button
+            type="warning"
+            icon="House"
+            @click="publisherCreateVisible = true"
+            circle
+          />
+        </el-tooltip>
+        <el-tooltip
+          class="box-item"
+          effect="dark"
+          content="Add language"
+          placement="top-start"
+        >
+          <el-button
+            type="info"
+            icon="Eleme"
+            @click="languageCreateVisible = true"
+            circle
+          />
+        </el-tooltip>
       </div>
       <!--begin::Card title-->
       <!--end::Card toolbar-->
@@ -118,18 +153,32 @@
       >
         <template v-slot:component1="slotProps">
           <slot :action="slotProps.action">
-            <el-button
-              type="danger"
-              icon="Delete"
-              circle
-              @click="handleDelete(slotProps.action)"
-            />
-            <el-button
-              type="warning"
-              icon="Edit"
-              circle
-              @click="handleUpdate(slotProps.action)"
-            />
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="Delete game"
+              placement="top-start"
+            >
+              <el-button
+                type="danger"
+                icon="Delete"
+                circle
+                @click="handleDelete(slotProps.action)"
+              />
+            </el-tooltip>
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="Edit game"
+              placement="top-start"
+            >
+              <el-button
+                type="warning"
+                icon="Edit"
+                circle
+                @click="handleUpdate(slotProps.action)"
+              />
+            </el-tooltip>
           </slot>
         </template>
       </Datatable>
@@ -175,6 +224,7 @@ import LanguageCreate from "./LanguageCreate.vue";
 import PublisherCreate from "./PublisherCreate.vue";
 import GameCreate from "./GameCreate.vue";
 import { MultiListSelect, ModelSelect } from "vue-search-select";
+import { ElMessage, ElMessageBox } from "element-plus";
 
 export default defineComponent({
   name: "customers-listing",
@@ -306,6 +356,18 @@ export default defineComponent({
         this.categoriesData = [];
       }
     },
+    confirmSubmission(data) {
+      ElMessageBox.alert(`${data.name} is deleted`, "game delete", {
+        confirmButtonText: "OK",
+        callback: (action: Action) => {
+          ElMessage({
+            type: "info",
+            message: `action: ${action}`,
+          });
+          window.location.reload();
+        },
+      });
+    },
     onChange(text) {
       if (text !== "") {
         ApiService.getTest("marketplace", text, 2).then((res) => {
@@ -317,6 +379,10 @@ export default defineComponent({
     },
     handleDelete(data) {
       console.log("data", data);
+      ApiService.delete(`games/${data.id}`).then((res) => {
+        console.log("then");
+        this.confirmSubmission(data);
+      });
     },
     handleUpdate(data) {
       this.update = data;
@@ -381,16 +447,6 @@ export default defineComponent({
         custom: "component1",
       },
     ]);
-
-    // const sort = (sort: Sort) => {
-    //   const reverse: boolean = sort.order === "asc";
-    //   if (sort.label) {
-    //     arraySort(tableData.value, sort.label, { reverse });
-    //   }
-    // };
-    // const onItemSelect = (selectedItems: Array<number>) => {
-    //   selectedIds.value = selectedItems;
-    // };
 
     return {
       tableHeader,

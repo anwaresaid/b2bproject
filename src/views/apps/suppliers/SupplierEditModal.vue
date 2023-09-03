@@ -54,7 +54,7 @@ export default defineComponent({
     return {
       setVisible: false,
       name: "something",
-      form: { name: "random" },
+      form: {},
     };
   },
   methods: {
@@ -74,9 +74,9 @@ export default defineComponent({
     isVisible() {
       this.setVisible = this.isVisible;
     },
-    data() {},
     setVisible() {
-      this.form = this.data.find((item) => item.id === this.selectedIndex);
+      this.form = this.selectedIndex;
+      console.log("this form", this.selectedIndex);
 
       if (this.setVisible === false) {
         this.$emit("visible-change", false);
