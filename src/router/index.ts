@@ -1,10 +1,10 @@
 import {
-    createRouter,
-    createWebHashHistory,
-    type RouteRecordRaw,
+  createRouter,
+  createWebHashHistory,
+  type RouteRecordRaw,
 } from "vue-router";
-import {useAuthStore} from "@/stores/auth";
-import {useConfigStore} from "@/stores/config";
+import { useAuthStore } from "@/stores/auth";
+import { useConfigStore } from "@/stores/config";
 import store from "@/store";
 import MainLayout from "@/layouts/main-layout/MainLayout.vue";
 import Dashboard from "@/views/Dashboard.vue";
@@ -73,537 +73,94 @@ import MultiStepSignUp from "@/views/crafted/authentication/MultiStepSignUp.vue"
 import SystemLayout from "@/layouts/SystemLayout.vue";
 
 const routes: Array<RouteRecordRaw> = [
-    {
-        path: "/",
-        redirect: "/dashboard",
-        component: () => MainLayout,
+  {
+    path: "/",
+    redirect: "/dashboard",
+    component: () => MainLayout,
+    meta: {
+      middleware: "auth",
+    },
+    children: [
+      {
+        path: "/dashboard",
+        name: "dashboard",
+        component: () => Dashboard,
         meta: {
-            middleware: "auth",
+          pageTitle: "Dashboard",
+          breadcrumbs: ["Dashboards"],
+        },
+      },
+      {
+        path: "/builder",
+        name: "builder",
+        component: () => LayoutBuilder,
+        meta: {
+          pageTitle: "Layout Builder",
+          breadcrumbs: ["Layout"],
+        },
+      },
+      {
+        path: "/crafted/pages/profile",
+        name: "profile",
+        component: () => Profile,
+        meta: {
+          breadcrumbs: ["Pages", "Profile"],
         },
         children: [
-            {
-                path: "/dashboard",
-                name: "dashboard",
-                component: () => Dashboard,
-                meta: {
-                    pageTitle: "Dashboard",
-                    breadcrumbs: ["Dashboards"],
-                },
+          {
+            path: "overview",
+            name: "profile-overview",
+            component: () => Overview,
+            meta: {
+              pageTitle: "Overview",
             },
-            {
-                path: "/builder",
-                name: "builder",
-                component: () => LayoutBuilder,
-                meta: {
-                    pageTitle: "Layout Builder",
-                    breadcrumbs: ["Layout"],
-                },
+          },
+          {
+            path: "projects",
+            name: "profile-projects",
+            component: () => Projects,
+            meta: {
+              pageTitle: "Projects",
             },
-            {
-                path: "/crafted/pages/profile",
-                name: "profile",
-                component: () => Profile,
-                meta: {
-                    breadcrumbs: ["Pages", "Profile"],
-                },
-                children: [
-                    {
-                        path: "overview",
-                        name: "profile-overview",
-                        component: () => Overview,
-                        meta: {
-                            pageTitle: "Overview",
-                        },
-                    },
-                    {
-                        path: "projects",
-                        name: "profile-projects",
-                        component: () => Projects,
-                        meta: {
-                            pageTitle: "Projects",
-                        },
-                    },
-                    {
-                        path: "campaigns",
-                        name: "profile-campaigns",
-                        component: () => Campaigns,
-                        meta: {
-                            pageTitle: "Campaigns",
-                        },
-                    },
-                    {
-                        path: "documents",
-                        name: "profile-documents",
-                        component: () => Documents,
-                        meta: {
-                            pageTitle: "Documents",
-                        },
-                    },
-                    {
-                        path: "connections",
-                        name: "profile-connections",
-                        component: () => Connections,
-                        meta: {
-                            pageTitle: "Connections",
-                        },
-                    },
-                    {
-                        path: "activity",
-                        name: "profile-activity",
-                        component: () => Activity,
-                        meta: {
-                            pageTitle: "Activity",
-                        },
-                    },
-                ],
+          },
+          {
+            path: "campaigns",
+            name: "profile-campaigns",
+            component: () => Campaigns,
+            meta: {
+              pageTitle: "Campaigns",
             },
-            {
-                path: "/crafted/pages/wizards/horizontal",
-                name: "horizontal-wizard",
-                component: () => Horizontal,
-                meta: {
-                    pageTitle: "Horizontal",
-                    breadcrumbs: ["Pages", "Wizard"],
-                },
+          },
+          {
+            path: "documents",
+            name: "profile-documents",
+            component: () => Documents,
+            meta: {
+              pageTitle: "Documents",
             },
-            {
-                path: "/crafted/pages/wizards/vertical",
-                name: "vertical-wizard",
-                component: () => Vertical,
-                meta: {
-                    pageTitle: "Vertical",
-                    breadcrumbs: ["Pages", "Wizard"],
-                },
+          },
+          {
+            path: "connections",
+            name: "profile-connections",
+            component: () => Connections,
+            meta: {
+              pageTitle: "Connections",
             },
-            {
-                path: "/crafted/account",
-                name: "account",
-                component: () => Account,
-                meta: {
-                    breadcrumbs: ["Crafted", "Account"],
-                },
-                children: [
-                    {
-                        path: "overview",
-                        name: "account-overview",
-                        component: () => Overview,
-                        meta: {
-                            pageTitle: "Overview",
-                        },
-                    },
-                    {
-                        path: "settings",
-                        name: "account-settings",
-                        component: () => Settings,
-                        meta: {
-                            pageTitle: "Settings",
-                        },
-                    },
-                ],
+          },
+          {
+            path: "activity",
+            name: "profile-activity",
+            component: () => Activity,
+            meta: {
+              pageTitle: "Activity",
             },
-            {
-                path: "/apps/customers/getting-started",
-                name: "apps-customers-getting-started",
-                component: () => GettingStarted,
-                meta: {
-                    pageTitle: "Getting Started",
-                    breadcrumbs: ["Apps", "Customers"],
-                },
-            },
-            {
-                path: "/apps/marketplace/kinguin",
-                name: "apps-marketplace-kinguin",
-                component: () => KinguinMarketPlace,
-                meta: {
-                    pageTitle: "Kinguin Match",
-                    breadcrumbs: ["Marketplace", "Kinguin Match"],
-                },
-            },
-            {
-                path: "/apps/marketplace/gamivo",
-                name: "apps-marketplace-gamivo",
-                component: () => GamivoMarketPlace,
-                meta: {
-                    pageTitle: "Gamivo Match",
-                    breadcrumbs: ["Marketplace", "Gamivo Match"],
-                },
-            },
-            {
-                path: "/apps/marketplace/Eneba",
-                name: "apps-marketplace-eneba",
-                component: () => EnebaMarketPlace,
-                meta: {
-                    pageTitle: "Eneba Match",
-                    breadcrumbs: ["Marketplace", "Eneba Match"],
-                },
-            },
-            {
-                path: "/apps/marketplace-match-list",
-                name: "apps-marketplace-list",
-                component: () => MarketplaceMatchListing,
-                meta: {
-                    pageTitle: "Marketplace-match List",
-                    breadcrumbs: ["Apps", "Marketplace-match-list"],
-                },
-            },
-            {
-                path: "/apps/customers/customers-listing",
-                name: "apps-customers-listing",
-                component: () => CustomersListing,
-                meta: {
-                    pageTitle: "Customers Listing",
-                    breadcrumbs: ["Apps", "Customers"],
-                },
-            },
-            {
-                path: "/apps/all-notifications",
-                name: "apps-notifications-all",
-                component: () => NotificationsAll,
-                meta: {
-                    pageTitle: "Customers Listing",
-                    breadcrumbs: ["Apps", "Customers"],
-                },
-            },
-            {
-                path: "/account/general-account",
-                name: "general-account",
-                component: () => GeneralAccount,
-                meta: {
-                    pageTitle: "General Account",
-                    breadcrumbs: ["Account", "General"],
-                },
-            },
-            {
-                path: "/apps/stock-list",
-                name: "stock-list",
-                component: () => StockList,
-                meta: {
-                    pageTitle: "Stock List",
-                    breadcrumbs: ["apps", "stock-list"],
-                },
-            },
-            {
-                path: "/apps/games",
-                name: "apps-games-listing",
-                component: () => GameListing,
-                meta: {
-                    pageTitle: "Game Listing",
-                    breadcrumbs: ["Apps", "Games"],
-                },
-            },
-            {
-                path: "/apps/roles",
-                name: "apps-roles-listing",
-                component: () => RolesListing,
-                meta: {
-                    pageTitle: "Roles Listing",
-                    breadcrumbs: ["Apps", "Roles"],
-                },
-            },
-            {
-                path: "/apps/customers/customer-details",
-                name: "apps-customers-details",
-                component: () => CustomerDetails,
-                meta: {
-                    pageTitle: "Customers Details",
-                    breadcrumbs: ["Apps", "Customers"],
-                },
-            },
-            {
-                path: "/apps/suppliers",
-                name: "suppliers-listing",
-                component: () => SuppliersListing,
-                meta: {
-                    pageTitle: "Suppliers",
-                    breadcrumbs: ["Apps", "Suppliers"],
-                },
-            },
-            {
-                path: "/apps/orders",
-                name: "orders-listing",
-                component: () => OrdersListing,
-                meta: {
-                    pageTitle: "Orders",
-                    breadcrumbs: ["Apps", "Orders"],
-                },
-            },
-            {
-                path: "/apps/create-order",
-                name: "orders-create",
-                component: () => CreateOrder,
-                meta: {
-                    pageTitle: "Orders",
-                    breadcrumbs: ["Apps", "Orders"],
-                },
-            },
-            {
-                path: "/apps/order-details",
-                name: "order-details",
-                component: () => EditOrder,
-                props: true,
-                meta: {
-                    pageTitle: "Order Details",
-                    breadcrumbs: ["Apps", "Order Details"],
-                },
-            },
-            {
-                path: "/apps/keys",
-                name: "keys-listing",
-                component: () => KeysListing,
-                meta: {
-                    pageTitle: "Keys",
-                    breadcrumbs: ["Apps", "Keys"],
-                },
-            },
-            {
-                path: "/apps/offers",
-                name: "offers-listing",
-                component: () => OffersListing,
-                meta: {
-                    pageTitle: "Offers Listing",
-                    breadcrumbs: ["Apps", "Offers Listing"],
-                },
-            },
-            {
-                path: "/apps/users",
-                name: "users-listing",
-                component: () => UsersListing,
-                meta: {
-                    pageTitle: "Users Listing",
-                    breadcrumbs: ["Apps", "Users Listing"],
-                },
-            },
-            {
-                path: "/apps/subscriptions/getting-started",
-                name: "apps-subscriptions-getting-started",
-                component: () => SubscriptionGettingStarted,
-                meta: {
-                    pageTitle: "Getting Started",
-                    breadcrumbs: ["Apps", "Subscriptions"],
-                },
-            },
-            {
-                path: "/apps/subscriptions/subscription-list",
-                name: "apps-subscriptions-subscription-list",
-                component: () => SubscriptionList,
-                meta: {
-                    pageTitle: "Getting Started",
-                    breadcrumbs: ["Apps", "Subscriptions"],
-                },
-            },
-            {
-                path: "/apps/subscriptions/add-subscription",
-                name: "apps-subscriptions-add-subscription",
-                component: () => AddSubscription,
-                meta: {
-                    pageTitle: "Add Subscription",
-                    breadcrumbs: ["Apps", "Subscriptions"],
-                },
-            },
-            {
-                path: "/apps/subscriptions/view-subscription",
-                name: "apps-subscriptions-view-subscription",
-                component: () => ViewSubscription,
-                meta: {
-                    pageTitle: "View Subscription",
-                    breadcrumbs: ["Apps", "Subscriptions"],
-                },
-            },
-            {
-                path: "/apps/calendar",
-                name: "apps-calendar",
-                component: () => Calendar,
-                meta: {
-                    pageTitle: "Calendar",
-                    breadcrumbs: ["Apps"],
-                },
-            },
-            {
-                path: "/apps/chat/private-chat",
-                name: "apps-private-chat",
-                component: () => Chat,
-                meta: {
-                    pageTitle: "Private Chat",
-                    breadcrumbs: ["Apps", "Chat"],
-                },
-            },
-            {
-                path: "/apps/chat/group-chat",
-                name: "apps-group-chat",
-                component: () => Chat,
-                meta: {
-                    pageTitle: "Group Chat",
-                    breadcrumbs: ["Apps", "Chat"],
-                },
-            },
-            {
-                path: "/apps/chat/drawer-chat",
-                name: "apps-drawer-chat",
-                component: () => DrawerChat,
-                meta: {
-                    pageTitle: "Drawer Chat",
-                    breadcrumbs: ["Apps", "Chat"],
-                },
-            },
-            {
-                path: "/crafted/modals/general/invite-friends",
-                name: "modals-general-invite-friends",
-                component: () => InviteFriends,
-                meta: {
-                    pageTitle: "Invite Friends",
-                    breadcrumbs: ["Crafted", "Modals", "General"],
-                },
-            },
-            {
-                path: "/crafted/modals/general/view-user",
-                name: "modals-general-view-user",
-                component: () => ViewUsers,
-                meta: {
-                    pageTitle: "View User",
-                    breadcrumbs: ["Crafted", "Modals", "General"],
-                },
-            },
-            {
-                path: "/crafted/modals/general/upgrade-plan",
-                name: "modals-general-upgrade-plan",
-                component: () => UpgradePlan,
-                meta: {
-                    pageTitle: "Upgrade Plan",
-                    breadcrumbs: ["Crafted", "Modals", "General"],
-                },
-            },
-            {
-                path: "/crafted/modals/general/share-and-earn",
-                name: "modals-general-share-and-earn",
-                component: () => ShareAndEarn,
-                meta: {
-                    pageTitle: "Share And Earn",
-                    breadcrumbs: ["Crafted", "Modals", "General"],
-                },
-            },
-            {
-                path: "/crafted/modals/forms/new-target",
-                name: "modals-forms-new-target",
-                component: () => NewTarget,
-                meta: {
-                    pageTitle: "New Target",
-                    breadcrumbs: ["Crafted", "Modals", "Forms"],
-                },
-            },
-            {
-                path: "/crafted/modals/forms/new-card",
-                name: "modals-forms-new-card",
-                component: () => NewCard,
-                meta: {
-                    pageTitle: "New Card",
-                    breadcrumbs: ["Crafted", "Modals", "Forms"],
-                },
-            },
-            {
-                path: "/crafted/modals/forms/new-address",
-                name: "modals-forms-new-address",
-                component: () => NewAddress,
-                meta: {
-                    pageTitle: "New Address",
-                    breadcrumbs: ["Crafted", "Modals", "Forms"],
-                },
-            },
-            {
-                path: "/crafted/modals/forms/create-api-key",
-                name: "modals-forms-create-api-key",
-                component: () => CreateApiKey,
-                meta: {
-                    pageTitle: "Create Api Key",
-                    breadcrumbs: ["Crafted", "Modals", "Forms"],
-                },
-            },
-            {
-                path: "/crafted/modals/wizards/two-factor-auth",
-                name: "modals-wizards-two-factor-auth",
-                component: () => TwoFactorAuth,
-                meta: {
-                    pageTitle: "Two Factory Auth",
-                    breadcrumbs: ["Crafted", "Modals", "Wizards"],
-                },
-            },
-            {
-                path: "/crafted/modals/wizards/create-app",
-                name: "modals-wizards-create-app",
-                component: () => CreateApp,
-                meta: {
-                    pageTitle: "Create App",
-                    breadcrumbs: ["Crafted", "Modals", "Wizards"],
-                },
-            },
-            {
-                path: "/crafted/modals/wizards/create-account",
-                name: "modals-wizards-create-account",
-                component: () => CreateAccount,
-                meta: {
-                    pageTitle: "Create Account",
-                    breadcrumbs: ["Crafted", "Modals", "Wizards"],
-                },
-            },
-            {
-                path: "/crafted/widgets/lists",
-                name: "widgets-list",
-                component: () => Lists,
-                meta: {
-                    pageTitle: "Lists",
-                    breadcrumbs: ["Crafted", "Widgets"],
-                },
-            },
-            {
-                path: "/crafted/widgets/statistics",
-                name: "widgets-statistics",
-                component: () => Statistics,
-                meta: {
-                    pageTitle: "Statistics",
-                    breadcrumbs: ["Crafted", "Widgets"],
-                },
-            },
-            {
-                path: "/crafted/widgets/charts",
-                name: "widgets-charts",
-                component: () => Charts,
-                meta: {
-                    pageTitle: "Charts",
-                    breadcrumbs: ["Crafted", "Widgets"],
-                },
-            },
-            {
-                path: "/crafted/widgets/mixed",
-                name: "widgets-mixed",
-                component: () => Mixed,
-                meta: {
-                    pageTitle: "Mixed",
-                    breadcrumbs: ["Crafted", "Widgets"],
-                },
-            },
-            {
-                path: "/crafted/widgets/tables",
-                name: "widgets-tables",
-                component: () => Tables,
-                meta: {
-                    pageTitle: "Tables",
-                    breadcrumbs: ["Crafted", "Widgets"],
-                },
-            },
-            {
-                path: "/crafted/widgets/feeds",
-                name: "widgets-feeds",
-                component: () => Feeds,
-                meta: {
-                    pageTitle: "Feeds",
-                    breadcrumbs: ["Crafted", "Widgets"],
-                },
-            },
+          },
         ],
       },
       {
         path: "/crafted/pages/wizards/horizontal",
         name: "horizontal-wizard",
-        component: () => import("@/views/crafted/pages/wizards/Horizontal.vue"),
+        component: () => Horizontal,
         meta: {
           pageTitle: "Horizontal",
           breadcrumbs: ["Pages", "Wizard"],
@@ -612,7 +169,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/pages/wizards/vertical",
         name: "vertical-wizard",
-        component: () => import("@/views/crafted/pages/wizards/Vertical.vue"),
+        component: () => Vertical,
         meta: {
           pageTitle: "Vertical",
           breadcrumbs: ["Pages", "Wizard"],
@@ -621,7 +178,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/account",
         name: "account",
-        component: () => import("@/views/crafted/account/Account.vue"),
+        component: () => Account,
         meta: {
           breadcrumbs: ["Crafted", "Account"],
         },
@@ -629,7 +186,7 @@ const routes: Array<RouteRecordRaw> = [
           {
             path: "overview",
             name: "account-overview",
-            component: () => import("@/views/crafted/account/Overview.vue"),
+            component: () => Overview,
             meta: {
               pageTitle: "Overview",
             },
@@ -637,7 +194,7 @@ const routes: Array<RouteRecordRaw> = [
           {
             path: "settings",
             name: "account-settings",
-            component: () => import("@/views/crafted/account/Settings.vue"),
+            component: () => Settings,
             meta: {
               pageTitle: "Settings",
             },
@@ -647,7 +204,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/customers/getting-started",
         name: "apps-customers-getting-started",
-        component: () => import("@/views/apps/customers/GettingStarted.vue"),
+        component: () => GettingStarted,
         meta: {
           pageTitle: "Getting Started",
           breadcrumbs: ["Apps", "Customers"],
@@ -656,10 +213,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/marketplace/kinguin",
         name: "apps-marketplace-kinguin",
-        component: () =>
-          import(
-            "@/views/apps/marketplace/marketplace-match/KinguinMarketplace.vue"
-          ),
+        component: () => KinguinMarketPlace,
         meta: {
           pageTitle: "Kinguin Match",
           breadcrumbs: ["Marketplace", "Kinguin Match"],
@@ -668,10 +222,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/marketplace/gamivo",
         name: "apps-marketplace-gamivo",
-        component: () =>
-          import(
-            "@/views/apps/marketplace/marketplace-match/GamivoMarketplace.vue"
-          ),
+        component: () => GamivoMarketPlace,
         meta: {
           pageTitle: "Gamivo Match",
           breadcrumbs: ["Marketplace", "Gamivo Match"],
@@ -680,10 +231,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/marketplace/Eneba",
         name: "apps-marketplace-eneba",
-        component: () =>
-          import(
-            "@/views/apps/marketplace/marketplace-match/EnebaMarketplace.vue"
-          ),
+        component: () => EnebaMarketPlace,
         meta: {
           pageTitle: "Eneba Match",
           breadcrumbs: ["Marketplace", "Eneba Match"],
@@ -692,8 +240,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/marketplace-match-list",
         name: "apps-marketplace-list",
-        component: () =>
-          import("@/views/apps/marketplace/marketplaceMatchListing.vue"),
+        component: () => MarketplaceMatchListing,
         meta: {
           pageTitle: "Marketplace-match List",
           breadcrumbs: ["Apps", "Marketplace-match-list"],
@@ -702,7 +249,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/customers/customers-listing",
         name: "apps-customers-listing",
-        component: () => import("@/views/apps/customers/CustomersListing.vue"),
+        component: () => CustomersListing,
         meta: {
           pageTitle: "Customers Listing",
           breadcrumbs: ["Apps", "Customers"],
@@ -711,8 +258,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/all-notifications",
         name: "apps-notifications-all",
-        component: () =>
-          import("@/views/apps/notifications/NotificationsAll.vue"),
+        component: () => NotificationsAll,
         meta: {
           pageTitle: "Customers Listing",
           breadcrumbs: ["Apps", "Customers"],
@@ -721,7 +267,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/account/general-account",
         name: "general-account",
-        component: () => import("@/views/apps/accounting/GeneralAccount.vue"),
+        component: () => GeneralAccount,
         meta: {
           pageTitle: "General Account",
           breadcrumbs: ["Account", "General"],
@@ -730,7 +276,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/stock-list",
         name: "stock-list",
-        component: () => import("@/views/apps/stock/StockList.vue"),
+        component: () => StockList,
         meta: {
           pageTitle: "Stock List",
           breadcrumbs: ["apps", "stock-list"],
@@ -739,7 +285,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/games",
         name: "apps-games-listing",
-        component: () => import("@/views/apps/games/GameListing.vue"),
+        component: () => GameListing,
         meta: {
           pageTitle: "Game Listing",
           breadcrumbs: ["Apps", "Games"],
@@ -748,7 +294,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/roles",
         name: "apps-roles-listing",
-        component: () => import("@/views/apps/roles/RolesListing.vue"),
+        component: () => RolesListing,
         meta: {
           pageTitle: "Roles Listing",
           breadcrumbs: ["Apps", "Roles"],
@@ -757,7 +303,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/customers/customer-details",
         name: "apps-customers-details",
-        component: () => import("@/views/apps/customers/CustomerDetails.vue"),
+        component: () => CustomerDetails,
         meta: {
           pageTitle: "Customers Details",
           breadcrumbs: ["Apps", "Customers"],
@@ -766,7 +312,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/suppliers",
         name: "suppliers-listing",
-        component: () => import("@/views/apps/suppliers/SuppliersListing.vue"),
+        component: () => SuppliersListing,
         meta: {
           pageTitle: "Suppliers",
           breadcrumbs: ["Apps", "Suppliers"],
@@ -775,7 +321,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/orders",
         name: "orders-listing",
-        component: () => import("@/views/apps/orders/OrdersListing.vue"),
+        component: () => OrdersListing,
         meta: {
           pageTitle: "Orders",
           breadcrumbs: ["Apps", "Orders"],
@@ -784,7 +330,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/create-order",
         name: "orders-create",
-        component: () => import("@/views/apps/orders/CreateOrder.vue"),
+        component: () => CreateOrder,
         meta: {
           pageTitle: "Orders",
           breadcrumbs: ["Apps", "Orders"],
@@ -793,7 +339,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/order-details",
         name: "order-details",
-        component: () => import("@/views/apps/orders/EditOrder.vue"),
+        component: () => EditOrder,
         props: true,
         meta: {
           pageTitle: "Order Details",
@@ -803,7 +349,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/keys",
         name: "keys-listing",
-        component: () => import("@/views/apps/Keys/KeysListing.vue"),
+        component: () => KeysListing,
         meta: {
           pageTitle: "Keys",
           breadcrumbs: ["Apps", "Keys"],
@@ -812,7 +358,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/offers",
         name: "offers-listing",
-        component: () => import("@/views/apps/offers/OffersListing.vue"),
+        component: () => OffersListing,
         meta: {
           pageTitle: "Offers Listing",
           breadcrumbs: ["Apps", "Offers Listing"],
@@ -821,7 +367,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/users",
         name: "users-listing",
-        component: () => import("@/views/apps/users/UsersListing.vue"),
+        component: () => UsersListing,
         meta: {
           pageTitle: "Users Listing",
           breadcrumbs: ["Apps", "Users Listing"],
@@ -830,8 +376,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/subscriptions/getting-started",
         name: "apps-subscriptions-getting-started",
-        component: () =>
-          import("@/views/apps/subscriptions/GettingStarted.vue"),
+        component: () => SubscriptionGettingStarted,
         meta: {
           pageTitle: "Getting Started",
           breadcrumbs: ["Apps", "Subscriptions"],
@@ -840,8 +385,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/subscriptions/subscription-list",
         name: "apps-subscriptions-subscription-list",
-        component: () =>
-          import("@/views/apps/subscriptions/SubscriptionList.vue"),
+        component: () => SubscriptionList,
         meta: {
           pageTitle: "Getting Started",
           breadcrumbs: ["Apps", "Subscriptions"],
@@ -850,8 +394,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/subscriptions/add-subscription",
         name: "apps-subscriptions-add-subscription",
-        component: () =>
-          import("@/views/apps/subscriptions/AddSubscription.vue"),
+        component: () => AddSubscription,
         meta: {
           pageTitle: "Add Subscription",
           breadcrumbs: ["Apps", "Subscriptions"],
@@ -860,8 +403,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/subscriptions/view-subscription",
         name: "apps-subscriptions-view-subscription",
-        component: () =>
-          import("@/views/apps/subscriptions/ViewSubscription.vue"),
+        component: () => ViewSubscription,
         meta: {
           pageTitle: "View Subscription",
           breadcrumbs: ["Apps", "Subscriptions"],
@@ -870,7 +412,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/calendar",
         name: "apps-calendar",
-        component: () => import("@/views/apps/Calendar.vue"),
+        component: () => Calendar,
         meta: {
           pageTitle: "Calendar",
           breadcrumbs: ["Apps"],
@@ -879,10 +421,136 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/chat/private-chat",
         name: "apps-private-chat",
-        component: () => import("@/views/apps/chat/Chat.vue"),
+        component: () => Chat,
         meta: {
           pageTitle: "Private Chat",
           breadcrumbs: ["Apps", "Chat"],
+        },
+      },
+      {
+        path: "/apps/chat/group-chat",
+        name: "apps-group-chat",
+        component: () => Chat,
+        meta: {
+          pageTitle: "Group Chat",
+          breadcrumbs: ["Apps", "Chat"],
+        },
+      },
+      {
+        path: "/apps/chat/drawer-chat",
+        name: "apps-drawer-chat",
+        component: () => DrawerChat,
+        meta: {
+          pageTitle: "Drawer Chat",
+          breadcrumbs: ["Apps", "Chat"],
+        },
+      },
+      {
+        path: "/crafted/modals/general/invite-friends",
+        name: "modals-general-invite-friends",
+        component: () => InviteFriends,
+        meta: {
+          pageTitle: "Invite Friends",
+          breadcrumbs: ["Crafted", "Modals", "General"],
+        },
+      },
+      {
+        path: "/crafted/modals/general/view-user",
+        name: "modals-general-view-user",
+        component: () => ViewUsers,
+        meta: {
+          pageTitle: "View User",
+          breadcrumbs: ["Crafted", "Modals", "General"],
+        },
+      },
+      {
+        path: "/crafted/modals/general/upgrade-plan",
+        name: "modals-general-upgrade-plan",
+        component: () => UpgradePlan,
+        meta: {
+          pageTitle: "Upgrade Plan",
+          breadcrumbs: ["Crafted", "Modals", "General"],
+        },
+      },
+      {
+        path: "/crafted/modals/general/share-and-earn",
+        name: "modals-general-share-and-earn",
+        component: () => ShareAndEarn,
+        meta: {
+          pageTitle: "Share And Earn",
+          breadcrumbs: ["Crafted", "Modals", "General"],
+        },
+      },
+      {
+        path: "/crafted/modals/forms/new-target",
+        name: "modals-forms-new-target",
+        component: () => NewTarget,
+        meta: {
+          pageTitle: "New Target",
+          breadcrumbs: ["Crafted", "Modals", "Forms"],
+        },
+      },
+      {
+        path: "/crafted/modals/forms/new-card",
+        name: "modals-forms-new-card",
+        component: () => NewCard,
+        meta: {
+          pageTitle: "New Card",
+          breadcrumbs: ["Crafted", "Modals", "Forms"],
+        },
+      },
+      {
+        path: "/crafted/modals/forms/new-address",
+        name: "modals-forms-new-address",
+        component: () => NewAddress,
+        meta: {
+          pageTitle: "New Address",
+          breadcrumbs: ["Crafted", "Modals", "Forms"],
+        },
+      },
+      {
+        path: "/crafted/modals/forms/create-api-key",
+        name: "modals-forms-create-api-key",
+        component: () => CreateApiKey,
+        meta: {
+          pageTitle: "Create Api Key",
+          breadcrumbs: ["Crafted", "Modals", "Forms"],
+        },
+      },
+      {
+        path: "/crafted/modals/wizards/two-factor-auth",
+        name: "modals-wizards-two-factor-auth",
+        component: () => TwoFactorAuth,
+        meta: {
+          pageTitle: "Two Factory Auth",
+          breadcrumbs: ["Crafted", "Modals", "Wizards"],
+        },
+      },
+      {
+        path: "/crafted/modals/wizards/create-app",
+        name: "modals-wizards-create-app",
+        component: () => CreateApp,
+        meta: {
+          pageTitle: "Create App",
+          breadcrumbs: ["Crafted", "Modals", "Wizards"],
+        },
+      },
+      {
+        path: "/crafted/modals/wizards/create-account",
+        name: "modals-wizards-create-account",
+        component: () => CreateAccount,
+        meta: {
+          pageTitle: "Create Account",
+          breadcrumbs: ["Crafted", "Modals", "Wizards"],
+        },
+      },
+      {
+        path: "/crafted/widgets/lists",
+        name: "widgets-list",
+        component: () => Lists,
+        meta: {
+          pageTitle: "Lists",
+          breadcrumbs: ["Crafted", "Widgets"],
         },
       },
       {
@@ -895,141 +563,9 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/apps/chat/group-chat",
-        name: "apps-group-chat",
-        component: () => import("@/views/apps/chat/Chat.vue"),
-        meta: {
-          pageTitle: "Group Chat",
-          breadcrumbs: ["Apps", "Chat"],
-        },
-      },
-      {
-        path: "/apps/chat/drawer-chat",
-        name: "apps-drawer-chat",
-        component: () => import("@/views/apps/chat/DrawerChat.vue"),
-        meta: {
-          pageTitle: "Drawer Chat",
-          breadcrumbs: ["Apps", "Chat"],
-        },
-      },
-      {
-        path: "/crafted/modals/general/invite-friends",
-        name: "modals-general-invite-friends",
-        component: () =>
-          import("@/views/crafted/modals/general/InviteFriends.vue"),
-        meta: {
-          pageTitle: "Invite Friends",
-          breadcrumbs: ["Crafted", "Modals", "General"],
-        },
-      },
-      {
-        path: "/crafted/modals/general/view-user",
-        name: "modals-general-view-user",
-        component: () => import("@/views/crafted/modals/general/ViewUsers.vue"),
-        meta: {
-          pageTitle: "View User",
-          breadcrumbs: ["Crafted", "Modals", "General"],
-        },
-      },
-      {
-        path: "/crafted/modals/general/upgrade-plan",
-        name: "modals-general-upgrade-plan",
-        component: () =>
-          import("@/views/crafted/modals/general/UpgradePlan.vue"),
-        meta: {
-          pageTitle: "Upgrade Plan",
-          breadcrumbs: ["Crafted", "Modals", "General"],
-        },
-      },
-      {
-        path: "/crafted/modals/general/share-and-earn",
-        name: "modals-general-share-and-earn",
-        component: () =>
-          import("@/views/crafted/modals/general/ShareAndEarn.vue"),
-        meta: {
-          pageTitle: "Share And Earn",
-          breadcrumbs: ["Crafted", "Modals", "General"],
-        },
-      },
-      {
-        path: "/crafted/modals/forms/new-target",
-        name: "modals-forms-new-target",
-        component: () => import("@/views/crafted/modals/forms/NewTarget.vue"),
-        meta: {
-          pageTitle: "New Target",
-          breadcrumbs: ["Crafted", "Modals", "Forms"],
-        },
-      },
-      {
-        path: "/crafted/modals/forms/new-card",
-        name: "modals-forms-new-card",
-        component: () => import("@/views/crafted/modals/forms/NewCard.vue"),
-        meta: {
-          pageTitle: "New Card",
-          breadcrumbs: ["Crafted", "Modals", "Forms"],
-        },
-      },
-      {
-        path: "/crafted/modals/forms/new-address",
-        name: "modals-forms-new-address",
-        component: () => import("@/views/crafted/modals/forms/NewAddress.vue"),
-        meta: {
-          pageTitle: "New Address",
-          breadcrumbs: ["Crafted", "Modals", "Forms"],
-        },
-      },
-      {
-        path: "/crafted/modals/forms/create-api-key",
-        name: "modals-forms-create-api-key",
-        component: () =>
-          import("@/views/crafted/modals/forms/CreateApiKey.vue"),
-        meta: {
-          pageTitle: "Create Api Key",
-          breadcrumbs: ["Crafted", "Modals", "Forms"],
-        },
-      },
-      {
-        path: "/crafted/modals/wizards/two-factor-auth",
-        name: "modals-wizards-two-factor-auth",
-        component: () =>
-          import("@/views/crafted/modals/wizards/TwoFactorAuth.vue"),
-        meta: {
-          pageTitle: "Two Factory Auth",
-          breadcrumbs: ["Crafted", "Modals", "Wizards"],
-        },
-      },
-      {
-        path: "/crafted/modals/wizards/create-app",
-        name: "modals-wizards-create-app",
-        component: () => import("@/views/crafted/modals/wizards/CreateApp.vue"),
-        meta: {
-          pageTitle: "Create App",
-          breadcrumbs: ["Crafted", "Modals", "Wizards"],
-        },
-      },
-      {
-        path: "/crafted/modals/wizards/create-account",
-        name: "modals-wizards-create-account",
-        component: () =>
-          import("@/views/crafted/modals/wizards/CreateAccount.vue"),
-        meta: {
-          pageTitle: "Create Account",
-          breadcrumbs: ["Crafted", "Modals", "Wizards"],
-        },
-      },
-      {
-        path: "/crafted/widgets/lists",
-        name: "widgets-list",
-        component: () => import("@/views/crafted/widgets/Lists.vue"),
-        meta: {
-          pageTitle: "Lists",
-          breadcrumbs: ["Crafted", "Widgets"],
-        },
-      },
-      {
         path: "/crafted/widgets/statistics",
         name: "widgets-statistics",
-        component: () => import("@/views/crafted/widgets/Statistics.vue"),
+        component: () => Statistics,
         meta: {
           pageTitle: "Statistics",
           breadcrumbs: ["Crafted", "Widgets"],
@@ -1038,7 +574,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/widgets/charts",
         name: "widgets-charts",
-        component: () => import("@/views/crafted/widgets/Charts.vue"),
+        component: () => Charts,
         meta: {
           pageTitle: "Charts",
           breadcrumbs: ["Crafted", "Widgets"],
@@ -1047,7 +583,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/widgets/mixed",
         name: "widgets-mixed",
-        component: () => import("@/views/crafted/widgets/Mixed.vue"),
+        component: () => Mixed,
         meta: {
           pageTitle: "Mixed",
           breadcrumbs: ["Crafted", "Widgets"],
@@ -1056,7 +592,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/widgets/tables",
         name: "widgets-tables",
-        component: () => import("@/views/crafted/widgets/Tables.vue"),
+        component: () => Tables,
         meta: {
           pageTitle: "Tables",
           breadcrumbs: ["Crafted", "Widgets"],
@@ -1065,7 +601,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/widgets/feeds",
         name: "widgets-feeds",
-        component: () => import("@/views/crafted/widgets/Feeds.vue"),
+        component: () => Feeds,
         meta: {
           pageTitle: "Feeds",
           breadcrumbs: ["Crafted", "Widgets"],
@@ -1074,183 +610,64 @@ const routes: Array<RouteRecordRaw> = [
     ],
   },
   {
-    path: "/",
-    component: () => import("@/layouts/AuthLayout.vue"),
-    children: [
-      {
-        path: "/sign-in",
-        name: "sign-in",
-        component: () =>
-          import("@/views/crafted/authentication/basic-flow/SignIn.vue"),
-        meta: {
-          pageTitle: "Sign In",
-        },
-      },
-      {
-        path: "/sign-up",
-        name: "sign-up",
-        component: () =>
-          import("@/views/crafted/authentication/basic-flow/SignUp.vue"),
-        meta: {
-          pageTitle: "Sign Up",
-        },
-      },
-      {
-        path: "/password-reset",
-        name: "password-reset",
-        component: () =>
-          import("@/views/crafted/authentication/basic-flow/PasswordReset.vue"),
-        meta: {
-          pageTitle: "Password reset",
-        },
-      },
-      {
-        path: "/two-factor/:mail",
-        name: "two-factor",
-        component: () =>
-          import("@/views/crafted/authentication/basic-flow/TwoFactor.vue"),
-        meta: {
-          pageTitle: "Two Factor Authentication",
-        },
-      },
-    ],
+    path: "/:pathMatch(.*)*",
+    redirect: "/404",
   },
-  {
-    path: "/multi-step-sign-up",
-    name: "multi-step-sign-up",
-    component: () =>
-      import("@/views/crafted/authentication/MultiStepSignUp.vue"),
-    meta: {
-      pageTitle: "Multi-step Sign up",
-    },
-    {
-        path: "/",
-        component: () => import("@/layouts/AuthLayout.vue"),
-        children: [
-            {
-                path: "/sign-in",
-                name: "sign-in",
-                component: () => SignIn,
-                meta: {
-                    pageTitle: "Sign In",
-                },
-            },
-            {
-                path: "/sign-up",
-                name: "sign-up",
-                component: () => SignUp,
-                meta: {
-                    pageTitle: "Sign Up",
-                },
-            },
-            {
-                path: "/password-reset",
-                name: "password-reset",
-                component: () => PasswordReset,
-                meta: {
-                    pageTitle: "Password reset",
-                },
-            },
-            {
-                path: "/two-factor/:mail",
-                name: "two-factor",
-                component: () => TwoFactor,
-                meta: {
-                    pageTitle: "Two Factor Authentication",
-                },
-            },
-        ],
-    },
-    {
-        path: "/multi-step-sign-up",
-        name: "multi-step-sign-up",
-        component: () => MultiStepSignUp,
-        meta: {
-            pageTitle: "Multi-step Sign up",
-        },
-    },
-    {
-        path: "/",
-        component: () => SystemLayout,
-        children: [
-            {
-                // the 404 route, when none of the above matches
-                path: "/404",
-                name: "404",
-                component: () => Error404,
-                meta: {
-                    pageTitle: "Error 404",
-                },
-            },
-            {
-                path: "/500",
-                name: "500",
-                component: () => Error500,
-                meta: {
-                    pageTitle: "Error 500",
-                },
-            },
-        ],
-    },
-    {
-        path: "/:pathMatch(.*)*",
-        redirect: "/404",
-    },
 ];
 
 const router = createRouter({
-    history: createWebHashHistory(),
-    routes,
+  history: createWebHashHistory(),
+  routes,
 });
 
 router.beforeEach((to, from, next) => {
-    const authStore = useAuthStore();
-    const configStore = useConfigStore();
+  const authStore = useAuthStore();
+  const configStore = useConfigStore();
 
-    // current page view title
-    document.title = `${to.meta.pageTitle} - ${import.meta.env.VITE_APP_NAME}`;
-    // reset config to initial state
-    configStore.resetLayoutConfig();
+  // current page view title
+  document.title = `${to.meta.pageTitle} - ${import.meta.env.VITE_APP_NAME}`;
+  // reset config to initial state
+  configStore.resetLayoutConfig();
 
-    // verify auth token before each page change
-    // authStore.verifyAuth();
-    // authStore.validation().then((res) => {
-    //   // before page access check if page requires authentication
-    //   if (to.meta.middleware == "auth") {
-    //     if (
-    //       authStore.isAuthenticated &&
-    //       authStore.isLoggedIn() &&
-    //       authStore.isTokenValid.status
-    //     ) {
-    //       next();
-    //     } else {
-    //       next({ name: "sign-in" });
-    //     }
-    //   } else {
-    //     next();
-    //   }
-    store.dispatch("setToken").then((res) => {
-        if (to.meta.middleware == "auth") {
-            if (
-                authStore.isAuthenticated &&
-                authStore.isLoggedIn() &&
-                store.state.isTokenValid
-            ) {
-                next();
-            } else {
-                next({name: "sign-in"});
-            }
-        } else {
-            next();
-        }
-    });
+  // verify auth token before each page change
+  // authStore.verifyAuth();
+  // authStore.validation().then((res) => {
+  //   // before page access check if page requires authentication
+  //   if (to.meta.middleware == "auth") {
+  //     if (
+  //       authStore.isAuthenticated &&
+  //       authStore.isLoggedIn() &&
+  //       authStore.isTokenValid.status
+  //     ) {
+  //       next();
+  //     } else {
+  //       next({ name: "sign-in" });
+  //     }
+  //   } else {
+  //     next();
+  //   }
+  store.dispatch("setToken").then((res) => {
+    if (to.meta.middleware == "auth") {
+      if (
+        authStore.isAuthenticated &&
+        authStore.isLoggedIn() &&
+        store.state.isTokenValid
+      ) {
+        next();
+      } else {
+        next({ name: "sign-in" });
+      }
+    } else {
+      next();
+    }
+  });
 
-    // Scroll page to top on every route change
-    window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "smooth",
-    });
+  // Scroll page to top on every route change
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior: "smooth",
+  });
 });
 
 export default router;
