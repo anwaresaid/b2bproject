@@ -37,6 +37,7 @@
     :isVisible="visible"
     :selectedIndex="selectedIndex"
     :data="suppliersData"
+    :loading="loading"
     @visible-change="handleVisibleChange"
     @did-update="refetchData"
   />
@@ -69,6 +70,7 @@ export default defineComponent({
       total: 0,
       itemsCount: 0,
       selectedIndex: 0,
+      loading: false,
       tableHeader: [
         {
           columnName: "COMPANY NAME",
@@ -136,7 +138,9 @@ export default defineComponent({
   },
   methods: {
     fetchData() {
+      this.loading = true;
       ApiService.postTest("suppliers/all", this.params).then((res) => {
+        this.loading = false;
         this.suppliersData = res.data.data.suppliers;
         this.paginationData = res.data.data.pagination;
       });
@@ -157,8 +161,8 @@ export default defineComponent({
       });
     },
     handleEdit(item) {
-      this.visible = true;
-      this.selectedIndex = item;
+      // this.visible = true;
+      // this.selectedIndex = item;
     },
     handleDelete(item) {
       ApiService.delete(`suppliers/${item.id}`).then((res) => {
