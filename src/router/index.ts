@@ -71,7 +71,7 @@ import Tables from "@/views/crafted/widgets/Tables.vue";
 import Feeds from "@/views/crafted/widgets/Feeds.vue";
 import MultiStepSignUp from "@/views/crafted/authentication/MultiStepSignUp.vue";
 import SystemLayout from "@/layouts/SystemLayout.vue";
-import MoneyBoxList from "@/views/apps/moneybox/MoneyBoxlist.vue";
+import MoneyBoxList from "@/views/apps/moneybox/MoneyBoxList.vue";
 import ReservationList from "@/views/apps/reservation/ReservationList.vue";
 
 const routes: Array<RouteRecordRaw> = [
