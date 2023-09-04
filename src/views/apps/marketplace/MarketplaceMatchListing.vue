@@ -20,6 +20,7 @@
           :checkbox-enabled="true"
           checkbox-label="id"
           sortable
+          :loading="loading"
           @on-items-per-page-change="getItemsInTable"
           @page-change="pageChange"
         >
@@ -69,6 +70,7 @@ const currentPage = ref(1);
 const paginationData = reactive({});
 const tableType = ref();
 const sumStock = ref();
+const loading = ref(false);
 
 const tableHeaders = ref([
   {
@@ -111,12 +113,14 @@ const tableHeaders = ref([
 ]);
 
 const fetchStock = (type) => {
+  loading.value = true;
   if (type === undefined) {
     params.value.current_page = currentPage;
     params.value.per_page = itemsInTable;
     params.value.page_type = tableType.value;
   }
   ApiService.postTest("marketplace/matches", params.value).then((res) => {
+    loading.value = false;
     matchData.value = res.data.data.matches;
     paginationData.value = res.data.data.pagination;
     sumStock.value = res.data.data.sum_stock;

@@ -63,6 +63,7 @@
           :enable-items-per-page-dropdown="true"
           :checkbox-enabled="true"
           checkbox-label="id"
+          :loading="loading"
           sortable
           @on-items-per-page-change="getItemsInTable"
           @page-change="pageChange"
@@ -105,6 +106,7 @@ const itemsInTable = ref(10);
 const currentPage = ref(1);
 const paginationData = reactive({});
 const tableType = ref();
+const loading = ref(false);
 
 const tableHeaders = ref([
   {
@@ -158,12 +160,14 @@ const tableHeaders = ref([
 ]);
 
 const fetchOrders = (type) => {
+  loading.value = true;
   if (type === undefined) {
     params.value.current_page = currentPage;
     params.value.per_page = itemsInTable;
     params.value.page_type = tableType.value;
   }
   ApiService.postTest("orders/all", params.value).then((res) => {
+    loading.value = false;
     ordersData.value = res.data.data.orders;
     paginationData.value = res.data.data.pagination;
   });

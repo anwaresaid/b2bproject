@@ -20,6 +20,7 @@
       :data="data"
       :default-sort="{ prop: defaultSort, order: 'descending' }"
       style="width: 100%"
+      v-loading="loading"
     >
       <el-table-column
         v-for="item in header"

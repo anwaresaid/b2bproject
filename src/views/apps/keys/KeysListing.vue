@@ -63,6 +63,7 @@
           :checkbox-enabled="true"
           :current-page="params.value?.current_page"
           checkbox-label="id"
+          :loading="loading"
           @on-items-per-page-change="getItemsInTable"
           @page-change="pageChange"
         >
@@ -73,12 +74,6 @@
                 icon="Delete"
                 circle
                 @click="handleDelete(slotProps.action)"
-              />
-              <el-button
-                type="warning"
-                icon="Edit"
-                circle
-                @click="handleUpdate(slotProps.action)"
               />
             </slot>
           </template>
@@ -120,6 +115,7 @@ const tableType = ref(5);
 const updateData = ref(null);
 const keyCreateVisible = ref(false);
 const isUpdate = ref(false);
+const loading = ref(false);
 const pusherEvent =
   "Illuminate\\Notifications\\Events\\BroadcastNotificationCreated";
 const channel = PusherService.subscribe("notification");
@@ -132,13 +128,13 @@ channel.bind(
 const tableHeaders = ref([
   {
     columnName: "SUPPLIER",
-    columnLabel: "supplier_name",
+    columnLabel: "supplier.name",
     sortEnabled: true,
     columnWidth: 175,
   },
   {
     columnName: "GAME NAME",
-    columnLabel: "game_name",
+    columnLabel: "game.name",
     sortEnabled: true,
     columnWidth: 230,
   },
@@ -205,14 +201,15 @@ const tableHeaders = ref([
 ]);
 
 const fetchKeys = (type) => {
+  loading.value = true;
   if (type === undefined) {
     params.value.current_page = currentPage;
     params.value.per_page = itemsInTable;
     params.value.page_type = tableType.value;
   }
   ApiService.postTest("keys/all", params.value).then((res) => {
+    loading.value = false;
     keysData.value = res.data.data.keys;
-
     paginationData.value = res.data.data.pagination;
   });
 };

@@ -98,10 +98,10 @@ export default defineComponent({
 
   methods: {
     fetchData() {
-      ApiService.getTest("roles").then((res) => {
+      ApiService.postTest("roles/all").then((res) => {
         this.rolesData = res.data.data.roles;
       });
-      ApiService.getTest("permissions").then((res) => {
+      ApiService.postTest("permissions/all").then((res) => {
         this.allPermmissions = res.data.data.permissions;
       });
     },

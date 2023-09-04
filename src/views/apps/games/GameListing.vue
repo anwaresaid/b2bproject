@@ -136,6 +136,7 @@
       <Datatable
         @on-sort="sort"
         @on-items-select="onItemSelect"
+        :loading="loading"
         :data="gamesData"
         :header="tableHeader"
         :totalPages="paginationData.last_page"
@@ -262,6 +263,7 @@ export default defineComponent({
       marketPlaceStatus: "",
       currentPage: 1,
       itemsInTable: 10,
+      loading: false,
       statusGames: [
         { label: "Passive", value: 2 },
         { label: "Active", value: 1 },
@@ -387,7 +389,9 @@ export default defineComponent({
       this.gameCreateVisible = true;
     },
     fetchData() {
+      this.loading = true;
       ApiService.postTest("games/list", this.params, 3).then((res) => {
+        this.loading = false;
         this.gamesData = res.data.data.games;
         this.paginationData = res.data.data.pagination;
       });

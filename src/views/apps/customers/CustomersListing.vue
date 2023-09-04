@@ -104,6 +104,7 @@
         @on-items-select="onItemSelect"
         :data="customersData"
         :header="tableHeader"
+        :loading="loading"
         :totalPages="paginationData.last_page"
         :enable-items-per-page-dropdown="true"
         :checkbox-enabled="true"
@@ -147,13 +148,18 @@ export default defineComponent({
         per_page: 0,
         current_page: 0,
       },
-      paginationData: {},
+      loading: false,
+      paginationData: {
+        last_page: 0,
+      },
       search: "",
     };
   },
   methods: {
     fetchData() {
+      this.loading = true;
       ApiService.postTest("customers/all", this.params).then((res) => {
+        this.loading = false;
         this.customersData = res.data.data.customers;
         this.paginationData = res.data.data.pagination;
       });
