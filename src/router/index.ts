@@ -13,6 +13,7 @@ import Profile from "@/components/page-layouts/Profile.vue";
 import Horizontal from "@/views/crafted/pages/wizards/Horizontal.vue";
 import Vertical from "@/views/crafted/pages/wizards/Vertical.vue";
 import Account from "@/views/crafted/account/Account.vue";
+import OverView from "@/views/crafted/account/Overview.vue";
 import GettingStarted from "@/views/apps/customers/GettingStarted.vue";
 import KinguinMarketPlace from "@/views/apps/marketplace/marketplace-match/KinguinMarketPlace.vue";
 import GamivoMarketPlace from "@/views/apps/marketplace/marketplace-match/GamivoMarketPlace.vue";
@@ -43,6 +44,7 @@ import SignIn from "@/views/crafted/authentication/basic-flow/SignIn.vue";
 import TwoFactor from "@/views/crafted/authentication/basic-flow/TwoFactor.vue";
 import Error404 from "@/views/crafted/authentication/Error404.vue";
 import Error500 from "@/views/crafted/authentication/Error500.vue";
+import AuthLayout from "@/layouts/AuthLayout.vue";
 import Mixed from "@/views/crafted/widgets/Mixed.vue";
 import Charts from "@/views/crafted/widgets/Charts.vue";
 import DrawerChat from "@/views/apps/chat/DrawerChat.vue";
@@ -72,7 +74,6 @@ import Feeds from "@/views/crafted/widgets/Feeds.vue";
 import MultiStepSignUp from "@/views/crafted/authentication/MultiStepSignUp.vue";
 import SystemLayout from "@/layouts/SystemLayout.vue";
 import MoneyBoxList from "@/views/apps/moneybox/MoneyBoxList.vue";
-import ReservationList from "@/views/apps/reservation/ReservationList.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -101,6 +102,7 @@ const routes: Array<RouteRecordRaw> = [
           breadcrumbs: ["Layout"],
         },
       },
+
       {
         path: "/crafted/pages/profile",
         name: "profile",
@@ -120,7 +122,7 @@ const routes: Array<RouteRecordRaw> = [
           {
             path: "projects",
             name: "profile-projects",
-            component: () => Projects,
+            component: () => Projects.vue,
             meta: {
               pageTitle: "Projects",
             },
@@ -188,7 +190,7 @@ const routes: Array<RouteRecordRaw> = [
           {
             path: "overview",
             name: "account-overview",
-            component: () => Overview,
+            component: () => OverView,
             meta: {
               pageTitle: "Overview",
             },
@@ -264,6 +266,15 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           pageTitle: "Customers Listing",
           breadcrumbs: ["Apps", "Customers"],
+        },
+      },
+      {
+        path: "/apps/moneybox",
+        name: "apps-money-box",
+        component: () => MoneyBoxList,
+        meta: {
+          pageTitle: "Money Box",
+          breadcrumbs: ["Apps", "Moneybox"],
         },
       },
       {
@@ -556,24 +567,6 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/apps/moneybox",
-        name: "apps-money-box",
-        component: () => MoneyBoxList,
-        meta: {
-          pageTitle: "Money Box",
-          breadcrumbs: ["Apps", "Moneybox"],
-        },
-      },
-      {
-        path: "/apps/reservations",
-        name: "apps-reservations-list",
-        component: () => ReservationList,
-        meta: {
-          pageTitle: "Reservation List",
-          breadcrumbs: ["Apps", "reservations"],
-        },
-      },
-      {
         path: "/crafted/widgets/statistics",
         name: "widgets-statistics",
         component: () => Statistics,
@@ -616,6 +609,75 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           pageTitle: "Feeds",
           breadcrumbs: ["Crafted", "Widgets"],
+        },
+      },
+    ],
+  },
+  {
+    path: "/",
+    component: () => AuthLayout,
+    children: [
+      {
+        path: "/sign-in",
+        name: "sign-in",
+        component: () => SignIn,
+        meta: {
+          pageTitle: "Sign In",
+        },
+      },
+      {
+        path: "/sign-up",
+        name: "sign-up",
+        component: () => SignUp,
+        meta: {
+          pageTitle: "Sign Up",
+        },
+      },
+      {
+        path: "/password-reset",
+        name: "password-reset",
+        component: () => PasswordReset,
+        meta: {
+          pageTitle: "Password reset",
+        },
+      },
+      {
+        path: "/two-factor/:mail",
+        name: "two-factor",
+        component: () => TwoFactor,
+        meta: {
+          pageTitle: "Two Factor Authentication",
+        },
+      },
+    ],
+  },
+  {
+    path: "/multi-step-sign-up",
+    name: "multi-step-sign-up",
+    component: () => MultiStepSignUp,
+    meta: {
+      pageTitle: "Multi-step Sign up",
+    },
+  },
+  {
+    path: "/",
+    component: () => SystemLayout,
+    children: [
+      {
+        // the 404 route, when none of the above matches
+        path: "/404",
+        name: "404",
+        component: () => Error404,
+        meta: {
+          pageTitle: "Error 404",
+        },
+      },
+      {
+        path: "/500",
+        name: "500",
+        component: () => Error500,
+        meta: {
+          pageTitle: "Error 500",
         },
       },
     ],
