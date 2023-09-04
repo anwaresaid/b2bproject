@@ -288,7 +288,9 @@ export default defineComponent({
       }
     },
     setCategoryId(category) {
-      this.filters.categories = category;
+      const items = category.map((cat) => cat.id);
+      console.log("--", items);
+      this.filters.categories = items;
     },
     setPublisherId(publishers) {
       this.filters.publishers = publishers;

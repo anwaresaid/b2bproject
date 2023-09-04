@@ -72,6 +72,7 @@ import Feeds from "@/views/crafted/widgets/Feeds.vue";
 import MultiStepSignUp from "@/views/crafted/authentication/MultiStepSignUp.vue";
 import SystemLayout from "@/layouts/SystemLayout.vue";
 import MoneyBoxList from "@/views/apps/moneybox/MoneyBoxlist.vue";
+import ReservationList from "@/views/apps/reservation/ReservationList.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -557,10 +558,19 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/moneybox",
         name: "apps-money-box",
-        component: () => MoneyBoxList ,
+        component: () => MoneyBoxList,
         meta: {
-          pageTitle: "Private Chat",
-          breadcrumbs: ["Apps", "Chat"],
+          pageTitle: "Money Box",
+          breadcrumbs: ["Apps", "Moneybox"],
+        },
+      },
+      {
+        path: "/apps/reservations",
+        name: "apps-reservations-list",
+        component: () => ReservationList,
+        meta: {
+          pageTitle: "Reservation List",
+          breadcrumbs: ["Apps", "reservations"],
         },
       },
       {
