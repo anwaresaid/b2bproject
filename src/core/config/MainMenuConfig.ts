@@ -352,14 +352,8 @@ const MainMenuConfig: Array<MenuItem> = [
       {
         heading: "moneybox",
         route: "/apps/moneybox",
-        svgIcon: "/media/icons/duotune/general/gen063.svg",
-        fontIcon: "bi-controller",
-      },
-      {
-        heading: "reservations",
-        route: "/apps/reservations",
-        svgIcon: "/media/icons/duotune/general/gen063.svg",
-        fontIcon: "bi-controller",
+        svgIcon: "/media/icons/duotune/art/art002.svg",
+        fontIcon: "bi-app-indicator",
       },
       {
         heading: "Roles",

@@ -42,7 +42,7 @@
           <!--end::Bullet-->
 
           <!--begin::Label-->
-          <div class="text-gray-500 flex-grow-1 me-4"></div>
+          <div class="text-gray-500 flex-grow-1 me-4">Toplam</div>
           <!--end::Label-->
 
           <!--begin::Stats-->
