@@ -293,7 +293,6 @@ const confirmSubmission = () => {
 const createUpdateGame = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
-    console.log("categorytype", form);
     if (valid) {
       const submissionData = {
         name: form.name,
@@ -306,7 +305,6 @@ const createUpdateGame = async (formEl: FormInstance | undefined) => {
         category_type: form.categoryType.id ?? form.categoryType,
         description: form.description,
       };
-      console.log("formdata", form);
       if (isUpdate.value) {
         ApiService.put(`games/${props.update?.id}`, submissionData).then(
           (res) => {
@@ -326,11 +324,9 @@ const createUpdateGame = async (formEl: FormInstance | undefined) => {
 };
 
 const setPublisherId = (publishers) => {
-  console.log("setPublisherId", publishers);
   form.publisher = publishers;
 };
 const setCategoryId = (categories) => {
-  console.log("categories", categories);
   form.category = categories;
 };
 const setLanguageId = (languages) => {
@@ -360,7 +356,6 @@ function setEmpty() {
   for (let key of keys) {
     form[key] = null;
   }
-  console.log("form after empty", form);
 }
 
 // const onSelectCategory = (items, lastItem) => {
@@ -387,8 +382,6 @@ watch(props, (newValue) => {
   }
 });
 watch(setVisible, (newValue) => {
-  console.log("is update", isUpdate);
-  console.log("formbefore empty", form);
   isUpdate.value = props.isUpdate;
   if (setVisible.value === true && props.isUpdate) {
     form.publisher = props.update.publisher;
@@ -402,26 +395,19 @@ watch(setVisible, (newValue) => {
     form.description = props.update.description;
   } else if (setVisible.value === false && props.update) {
     setEmpty(form);
-    console.log("form is empty", form);
   }
-  console.log("from---", form);
-  console.log("from---", props.update);
   if (!newValue) {
     emit("create-game", false);
   }
 });
-watch(test, (newValue) => {
-  console.log("test", test);
-});
+watch(test, (newValue) => {});
 watch(message, (newValue) => {
   if (!newValue) {
     // emit("create-game", false);
   }
 });
 
-onMounted(() => {
-  console.log("mounted");
-});
+onMounted(() => {});
 onBeforeUnmount(() => {
   // Cleanup or perform actions before component unmounts
 });

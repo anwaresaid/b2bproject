@@ -242,7 +242,6 @@ const createGame = async (formEl: FormInstance | undefined) => {
 };
 
 watch(props, (newValue) => {
-  console.log("visible", props.isVisible);
   setVisible.value = props.isVisible;
   if (props.isUpdate) {
     form.game_id = props.data.game_id;
@@ -255,7 +254,6 @@ watch(props, (newValue) => {
     form.cost = props.data.cost;
     form.keys = props.data.keys;
   }
-  console.log("props data", props.data);
   if (!newValue) {
     // Emit event or perform other actions when dialog visibility changes
   }

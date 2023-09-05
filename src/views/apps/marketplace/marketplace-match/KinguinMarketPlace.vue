@@ -27,20 +27,6 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item
-            label="Kinguin game search"
-            prop="product_api_id"
-            required
-          >
-            <DropdownRemote
-              :url="kinguinGameUrl"
-              @selected-game="setKinguinGameId"
-              :type="kinguinGameType"
-              :keyg="kinguinGameKey"
-              wd="187.5px"
-              :condition="4"
-            />
-          </el-form-item>
           <el-form-item label="Choose game" prop="game_id" required>
             <DropdownRemote
               :url="gameUrl"
@@ -50,6 +36,22 @@
               wd="187.5px"
             />
           </el-form-item>
+          <el-form-item
+            label="Kinguin game search"
+            prop="product_api_id"
+            required
+          >
+            <DropdownRemote
+              :url="kinguinGameUrl"
+              @selected-game="setKinguinGameId"
+              :disabled="disabled"
+              :type="kinguinGameType"
+              :keyg="kinguinGameKey"
+              wd="187.5px"
+              :condition="4"
+            />
+          </el-form-item>
+
           <div class="d-flex justify-content-end w-100">
             <el-button type="primary" @click="match(ruleFormRef)">
               Match
@@ -92,11 +94,12 @@ const gameKey = "search_game";
 const gameUrl = "games/list";
 const gameType = "games";
 const formSize = ref("large");
+const disabled = ref(true);
 const ruleFormRef = ref<FormInstance>();
 
 const form = reactive<RuleForm>({
   amount: null,
-  amount_currency: null,
+  amount_currency: { value: 0, label: "EUR" },
   product_api_id: null,
   game_id: null,
 });
@@ -132,10 +135,6 @@ const rules = reactive<FormRules<typeof form>>({
   ],
 });
 
-const onImageChange = (e) => {
-  form.avatar_url = e.target.files[0];
-};
-
 const setKinguinGameId = (value) => {
   form.product_api_id = value;
 };
@@ -164,6 +163,12 @@ const match = (formEl) => {
     }
   });
 };
+
+watch(form, (newValue) => {
+  if (form.game_id !== null) {
+    disabled.value = false;
+  }
+});
 
 onMounted(() => {});
 

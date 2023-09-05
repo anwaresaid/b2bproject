@@ -2,21 +2,21 @@
   <!--begin::Navbar-->
   <div class="app-navbar flex-shrink-0">
     <!--begin::Search-->
-    <div class="app-navbar-item align-items-stretch ms-1 ms-lg-3">
+    <!--<div class="app-navbar-item align-items-stretch ms-1 ms-lg-3">
       <KTSearch />
-    </div>
+    </div>-->
     <!--end::Search-->
     <!--begin::Activities-->
     <div class="app-navbar-item ms-1 ms-lg-3">
       <!--begin::Drawer toggle-->
-      <div
+      <!--  <div
         class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px w-md-40px h-md-40px"
         id="kt_activities_toggle"
       >
         <span class="svg-icon svg-icon-1">
           <inline-svg src="/media/icons/duotune/general/gen032.svg" />
         </span>
-      </div>
+      </div>-->
       <!--end::Drawer toggle-->
     </div>
     <!--end::Activities-->
@@ -62,7 +62,7 @@
     <!--begin::Quick links-->
     <div class="app-navbar-item ms-1 ms-lg-3">
       <!--begin::Menu wrapper-->
-      <div
+      <!-- <div
         class="btn btn-icon btn-custom btn-icon-muted btn-active-light btn-active-color-primary w-35px h-35px w-md-40px h-md-40px"
         data-kt-menu-trigger="click"
         data-kt-menu-attach="parent"
@@ -72,7 +72,7 @@
           <inline-svg src="/media/icons/duotune/general/gen025.svg" />
         </span>
       </div>
-      <KTQuickLinksMenu />
+      <KTQuickLinksMenu />-->
       <!--end::Menu wrapper-->
     </div>
     <!--end::Quick links-->

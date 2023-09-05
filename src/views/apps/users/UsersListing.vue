@@ -51,6 +51,7 @@ import { ref, reactive, onMounted, watch, onBeforeUnmount } from "vue";
 import ApiService from "@/core/services/ApiService";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import CreateUser from "./CreateUser.vue";
+import store from "../../../store";
 
 const usersData = ref([]);
 const searchUsers = ref("");
@@ -60,7 +61,7 @@ const itemsInTable = ref(10);
 const currentPage = ref(1);
 const paginationData = reactive({});
 const userCreateVisible = ref(false);
-const loading = ref(false);
+const loading = ref(true);
 
 const tableHeaders = ref([
   {
@@ -114,15 +115,16 @@ const tableHeaders = ref([
 ]);
 
 const fetchUsers = (type) => {
-  loading.value = false;
+  loading.value = true;
   if (type === undefined) {
     params.value.current_page = currentPage;
     params.value.per_page = itemsInTable;
   }
   ApiService.postTest("users/all", params.value).then((res) => {
-    loading.value = true;
+    loading.value = false;
     usersData.value = res.data.data.users;
     paginationData.value = res.data.data.pagination;
+    store.dispatch("setPageItems", res.data.data.pagination.total_items);
   });
 };
 

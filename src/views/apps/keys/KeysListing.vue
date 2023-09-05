@@ -75,6 +75,12 @@
                 circle
                 @click="handleDelete(slotProps.action)"
               />
+              <el-button
+                type="success"
+                icon="CopyDocument"
+                circle
+                @click="copyText(slotProps.action)"
+              />
             </slot>
           </template>
         </Datatable>
@@ -97,6 +103,7 @@ import { keysType, keysTypeStatus } from "../utils/constants";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import CreateKey from "./CreateKey.vue";
 import PusherService from "@/core/services/PusherService";
+import store from "../../../store";
 
 const keysData = ref([]);
 const gameUrl = "games/list";
@@ -146,7 +153,7 @@ const tableHeaders = ref([
   },
   {
     columnName: "STATUS",
-    columnLabel: "status",
+    columnLabel: "status.name",
     sortEnabled: true,
     columnWidth: 175,
   },
@@ -182,7 +189,7 @@ const tableHeaders = ref([
   },
   {
     columnName: "CREATED BY",
-    columnLabel: "creator",
+    columnLabel: "creator.name",
     sortEnabled: false,
     columnWidth: 135,
   },
@@ -211,6 +218,7 @@ const fetchKeys = (type) => {
     loading.value = false;
     keysData.value = res.data.data.keys;
     paginationData.value = res.data.data.pagination;
+    store.dispatch("setPageItems", res.data.data.pagination.total_items);
   });
 };
 const setGameId = (value) => {
@@ -229,13 +237,9 @@ const pageChange = (page: number) => {
   params.value.current_page = page;
   fetchKeys();
 };
-const handleDelete = (item) => {
-  console.log("delete", item);
-};
-const handleUpdate = (data) => {
-  isUpdate.value = true;
-  updateData.value = data;
-  keyCreateVisible.value = true;
+const handleDelete = (item) => {};
+const copyText = (obj) => {
+  navigator.clipboard.writeText(obj.keycode);
 };
 
 const createKey = () => {
@@ -262,7 +266,6 @@ watch(dropdownParams, (newValue) => {
   fetchKeys("filer");
 });
 watch(keyCreateVisible, (newValue) => {
-  console.log(keyCreateVisible);
   if (!newValue) {
   }
 });

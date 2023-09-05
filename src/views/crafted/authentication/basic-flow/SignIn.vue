@@ -1,13 +1,19 @@
 <template>
   <!--begin::Wrapper-->
   <div class="w-lg-500px p-10">
+    <div>
+      <img
+        class="sign-in-img"
+        src="../../../../../public/media/b2b-logos/b2b.png"
+      />
+    </div>
     <!--begin::Form-->
     <VForm
-        class="form w-100"
-        id="kt_login_signin_form"
-        @submit="onSubmitLogin"
-        :validation-schema="login"
-        :initial-values="{ email: 'admin@demo.com', password: 'demo' }"
+      class="form w-100"
+      id="kt_login_signin_form"
+      @submit="onSubmitLogin"
+      :validation-schema="login"
+      :initial-values="{ email: 'admin@demo.com', password: 'demo' }"
     >
       <!--begin::Input group-->
       <div class="fv-row mb-10">
@@ -17,16 +23,16 @@
 
         <!--begin::Input-->
         <Field
-            tabindex="1"
-            class="form-control form-control-lg form-control-solid"
-            type="text"
-            name="email"
-            autocomplete="off"
+          tabindex="1"
+          class="form-control form-control-lg form-control-solid"
+          type="text"
+          name="email"
+          autocomplete="off"
         />
         <!--end::Input-->
         <div class="fv-plugins-message-container">
           <div class="fv-help-block">
-            <ErrorMessage name="email"/>
+            <ErrorMessage name="email" />
           </div>
         </div>
       </div>
@@ -50,16 +56,16 @@
 
         <!--begin::Input-->
         <Field
-            tabindex="2"
-            class="form-control form-control-lg form-control-solid"
-            type="password"
-            name="password"
-            autocomplete="off"
+          tabindex="2"
+          class="form-control form-control-lg form-control-solid"
+          type="password"
+          name="password"
+          autocomplete="off"
         />
         <!--end::Input-->
         <div class="fv-plugins-message-container">
           <div class="fv-help-block">
-            <ErrorMessage name="password"/>
+            <ErrorMessage name="password" />
           </div>
         </div>
       </div>
@@ -69,23 +75,22 @@
       <div class="text-center">
         <!--begin::Submit button-->
         <button
-            tabindex="3"
-            type="submit"
-            ref="submitButton"
-            id="kt_sign_in_submit"
-            class="btn btn-lg btn-primary w-100 mb-5"
+          tabindex="3"
+          type="submit"
+          ref="submitButton"
+          id="kt_sign_in_submit"
+          class="btn btn-lg btn-primary w-100 mb-5"
         >
           <span class="indicator-label"> Giriş Yap </span>
 
           <span class="indicator-progress">
             Lütfen Bekleyiniz...
             <span
-                class="spinner-border spinner-border-sm align-middle ms-2"
+              class="spinner-border spinner-border-sm align-middle ms-2"
             ></span>
           </span>
         </button>
         <!--end::Submit button-->
-
       </div>
       <!--end::Actions-->
     </VForm>
@@ -95,10 +100,10 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, ref} from "vue";
-import {ErrorMessage, Field, Form as VForm} from "vee-validate";
-import {useAuthStore, type User} from "@/stores/auth";
-import {useRouter} from "vue-router";
+import { defineComponent, ref } from "vue";
+import { ErrorMessage, Field, Form as VForm } from "vee-validate";
+import { useAuthStore, type User } from "@/stores/auth";
+import { useRouter } from "vue-router";
 import Swal from "sweetalert2";
 import * as Yup from "yup";
 
@@ -149,7 +154,7 @@ export default defineComponent({
           },
         }).then(() => {
           // Go to page after successfully login
-          router.push({name: "two-factor", params: {mail: values.email}});
+          router.push({ name: "two-factor", params: { mail: values.email } });
         });
       } else {
         Swal.fire({
@@ -180,3 +185,10 @@ export default defineComponent({
   },
 });
 </script>
+<style>
+.sign-in-img {
+  width: 80%;
+  display: flex;
+  vertical-align: middle;
+}
+</style>

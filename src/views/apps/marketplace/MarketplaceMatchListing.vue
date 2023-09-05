@@ -124,6 +124,7 @@ const fetchStock = (type) => {
     matchData.value = res.data.data.matches;
     paginationData.value = res.data.data.pagination;
     sumStock.value = res.data.data.sum_stock;
+    store.dispatch("setPageItems", res.data.data.pagination.total_items);
   });
 };
 

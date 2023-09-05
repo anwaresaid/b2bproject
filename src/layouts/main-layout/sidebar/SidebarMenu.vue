@@ -154,15 +154,15 @@
 
         <div class="menu-item pt-5">
           <!--begin:Menu content-->
-          <div class="menu-content">
+          <!-- <div class="menu-content">
             <span class="menu-heading fw-bold text-uppercase fs-7">Help</span>
-          </div>
+          </div>-->
           <!--end:Menu content-->
         </div>
         <!--begin:Menu item-->
         <div class="menu-item">
           <!--begin:Menu link-->
-          <a
+          <!--   <a
             class="menu-link"
             href="https://preview.keenthemes.com/metronic8/vue/docs/#/utilities"
           >
@@ -178,14 +178,14 @@
                 <inline-svg src="/media/icons/duotune/general/gen002.svg" />
               </span>
             </span>
-            <span class="menu-title">Components</span>
-          </a>
+             <span class="menu-title">Components</span>
+          </a>-->
           <!--end:Menu link-->
         </div>
         <!--end:Menu item-->
         <div class="menu-item">
           <!--begin:Menu link-->
-          <a
+          <!--   <a
             class="menu-link"
             href="https://preview.keenthemes.com/metronic8/vue/docs/#/doc-overview"
           >
@@ -199,14 +199,14 @@
               </span>
             </span>
             <span class="menu-title">Documentation</span>
-          </a>
+          </a>-->
           <!--end:Menu link-->
         </div>
         <!--begin:Menu item-->
         <!--end:Menu item-->
         <div class="menu-item">
           <!--begin:Menu link-->
-          <a
+          <!--  <a
             class="menu-link"
             href="https://preview.keenthemes.com/metronic8/vue/docs/#/changelog"
           >
@@ -223,7 +223,7 @@
               </span>
             </span>
             <span class="menu-title">Changelog</span>
-          </a>
+          </a>-->
           <!--end:Menu link-->
         </div>
         <!--begin:Menu item-->

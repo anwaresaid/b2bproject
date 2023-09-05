@@ -5,11 +5,14 @@
     filterable
     remote
     :multiple="props.multiple"
+    :collapse-tags="props.multiple"
+    :collapse-tags-tooltip="props.multiple"
     reserve-keyword
     :placeholder="label"
     :remote-method="setParams"
     :loading="loading"
     remote-show-suffix
+    :disabled="props.disabled"
     @change="handleChange"
     :style="wd ? style : null"
     value-key="id"
@@ -52,6 +55,7 @@ const props = defineProps([
   "multiple",
   "placeholder",
   "default",
+  "disabled",
 ]);
 
 const data = ref([]);
@@ -91,10 +95,7 @@ watch(params, (newValue) => {
     fetchGames();
   }
 });
-watch(value, (newValue) => {
-  console.log("category value", value);
-  console.log("prpos", props.multiple);
-});
+watch(value, (newValue) => {});
 onMounted(() => {
   if (props.placeholder) {
     label.value = props.placeholder;
