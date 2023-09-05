@@ -116,7 +116,6 @@ export default defineComponent({
     let startAngle = 0;
     const total = props.balance > 0 ? props.balance : 1;
     const initChart = () => {
-      console.log("calss id", props.classId);
       expose();
       var el = document.getElementById(props.classId);
 
@@ -158,7 +157,6 @@ export default defineComponent({
         percent: number
       ) {
         // percent = Math.min(Math.max(0, percent || 1), 1);
-        console.log("percent", percent);
         const endAngle = startAngle + Math.PI * 2 * percent;
         ctx.beginPath();
         ctx.arc(0, 0, radius, startAngle, endAngle, false);

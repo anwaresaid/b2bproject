@@ -1,5 +1,20 @@
 <template>
   <div class="card">
+    <div class="card-header border-0">
+      <!--begin::Search-->
+      <div class="d-flex align-items-center position-relative my-1">
+        <span class="svg-icon svg-icon-1 position-absolute ms-6">
+          <inline-svg src="/media/icons/duotune/general/gen021.svg" />
+        </span>
+        <input
+          type="text"
+          v-model="search"
+          @input="handleSearch()"
+          class="form-control form-control-solid w-250px ps-15"
+          placeholder="Search Games"
+        />
+      </div>
+    </div>
     <div class="card-header border-0 pt-6">
       <!--begin::Card title-->
       <!--begin::Search-->
@@ -8,7 +23,7 @@
         <div class="filterSelect">
           <DropdownRemote
             :url="marketPlaceUrl"
-            @selected-game="setPublisherId"
+            @selected-game="setMarketPlaceId"
             :multiple="true"
             :type="marketPlaceType"
             placeholder="please select marketplace"
@@ -159,7 +174,7 @@
                 type="danger"
                 icon="Delete"
                 circle
-                @click="handleDelete(slotProps.action)"
+                @click="confirmSubmission(slotProps.action)"
               />
             </el-tooltip>
             <el-tooltip
@@ -221,6 +236,7 @@ import PublisherCreate from "./PublisherCreate.vue";
 import GameCreate from "./GameCreate.vue";
 import { MultiListSelect, ModelSelect } from "vue-search-select";
 import { ElMessage, ElMessageBox } from "element-plus";
+import store from "../../../store";
 
 export default defineComponent({
   name: "customers-listing",
@@ -246,8 +262,9 @@ export default defineComponent({
       publishersUrl: "publishers/all",
       publishersType: "publishers",
       marketPlaceUrl: "marketplace/all",
-      marketPlaceType: "marketplace",
+      marketPlaceType: "marketplaces",
       categoryCreateVisible: false,
+      search: "",
       publisherCreateVisible: false,
       gameCreateVisible: false,
       regionCreateVisible: false,
@@ -291,11 +308,15 @@ export default defineComponent({
     },
     setCategoryId(category) {
       const items = category.map((cat) => cat.id);
-      console.log("--", items);
       this.filters.categories = items;
     },
+    setMarketPlaceId(marketplace) {
+      const items = marketplace.map((mp) => mp.id);
+      this.filters.marketplaces = items;
+    },
     setPublisherId(publishers) {
-      this.filters.publishers = publishers;
+      const items = publishers.map((pub) => pub.id);
+      this.filters.publishers = items;
     },
     closeCreatePublisher(value) {
       this.publisherCreateVisible = false;
@@ -308,6 +329,10 @@ export default defineComponent({
       if (value) {
         this.fetchData();
       }
+    },
+    handleSearch() {
+      this.params.search_game = this.search;
+      this.fetchData();
     },
     closeCreateLanguage(value) {
       this.languageCreateVisible = false;
@@ -341,6 +366,7 @@ export default defineComponent({
       if (text !== "") {
         ApiService.getTest("publishers", text, 2).then((res) => {
           this.publisherData = res.data.data.publishers;
+          store.dispatch("setPageItems", res.data.data.pagination.total_items);
         });
       } else {
         this.publisherData = [];
@@ -350,38 +376,52 @@ export default defineComponent({
       if (text !== "") {
         ApiService.getTest("categories").then((res) => {
           this.categoriesData = res.data.data.categories;
+          store.dispatch("setPageItems", res.data.data.pagination.total_items);
         });
       } else {
         this.categoriesData = [];
       }
     },
     confirmSubmission(data) {
-      ElMessageBox.alert(`${data.name} is deleted`, "game delete", {
-        confirmButtonText: "OK",
-        callback: (action: Action) => {
+      ElMessageBox.confirm(
+        `this action will permanently delete the ${data.name}. Continue?`,
+        "Warning",
+        {
+          confirmButtonText: "OK",
+          cancelButtonText: "Cancel",
+          type: "warning",
+        }
+      )
+        .then(() => {
+          ApiService.delete(`games/${data.id}`).then((res) => {
+            store.dispatch(
+              "setPageItems",
+              res.data.data.pagination.total_items
+            );
+          });
           ElMessage({
-            type: "info",
-            message: `action: ${action}`,
+            type: "success",
+            message: "Delete completed",
           });
           window.location.reload();
-        },
-      });
+        })
+        .catch(() => {
+          ElMessage({
+            type: "info",
+            message: "Delete canceled",
+          });
+        });
     },
+
     onChange(text) {
       if (text !== "") {
         ApiService.getTest("marketplace", text, 2).then((res) => {
           this.marketPlaceData = res.data.data.marketplaces;
+          store.dispatch("setPageItems", res.data.data.pagination.total_items);
         });
       } else {
         this.marketPlaceData = [];
       }
-    },
-    handleDelete(data) {
-      console.log("data", data);
-      ApiService.delete(`games/${data.id}`).then((res) => {
-        console.log("then");
-        this.confirmSubmission(data);
-      });
     },
     handleUpdate(data) {
       this.update = data;
@@ -390,10 +430,11 @@ export default defineComponent({
     },
     fetchData() {
       this.loading = true;
-      ApiService.postTest("games/list", this.params, 3).then((res) => {
+      ApiService.post("games/list", this.params).then((res) => {
         this.loading = false;
         this.gamesData = res.data.data.games;
         this.paginationData = res.data.data.pagination;
+        store.dispatch("setPageItems", res.data.data.pagination.total_items);
       });
     },
   },
@@ -492,9 +533,22 @@ export default defineComponent({
     },
     filters: {
       handler: function () {
-        ApiService.postTest("games/list", this.filters).then((res) => {
-          this.gamesData = res.data.data.games;
-        });
+        if (
+          Object.keys(this.filters).some(
+            (k) => this.filters[k].length > 0 || this.filters[k] !== ""
+          )
+        ) {
+          ApiService.post("games/list", this.filters).then((res) => {
+            this.gamesData = res.data.data.games;
+            this.paginationData = res.data.data.pagination;
+            store.dispatch(
+              "setPageItems",
+              res.data.data.pagination.total_items
+            );
+          });
+        } else {
+          this.fetchData();
+        }
       },
       deep: true,
     },

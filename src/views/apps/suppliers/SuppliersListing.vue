@@ -1,36 +1,48 @@
 <template>
   <div class="card">
     <div class="card-header border-0 pt-6">
-      <div class="card-body pt-0">
-        <Datatable
-          :data="suppliersData"
-          :header="tableHeader"
-          :totalPages="paginationData.last_page"
-          :enable-items-per-page-dropdown="true"
-          :checkbox-enabled="true"
-          :current-page="currentPage"
-          checkbox-label="id"
-          @on-items-per-page-change="getItemsInTable"
-          @page-change="pageChange"
-        >
-          <template v-slot:component1="slotProps">
-            <slot :action="slotProps.action">
-              <el-button
-                type="danger"
-                icon="Delete"
-                circle
-                @click="handleDelete(slotProps.action)"
-              />
-              <el-button
-                type="warning"
-                icon="Edit"
-                circle
-                @click="handleEdit(slotProps.action)"
-              />
-            </slot>
-          </template>
-        </Datatable>
+      <div class="d-flex align-items-center position-relative my-1">
+        <span class="svg-icon svg-icon-1 position-absolute ms-6">
+          <inline-svg src="/media/icons/duotune/general/gen021.svg" />
+        </span>
+        <input
+          type="text"
+          v-model="search"
+          @input="handleSearch()"
+          class="form-control form-control-solid w-250px ps-15"
+          placeholder="Search Customers"
+        />
       </div>
+    </div>
+    <div class="card-body pt-0">
+      <Datatable
+        :data="suppliersData"
+        :header="tableHeader"
+        :totalPages="paginationData.last_page"
+        :enable-items-per-page-dropdown="true"
+        :checkbox-enabled="true"
+        :current-page="currentPage"
+        checkbox-label="id"
+        @on-items-per-page-change="getItemsInTable"
+        @page-change="pageChange"
+      >
+        <template v-slot:component1="slotProps">
+          <slot :action="slotProps.action">
+            <el-button
+              type="danger"
+              icon="Delete"
+              circle
+              @click="handleDelete(slotProps.action)"
+            />
+            <el-button
+              type="warning"
+              icon="Edit"
+              circle
+              @click="handleEdit(slotProps.action)"
+            />
+          </slot>
+        </template>
+      </Datatable>
     </div>
   </div>
   <UpdateSupplier
@@ -51,6 +63,7 @@ import TablePagination from "@/components/kt-datatable/table-partials/table-cont
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import UpdateSupplier from "./SupplierEditModal.vue";
 import { ElMessage, ElMessageBox } from "element-plus";
+import store from "../../../store";
 
 export default defineComponent({
   name: "suppliers-listing",
@@ -71,6 +84,7 @@ export default defineComponent({
       itemsCount: 0,
       selectedIndex: 0,
       loading: false,
+      search: "",
       tableHeader: [
         {
           columnName: "COMPANY NAME",
@@ -139,38 +153,54 @@ export default defineComponent({
   methods: {
     fetchData() {
       this.loading = true;
-      ApiService.postTest("suppliers/all", this.params).then((res) => {
+      ApiService.post("suppliers/all", this.params).then((res) => {
         this.loading = false;
         this.suppliersData = res.data.data.suppliers;
         this.paginationData = res.data.data.pagination;
+        store.dispatch("setPageItems", res.data.data.pagination.total_items);
       });
     },
     handleVisibleChange(value) {
       this.visible = value;
     },
     confirmSubmission(data) {
-      ElMessageBox.alert(`${data.name} is deleted`, "supplier delete", {
-        confirmButtonText: "OK",
-        callback: (action: Action) => {
+      ElMessageBox.confirm(
+        `this action will permanently delete the ${data.name}. Continue?`,
+        "Warning",
+        {
+          confirmButtonText: "OK",
+          cancelButtonText: "Cancel",
+          type: "warning",
+        }
+      )
+        .then(() => {
+          ApiService.delete(`suppliers/${data.id}`).then((res) => {});
           ElMessage({
-            type: "info",
-            message: `action: ${action}`,
+            type: "success",
+            message: "Delete completed",
           });
           window.location.reload();
-        },
-      });
+        })
+        .catch(() => {
+          ElMessage({
+            type: "info",
+            message: "Delete canceled",
+          });
+        });
     },
     handleEdit(item) {
       // this.visible = true;
       // this.selectedIndex = item;
     },
     handleDelete(item) {
-      ApiService.delete(`suppliers/${item.id}`).then((res) => {
-        this.confirmSubmission(item);
-      });
+      this.confirmSubmission(item);
     },
     refetchData(update) {
       if (update) this.fetchData();
+    },
+    handleSearch() {
+      this.params.search = this.search;
+      this.fetchData();
     },
     pageChange(page: number) {
       this.currentPage = page;

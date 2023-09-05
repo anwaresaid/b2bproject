@@ -9,7 +9,7 @@
       <h1
         class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0"
       >
-        {{ pageTitle }}
+        {{ pageTitle }} {{ items ? "(" + items + ")" : "" }}
       </h1>
       <!--end::Title-->
 
@@ -49,26 +49,33 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue";
+import { defineComponent, computed, ref, watch } from "vue";
 import {
   pageTitleDisplay,
   pageTitleBreadcrumbDisplay,
   pageTitleDirection,
 } from "@/core/helpers/config";
 import { useRoute } from "vue-router";
+import store from "../../../store";
 
 export default defineComponent({
   name: "layout-page-title",
   components: {},
   setup() {
     const route = useRoute();
-
+    const items = ref();
     const pageTitle = computed(() => {
       return route.meta.pageTitle;
     });
 
     const breadcrumbs = computed(() => {
       return route.meta.breadcrumbs;
+    });
+    watch(store.state, (newValue) => {
+      items.value = store.state.pageItems;
+    });
+    watch(pageTitle, (newValue) => {
+      items.value = null;
     });
 
     return {
@@ -77,6 +84,7 @@ export default defineComponent({
       pageTitleDisplay,
       pageTitleBreadcrumbDisplay,
       pageTitleDirection,
+      items,
     };
   },
 });

@@ -17,7 +17,11 @@
               />
             </div>
             <div class="d-flex justify-content-between w-100 mb-5">
-              <h2 class="customer-name">{{ allData?.order?.customer }}</h2>
+              <h2 class="customer-name">
+                {{ allData?.order?.customer }} ({{
+                  paginationData.totalKeyCount
+                }})
+              </h2>
               <el-button class="button-zip"> Download zip</el-button>
             </div>
             <Datatable
@@ -119,7 +123,7 @@ import store from "../../../store";
 const params = ref({});
 const itemsInTable = ref(10);
 const currentPage = ref(1);
-const paginationData = reactive({});
+const paginationData = ref({});
 const allData = ref({});
 const search = ref("");
 const router = useRouter();
@@ -154,7 +158,6 @@ const tableHeader = ref([
 
 const fetchData = () => {
   ApiService.postTest("orders/detail", params.value).then((res) => {
-    console.log("res-----", res);
     allData.value = res.data.data;
     currencyKeys.value = Object.keys(res.data.data.currency_info);
     paginationData.value = res.data.data.pagination;
@@ -164,7 +167,7 @@ const fetchData = () => {
 watch(search, (newValue) => {
   params.value = {
     search: search,
-    order_code: router.currentRoute.value.params.order_id,
+    order_code: router.currentRoute.value.params.id,
   };
   fetchData();
   if (!newValue) {
@@ -182,7 +185,7 @@ const pageChange = (page: number) => {
 };
 
 onMounted(() => {
-  params.value.order_code = store.state.orderCode;
+  params.value.order_code = router.currentRoute.value.params.id;
   params.value.current_page = currentPage;
   params.value.per_page = itemsInTable;
   fetchData();

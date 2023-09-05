@@ -31,16 +31,6 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item label="Gamivo game search" prop="product" required>
-            <DropdownRemote
-              :url="gamivoGameUrl"
-              @selected-game="setGamivoGameId"
-              :type="gamivoGameType"
-              :keyg="gamivoGameKey"
-              wd="187.5px"
-              :condition="4"
-            />
-          </el-form-item>
           <el-form-item label="Choose game" prop="game_id" required>
             <DropdownRemote
               :url="gameUrl"
@@ -48,6 +38,17 @@
               :type="gameType"
               :keyg="gameKey"
               wd="187.5px"
+            />
+          </el-form-item>
+          <el-form-item label="Gamivo game search" prop="product" required>
+            <DropdownRemote
+              :url="gamivoGameUrl"
+              @selected-game="setGamivoGameId"
+              :type="gamivoGameType"
+              :disabled="disabled"
+              :keyg="gamivoGameKey"
+              wd="187.5px"
+              :condition="4"
             />
           </el-form-item>
           <div class="d-flex justify-content-end w-100">
@@ -92,6 +93,7 @@ const gameKey = "search_game";
 const gameUrl = "games/list";
 const gameType = "games";
 const formSize = ref("large");
+const disabled = ref(true);
 const ruleFormRef = ref<FormInstance>();
 
 const form = reactive<RuleForm>({
@@ -132,10 +134,6 @@ const rules = reactive<FormRules<typeof form>>({
   ],
 });
 
-const onImageChange = (e) => {
-  form.avatar_url = e.target.files[0];
-};
-
 const setGamivoGameId = (value) => {
   form.product = value;
 };
@@ -169,6 +167,12 @@ const match = (formEl) => {
     }
   });
 };
+
+watch(form, (newValue) => {
+  if (form.game_id !== null) {
+    disabled.value = false;
+  }
+});
 
 onMounted(() => {});
 

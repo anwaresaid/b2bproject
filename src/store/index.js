@@ -10,6 +10,7 @@ const store = new Vuex.Store({
       isTokenValid: false,
       rolePermissions: [],
       orderCode: null,
+      pageItems: null,
     };
   },
 
@@ -26,6 +27,9 @@ const store = new Vuex.Store({
     setRolesPermissions(state, payload) {
       state.rolePermission = payload.rolePermissions;
     },
+    setPageItems(state, payload) {
+      state.pageItems = payload;
+    }
   },
 
   actions: {
@@ -37,6 +41,9 @@ const store = new Vuex.Store({
     },
     setRolePermissions(context, value) {
       context.commit("setRolesPermissions", value);
+    },
+    setPageItems(context, value) {
+      context.commit("setPageItems", value);
     },
     setToken(context) {
       return ApiService.get("users/show")

@@ -1,6 +1,6 @@
 import {
   createRouter,
-  createWebHashHistory,
+  createWebHistory,
   type RouteRecordRaw,
 } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
@@ -215,7 +215,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/apps/marketplace/kinguin",
+        path: "/marketplace/kinguin",
         name: "apps-marketplace-kinguin",
         component: () => KinguinMarketPlace,
         meta: {
@@ -224,7 +224,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/apps/marketplace/gamivo",
+        path: "/marketplace/gamivo",
         name: "apps-marketplace-gamivo",
         component: () => GamivoMarketPlace,
         meta: {
@@ -233,7 +233,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/apps/marketplace/Eneba",
+        path: "/marketplace/Eneba",
         name: "apps-marketplace-eneba",
         component: () => EnebaMarketPlace,
         meta: {
@@ -242,7 +242,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/apps/marketplace-match-list",
+        path: "/marketplace-match-list",
         name: "apps-marketplace-list",
         component: () => MarketplaceMatchListing,
         meta: {
@@ -251,7 +251,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/apps/customers/customers-listing",
+        path: "/customers/customers-listing",
         name: "apps-customers-listing",
         component: () => CustomersListing,
         meta: {
@@ -260,7 +260,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/apps/all-notifications",
+        path: "/all-notifications",
         name: "apps-notifications-all",
         component: () => NotificationsAll,
         meta: {
@@ -269,7 +269,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/apps/moneybox",
+        path: "/moneybox",
         name: "apps-money-box",
         component: () => MoneyBoxList,
         meta: {
@@ -287,7 +287,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/apps/stock-list",
+        path: "/stock-list",
         name: "stock-list",
         component: () => StockList,
         meta: {
@@ -296,7 +296,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/apps/games",
+        path: "/games",
         name: "apps-games-listing",
         component: () => GameListing,
         meta: {
@@ -305,7 +305,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/apps/roles",
+        path: "/roles",
         name: "apps-roles-listing",
         component: () => RolesListing,
         meta: {
@@ -314,7 +314,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/apps/customers/customer-details",
+        path: "/customers/customer-details",
         name: "apps-customers-details",
         component: () => CustomerDetails,
         meta: {
@@ -323,7 +323,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/apps/suppliers",
+        path: "/suppliers",
         name: "suppliers-listing",
         component: () => SuppliersListing,
         meta: {
@@ -332,7 +332,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/apps/orders",
+        path: "/orders",
         name: "orders-listing",
         component: () => OrdersListing,
         meta: {
@@ -341,7 +341,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/apps/create-order",
+        path: "/create-order",
         name: "orders-create",
         component: () => CreateOrder,
         meta: {
@@ -350,7 +350,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/apps/order-details",
+        path: "/order-details/:id",
         name: "order-details",
         component: () => EditOrder,
         props: true,
@@ -360,7 +360,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/apps/keys",
+        path: "/keys",
         name: "keys-listing",
         component: () => KeysListing,
         meta: {
@@ -369,7 +369,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/apps/offers",
+        path: "/offers",
         name: "offers-listing",
         component: () => OffersListing,
         meta: {
@@ -378,7 +378,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/apps/users",
+        path: "/users",
         name: "users-listing",
         component: () => UsersListing,
         meta: {
@@ -689,7 +689,7 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
 });
 
@@ -698,7 +698,7 @@ router.beforeEach((to, from, next) => {
   const configStore = useConfigStore();
 
   // current page view title
-  document.title = `${to.meta.pageTitle} - ${import.meta.env.VITE_APP_NAME}`;
+  document.title = `${to.meta.pageTitle} - ${import.meta.env.VITE_APP_NAMES}`;
   // reset config to initial state
   configStore.resetLayoutConfig();
 

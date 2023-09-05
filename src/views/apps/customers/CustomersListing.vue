@@ -130,6 +130,7 @@ import customers from "@/core/data/customers";
 import type { ICustomer } from "@/core/data/customers";
 import arraySort from "array-sort";
 import ApiService from "@/core/services/ApiService";
+import store from "../../../store";
 
 export default defineComponent({
   name: "customers-listing",
@@ -162,6 +163,7 @@ export default defineComponent({
         this.loading = false;
         this.customersData = res.data.data.customers;
         this.paginationData = res.data.data.pagination;
+        store.dispatch("setPageItems", res.data.data.pagination.total_items);
       });
     },
     getItemsInTable(item) {

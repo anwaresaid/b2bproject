@@ -17,7 +17,7 @@
             </div>
           </div>
           <!--end::Content wrapper-->
-          <KTFooter />
+          <!--   <KTFooter />-->
         </div>
         <!--end:::Main-->
       </div>

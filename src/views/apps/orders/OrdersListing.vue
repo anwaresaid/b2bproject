@@ -7,7 +7,7 @@
             <el-input
               v-model="searchOrders"
               class="w-100 m-2"
-              placeholder="search orders"
+              placeholder="search by order code"
               prefix-icon="Search"
             />
           </el-form-item>
@@ -77,6 +77,14 @@
                 @click="navigateOrderDetails(slotProps.action)"
               />
             </slot>
+            <slot :action="slotProps.action">
+              <el-button
+                type="success"
+                icon="CopyDocument"
+                circle
+                @click="copyText(slotProps.action)"
+              />
+            </slot>
           </template>
         </Datatable>
       </div>
@@ -105,7 +113,7 @@ const tableStatus = ref(null);
 const itemsInTable = ref(10);
 const currentPage = ref(1);
 const paginationData = reactive({});
-const tableType = ref();
+const tableType = reactive({ value: 2, label: "customer" });
 const loading = ref(false);
 
 const tableHeaders = ref([
@@ -170,6 +178,7 @@ const fetchOrders = (type) => {
     loading.value = false;
     ordersData.value = res.data.data.orders;
     paginationData.value = res.data.data.pagination;
+    store.dispatch("setPageItems", res.data.data.pagination.total_items);
   });
 };
 const setCustomerId = (value) => {
@@ -191,9 +200,13 @@ const navigateOrderDetails = (item) => {
   router.push({
     name: "order-details",
     params: {
-      order_id: order_id,
+      id: order_id,
     },
   });
+};
+
+const copyText = (obj) => {
+  navigator.clipboard.writeText(obj.order_code);
 };
 
 watch(tableType, (newValue) => {

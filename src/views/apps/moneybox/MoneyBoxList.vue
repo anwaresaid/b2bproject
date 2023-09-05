@@ -19,6 +19,7 @@ import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import { orderType, orderStatus } from "../utils/constants";
 import { useRouter } from "vue-router";
 import MoneyBoxCard from "@/components/cards/MoneyBoxCard.vue";
+import store from "../../../store";
 
 const moneyboxeData = ref([]);
 const router = useRouter();
@@ -39,10 +40,10 @@ const fetchMoneyBox = (type) => {
   //   }
   ApiService.postTest("moneyboxes/all", params.value).then((res) => {
     moneyboxeData.value = res.data.data.MoneyBoxes;
+    store.dispatch("setPageItems", res.data.data.pagination.total_items);
   });
 };
 const generateId = (item) => {
-  console.log("----item", moneyboxeData);
   return "kt_card_" + item.id + "_" + item.name;
 };
 

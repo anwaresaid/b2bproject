@@ -76,7 +76,6 @@ export default defineComponent({
     },
     setVisible() {
       this.form = this.selectedIndex;
-      console.log("this form", this.selectedIndex);
 
       if (this.setVisible === false) {
         this.$emit("visible-change", false);

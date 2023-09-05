@@ -149,6 +149,7 @@ const fetchStock = (type) => {
     stockData.value = res.data.data.games;
     paginationData.value = res.data.data.pagination;
     sumStock.value = res.data.data.sum_stock;
+    store.dispatch("setPageItems", res.data.data.pagination.total_items);
   });
 };
 
