@@ -59,14 +59,30 @@
           @on-items-per-page-change="getItemsInTable"
           @page-change="pageChange"
         >
-          <template v-slot:component1="slotProps">
+          <template v-slot:column1="slotProps">
             <slot :action="slotProps.action">
-              <el-button
-                type="primary"
-                icon="View"
-                circle
-                @click="navigateOrderDetails(slotProps.action)"
-              />
+              <el-tag
+                class="game-name-link ml-2"
+                type="success"
+                v-if="slotProps.action.isSuccess"
+                >{{ true }}</el-tag
+              >
+              <el-tag class="game-name-link ml-2" type="danger" v-else>{{
+                false
+              }}</el-tag>
+            </slot>
+          </template>
+          <template v-slot:column2="slotProps">
+            <slot :action="slotProps.action">
+              <el-tag
+                class="game-name-link ml-2"
+                type="success"
+                v-if="slotProps.action.isRead"
+                >{{ slotProps.action.isRead }}</el-tag
+              >
+              <el-tag class="game-name-link ml-2" type="danger" v-else>{{
+                slotProps.action.isRead
+              }}</el-tag>
             </slot>
           </template>
         </Datatable>
@@ -110,6 +126,26 @@ const tableHeaders = ref([
   {
     columnName: "MESSAGE",
     columnLabel: "message",
+    sortEnabled: true,
+  },
+  {
+    columnName: "IS READ",
+    custom: "column2",
+    sortEnabled: true,
+  },
+  {
+    columnName: "IS SUCCESS",
+    custom: "column1",
+    sortEnabled: true,
+  },
+  {
+    columnName: "READ AT",
+    columnLabel: "readAt",
+    sortEnabled: true,
+  },
+  {
+    columnName: "TYPE",
+    columnLabel: "type",
     sortEnabled: true,
   },
 ]);

@@ -79,6 +79,7 @@
         :checkbox-enabled="true"
         :current-page="params.value?.current_page"
         checkbox-label="id"
+        size="small"
         :loading="loading"
         @on-items-per-page-change="getItemsInTable"
         @page-change="pageChange"
@@ -91,12 +92,19 @@
               circle
               @click="handleDelete(slotProps.action)"
             />
-            <el-button
-              type="success"
-              icon="CopyDocument"
-              circle
-              @click="copyText(slotProps.action)"
-            />
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="Copy"
+              placement="top-start"
+            >
+              <el-button
+                type="success"
+                icon="CopyDocument"
+                circle
+                @click="copyText(slotProps.action)"
+              />
+            </el-tooltip>
           </slot>
         </template>
       </Datatable>
@@ -136,6 +144,7 @@ const paginationData = reactive({});
 const tableType = ref(5);
 const updateData = ref(null);
 const keyCreateVisible = ref(false);
+const searchGames = ref("");
 const isUpdate = ref(false);
 const loading = ref(false);
 const pusherEvent =
@@ -158,7 +167,6 @@ const tableHeaders = ref([
     columnName: "GAME NAME",
     columnLabel: "game.name",
     sortEnabled: true,
-    columnWidth: 150,
   },
   {
     columnName: "KEY",
@@ -188,13 +196,13 @@ const tableHeaders = ref([
     columnName: "CUSTOMER",
     columnLabel: "customer",
     sortEnabled: false,
-    columnWidth: 105,
+    columnWidth: 90,
   },
   {
     columnName: "COST",
     columnLabel: "cost_eur",
     sortEnabled: false,
-    columnWidth: 80,
+    columnWidth: 60,
   },
   {
     columnName: "SALES PRICE",
@@ -206,7 +214,7 @@ const tableHeaders = ref([
     columnName: "CREATED BY",
     columnLabel: "creator.name",
     sortEnabled: false,
-    columnWidth: 135,
+    columnWidth: 100,
   },
   {
     columnName: "CREATED AT",
@@ -281,6 +289,13 @@ watch(dropdownParams, (newValue) => {
   fetchKeys("filer");
 });
 watch(keyCreateVisible, (newValue) => {
+  if (!newValue) {
+  }
+});
+watch(searchGames, (newValue) => {
+  params.value = {};
+  params.value.search_game = searchGames.value;
+  fetchKeys();
   if (!newValue) {
   }
 });

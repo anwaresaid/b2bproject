@@ -84,12 +84,19 @@
             />
           </slot>
           <slot :action="slotProps.action">
-            <el-button
-              type="success"
-              icon="CopyDocument"
-              circle
-              @click="copyText(slotProps.action)"
-            />
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="Copy"
+              placement="top-start"
+            >
+              <el-button
+                type="success"
+                icon="CopyDocument"
+                circle
+                @click="copyText(slotProps.action)"
+              />
+            </el-tooltip>
           </slot>
         </template>
         <template v-slot:component2="slotProps">
