@@ -3,7 +3,7 @@
     <div class="card-header border-0 pt-6">
       <div class="card-body pt-0">
         <div>
-          <div class="d-flex justify-content-between mb-10">
+          <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center position-relative">
               <span class="svg-icon svg-icon-1 position-absolute ms-6">
                 <inline-svg src="/media/icons/duotune/general/gen021.svg" />
@@ -16,57 +16,14 @@
               />
             </div>
             <div>
-              <el-button type="primary" icon="plus" round
-                ><router-link to="/apps/create-order" class="text-white px-3"
-                  >Add Order</router-link
-                ></el-button
-              >
+              <h4>{{ gameData.name }}</h4>
             </div>
-          </div>
-          <div class="d-flex justify-content-between align-items-start">
-            <el-form-item label="Select Order Type">
-              <el-select
-                v-model="tableType"
-                class="select-table-type"
-                placeholder="Select"
-              >
-                <el-option
-                  v-for="item in orderType"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="Select Order status">
-              <el-select
-                v-model="tableStatus"
-                class="select-table-type"
-                placeholder="Select"
-              >
-                <el-option
-                  v-for="item in orderStatus"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="Select Customer">
-              <DropdownRemote
-                :url="customerUrl"
-                @selected-game="setCustomerId"
-                :type="customerType"
-                :keyg="customerKey"
-                wd="150px"
-              />
-            </el-form-item>
           </div>
         </div>
       </div>
     </div>
     <Datatable
-      :data="ordersData"
+      :data="keysData"
       :header="tableHeaders"
       :totalPages="paginationData.value?.last_page"
       :enable-items-per-page-dropdown="true"
@@ -79,29 +36,11 @@
     >
       <template v-slot:component1="slotProps">
         <slot :action="slotProps.action">
-          <el-button
-            type="primary"
-            icon="View"
-            circle
-            @click="navigateOrderDetails(slotProps.action)"
-          />
-        </slot>
-        <slot :action="slotProps.action">
-          <el-button
-            type="success"
-            icon="CopyDocument"
-            circle
-            @click="copyText(slotProps.action)"
-          />
-        </slot>
-      </template>
-      <template v-slot:component2="slotProps">
-        <slot :action="slotProps.action">
           <el-tag
             class="ml-2"
-            v-if="slotProps.action.status === 'Onaylandı'"
+            v-if="slotProps.action.status === 'Satılmış'"
             type="success"
-            >{{ slotProps.action.status }}</el-tag
+            >Sold</el-tag
           >
           <el-tag class="ml-2" v-else type="danger">{{
             slotProps.action.status
@@ -119,75 +58,81 @@ import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import { orderType, orderStatus } from "../utils/constants";
 import { useRouter } from "vue-router";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
+import { dateFormatter } from "../utils/functions";
 import store from "../../../store";
 
-const ordersData = ref([]);
+const gameData = ref([]);
+const fromDate = ref();
+const toDate = ref();
 const router = useRouter();
 const searchOrders = ref("");
 const dropdownParams = ref({});
-const customerKey = "search";
-const customerUrl = "customers/all";
-const customerType = "customers";
+const keysData = ref([]);
+
 const params = ref({});
 const tableStatus = ref(null);
 const itemsInTable = ref(10);
 const currentPage = ref(1);
 const paginationData = reactive({});
-const tableType = ref({ value: 2, label: "customer" });
 const loading = ref(false);
+const defaultTime = new Date(2000, 1, 1, 12, 0, 0);
 
 const tableHeaders = ref([
   {
-    columnName: "ORDER NUMBER",
-    columnLabel: "order_code",
+    columnName: "KEY CODE",
+    columnLabel: "keycode",
     sortEnabled: true,
+  },
+  {
+    columnName: "SUPPLIER NAME",
+    columnLabel: "supplier_name",
+    sortEnabled: false,
+  },
+  {
+    columnName: "STATUS",
+    custom: "component1",
+    sortEnabled: false,
+    columnWidth: 80,
+  },
+  {
+    columnName: "COST",
+    columnLabel: "cost",
+    sortEnabled: true,
+    columnWidth: 100,
+  },
+  {
+    columnName: "Sale",
+    columnLabel: "sale",
+    sortEnabled: true,
+    columnWidth: 100,
   },
   {
     columnName: "CUSTOMER",
     columnLabel: "customer",
+    sortEnabled: true,
+  },
+  {
+    columnName: "CREATED AT",
+    columnLabel: "created_at",
+    sortEnabled: true,
+    columnWidth: 100,
+  },
+  {
+    columnName: "SOLD ON",
+    columnLabel: "sell_date",
     sortEnabled: false,
     columnWidth: 135,
   },
   {
-    columnName: "TOTAL AMOUNT",
-    columnLabel: "total_amount",
-    sortEnabled: true,
-    columnWidth: 170,
-  },
-  {
-    columnName: "RESERVED PIECE",
-    columnLabel: "reserved_count",
-    sortEnabled: true,
-    columnWidth: 170,
-  },
-  {
-    columnName: "SOLD PIECE",
-    columnLabel: "sold_count",
-    sortEnabled: true,
-    columnWidth: 150,
-  },
-  {
-    columnName: "CREATED BY",
-    columnLabel: "created_by",
+    columnName: "SOLD PRICE",
+    columnLabel: "sell_price",
     sortEnabled: false,
-    columnWidth: 135,
-  },
-  {
-    columnName: "STATUS",
-    custom: "component2",
-    sortEnabled: false,
-    columnWidth: 135,
+    columnWidth: 80,
   },
   {
     columnName: "CREATED AT",
     columnLabel: "created_at",
     sortEnabled: false,
-  },
-  {
-    columnName: "PROCESS",
-    sortEnabled: false,
-    columnWidth: 135,
-    custom: "component1",
   },
 ]);
 
@@ -196,19 +141,14 @@ const fetchOrders = (type) => {
   if (type === undefined) {
     params.value.current_page = currentPage;
     params.value.per_page = itemsInTable;
-    params.value.page_type = tableType.value;
   }
-  ApiService.postTest("orders/all", params.value).then((res) => {
+  ApiService.postTest("games/detail", params.value).then((res) => {
     loading.value = false;
-    ordersData.value = res.data.data.orders;
+    gameData.value = res.data.data.game;
+    keysData.value = res.data.data.game.keys;
     paginationData.value = res.data.data.pagination;
-    store.dispatch("setPageItems", res.data.data.pagination.total_items);
+    store.dispatch("setPageItems", res.data.data.pagination.all_data);
   });
-};
-const setCustomerId = (value) => {
-  console.log("value", value);
-  dropdownParams.value = {};
-  dropdownParams.value.customer_id = value;
 };
 const getItemsInTable = (item) => {
   params.value.per_page = item;
@@ -230,15 +170,24 @@ const navigateOrderDetails = (item) => {
   });
 };
 
+const handleChangeDates = () => {
+  if (toDate.value === null || fromDate.value === null) {
+    return;
+  }
+  const date = {
+    start: dateFormatter(fromDate, "time"),
+    finish: dateFormatter(toDate, "time"),
+  };
+  console.log("date", date);
+  params.value.start = date.start;
+  params.value.finish = date.finish;
+  fetchOrders();
+};
+
 const copyText = (obj) => {
   navigator.clipboard.writeText(obj.order_code);
 };
 
-watch(tableType, (newValue) => {
-  params.value.order_type = tableType.value;
-
-  fetchOrders();
-});
 watch(tableStatus, (newValue) => {
   params.value = {};
   params.value.order_status = tableStatus.value;
@@ -251,16 +200,21 @@ watch(dropdownParams, (newValue) => {
 
   fetchOrders("filer");
 });
+
 watch(searchOrders, (newValue) => {
   params.value = {};
   params.value = { search: searchOrders.value };
   fetchOrders("filer");
 });
 
+watch(fromDate, (newValue) => {});
+watch(toDate, (newValue) => {});
+
 onMounted(() => {
   params.value.current_page = currentPage;
   params.value.per_page = itemsInTable;
-  params.value.page_type = tableType.value;
+  console.log("params", router.currentRoute.value.params.id);
+  params.value.gameId = router.currentRoute.value.params.id;
   fetchOrders();
 });
 

@@ -389,8 +389,14 @@ const MainMenuConfig: Array<MenuItem> = [
       {
         heading: "Orders",
         route: "/orders",
-        svgIcon: "/media/icons/duotune/general/get069-basket.svg",
-        fontIcon: "bi-basket",
+        svgIcon: "/media/icons/duotune/art/art002.svg",
+        fontIcon: "bi-app-indicator",
+      },
+      {
+        heading: "Orders Sale",
+        route: "/orders-sale",
+        svgIcon: "/media/icons/duotune/art/art002.svg",
+        fontIcon: "bi-app-indicator",
       },
     ],
   },

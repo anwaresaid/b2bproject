@@ -24,10 +24,12 @@ import NotificationsAll from "@/views/apps/notifications/NotificationsAll.vue";
 import GeneralAccount from "@/views/apps/accounting/GeneralAccount.vue";
 import StockList from "@/views/apps/stock/StockList.vue";
 import GameListing from "@/views/apps/games/GameListing.vue";
+import GameDetailListing from "@/views/apps/games/GameDetailsList.vue";
 import RolesListing from "@/views/apps/roles/RolesListing.vue";
 import CustomerDetails from "@/views/apps/customers/CustomerDetails.vue";
 import SuppliersListing from "@/views/apps/suppliers/SuppliersListing.vue";
 import OrdersListing from "@/views/apps/orders/OrdersListing.vue";
+import OrdersSaleList from "@/views/apps/orders/OrdersSaleListing.vue";
 import CreateOrder from "@/views/apps/orders/CreateOrder.vue";
 import EditOrder from "@/views/apps/orders/EditOrder.vue";
 import KeysListing from "@/views/apps/keys/KeysListing.vue";
@@ -278,6 +280,15 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/orders-sale",
+        name: "apps-orders-sale",
+        component: () => OrdersSaleList,
+        meta: {
+          pageTitle: "Orders Sale",
+          breadcrumbs: ["Apps", "Orders"],
+        },
+      },
+      {
         path: "/account/general-account",
         name: "general-account",
         component: () => GeneralAccount,
@@ -302,6 +313,15 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           pageTitle: "Game Listing",
           breadcrumbs: ["Apps", "Games"],
+        },
+      },
+      {
+        path: "/game-detail/:id",
+        name: "apps-game-detail-listing",
+        component: () => GameDetailListing,
+        meta: {
+          pageTitle: "Game detail Listing",
+          breadcrumbs: ["Apps", "Game detail"],
         },
       },
       {
