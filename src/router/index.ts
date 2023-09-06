@@ -266,8 +266,8 @@ const routes: Array<RouteRecordRaw> = [
         name: "apps-notifications-all",
         component: () => NotificationsAll,
         meta: {
-          pageTitle: "Customers Listing",
-          breadcrumbs: ["Apps", "Customers"],
+          pageTitle: "Notifications List",
+          breadcrumbs: ["Apps", "Notifications"],
         },
       },
       {

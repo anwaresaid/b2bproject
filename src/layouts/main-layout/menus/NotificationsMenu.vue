@@ -101,7 +101,7 @@
         <!--begin::View more-->
         <div class="py-3 text-center border-top">
           <a
-            href="#/apps/all-notifications"
+            href="/all-notifications"
             class="btn btn-color-gray-600 btn-active-color-primary"
           >
             View All

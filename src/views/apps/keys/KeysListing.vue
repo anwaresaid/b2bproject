@@ -70,36 +70,37 @@
         </div>
       </div>
     </div>
-
-    <Datatable
-      :data="keysData"
-      :header="tableHeaders"
-      :totalPages="paginationData.value?.last_page"
-      :enable-items-per-page-dropdown="true"
-      :checkbox-enabled="true"
-      :current-page="params.value?.current_page"
-      checkbox-label="id"
-      :loading="loading"
-      @on-items-per-page-change="getItemsInTable"
-      @page-change="pageChange"
-    >
-      <template v-slot:component1="slotProps">
-        <slot :action="slotProps.action">
-          <el-button
-            type="danger"
-            icon="Delete"
-            circle
-            @click="handleDelete(slotProps.action)"
-          />
-          <el-button
-            type="success"
-            icon="CopyDocument"
-            circle
-            @click="copyText(slotProps.action)"
-          />
-        </slot>
-      </template>
-    </Datatable>
+    <div class="card-body pt-0">
+      <Datatable
+        :data="keysData"
+        :header="tableHeaders"
+        :totalPages="paginationData.value?.last_page"
+        :enable-items-per-page-dropdown="true"
+        :checkbox-enabled="true"
+        :current-page="params.value?.current_page"
+        checkbox-label="id"
+        :loading="loading"
+        @on-items-per-page-change="getItemsInTable"
+        @page-change="pageChange"
+      >
+        <template v-slot:component1="slotProps">
+          <slot :action="slotProps.action">
+            <el-button
+              type="danger"
+              icon="Delete"
+              circle
+              @click="handleDelete(slotProps.action)"
+            />
+            <el-button
+              type="success"
+              icon="CopyDocument"
+              circle
+              @click="copyText(slotProps.action)"
+            />
+          </slot>
+        </template>
+      </Datatable>
+    </div>
   </div>
   <CreateKey
     :isVisible="keyCreateVisible"
