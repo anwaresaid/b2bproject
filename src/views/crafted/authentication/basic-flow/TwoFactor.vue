@@ -27,7 +27,7 @@ export default defineComponent({
       router: useRouter(),
       form: {
         code: "",
-        email: this.$route.params.mail,
+        email: localStorage.getItem("email"),
       },
     };
   },

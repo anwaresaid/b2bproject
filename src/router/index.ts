@@ -662,7 +662,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/two-factor/:mail",
+        path: "/two-factor",
         name: "two-factor",
         component: () => TwoFactor,
         meta: {

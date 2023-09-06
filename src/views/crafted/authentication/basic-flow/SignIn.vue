@@ -154,7 +154,8 @@ export default defineComponent({
           },
         }).then(() => {
           // Go to page after successfully login
-          router.push({ name: "two-factor", params: { mail: values.email } });
+          localStorage.setItem("email", values.email);
+          router.push({ name: "two-factor" });
         });
       } else {
         Swal.fire({
