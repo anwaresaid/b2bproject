@@ -30,6 +30,8 @@
             </el-tooltip>
           </div>
         </div>
+      </div>
+      <div class="card-body pt-0">
         <Datatable
           :data="usersData"
           :header="tableHeaders"

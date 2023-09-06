@@ -33,7 +33,7 @@
               @selected-game="setGameId"
               :type="gameType"
               placeholder="please select game"
-              :keyg="customerKey"
+              :keyg="gameKey"
               wd="100px"
             />
           </el-form-item>
@@ -91,6 +91,7 @@ const dropdownParams = ref({});
 const customerKey = "search";
 const gameUrl = "games/list";
 const gameType = "games";
+const gameKey = "search_game";
 const marketplaceUrl = "marketplace/all";
 const marketplaceType = "marketplace";
 const params = ref({});
@@ -105,13 +106,11 @@ const tableHeaders = ref([
     columnName: "TYPE",
     columnLabel: "type",
     sortEnabled: true,
-    columnWidth: 175,
   },
   {
     columnName: "MESSAGE",
     columnLabel: "message",
     sortEnabled: true,
-    columnWidth: 230,
   },
 ]);
 

@@ -13,37 +13,38 @@
         />
       </div>
     </div>
-
-    <Datatable
-      :data="matchData"
-      :header="tableHeaders"
-      :totalPages="paginationData.value?.last_page"
-      :enable-items-per-page-dropdown="true"
-      :checkbox-enabled="true"
-      checkbox-label="id"
-      sortable
-      :loading="loading"
-      @on-items-per-page-change="getItemsInTable"
-      @page-change="pageChange"
-    >
-      <template v-slot:api_component="slotProps">
-        <slot :action="slotProps.action">
-          <div class="d-flex flex-row">
-            {{ slotProps.action.marketplace }} Api
-          </div>
-        </slot>
-      </template>
-      <template v-slot:game_component="slotProps">
-        <slot :action="slotProps.action">
-          <div v-if="slotProps.action.status === 0">
-            <span class="text-success">{{ slotProps.action.game }}</span>
-          </div>
-          <div v-else-if="slotProps.action.status === 1">
-            <span class="text-danger">{{ slotProps.action.game }}</span>
-          </div>
-        </slot>
-      </template>
-    </Datatable>
+    <div class="card-body pt-0">
+      <Datatable
+        :data="matchData"
+        :header="tableHeaders"
+        :totalPages="paginationData.value?.last_page"
+        :enable-items-per-page-dropdown="true"
+        :checkbox-enabled="true"
+        checkbox-label="id"
+        sortable
+        :loading="loading"
+        @on-items-per-page-change="getItemsInTable"
+        @page-change="pageChange"
+      >
+        <template v-slot:api_component="slotProps">
+          <slot :action="slotProps.action">
+            <div class="d-flex flex-row">
+              {{ slotProps.action.marketplace }} Api
+            </div>
+          </slot>
+        </template>
+        <template v-slot:game_component="slotProps">
+          <slot :action="slotProps.action">
+            <div v-if="slotProps.action.status === 0">
+              <span class="text-success">{{ slotProps.action.game }}</span>
+            </div>
+            <div v-else-if="slotProps.action.status === 1">
+              <span class="text-danger">{{ slotProps.action.game }}</span>
+            </div>
+          </slot>
+        </template>
+      </Datatable>
+    </div>
   </div>
 </template>
 

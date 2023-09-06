@@ -65,50 +65,52 @@
         </div>
       </div>
     </div>
-    <Datatable
-      :data="ordersData"
-      :header="tableHeaders"
-      :totalPages="paginationData.value?.last_page"
-      :enable-items-per-page-dropdown="true"
-      :checkbox-enabled="true"
-      checkbox-label="id"
-      :loading="loading"
-      sortable
-      @on-items-per-page-change="getItemsInTable"
-      @page-change="pageChange"
-    >
-      <template v-slot:component1="slotProps">
-        <slot :action="slotProps.action">
-          <el-button
-            type="primary"
-            icon="View"
-            circle
-            @click="navigateOrderDetails(slotProps.action)"
-          />
-        </slot>
-        <slot :action="slotProps.action">
-          <el-button
-            type="success"
-            icon="CopyDocument"
-            circle
-            @click="copyText(slotProps.action)"
-          />
-        </slot>
-      </template>
-      <template v-slot:component2="slotProps">
-        <slot :action="slotProps.action">
-          <el-tag
-            class="ml-2"
-            v-if="slotProps.action.status === 'Onaylandı'"
-            type="success"
-            >{{ slotProps.action.status }}</el-tag
-          >
-          <el-tag class="ml-2" v-else type="danger">{{
-            slotProps.action.status
-          }}</el-tag>
-        </slot>
-      </template>
-    </Datatable>
+    <div class="card-body pt-0">
+      <Datatable
+        :data="ordersData"
+        :header="tableHeaders"
+        :totalPages="paginationData.value?.last_page"
+        :enable-items-per-page-dropdown="true"
+        :checkbox-enabled="true"
+        checkbox-label="id"
+        :loading="loading"
+        sortable
+        @on-items-per-page-change="getItemsInTable"
+        @page-change="pageChange"
+      >
+        <template v-slot:component1="slotProps">
+          <slot :action="slotProps.action">
+            <el-button
+              type="primary"
+              icon="View"
+              circle
+              @click="navigateOrderDetails(slotProps.action)"
+            />
+          </slot>
+          <slot :action="slotProps.action">
+            <el-button
+              type="success"
+              icon="CopyDocument"
+              circle
+              @click="copyText(slotProps.action)"
+            />
+          </slot>
+        </template>
+        <template v-slot:component2="slotProps">
+          <slot :action="slotProps.action">
+            <el-tag
+              class="ml-2"
+              v-if="slotProps.action.status === 'Onaylandı'"
+              type="success"
+              >{{ slotProps.action.status }}</el-tag
+            >
+            <el-tag class="ml-2" v-else type="danger">{{
+              slotProps.action.status
+            }}</el-tag>
+          </slot>
+        </template>
+      </Datatable>
+    </div>
   </div>
 </template>
 

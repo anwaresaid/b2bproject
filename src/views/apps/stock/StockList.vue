@@ -21,40 +21,42 @@
         </div>
       </div>
     </div>
-    <Datatable
-      :data="stockData"
-      :header="tableHeaders"
-      :totalPages="paginationData.value?.last_page"
-      :enable-items-per-page-dropdown="true"
-      :checkbox-enabled="true"
-      checkbox-label="id"
-      sortable
-      :loading="loading"
-      @on-items-per-page-change="getItemsInTable"
-      @page-change="pageChange"
-    >
-      <template v-slot:api_component="slotProps">
-        <slot :action="slotProps.action">
-          <div
-            v-if="slotProps.action.match_images.length > 0"
-            class="d-flex flex-row"
-          >
-            <img
-              v-for="image in slotProps.action.match_images"
-              :src="image"
-              class="logos-stock"
-            />
-          </div>
-        </slot>
-      </template>
-      <template v-slot:status_component="slotProps">
-        <slot :action="slotProps.action">
-          <el-tag type="success">
-            {{ slotProps.action.status?.toLowerCase() }}</el-tag
-          >
-        </slot>
-      </template>
-    </Datatable>
+    <div class="card-body pt-0">
+      <Datatable
+        :data="stockData"
+        :header="tableHeaders"
+        :totalPages="paginationData.value?.last_page"
+        :enable-items-per-page-dropdown="true"
+        :checkbox-enabled="true"
+        checkbox-label="id"
+        sortable
+        :loading="loading"
+        @on-items-per-page-change="getItemsInTable"
+        @page-change="pageChange"
+      >
+        <template v-slot:api_component="slotProps">
+          <slot :action="slotProps.action">
+            <div
+              v-if="slotProps.action.match_images.length > 0"
+              class="d-flex flex-row"
+            >
+              <img
+                v-for="image in slotProps.action.match_images"
+                :src="image"
+                class="logos-stock"
+              />
+            </div>
+          </slot>
+        </template>
+        <template v-slot:status_component="slotProps">
+          <slot :action="slotProps.action">
+            <el-tag type="success">
+              {{ slotProps.action.status?.toLowerCase() }}</el-tag
+            >
+          </slot>
+        </template>
+      </Datatable>
+    </div>
   </div>
 </template>
 
