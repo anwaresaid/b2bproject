@@ -15,29 +15,8 @@
                 placeholder="search by order code"
               />
             </div>
-            <div>
-              <el-button type="primary" icon="plus" round
-                ><router-link to="/apps/create-order" class="text-white px-3"
-                  >Add Order</router-link
-                ></el-button
-              >
-            </div>
           </div>
           <div class="d-flex justify-content-between align-items-start">
-            <el-form-item label="Select Order Type">
-              <el-select
-                v-model="tableType"
-                class="select-table-type"
-                placeholder="Select"
-              >
-                <el-option
-                  v-for="item in orderType"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
             <el-form-item label="Select Order status">
               <el-select
                 v-model="tableStatus"
@@ -52,12 +31,29 @@
                 />
               </el-select>
             </el-form-item>
-            <el-form-item label="Select Customer">
+            <div class="d-flex flex-row align-items-center">
+              <el-date-picker
+                v-model="fromDate"
+                type="datetime"
+                placeholder="From"
+                :default-time="defaultTime"
+              />
+              <el-date-picker
+                v-model="toDate"
+                type="datetime"
+                placeholder="To"
+                :default-time="defaultTime"
+              />
+              <el-button type="primary" @click="handleChangeDates"
+                >Apply</el-button
+              >
+            </div>
+            <el-form-item label="Select Game">
               <DropdownRemote
-                :url="customerUrl"
-                @selected-game="setCustomerId"
-                :type="customerType"
-                :keyg="customerKey"
+                :url="gameUrl"
+                @selected-game="setGameId"
+                :type="gameType"
+                :keyg="gameKey"
                 wd="150px"
               />
             </el-form-item>
@@ -119,22 +115,25 @@ import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import { orderType, orderStatus } from "../utils/constants";
 import { useRouter } from "vue-router";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
+import { dateFormatter } from "../utils/functions";
 import store from "../../../store";
 
 const ordersData = ref([]);
+const fromDate = ref();
+const toDate = ref();
 const router = useRouter();
 const searchOrders = ref("");
 const dropdownParams = ref({});
-const customerKey = "search";
-const customerUrl = "customers/all";
-const customerType = "customers";
+const gameKey = "search_game";
+const gameUrl = "games/list";
+const gameType = "games";
 const params = ref({});
 const tableStatus = ref(null);
 const itemsInTable = ref(10);
 const currentPage = ref(1);
 const paginationData = reactive({});
-const tableType = ref({ value: 2, label: "customer" });
 const loading = ref(false);
+const defaultTime = new Date(2000, 1, 1, 12, 0, 0);
 
 const tableHeaders = ref([
   {
@@ -146,25 +145,35 @@ const tableHeaders = ref([
     columnName: "CUSTOMER",
     columnLabel: "customer",
     sortEnabled: false,
-    columnWidth: 135,
   },
   {
-    columnName: "TOTAL AMOUNT",
-    columnLabel: "total_amount",
+    columnName: "GAME",
+    columnLabel: "game",
+    sortEnabled: false,
+  },
+  {
+    columnName: "COST",
+    columnLabel: "cost_price",
     sortEnabled: true,
-    columnWidth: 170,
+    columnWidth: 100,
+  },
+  {
+    columnName: "SALE PRICE",
+    columnLabel: "sale_price",
+    sortEnabled: true,
+    columnWidth: 100,
   },
   {
     columnName: "RESERVED PIECE",
     columnLabel: "reserved_count",
     sortEnabled: true,
-    columnWidth: 170,
+    columnWidth: 100,
   },
   {
     columnName: "SOLD PIECE",
     columnLabel: "sold_count",
     sortEnabled: true,
-    columnWidth: 150,
+    columnWidth: 100,
   },
   {
     columnName: "CREATED BY",
@@ -186,7 +195,6 @@ const tableHeaders = ref([
   {
     columnName: "PROCESS",
     sortEnabled: false,
-    columnWidth: 135,
     custom: "component1",
   },
 ]);
@@ -196,19 +204,18 @@ const fetchOrders = (type) => {
   if (type === undefined) {
     params.value.current_page = currentPage;
     params.value.per_page = itemsInTable;
-    params.value.page_type = tableType.value;
   }
-  ApiService.postTest("orders/all", params.value).then((res) => {
+  ApiService.postTest("orders/apiSells", params.value).then((res) => {
     loading.value = false;
     ordersData.value = res.data.data.orders;
     paginationData.value = res.data.data.pagination;
     store.dispatch("setPageItems", res.data.data.pagination.total_items);
   });
 };
-const setCustomerId = (value) => {
+const setGameId = (value) => {
   console.log("value", value);
   dropdownParams.value = {};
-  dropdownParams.value.customer_id = value;
+  dropdownParams.value.gameId = value;
 };
 const getItemsInTable = (item) => {
   params.value.per_page = item;
@@ -230,15 +237,24 @@ const navigateOrderDetails = (item) => {
   });
 };
 
+const handleChangeDates = () => {
+  if (toDate.value === null || fromDate.value === null) {
+    return;
+  }
+  const date = {
+    start: dateFormatter(fromDate, "time"),
+    finish: dateFormatter(toDate, "time"),
+  };
+  console.log("date", date);
+  params.value.start = date.start;
+  params.value.finish = date.finish;
+  fetchOrders();
+};
+
 const copyText = (obj) => {
   navigator.clipboard.writeText(obj.order_code);
 };
 
-watch(tableType, (newValue) => {
-  params.value.order_type = tableType.value;
-
-  fetchOrders();
-});
 watch(tableStatus, (newValue) => {
   params.value = {};
   params.value.order_status = tableStatus.value;
@@ -251,16 +267,19 @@ watch(dropdownParams, (newValue) => {
 
   fetchOrders("filer");
 });
+
 watch(searchOrders, (newValue) => {
   params.value = {};
   params.value = { search: searchOrders.value };
   fetchOrders("filer");
 });
 
+watch(fromDate, (newValue) => {});
+watch(toDate, (newValue) => {});
+
 onMounted(() => {
   params.value.current_page = currentPage;
   params.value.per_page = itemsInTable;
-  params.value.page_type = tableType.value;
   fetchOrders();
 });
 

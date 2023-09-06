@@ -113,6 +113,7 @@
 import ChartsWidget1 from "@/components/widgets/charts/Widget1.vue";
 import ApiService from "@/core/services/ApiService";
 import GeneralAccountingCard from "../../../components/cards/GeneralAcountingCard.vue";
+import { dateFormatter } from "../utils/functions";
 
 import {
   ref,
@@ -141,9 +142,9 @@ const giftTitle = "Gift Card/Epin";
 const currentYear = new Date().getFullYear();
 
 const dateFrom = ref();
+const dateTo = ref(null);
 const generalSummary = ref({});
 const generalSummaryKeys = ref([]);
-const dateTo = ref(null);
 const years = ref();
 const options = reactive({
   labelColor: "rgb(161, 165, 183)",
@@ -178,19 +179,19 @@ const giftData = ref({
 });
 const fullData = ref({});
 const graphsData = ref({});
-const dateFormatter = (date) => {
-  const day =
-    ("" + (date.value.getDate() + 1)).length > 1
-      ? date.value.getDate()
-      : "0" + date.value.getDate();
-  const month =
-    ("" + date.value.getMonth()).length > 1
-      ? 1 + date.value.getMonth()
-      : "0" + (date.value.getMonth() + 1);
-  const year = date.value.getFullYear();
-  const fullDate = day + "." + month + "." + year;
-  return fullDate;
-};
+// const dateFormatter = (date) => {
+//   const day =
+//     ("" + (date.value.getDate() + 1)).length > 1
+//       ? date.value.getDate()
+//       : "0" + date.value.getDate();
+//   const month =
+//     ("" + date.value.getMonth()).length > 1
+//       ? 1 + date.value.getMonth()
+//       : "0" + (date.value.getMonth() + 1);
+//   const year = date.value.getFullYear();
+//   const fullDate = day + "." + month + "." + year;
+//   return fullDate;
+// };
 const fetchData = () => {
   const date = dateTo.value
     ? { from: dateFormatter(dateFrom), to: dateFormatter(dateTo) }

@@ -196,6 +196,29 @@
             </el-tooltip>
           </slot>
         </template>
+        <template v-slot:component2="slotProps">
+          <slot :action="slotProps.action">
+            <el-tag
+              class="game-name-link ml-2"
+              type="warning"
+              @click="navigateGameDetails(slotProps.action.id)"
+              >{{ slotProps.action.name }}</el-tag
+            >
+          </slot>
+        </template>
+        <template v-slot:component3="slotProps">
+          <slot :action="slotProps.action">
+            <el-tag
+              class="ml-2"
+              v-if="slotProps.action.status.id === '1'"
+              type="success"
+              >{{ slotProps.action.status?.name }}</el-tag
+            >
+            <el-tag class="ml-2" v-else type="danger">{{
+              slotProps.action.status?.name
+            }}</el-tag>
+          </slot>
+        </template>
       </Datatable>
     </div>
   </div>
@@ -241,6 +264,7 @@ import GameCreate from "./GameCreate.vue";
 import { MultiListSelect, ModelSelect } from "vue-search-select";
 import { ElMessage, ElMessageBox } from "element-plus";
 import store from "../../../store";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "customers-listing",
@@ -270,6 +294,7 @@ export default defineComponent({
       categoryCreateVisible: false,
       search: "",
       publisherCreateVisible: false,
+      router: useRouter(),
       gameCreateVisible: false,
       regionCreateVisible: false,
       languageCreateVisible: false,
@@ -417,7 +442,14 @@ export default defineComponent({
           });
         });
     },
-
+    navigateGameDetails(id) {
+      this.router.push({
+        name: "apps-game-detail-listing",
+        params: {
+          id: id,
+        },
+      });
+    },
     onChange(text) {
       if (text !== "") {
         ApiService.getTest("marketplace", text, 2).then((res) => {
@@ -447,7 +479,7 @@ export default defineComponent({
     const tableHeader = ref([
       {
         columnName: "Game Name",
-        columnLabel: "name",
+        custom: "component2",
         sortEnabled: true,
         columnWidth: 175,
       },
@@ -459,7 +491,7 @@ export default defineComponent({
       },
       {
         columnName: "Status",
-        columnLabel: "status.name",
+        custom: "component3",
         sortEnabled: true,
         columnWidth: 230,
       },
@@ -573,5 +605,9 @@ export default defineComponent({
 .card-header {
   display: flex;
   justify-content: space-between;
+}
+.game-name-link:hover {
+  cursor: pointer;
+  filter: brightness(120%);
 }
 </style>
