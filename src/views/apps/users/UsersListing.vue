@@ -2,15 +2,18 @@
   <div class="card">
     <div class="card-header border-0 pt-6">
       <div class="card-body pt-0">
-        <div class="d-flex justify-content-between">
-          <el-form-item>
-            <el-input
+        <div class="d-flex justify-content-between mb-5">
+          <div class="d-flex align-items-center position-relative">
+            <span class="svg-icon svg-icon-1 position-absolute ms-6">
+              <inline-svg src="/media/icons/duotune/general/gen021.svg" />
+            </span>
+            <input
+              type="text"
               v-model="searchUsers"
-              class="w-100 m-2"
-              placeholder="search users"
-              prefix-icon="Search"
+              class="form-control form-control-solid w-250px ps-15"
+              placeholder="search by user name"
             />
-          </el-form-item>
+          </div>
           <div>
             <el-tooltip
               class="box-item"
@@ -104,13 +107,13 @@ const tableHeaders = ref([
     columnName: "USD VALUE OF ORDERS",
     columnLabel: "created_at",
     sortEnabled: false,
-    columnWidth: 50,
+    columnWidth: 110,
   },
   {
     columnName: "TOTAL VALUE OF ORDERS",
     columnLabel: "created_at",
     sortEnabled: false,
-    columnWidth: 50,
+    columnWidth: 120,
   },
 ]);
 

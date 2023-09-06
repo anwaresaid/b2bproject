@@ -3,6 +3,24 @@
     <div class="card-header border-0 pt-6">
       <div class="card-body pt-0">
         <div class="d-flex justify-content-between">
+          <div class="d-flex align-items-center mb-10 position-relative">
+            <span class="svg-icon svg-icon-1 position-absolute ms-6">
+              <inline-svg src="/media/icons/duotune/general/gen021.svg" />
+            </span>
+            <input
+              type="text"
+              v-model="searchGames"
+              class="form-control form-control-solid w-250px ps-15"
+              placeholder="search games"
+            />
+          </div>
+          <div>
+            <el-button @click="createKey" type="primary" icon="plus" round
+              >add keys</el-button
+            >
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
           <el-form-item label="Select Table">
             <el-select
               v-model="tableType"
@@ -49,43 +67,39 @@
               wd="100px"
             />
           </el-form-item>
-          <div>
-            <el-button @click="createKey" type="primary" icon="plus" round
-              >add keys</el-button
-            >
-          </div>
         </div>
-        <Datatable
-          :data="keysData"
-          :header="tableHeaders"
-          :totalPages="paginationData.value?.last_page"
-          :enable-items-per-page-dropdown="true"
-          :checkbox-enabled="true"
-          :current-page="params.value?.current_page"
-          checkbox-label="id"
-          :loading="loading"
-          @on-items-per-page-change="getItemsInTable"
-          @page-change="pageChange"
-        >
-          <template v-slot:component1="slotProps">
-            <slot :action="slotProps.action">
-              <el-button
-                type="danger"
-                icon="Delete"
-                circle
-                @click="handleDelete(slotProps.action)"
-              />
-              <el-button
-                type="success"
-                icon="CopyDocument"
-                circle
-                @click="copyText(slotProps.action)"
-              />
-            </slot>
-          </template>
-        </Datatable>
       </div>
     </div>
+
+    <Datatable
+      :data="keysData"
+      :header="tableHeaders"
+      :totalPages="paginationData.value?.last_page"
+      :enable-items-per-page-dropdown="true"
+      :checkbox-enabled="true"
+      :current-page="params.value?.current_page"
+      checkbox-label="id"
+      :loading="loading"
+      @on-items-per-page-change="getItemsInTable"
+      @page-change="pageChange"
+    >
+      <template v-slot:component1="slotProps">
+        <slot :action="slotProps.action">
+          <el-button
+            type="danger"
+            icon="Delete"
+            circle
+            @click="handleDelete(slotProps.action)"
+          />
+          <el-button
+            type="success"
+            icon="CopyDocument"
+            circle
+            @click="copyText(slotProps.action)"
+          />
+        </slot>
+      </template>
+    </Datatable>
   </div>
   <CreateKey
     :isVisible="keyCreateVisible"
@@ -137,55 +151,55 @@ const tableHeaders = ref([
     columnName: "SUPPLIER",
     columnLabel: "supplier.name",
     sortEnabled: true,
-    columnWidth: 175,
+    columnWidth: 150,
   },
   {
     columnName: "GAME NAME",
     columnLabel: "game.name",
     sortEnabled: true,
-    columnWidth: 230,
+    columnWidth: 150,
   },
   {
     columnName: "KEY",
     columnLabel: "keycode",
     sortEnabled: true,
-    columnWidth: 175,
+    columnWidth: 130,
   },
   {
     columnName: "STATUS",
     columnLabel: "status.name",
     sortEnabled: true,
-    columnWidth: 175,
+    columnWidth: 100,
   },
   {
     columnName: "RESERVE ID",
     columnLabel: "reservation",
     sortEnabled: true,
-    columnWidth: 100,
+    columnWidth: 90,
   },
   {
     columnName: "SELL DATE",
     columnLabel: "sell_date",
     sortEnabled: false,
-    columnWidth: 135,
+    columnWidth: 100,
   },
   {
     columnName: "CUSTOMER",
     columnLabel: "customer",
     sortEnabled: false,
-    columnWidth: 135,
+    columnWidth: 105,
   },
   {
     columnName: "COST",
     columnLabel: "cost_eur",
     sortEnabled: false,
-    columnWidth: 135,
+    columnWidth: 80,
   },
   {
     columnName: "SALES PRICE",
     columnLabel: "sale",
     sortEnabled: false,
-    columnWidth: 135,
+    columnWidth: 80,
   },
   {
     columnName: "CREATED BY",
@@ -197,12 +211,12 @@ const tableHeaders = ref([
     columnName: "CREATED AT",
     columnLabel: "created_at",
     sortEnabled: false,
-    columnWidth: 50,
+    columnWidth: 100,
   },
   {
-    columnName: "ACTIONS",
+    columnName: "PROCESS",
     sortEnabled: false,
-    columnWidth: 50,
+    columnWidth: 100,
     custom: "component1",
   },
 ]);

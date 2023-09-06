@@ -5,8 +5,8 @@
     filterable
     remote
     :multiple="props.multiple"
-    :collapse-tags="props.multiple"
-    :collapse-tags-tooltip="props.multiple"
+    collapse-tags
+    collapse-tags-tooltip
     reserve-keyword
     :placeholder="label"
     :remote-method="setParams"
@@ -59,7 +59,7 @@ const props = defineProps([
 ]);
 
 const data = ref([]);
-const style = reactive({ width: props.wd });
+const style = reactive({ width: "auto" });
 const params = ref();
 const emit = defineEmits();
 const label = ref("Please enter a keyword");

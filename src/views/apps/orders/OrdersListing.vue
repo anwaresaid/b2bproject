@@ -2,93 +2,113 @@
   <div class="card">
     <div class="card-header border-0 pt-6">
       <div class="card-body pt-0">
-        <div class="d-flex justify-content-between">
-          <el-form-item>
-            <el-input
-              v-model="searchOrders"
-              class="w-100 m-2"
-              placeholder="search by order code"
-              prefix-icon="Search"
-            />
-          </el-form-item>
-          <el-form-item label="Select Order Type">
-            <el-select
-              v-model="tableType"
-              class="select-type"
-              placeholder="Select"
-            >
-              <el-option
-                v-for="item in orderType"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+        <div>
+          <div class="d-flex justify-content-between mb-10">
+            <div class="d-flex align-items-center position-relative">
+              <span class="svg-icon svg-icon-1 position-absolute ms-6">
+                <inline-svg src="/media/icons/duotune/general/gen021.svg" />
+              </span>
+              <input
+                type="text"
+                v-model="searchOrders"
+                class="form-control form-control-solid w-250px ps-15"
+                placeholder="search by order code"
               />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="Select Order status">
-            <el-select
-              v-model="tableStatus"
-              class="select-type"
-              placeholder="Select"
-            >
-              <el-option
-                v-for="item in orderStatus"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
+            </div>
+            <div>
+              <el-button type="primary" icon="plus" round
+                ><router-link to="/apps/create-order" class="text-white px-3"
+                  >Add Order</router-link
+                ></el-button
+              >
+            </div>
+          </div>
+          <div class="d-flex justify-content-between align-items-start">
+            <el-form-item label="Select Order Type">
+              <el-select
+                v-model="tableType"
+                class="select-table-type"
+                placeholder="Select"
+              >
+                <el-option
+                  v-for="item in orderType"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="Select Order status">
+              <el-select
+                v-model="tableStatus"
+                class="select-table-type"
+                placeholder="Select"
+              >
+                <el-option
+                  v-for="item in orderStatus"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="Select Customer">
+              <DropdownRemote
+                :url="customerUrl"
+                @selected-game="setCustomerId"
+                :type="customerType"
+                :keyg="customerKey"
+                wd="150px"
               />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="Select Customer">
-            <DropdownRemote
-              :url="customerUrl"
-              @selected-game="setCustomerId"
-              :type="customerType"
-              :keyg="customerKey"
-              wd="100px"
-            />
-          </el-form-item>
-          <div>
-            <el-button type="primary" icon="plus" round
-              ><router-link to="/apps/create-order" class="text-white px-3"
-                >Add Order</router-link
-              ></el-button
-            >
+            </el-form-item>
           </div>
         </div>
-        <Datatable
-          :data="ordersData"
-          :header="tableHeaders"
-          :totalPages="paginationData.value?.last_page"
-          :enable-items-per-page-dropdown="true"
-          :checkbox-enabled="true"
-          checkbox-label="id"
-          :loading="loading"
-          sortable
-          @on-items-per-page-change="getItemsInTable"
-          @page-change="pageChange"
-        >
-          <template v-slot:component1="slotProps">
-            <slot :action="slotProps.action">
-              <el-button
-                type="primary"
-                icon="View"
-                circle
-                @click="navigateOrderDetails(slotProps.action)"
-              />
-            </slot>
-            <slot :action="slotProps.action">
-              <el-button
-                type="success"
-                icon="CopyDocument"
-                circle
-                @click="copyText(slotProps.action)"
-              />
-            </slot>
-          </template>
-        </Datatable>
       </div>
     </div>
+    <Datatable
+      :data="ordersData"
+      :header="tableHeaders"
+      :totalPages="paginationData.value?.last_page"
+      :enable-items-per-page-dropdown="true"
+      :checkbox-enabled="true"
+      checkbox-label="id"
+      :loading="loading"
+      sortable
+      @on-items-per-page-change="getItemsInTable"
+      @page-change="pageChange"
+    >
+      <template v-slot:component1="slotProps">
+        <slot :action="slotProps.action">
+          <el-button
+            type="primary"
+            icon="View"
+            circle
+            @click="navigateOrderDetails(slotProps.action)"
+          />
+        </slot>
+        <slot :action="slotProps.action">
+          <el-button
+            type="success"
+            icon="CopyDocument"
+            circle
+            @click="copyText(slotProps.action)"
+          />
+        </slot>
+      </template>
+      <template v-slot:component2="slotProps">
+        <slot :action="slotProps.action">
+          <el-tag
+            class="ml-2"
+            v-if="slotProps.action.status === 'Onaylandı'"
+            type="success"
+            >{{ slotProps.action.status }}</el-tag
+          >
+          <el-tag class="ml-2" v-else type="danger">{{
+            slotProps.action.status
+          }}</el-tag>
+        </slot>
+      </template>
+    </Datatable>
   </div>
 </template>
 
@@ -113,7 +133,7 @@ const tableStatus = ref(null);
 const itemsInTable = ref(10);
 const currentPage = ref(1);
 const paginationData = reactive({});
-const tableType = reactive({ value: 2, label: "customer" });
+const tableType = ref({ value: 2, label: "customer" });
 const loading = ref(false);
 
 const tableHeaders = ref([
@@ -121,25 +141,6 @@ const tableHeaders = ref([
     columnName: "ORDER NUMBER",
     columnLabel: "order_code",
     sortEnabled: true,
-    columnWidth: 175,
-  },
-  {
-    columnName: "TOTAL AMOUNT",
-    columnLabel: "total_amount",
-    sortEnabled: true,
-    columnWidth: 230,
-  },
-  {
-    columnName: "SOLD PIECE",
-    columnLabel: "sold_count",
-    sortEnabled: true,
-    columnWidth: 175,
-  },
-  {
-    columnName: "RESERVED PIECE",
-    columnLabel: "reserved_count",
-    sortEnabled: true,
-    columnWidth: 175,
   },
   {
     columnName: "CUSTOMER",
@@ -148,19 +149,37 @@ const tableHeaders = ref([
     columnWidth: 135,
   },
   {
+    columnName: "TOTAL AMOUNT",
+    columnLabel: "total_amount",
+    sortEnabled: true,
+    columnWidth: 230,
+  },
+  {
+    columnName: "RESERVED PIECE",
+    columnLabel: "reserved_count",
+    sortEnabled: true,
+    columnWidth: 175,
+  },
+  {
+    columnName: "SOLD PIECE",
+    columnLabel: "sold_count",
+    sortEnabled: true,
+    columnWidth: 175,
+  },
+  {
     columnName: "CREATED BY",
     columnLabel: "created_by",
     sortEnabled: false,
     columnWidth: 135,
   },
   {
-    columnName: "CREATED AT",
-    columnLabel: "created_at",
+    columnName: "STATUS",
+    custom: "component2",
     sortEnabled: false,
-    columnWidth: 50,
+    columnWidth: 135,
   },
   {
-    columnName: "DETIALS",
+    columnName: "PROCESS",
     sortEnabled: false,
     columnWidth: 135,
     custom: "component1",
@@ -182,6 +201,7 @@ const fetchOrders = (type) => {
   });
 };
 const setCustomerId = (value) => {
+  console.log("value", value);
   dropdownParams.value = {};
   dropdownParams.value.customer_id = value;
 };
@@ -244,8 +264,8 @@ onBeforeUnmount(() => {
 });
 </script>
 <style>
-.select-type {
-  width: 100px !important;
+.select-table-type {
+  width: 130px !important;
 }
 .el-form-item {
   display: flex;
