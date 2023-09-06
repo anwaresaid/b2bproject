@@ -1,12 +1,10 @@
 <template>
   <div class="mb-5">
-    <div class="d-flex flex-row">
-      <span
-        class="date-header d-flex align-items-center ps-2 bg-white border border-light w-100"
+    <div class="card d-flex flex-row">
+      <span class="date-header d-flex align-items-center ps-2 border w-100"
         >from</span
       >
-      <span
-        class="date-header d-flex align-items-center ps-2 bg-white border border-light w-100"
+      <span class="date-header d-flex align-items-center ps-2 border w-100"
         >to</span
       >
     </div>

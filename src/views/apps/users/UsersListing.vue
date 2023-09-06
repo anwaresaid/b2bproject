@@ -31,21 +31,22 @@
           </div>
         </div>
       </div>
-      <div class="card-body pt-0">
-        <Datatable
-          :data="usersData"
-          :header="tableHeaders"
-          :totalPages="paginationData.last_page"
-          :enable-items-per-page-dropdown="true"
-          :checkbox-enabled="true"
-          checkbox-label="id"
-          :loading="loading"
-          sortable
-          @on-items-per-page-change="getItemsInTable"
-          @page-change="pageChange"
-        >
-        </Datatable>
-      </div>
+    </div>
+
+    <div class="card-body pt-0">
+      <Datatable
+        :data="usersData"
+        :header="tableHeaders"
+        :totalPages="paginationData.last_page"
+        :enable-items-per-page-dropdown="true"
+        :checkbox-enabled="true"
+        checkbox-label="id"
+        :loading="loading"
+        sortable
+        @on-items-per-page-change="getItemsInTable"
+        @page-change="pageChange"
+      >
+      </Datatable>
     </div>
   </div>
   <CreateUser :isVisible="userCreateVisible" @create-key="closeCreateUser" />
@@ -73,49 +74,16 @@ const tableHeaders = ref([
     columnName: "NAME",
     columnLabel: "name",
     sortEnabled: true,
-    columnWidth: 175,
   },
   {
     columnName: "SURNAME",
     columnLabel: "surname",
     sortEnabled: true,
-    columnWidth: 230,
   },
   {
     columnName: "E-MAIL",
     columnLabel: "email",
     sortEnabled: true,
-    columnWidth: 175,
-  },
-  {
-    columnName: "NUMBER OF SUCCESSFUL ORDERS",
-    columnLabel: "reserved_count",
-    sortEnabled: true,
-    columnWidth: 175,
-  },
-  {
-    columnName: "EURO VALUE OF ORDERS",
-    columnLabel: "customer",
-    sortEnabled: false,
-    columnWidth: 135,
-  },
-  {
-    columnName: "GBP VALUE OF ORDERS",
-    columnLabel: "created_by",
-    sortEnabled: false,
-    columnWidth: 135,
-  },
-  {
-    columnName: "USD VALUE OF ORDERS",
-    columnLabel: "created_at",
-    sortEnabled: false,
-    columnWidth: 110,
-  },
-  {
-    columnName: "TOTAL VALUE OF ORDERS",
-    columnLabel: "created_at",
-    sortEnabled: false,
-    columnWidth: 120,
   },
 ]);
 
