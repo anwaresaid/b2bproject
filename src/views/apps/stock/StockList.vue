@@ -1,57 +1,60 @@
 <template>
   <div class="card">
     <div class="card-header border-0 pt-6">
-      <div class="card-body pt-0">
-        <div class="d-flex justify-content-between mb-10">
-          <el-form-item>
-            <el-input
-              v-model="searchGames"
-              class="w-100 m-2"
-              placeholder="search games"
-              prefix-icon="Search"
-            />
-          </el-form-item>
-          <div class="all-stock p-5">
-            <h3>{{ sumStock }}</h3>
-            <span>Total value of all stocks</span>
-          </div>
+      <div
+        class="container-header pt-0 d-flex align-items-start mh-100 justify-content-between"
+      >
+        <div class="d-flex align-items-center position-relative">
+          <span class="svg-icon svg-icon-1 position-absolute ms-6">
+            <inline-svg src="/media/icons/duotune/general/gen021.svg" />
+          </span>
+          <input
+            type="text"
+            v-model="searchGames"
+            class="form-control form-control-solid w-250px ps-15"
+            placeholder="search games"
+          />
         </div>
-        <Datatable
-          :data="stockData"
-          :header="tableHeaders"
-          :totalPages="paginationData.value?.last_page"
-          :enable-items-per-page-dropdown="true"
-          :checkbox-enabled="true"
-          checkbox-label="id"
-          sortable
-          :loading="loading"
-          @on-items-per-page-change="getItemsInTable"
-          @page-change="pageChange"
-        >
-          <template v-slot:api_component="slotProps">
-            <slot :action="slotProps.action">
-              <div
-                v-if="slotProps.action.match_images.length > 0"
-                class="d-flex flex-row"
-              >
-                <img
-                  v-for="image in slotProps.action.match_images"
-                  :src="image"
-                  class="logos-stock"
-                />
-              </div>
-            </slot>
-          </template>
-          <template v-slot:status_component="slotProps">
-            <slot :action="slotProps.action">
-              <el-tag type="success">
-                {{ slotProps.action.status?.toLowerCase() }}</el-tag
-              >
-            </slot>
-          </template>
-        </Datatable>
+        <div class="all-stock p-5">
+          <h3>{{ sumStock }}</h3>
+          <span>Total value of all stocks</span>
+        </div>
       </div>
     </div>
+    <Datatable
+      :data="stockData"
+      :header="tableHeaders"
+      :totalPages="paginationData.value?.last_page"
+      :enable-items-per-page-dropdown="true"
+      :checkbox-enabled="true"
+      checkbox-label="id"
+      sortable
+      :loading="loading"
+      @on-items-per-page-change="getItemsInTable"
+      @page-change="pageChange"
+    >
+      <template v-slot:api_component="slotProps">
+        <slot :action="slotProps.action">
+          <div
+            v-if="slotProps.action.match_images.length > 0"
+            class="d-flex flex-row"
+          >
+            <img
+              v-for="image in slotProps.action.match_images"
+              :src="image"
+              class="logos-stock"
+            />
+          </div>
+        </slot>
+      </template>
+      <template v-slot:status_component="slotProps">
+        <slot :action="slotProps.action">
+          <el-tag type="success">
+            {{ slotProps.action.status?.toLowerCase() }}</el-tag
+          >
+        </slot>
+      </template>
+    </Datatable>
   </div>
 </template>
 
@@ -121,12 +124,12 @@ const tableHeaders = ref([
     columnName: "RESERVE",
     columnLabel: "reserve_count",
     sortEnabled: false,
-    columnWidth: 50,
+    columnWidth: 90,
   },
   {
     columnName: "STOCK + RESERVE",
     sortEnabled: false,
-    columnWidth: 135,
+    columnWidth: 90,
     columnLabel: "reserve_plus_stock",
   },
   {
@@ -180,10 +183,9 @@ onBeforeUnmount(() => {
 });
 </script>
 <style>
-.el-form-item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.container-header {
+  flex: 0 0 100%;
+  height: 100%;
 }
 .logos-stock {
   width: 20px;

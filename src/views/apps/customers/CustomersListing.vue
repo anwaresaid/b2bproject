@@ -183,25 +183,21 @@ export default defineComponent({
         columnName: "Customer Name",
         columnLabel: "name",
         sortEnabled: true,
-        columnWidth: 175,
       },
       {
         columnName: "Email",
         columnLabel: "email",
         sortEnabled: true,
-        columnWidth: 230,
       },
       {
         columnName: "Company",
         columnLabel: "company_registration_number",
         sortEnabled: true,
-        columnWidth: 175,
       },
       {
         columnName: "Payment Method",
         columnLabel: "payment_method",
         sortEnabled: true,
-        columnWidth: 175,
       },
       {
         columnName: "Location",
@@ -213,7 +209,6 @@ export default defineComponent({
         columnName: "Vat Number",
         columnLabel: "vat_number",
         sortEnabled: true,
-        columnWidth: 175,
       },
     ]);
     const selectedIds = ref<Array<number>>([]);

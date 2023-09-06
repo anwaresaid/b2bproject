@@ -27,7 +27,7 @@
         :prop="item.columnLabel"
         :label="item.columnName"
         :sortable="item.sortEnabled"
-        :width="item.width"
+        :width="item.columnWidth"
       >
         <template v-if="item.custom" #default="scope">
           <slot :name="item.custom" :action="scope.row"> </slot>

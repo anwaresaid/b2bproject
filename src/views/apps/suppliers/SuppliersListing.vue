@@ -96,7 +96,7 @@ export default defineComponent({
           columnName: "REMAINING BALANCE",
           columnLabel: "remaining_balance",
           sortEnabled: true,
-          columnWidth: 230,
+          columnWidth: 110,
         },
         {
           columnName: "ADDRESS",
@@ -120,7 +120,7 @@ export default defineComponent({
           columnName: "RELATED PERSON",
           columnLabel: "related_person",
           sortEnabled: false,
-          columnWidth: 135,
+          columnWidth: 99,
         },
         {
           columnName: "WEB SITE",
@@ -132,7 +132,7 @@ export default defineComponent({
           columnName: "BALANCE",
           columnLabel: "balance",
           sortEnabled: false,
-          columnWidth: 135,
+          columnWidth: 100,
         },
         {
           columnName: "INFO",
@@ -141,7 +141,7 @@ export default defineComponent({
           columnWidth: 135,
         },
         {
-          columnName: "EDIT",
+          columnName: "PROCESS",
           columnLabel: "edit",
           sortEnabled: false,
           columnWidth: 135,

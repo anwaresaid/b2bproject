@@ -14,70 +14,7 @@
           placeholder="Search Games"
         />
       </div>
-    </div>
-    <div class="card-header border-0 pt-6">
-      <!--begin::Card title-->
-      <!--begin::Search-->
-      <!--filters-->
-      <div class="filters">
-        <div class="filterSelect">
-          <DropdownRemote
-            :url="marketPlaceUrl"
-            @selected-game="setMarketPlaceId"
-            :multiple="true"
-            :type="marketPlaceType"
-            placeholder="please select marketplace"
-            :keyg="categoriesKey"
-            wd="220px"
-          />
-        </div>
-        <div class="filterSelect">
-          <DropdownRemote
-            :url="categoriesUrl"
-            @selected-game="setCategoryId"
-            :multiple="true"
-            :type="categoriesType"
-            :keyg="categoriesKey"
-            placeholder="please select a category"
-            wd="200px"
-          />
-        </div>
-        <div class="filterSelect">
-          <el-select v-model="gameStatus" placeholder="Select game status">
-            <el-option
-              v-for="item in statusGames"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </div>
-        <div class="filterSelect">
-          <DropdownRemote
-            :url="publishersUrl"
-            @selected-game="setPublisherId"
-            :multiple="true"
-            placeholder="please select publisher"
-            :type="publishersType"
-            :keyg="categoriesKey"
-            wd="200px"
-          />
-        </div>
-        <div class="filterSelect">
-          <el-select
-            v-model="marketPlaceStatus"
-            placeholder="Select marketplace status"
-          >
-            <el-option
-              v-for="item in statusMarketPlace"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            />
-          </el-select>
-        </div>
-      </div>
-      <div class="add-buttons">
+      <div class="d-flex align-items-center position-relative my-1">
         <el-tooltip
           class="box-item"
           effect="dark"
@@ -143,6 +80,73 @@
             circle
           />
         </el-tooltip>
+      </div>
+    </div>
+    <div class="card-header border-0 pt-6">
+      <!--begin::Card title-->
+      <!--begin::Search-->
+      <!--filters-->
+      <div class="d-flex justify-content-between w-100">
+        <div class="filterSelect">
+          <DropdownRemote
+            :url="marketPlaceUrl"
+            @selected-game="setMarketPlaceId"
+            :multiple="true"
+            :type="marketPlaceType"
+            placeholder="please select marketplace"
+            :keyg="categoriesKey"
+            wd="220px"
+          />
+        </div>
+        <div class="filterSelect">
+          <DropdownRemote
+            :url="categoriesUrl"
+            @selected-game="setCategoryId"
+            :multiple="true"
+            :type="categoriesType"
+            :keyg="categoriesKey"
+            placeholder="please select a category"
+            wd="200px"
+          />
+        </div>
+        <div class="filterSelect">
+          <el-select
+            v-model="gameStatus"
+            placeholder="Select game status"
+            :style="style"
+          >
+            <el-option
+              v-for="item in statusGames"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </div>
+        <div class="filterSelect">
+          <DropdownRemote
+            :url="publishersUrl"
+            @selected-game="setPublisherId"
+            :multiple="true"
+            placeholder="please select publisher"
+            :type="publishersType"
+            :keyg="categoriesKey"
+            wd="200px"
+          />
+        </div>
+        <div class="filterSelect">
+          <el-select
+            v-model="marketPlaceStatus"
+            placeholder="Select marketplace status"
+          >
+            <el-option
+              v-for="item in statusMarketPlace"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </div>
       </div>
       <!--begin::Card title-->
       <!--end::Card toolbar-->
@@ -280,6 +284,7 @@ export default defineComponent({
       marketPlaceStatus: "",
       currentPage: 1,
       itemsInTable: 10,
+      style: { width: "200px" },
       loading: false,
       statusGames: [
         { label: "Passive", value: 2 },
@@ -483,7 +488,7 @@ export default defineComponent({
         columnWidth: 135,
       },
       {
-        columnName: "Edit",
+        columnName: "PROCESS",
         sortEnabled: false,
         columnWidth: 135,
         custom: "component1",
@@ -562,12 +567,9 @@ export default defineComponent({
 }
 .filterSelect {
   min-width: 200px;
+  flex-basis: 33.33333%;
 }
-.filters {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
+
 .card-header {
   display: flex;
   justify-content: space-between;
