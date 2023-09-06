@@ -21,6 +21,7 @@
       :default-sort="{ prop: defaultSort, order: 'descending' }"
       style="width: 100%"
       v-loading="loading"
+      :size="size"
     >
       <el-table-column
         v-for="item in header"
@@ -59,6 +60,7 @@ export default defineComponent({
     data: { type: Array, required: true },
     itemsPerPage: { type: Number, default: 10 },
     totalPages: { type: Number, required: true },
+    size: { type: String },
     itemsPerPageDropdownEnabled: {
       type: Boolean,
       required: false,
