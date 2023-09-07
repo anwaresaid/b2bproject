@@ -101,15 +101,40 @@
         </template>
         <template v-slot:component2="slotProps">
           <slot :action="slotProps.action">
-            <el-tag
-              class="ml-2"
-              v-if="slotProps.action.status === 'Onaylandı'"
-              type="success"
-              >{{ slotProps.action.status }}</el-tag
+            <span
+              v-if="slotProps.action.status.id === 'Rezerve'"
+              :class="`badge py-3 px-4 fs-7 badge-light-warning`"
+              >{{ slotProps.action.status?.name }}</span
             >
-            <el-tag class="ml-2" v-else type="danger">{{
+            <span
+              v-else-if="
+                slotProps.action.status === ('Kabul Edilmedi' || 'İptal Edildi')
+              "
+              :class="`badge py-3 px-4 fs-7 badge-light-danger`"
+              >{{ slotProps.action.status }}</span
+            >
+            <span
+              v-else-if="slotProps.action.status === 'Oluşturuldu'"
+              :class="`badge py-3 px-4 fs-7 badge-light-primary`"
+              >{{ slotProps.action.status }}</span
+            >
+            <span
+              v-else-if="slotProps.action.status === 'Teslim Edildi'"
+              :class="`badge py-3 px-4 fs-7 badge-light-info`"
+              >{{ slotProps.action.status }}</span
+            >
+            <span v-else :class="`badge py-3 px-4 fs-7 badge-light-success`">{{
               slotProps.action.status
-            }}</el-tag>
+            }}</span>
+          </slot>
+        </template>
+        <template v-slot:component3="slotProps">
+          <slot :action="slotProps.action">
+            <span
+              class="game-name-link ml-2"
+              @click="navigateGameDetails(slotProps.action.game.uuid)"
+              >{{ slotProps.action.game.name }}</span
+            >
           </slot>
         </template>
       </Datatable>
@@ -157,7 +182,7 @@ const tableHeaders = ref([
   },
   {
     columnName: "GAME",
-    columnLabel: "game",
+    custom: "component3",
     sortEnabled: false,
   },
   {
@@ -234,7 +259,14 @@ const pageChange = (page: number) => {
   params.value.current_page = page;
   fetchOrders();
 };
-
+const navigateGameDetails = (id) => {
+  router.push({
+    name: "apps-game-detail-listing",
+    params: {
+      id: id,
+    },
+  });
+};
 const navigateOrderDetails = (item) => {
   const order_id = item.order_code;
   store.dispatch("setOrderCode", order_id);

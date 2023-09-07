@@ -1,16 +1,39 @@
 <template>
   <div class="card">
     <div class="card-header border-0 pt-6 mb-5">
-      <div class="d-flex align-items-center position-relative">
-        <span class="svg-icon svg-icon-1 position-absolute ms-6">
-          <inline-svg src="/media/icons/duotune/general/gen021.svg" />
-        </span>
-        <input
-          type="text"
-          v-model="searchGames"
-          class="form-control form-control-solid w-250px ps-15"
-          placeholder="search by game name"
+      <div
+        class="d-flex flex-row justify-content-between align-items-center w-100 position-relative"
+      >
+        <DropdownRemote
+          :url="gameUrl"
+          @selected-game="setGameId"
+          :type="gameType"
+          :placeholder="'please enter a game name'"
+          :multiple="true"
+          :keyg="gameKey"
+          wd="25%"
         />
+        <DropdownRemote
+          :url="marketPlaceUrl"
+          @selected-game="setMarketPlaceId"
+          :type="marketPlaceType"
+          :placeholder="'please enter a marketPlace name'"
+          :multiple="true"
+          :keyg="marketKey"
+          wd="25%"
+        />
+        <el-select
+          v-model="marketPlaceStatus"
+          placeholder="Select match status"
+          :style="selectStyle"
+        >
+          <el-option
+            v-for="item in matchStatus"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
       </div>
     </div>
     <div class="card-body pt-0">
@@ -36,10 +59,18 @@
         <template v-slot:game_component="slotProps">
           <slot :action="slotProps.action">
             <div v-if="slotProps.action.status === 0">
-              <span class="text-success">{{ slotProps.action.game }}</span>
+              <span
+                @click="navigateGameDetails(slotProps.action.game.uuid)"
+                class="game-name-link text-success"
+                >{{ slotProps.action.game.name }}</span
+              >
             </div>
             <div v-else-if="slotProps.action.status === 1">
-              <span class="text-danger">{{ slotProps.action.game }}</span>
+              <span
+                @click="navigateGameDetails(slotProps.action.game.uuid)"
+                class="game-name-link text-danger"
+                >{{ slotProps.action.game.name }}</span
+              >
             </div>
           </slot>
         </template>
@@ -52,18 +83,20 @@
 import { ref, reactive, onMounted, watch, toRefs, onBeforeUnmount } from "vue";
 import ApiService from "@/core/services/ApiService";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
-import { orderType, orderStatus } from "../utils/constants";
+import { matchStatus } from "../utils/constants";
 import { useRouter } from "vue-router";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import store from "../../../store";
 
 const matchData = ref([]);
 const router = useRouter();
-const customerUrl = "customers/all";
-const searchGames = ref("");
-const customerKey = "search";
-const dropdownParams = ref({});
-const customerType = "customers";
+const gameUrl = "games/list";
+const gameKey = "search_game";
+const gameType = "games";
+const marketPlaceUrl = "marketplace/all";
+const marketPlaceType = "marketplaces";
+const marketKey = "search";
+const marketPlaceStatus = ref();
 const params = ref({});
 const tableStatus = ref(null);
 const itemsInTable = ref(10);
@@ -72,7 +105,7 @@ const paginationData = reactive({});
 const tableType = ref();
 const sumStock = ref();
 const loading = ref(false);
-
+const selectStyle = "width: 25%";
 const tableHeaders = ref([
   {
     columnName: "API",
@@ -82,7 +115,6 @@ const tableHeaders = ref([
   },
   {
     columnName: "OYUN ADI",
-    columnLabel: "game",
     sortEnabled: true,
     columnWidth: 300,
     custom: "game_component",
@@ -112,7 +144,7 @@ const tableHeaders = ref([
   },
 ]);
 
-const fetchStock = (type) => {
+const fetchMatches = (type) => {
   loading.value = true;
   if (type === undefined) {
     params.value.current_page = currentPage;
@@ -130,24 +162,46 @@ const fetchStock = (type) => {
 
 const getItemsInTable = (item) => {
   params.value.per_page = item;
-  fetchStock();
+  fetchMatches();
 };
 const pageChange = (page: number) => {
   params.value.current_page = page;
-  fetchStock();
+  fetchMatches();
+};
+const setGameId = (value) => {
+  params.value = {};
+
+  params.value.games = value.map((item) => item.id);
+  if (params.value.games.length === 0) {
+    delete params.value[games];
+  }
+  fetchMatches();
+};
+const setMarketPlaceId = (value) => {
+  params.value = {};
+  params.value.marketplaces = value.map((market) => market.id);
+  fetchMatches();
 };
 
-watch(searchGames, (newValue) => {
-  params.value = {};
-  params.value = { search_game: searchGames.value };
-  fetchStock("filer");
+const navigateGameDetails = (id) => {
+  router.push({
+    name: "apps-game-detail-listing",
+    params: {
+      id: id,
+    },
+  });
+};
+
+watch(marketPlaceStatus, (newValue) => {
+  params.value.status = marketPlaceStatus.value;
+  fetchMatches();
 });
 
 onMounted(() => {
   params.value.current_page = currentPage;
   params.value.per_page = itemsInTable;
   params.value.page_type = tableType.value;
-  fetchStock();
+  fetchMatches();
 });
 
 onBeforeUnmount(() => {
@@ -169,5 +223,9 @@ onBeforeUnmount(() => {
   color: #592ef8;
   border-radius: 10px;
   border: 1px solid #bd2ef8;
+}
+.game-name-link:hover {
+  cursor: pointer;
+  filter: brightness(120%);
 }
 </style>

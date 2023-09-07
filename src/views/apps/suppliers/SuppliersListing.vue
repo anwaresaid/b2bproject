@@ -10,7 +10,7 @@
           v-model="search"
           @input="handleSearch()"
           class="form-control form-control-solid w-250px ps-15"
-          placeholder="Search Customers"
+          placeholder="Search Suppliers"
         />
       </div>
     </div>
@@ -174,12 +174,13 @@ export default defineComponent({
         }
       )
         .then(() => {
-          ApiService.delete(`suppliers/${data.id}`).then((res) => {});
+          ApiService.delete(`suppliers/${data.id}`).then((res) => {
+            this.fetchData();
+          });
           ElMessage({
             type: "success",
             message: "Delete completed",
           });
-          window.location.reload();
         })
         .catch(() => {
           ElMessage({

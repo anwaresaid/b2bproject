@@ -11,7 +11,7 @@
               type="text"
               v-model="searchGames"
               class="form-control form-control-solid w-250px ps-15"
-              placeholder="search games"
+              placeholder="search key code"
             />
           </div>
           <div>
@@ -21,52 +21,36 @@
           </div>
         </div>
         <div class="d-flex justify-content-between">
-          <el-form-item label="Select Table">
-            <el-select
-              v-model="tableType"
-              class="select-type"
-              placeholder="Select"
-            >
-              <el-option
-                v-for="item in keysType"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="Select Table Status">
-            <el-select
-              v-model="tableStatus"
-              class="select-type"
-              placeholder="Select"
-            >
-              <el-option
-                v-for="item in keysTypeStatus"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="Select game">
-            <DropdownRemote
-              :url="gameUrl"
-              @selected-game="setGameId"
-              :type="gameType"
-              :keyg="gameKey"
-              wd="100px"
+          <el-select
+            v-model="tableStatus"
+            class="select-type"
+            placeholder="Select key status"
+            :style="selectStyle"
+          >
+            <el-option
+              v-for="item in keysTypeStatus"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
             />
-          </el-form-item>
-          <el-form-item label="Select supplier">
-            <DropdownRemote
-              :url="supplierUrl"
-              @selected-game="setSupplierId"
-              :type="supplierType"
-              :keyg="supplierKey"
-              wd="100px"
-            />
-          </el-form-item>
+          </el-select>
+
+          <DropdownRemote
+            :url="gameUrl"
+            @selected-game="setGameId"
+            :type="gameType"
+            :keyg="gameKey"
+            placeholder="Select game"
+            wd="25%"
+          />
+          <DropdownRemote
+            :url="supplierUrl"
+            @selected-game="setSupplierId"
+            :type="supplierType"
+            :keyg="supplierKey"
+            lable="Select supplier"
+            wd="25%"
+          />
         </div>
       </div>
     </div>
@@ -107,6 +91,42 @@
             </el-tooltip>
           </slot>
         </template>
+        <template v-slot:component2="slotProps">
+          <slot :action="slotProps.action">
+            <span
+              class="game-name-link ml-2"
+              @click="navigateGameDetails(slotProps.action.game.uuid)"
+              >{{ slotProps.action.game?.name }}</span
+            >
+          </slot>
+        </template>
+        <template v-slot:component3="slotProps">
+          <slot :action="slotProps.action">
+            <span
+              v-if="slotProps.action.status.id === 3"
+              :class="`badge py-3 px-4 fs-7 badge-light-warning`"
+              >{{ slotProps.action.status?.name }}</span
+            >
+            <span
+              v-else-if="slotProps.action.status.id === 2"
+              :class="`badge py-3 px-4 fs-7 badge-light-danger`"
+              >{{ slotProps.action.status?.name }}</span
+            >
+            <span
+              v-else-if="slotProps.action.status.id === 1"
+              :class="`badge py-3 px-4 fs-7 badge-light-primary`"
+              >{{ slotProps.action.status?.name }}</span
+            >
+            <span
+              v-else-if="slotProps.action.status.id === 5"
+              :class="`badge py-3 px-4 fs-7 badge-light-info`"
+              >{{ slotProps.action.status?.name }}</span
+            >
+            <span v-else :class="`badge py-3 px-4 fs-7 badge-light-success`">{{
+              slotProps.action.status?.name
+            }}</span>
+          </slot>
+        </template>
       </Datatable>
     </div>
   </div>
@@ -122,31 +142,33 @@
 import { ref, reactive, onMounted, watch, toRefs, onBeforeUnmount } from "vue";
 import ApiService from "@/core/services/ApiService";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
-import { keysType, keysTypeStatus } from "../utils/constants";
+import { keysTypeStatus } from "../utils/constants";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import CreateKey from "./CreateKey.vue";
 import PusherService from "@/core/services/PusherService";
 import store from "../../../store";
+import { useRouter } from "vue-router";
 
 const keysData = ref([]);
 const gameUrl = "games/list";
 const gameKey = "search_game";
+const gameType = "games";
 const dropdownParams = ref({});
+const router = useRouter();
 const supplierKey = "search";
 const supplierUrl = "suppliers/all";
-const gameType = "games";
 const supplierType = "suppliers";
 const params = ref({});
 const tableStatus = ref(null);
 const itemsInTable = ref(10);
 const currentPage = ref(1);
 const paginationData = reactive({});
-const tableType = ref(5);
 const updateData = ref(null);
 const keyCreateVisible = ref(false);
 const searchGames = ref("");
 const isUpdate = ref(false);
 const loading = ref(false);
+const selectStyle = "width: 25%";
 const pusherEvent =
   "Illuminate\\Notifications\\Events\\BroadcastNotificationCreated";
 const channel = PusherService.subscribe("notification");
@@ -165,7 +187,7 @@ const tableHeaders = ref([
   },
   {
     columnName: "GAME NAME",
-    columnLabel: "game.name",
+    custom: "component2",
     sortEnabled: true,
   },
   {
@@ -176,7 +198,7 @@ const tableHeaders = ref([
   },
   {
     columnName: "STATUS",
-    columnLabel: "status.name",
+    custom: "component3",
     sortEnabled: true,
     columnWidth: 100,
   },
@@ -235,13 +257,20 @@ const fetchKeys = (type) => {
   if (type === undefined) {
     params.value.current_page = currentPage;
     params.value.per_page = itemsInTable;
-    params.value.page_type = tableType.value;
   }
   ApiService.postTest("keys/all", params.value).then((res) => {
     loading.value = false;
     keysData.value = res.data.data.keys;
     paginationData.value = res.data.data.pagination;
     store.dispatch("setPageItems", res.data.data.pagination.total_items);
+  });
+};
+const navigateGameDetails = (id) => {
+  router.push({
+    name: "apps-game-detail-listing",
+    params: {
+      id: id,
+    },
   });
 };
 const setGameId = (value) => {
@@ -273,11 +302,7 @@ const closeCreateKey = (value) => {
   keyCreateVisible.value = false;
   if (value) fetchKeys();
 };
-watch(tableType, (newValue) => {
-  params.value = {};
-  params.value.page_type = tableType.value;
-  fetchKeys();
-});
+
 watch(tableStatus, (newValue) => {
   params.value = {};
   params.value.status = tableStatus.value;
@@ -294,7 +319,7 @@ watch(keyCreateVisible, (newValue) => {
 });
 watch(searchGames, (newValue) => {
   params.value = {};
-  params.value.search_game = searchGames.value;
+  params.value.key_code = searchGames.value;
   fetchKeys();
   if (!newValue) {
   }
@@ -307,7 +332,6 @@ watch(message, (newValue) => {
 onMounted(() => {
   params.value.current_page = currentPage;
   params.value.per_page = itemsInTable;
-  params.value.page_type = tableType.value;
   fetchKeys();
 });
 
@@ -315,8 +339,4 @@ onBeforeUnmount(() => {
   // Cleanup or perform actions before component unmounts
 });
 </script>
-<style>
-.select-type {
-  width: 100px !important;
-}
-</style>
+<style scoped></style>
