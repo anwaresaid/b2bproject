@@ -17,7 +17,7 @@
             </div>
             <div>
               <el-button type="primary" icon="plus" round
-                ><router-link to="/apps/create-order" class="text-white px-3"
+                ><router-link to="/create-order" class="text-white px-3"
                   >Add Order</router-link
                 ></el-button
               >
