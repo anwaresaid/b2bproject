@@ -136,7 +136,7 @@ const tableHeaders = ref([
   },
 ]);
 
-const fetchOrders = (type) => {
+const fetchGames = (type) => {
   loading.value = true;
   if (type === undefined) {
     params.value.current_page = currentPage;
@@ -152,11 +152,11 @@ const fetchOrders = (type) => {
 };
 const getItemsInTable = (item) => {
   params.value.per_page = item;
-  fetchOrders();
+  fetchGames();
 };
 const pageChange = (page: number) => {
   params.value.current_page = page;
-  fetchOrders();
+  fetchGames();
 };
 
 const navigateOrderDetails = (item) => {
@@ -181,7 +181,7 @@ const handleChangeDates = () => {
   console.log("date", date);
   params.value.start = date.start;
   params.value.finish = date.finish;
-  fetchOrders();
+  fetchGames();
 };
 
 const copyText = (obj) => {
@@ -192,19 +192,19 @@ watch(tableStatus, (newValue) => {
   params.value = {};
   params.value.order_status = tableStatus.value;
 
-  fetchOrders("filter");
+  fetchGames("filter");
 });
 watch(dropdownParams, (newValue) => {
   params.value = {};
   params.value = dropdownParams.value;
 
-  fetchOrders("filer");
+  fetchGames("filer");
 });
 
 watch(searchOrders, (newValue) => {
   params.value = {};
   params.value = { search: searchOrders.value };
-  fetchOrders("filer");
+  fetchGames("filer");
 });
 
 watch(fromDate, (newValue) => {});
@@ -214,8 +214,8 @@ onMounted(() => {
   params.value.current_page = currentPage;
   params.value.per_page = itemsInTable;
   console.log("params", router.currentRoute.value.params.id);
-  params.value.gameId = router.currentRoute.value.params.id;
-  fetchOrders();
+  params.value.uuid = router.currentRoute.value.params.id;
+  fetchGames();
 });
 
 onBeforeUnmount(() => {
