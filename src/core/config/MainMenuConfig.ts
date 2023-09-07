@@ -375,28 +375,36 @@ const MainMenuConfig: Array<MenuItem> = [
         fontIcon: "bi-gem",
       },
       {
-        heading: "Keys",
+        sectionTitle: "Keys",
         route: "/keys",
-        svgIcon: "/media/icons/duotune/general/gen068.svg",
-        fontIcon: "bi-gem",
+        svgIcon: "/media/icons/duotune/art/art002.svg",
+        fontIcon: "bi-app-indicator",
+        sub: [
+          {
+            heading: "Keys List",
+            route: "/keys",
+          },
+          {
+            heading: "Stock List",
+            route: "/stock-list",
+          },
+        ],
       },
       {
-        heading: "Stock List",
-        route: "/stock-list",
-        svgIcon: "/media/icons/duotune/general/gen-stock.svg",
-        fontIcon: "bi-box2-fill",
-      },
-      {
-        heading: "Orders",
+        sectionTitle: "Orders",
         route: "/orders",
         svgIcon: "/media/icons/duotune/art/art002.svg",
         fontIcon: "bi-app-indicator",
-      },
-      {
-        heading: "Orders Sale",
-        route: "/orders-sale",
-        svgIcon: "/media/icons/duotune/art/art002.svg",
-        fontIcon: "bi-app-indicator",
+        sub: [
+          {
+            heading: "Orders List",
+            route: "/orders",
+          },
+          {
+            heading: "Orders Sale",
+            route: "/orders-sale",
+          },
+        ],
       },
     ],
   },
