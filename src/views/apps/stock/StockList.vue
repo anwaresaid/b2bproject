@@ -50,9 +50,14 @@
         </template>
         <template v-slot:status_component="slotProps">
           <slot :action="slotProps.action">
-            <el-tag type="success">
-              {{ slotProps.action.status?.toLowerCase() }}</el-tag
+            <span
+              v-if="slotProps.action.status.toLowerCase() === 'active'"
+              :class="`badge py-3 px-4 fs-7 badge-light-success`"
+              >{{ slotProps.action.status }}</span
             >
+            <span v-else :class="`badge py-3 px-4 fs-7 badge-light-danger`">{{
+              slotProps.action.status
+            }}</span>
           </slot>
         </template>
       </Datatable>

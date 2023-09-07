@@ -208,15 +208,14 @@
         </template>
         <template v-slot:component3="slotProps">
           <slot :action="slotProps.action">
-            <el-tag
-              class="ml-2"
+            <span
               v-if="slotProps.action.status.id === '1'"
-              type="success"
-              >{{ slotProps.action.status?.name }}</el-tag
+              :class="`badge py-3 px-4 fs-7 badge-light-success`"
+              >{{ slotProps.action.status?.name }}</span
             >
-            <el-tag class="ml-2" v-else type="danger">{{
+            <span v-else :class="`badge py-3 px-4 fs-7 badge-light-danger`">{{
               slotProps.action.status?.name
-            }}</el-tag>
+            }}</span>
           </slot>
         </template>
       </Datatable>

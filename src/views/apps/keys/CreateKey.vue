@@ -31,7 +31,7 @@
       <el-form-item label="Status" label-width="250px" prop="status" required>
         <el-select v-model="form.status" class="m-2" placeholder="Select">
           <el-option
-            v-for="item in keysType"
+            v-for="item in keysTypeStatus"
             :key="item.value"
             :label="item.label"
             :value="item.value"
@@ -112,7 +112,6 @@ import {
   MultiListSelect,
   ModelSelect,
 } from "vue-search-select";
-import { keysType } from "../utils/constants";
 import type { FormInstance, FormRules } from "element-plus";
 import { ElMessage, ElMessageBox } from "element-plus";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";

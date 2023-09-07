@@ -6,6 +6,10 @@ export const gamivoStatus = [
   { label: "active", value: 0 },
   { label: "passive", value: 1 },
 ];
+export const matchStatus = [
+  { label: "active", value: 0 },
+  { label: "passive", value: 1 },
+];
 
 export const categoryType = [
   {
@@ -39,29 +43,6 @@ export const processType = [
   {
     label: "match",
     value: "Match",
-  },
-];
-
-export const keysType = [
-  {
-    value: 1,
-    label: "active",
-  },
-  {
-    value: 2,
-    label: "passive",
-  },
-  {
-    value: 3,
-    label: "resreve",
-  },
-  {
-    value: 4,
-    label: "sold",
-  },
-  {
-    value: 5,
-    label: "all",
   },
 ];
 export const keysTypeStatus = [
@@ -100,6 +81,14 @@ export const keysTypeStatus = [
     label: "delivered",
     turkish: "Teslim Edilmiş",
     status: "success",
+  },
+  {
+    value: 7,
+    label: "kinguin stock",
+  },
+  {
+    value: -1,
+    label: "all",
   },
 ];
 

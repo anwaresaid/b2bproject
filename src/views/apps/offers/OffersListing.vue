@@ -249,7 +249,7 @@ onBeforeUnmount(() => {
   // Cleanup or perform actions before component unmounts
 });
 </script>
-<style>
+<style scoped>
 .select-type {
   width: 100px !important;
 }
