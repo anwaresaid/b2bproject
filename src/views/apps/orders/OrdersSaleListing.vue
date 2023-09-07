@@ -112,6 +112,15 @@
             }}</el-tag>
           </slot>
         </template>
+        <template v-slot:component3="slotProps">
+          <slot :action="slotProps.action">
+            <span
+              class="game-name-link ml-2"
+              @click="navigateGameDetails(slotProps.action.game.uuid)"
+              >{{ slotProps.action.game.name }}</span
+            >
+          </slot>
+        </template>
       </Datatable>
     </div>
   </div>
@@ -157,7 +166,7 @@ const tableHeaders = ref([
   },
   {
     columnName: "GAME",
-    columnLabel: "game",
+    custom: "component3",
     sortEnabled: false,
   },
   {
@@ -234,7 +243,14 @@ const pageChange = (page: number) => {
   params.value.current_page = page;
   fetchOrders();
 };
-
+const navigateGameDetails = (id) => {
+  router.push({
+    name: "apps-game-detail-listing",
+    params: {
+      id: id,
+    },
+  });
+};
 const navigateOrderDetails = (item) => {
   const order_id = item.order_code;
   store.dispatch("setOrderCode", order_id);

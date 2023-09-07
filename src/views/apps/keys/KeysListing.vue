@@ -11,7 +11,7 @@
               type="text"
               v-model="searchGames"
               class="form-control form-control-solid w-250px ps-15"
-              placeholder="search games"
+              placeholder="search key code"
             />
           </div>
           <div>
@@ -107,6 +107,15 @@
             </el-tooltip>
           </slot>
         </template>
+        <template v-slot:component2="slotProps">
+          <slot :action="slotProps.action">
+            <span
+              class="game-name-link ml-2"
+              @click="navigateGameDetails(slotProps.action.game.uuid)"
+              >{{ slotProps.action.game.name }}</span
+            >
+          </slot>
+        </template>
       </Datatable>
     </div>
   </div>
@@ -127,11 +136,13 @@ import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import CreateKey from "./CreateKey.vue";
 import PusherService from "@/core/services/PusherService";
 import store from "../../../store";
+import { useRouter } from "vue-router";
 
 const keysData = ref([]);
 const gameUrl = "games/list";
 const gameKey = "search_game";
 const dropdownParams = ref({});
+const router = useRouter();
 const supplierKey = "search";
 const supplierUrl = "suppliers/all";
 const gameType = "games";
@@ -165,7 +176,7 @@ const tableHeaders = ref([
   },
   {
     columnName: "GAME NAME",
-    columnLabel: "game.name",
+    custom: "component2",
     sortEnabled: true,
   },
   {
@@ -244,6 +255,14 @@ const fetchKeys = (type) => {
     store.dispatch("setPageItems", res.data.data.pagination.total_items);
   });
 };
+const navigateGameDetails = (id) => {
+  router.push({
+    name: "apps-game-detail-listing",
+    params: {
+      id: id,
+    },
+  });
+};
 const setGameId = (value) => {
   dropdownParams.value = {};
   dropdownParams.value.game_id = value;
@@ -294,7 +313,7 @@ watch(keyCreateVisible, (newValue) => {
 });
 watch(searchGames, (newValue) => {
   params.value = {};
-  params.value.search_game = searchGames.value;
+  params.value.key_code = searchGames.value;
   fetchKeys();
   if (!newValue) {
   }

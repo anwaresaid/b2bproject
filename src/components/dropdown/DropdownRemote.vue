@@ -11,6 +11,7 @@
     :remote-method="setParams"
     :loading="loading"
     remote-show-suffix
+    clearable
     :disabled="props.disabled"
     @change="handleChange"
     :style="wd ? width : style"
