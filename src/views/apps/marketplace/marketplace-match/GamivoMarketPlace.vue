@@ -10,19 +10,28 @@
           :size="formSize"
           class="form-control"
         >
-          <el-form-item label="price" prop="seller_price" required>
+          <el-form-item
+            label="price"
+            prop="seller_price"
+            label-width="140px"
+            class="form-items-flex"
+            required
+          >
             <el-input
               v-model="form.seller_price"
               type="number"
+              class="w-50"
               autocomplete="off"
             />
           </el-form-item>
-          <el-form-item label="Status" prop="status" required>
-            <el-select
-              v-model="form.status"
-              placeholder="Select"
-              class="select-currency"
-            >
+          <el-form-item
+            label="Status"
+            prop="status"
+            label-width="140px"
+            class="form-items-flex"
+            required
+          >
+            <el-select v-model="form.status" placeholder="Select" class="w-50">
               <el-option
                 v-for="item in gamivoStatus"
                 :key="item.value"
@@ -31,23 +40,35 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item label="Choose game" prop="game_id" required>
+          <el-form-item
+            label="Choose game"
+            prop="game_id"
+            label-width="140px"
+            class="form-items-flex"
+            required
+          >
             <DropdownRemote
               :url="gameUrl"
               @selected-game="setGameId"
               :type="gameType"
               :keyg="gameKey"
-              wd="187.5px"
+              wd="50%"
             />
           </el-form-item>
-          <el-form-item label="Gamivo game search" prop="product" required>
+          <el-form-item
+            label="Gamivo game"
+            prop="product"
+            label-width="140px"
+            class="form-items-flex"
+            required
+          >
             <DropdownRemote
               :url="gamivoGameUrl"
               @selected-game="setGamivoGameId"
               :type="gamivoGameType"
               :disabled="disabled"
               :keyg="gamivoGameKey"
-              wd="187.5px"
+              wd="50%"
               :condition="4"
             />
           </el-form-item>
@@ -180,13 +201,16 @@ onBeforeUnmount(() => {
   // Cleanup or perform actions before component unmounts
 });
 </script>
-<style>
+<style scoped>
 .form-control {
   display: flex !important;
   flex-wrap: wrap;
-  justify-content: space-evenly;
 }
-.select-currency {
-  width: 187.5px !important;
+.form-items-flex {
+  display: flex;
+  flex: 50%;
+}
+.el-form-item__label {
+  justify-content: flex-start !important;
 }
 </style>

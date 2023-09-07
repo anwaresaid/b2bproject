@@ -1,5 +1,4 @@
 <template>
-  <div></div>
   <el-select
     v-model="value"
     filterable
@@ -14,7 +13,7 @@
     remote-show-suffix
     :disabled="props.disabled"
     @change="handleChange"
-    :style="wd ? style : null"
+    :style="wd ? width : style"
     value-key="id"
   >
     <el-option
@@ -60,6 +59,7 @@ const props = defineProps([
 
 const data = ref([]);
 const style = reactive({ width: "auto" });
+const width = reactive({ width: props.wd });
 const params = ref();
 const emit = defineEmits();
 const label = ref("Please enter a keyword");

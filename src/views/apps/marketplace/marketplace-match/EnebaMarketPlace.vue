@@ -10,14 +10,31 @@
           :size="formSize"
           class="form-control"
         >
-          <el-form-item label="amount" prop="amount" required>
-            <el-input v-model="form.amount" type="number" autocomplete="off" />
+          <el-form-item
+            label="amount"
+            prop="amount"
+            class="form-items-flex"
+            label-width="140px"
+            required
+          >
+            <el-input
+              v-model="form.amount"
+              type="number"
+              class="w-50"
+              autocomplete="off"
+            />
           </el-form-item>
-          <el-form-item label="Currency" prop="amount_currency" required>
+          <el-form-item
+            label="Currency"
+            class="form-items-flex"
+            prop="amount_currency"
+            label-width="140px"
+            required
+          >
             <el-select
               v-model="form.amount_currency"
               placeholder="Select"
-              class="select-currency"
+              class="w-50"
             >
               <el-option
                 v-for="item in currency"
@@ -27,19 +44,27 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item label="Choose game" prop="game_id" required>
+          <el-form-item
+            label="Choose game"
+            prop="game_id"
+            class="form-items-flex"
+            label-width="140px"
+            required
+          >
             <DropdownRemote
               :url="gameUrl"
               @selected-game="setGameId"
               :type="gameType"
               :keyg="gameKey"
-              wd="187.5px"
+              wd="50%"
             />
           </el-form-item>
           <el-form-item
-            label="Eneba game search"
+            label="Eneba game"
             prop="product_api_id"
             required
+            class="form-items-flex"
+            label-width="140px"
           >
             <DropdownRemote
               :url="enebaGameUrl"
@@ -47,7 +72,7 @@
               :type="enebaGameType"
               :keyg="enebaGameKey"
               :disabled="disabled"
-              wd="187.5px"
+              wd="50%"
               :condition="4"
             />
           </el-form-item>
@@ -177,13 +202,16 @@ onBeforeUnmount(() => {
   // Cleanup or perform actions before component unmounts
 });
 </script>
-<style>
+<style scoped>
 .form-control {
   display: flex !important;
   flex-wrap: wrap;
-  justify-content: space-evenly;
 }
-.select-currency {
-  width: 187.5px !important;
+.form-items-flex {
+  display: flex;
+  flex: 50%;
+}
+.el-form-item__label {
+  justify-content: flex-start !important;
 }
 </style>

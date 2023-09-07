@@ -10,14 +10,31 @@
           :size="formSize"
           class="form-control"
         >
-          <el-form-item label="amount" prop="amount" required>
-            <el-input v-model="form.amount" type="number" autocomplete="off" />
+          <el-form-item
+            label="amount"
+            prop="amount"
+            label-width="140px"
+            class="form-items-flex"
+            required
+          >
+            <el-input
+              v-model="form.amount"
+              type="number"
+              class="w-50"
+              autocomplete="off"
+            />
           </el-form-item>
-          <el-form-item label="Currency" prop="amount_currency" required>
+          <el-form-item
+            label="Currency"
+            label-width="140px"
+            class="form-items-flex"
+            prop="amount_currency"
+            required
+          >
             <el-select
               v-model="form.amount_currency"
               placeholder="Select"
-              class="select-currency"
+              class="w-50"
             >
               <el-option
                 v-for="item in currency"
@@ -27,19 +44,27 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item label="Choose game" prop="game_id" required>
+          <el-form-item
+            label="Choose game"
+            label-width="140px"
+            class="form-items-flex"
+            prop="game_id"
+            required
+          >
             <DropdownRemote
               :url="gameUrl"
               @selected-game="setGameId"
               :type="gameType"
               :keyg="gameKey"
-              wd="187.5px"
+              wd="50%"
             />
           </el-form-item>
           <el-form-item
-            label="Kinguin game search"
+            label="Kinguin game"
             prop="product_api_id"
             required
+            label-width="140px"
+            class="form-items-flex"
           >
             <DropdownRemote
               :url="kinguinGameUrl"
@@ -47,7 +72,7 @@
               :disabled="disabled"
               :type="kinguinGameType"
               :keyg="kinguinGameKey"
-              wd="187.5px"
+              wd="50%"
               :condition="4"
             />
           </el-form-item>
@@ -183,6 +208,14 @@ onBeforeUnmount(() => {
   justify-content: space-evenly;
 }
 .select-currency {
-  width: 187.5px !important;
+  width: 100% !important;
+}
+.form-items-flex {
+  display: flex;
+  flex: 50%;
+  justify-content: flex-start !important;
+}
+.el-form-item__label {
+  justify-content: flex-start !important;
 }
 </style>

@@ -201,7 +201,7 @@
             <el-tag
               class="game-name-link ml-2"
               type="warning"
-              @click="navigateGameDetails(slotProps.action.id)"
+              @click="navigateGameDetails(slotProps.action.uuid)"
               >{{ slotProps.action.name }}</el-tag
             >
           </slot>
@@ -481,48 +481,55 @@ export default defineComponent({
         columnName: "Game Name",
         custom: "component2",
         sortEnabled: true,
-        columnWidth: 175,
+      },
+      {
+        columnName: "STOCK",
+        columnLabel: "stock",
+        sortEnabled: true,
+      },
+      {
+        columnName: "SALE PRICE",
+        columnLabel: "sale_price",
+        sortEnabled: true,
+      },
+      {
+        columnName: "AVERAGE VALUE",
+        columnLabel: "average_value",
+        sortEnabled: true,
       },
       {
         columnName: "Category Type",
         columnLabel: "category_type.name",
         sortEnabled: true,
-        columnWidth: 230,
       },
       {
         columnName: "Status",
         custom: "component3",
         sortEnabled: true,
-        columnWidth: 230,
       },
       {
         columnName: "Language",
         columnLabel: "language.name",
         sortEnabled: true,
-        columnWidth: 175,
       },
       {
         columnName: "Category",
         columnLabel: "category.name",
         sortEnabled: true,
-        columnWidth: 175,
       },
       {
         columnName: "Publisher",
         columnLabel: "publisher.name",
         sortEnabled: true,
-        columnWidth: 225,
       },
       {
         columnName: "Region",
         columnLabel: "region.name",
         sortEnabled: false,
-        columnWidth: 135,
       },
       {
         columnName: "PROCESS",
         sortEnabled: false,
-        columnWidth: 135,
         custom: "component1",
       },
     ]);
