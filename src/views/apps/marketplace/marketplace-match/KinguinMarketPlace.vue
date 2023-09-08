@@ -213,7 +213,6 @@ onBeforeUnmount(() => {
 .form-items-flex {
   display: flex;
   flex: 50%;
-  justify-content: flex-start !important;
 }
 .el-form-item__label {
   justify-content: flex-start !important;

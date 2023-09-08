@@ -11,6 +11,7 @@
         alt="Logo"
         src="/media/logos/default-dark.svg"
         class="h-25px app-sidebar-logo-default"
+        @click="navigateDashBoard"
       />
       <img
         v-if="themeMode === 'light' && layout === 'light-sidebar'"
@@ -48,15 +49,21 @@
 import { defineComponent } from "vue";
 import { layout, themeMode } from "@/core/helpers/config";
 import { sidebarToggleDisplay } from "@/core/helpers/config";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "sidebar-logo",
   components: {},
   setup() {
+    const router = useRouter();
+    const navigateDashBoard = () => {
+      router.push({ name: "dashboard", params: {} });
+    };
     return {
       layout,
       themeMode,
       sidebarToggleDisplay,
+      navigateDashBoard,
     };
   },
 });

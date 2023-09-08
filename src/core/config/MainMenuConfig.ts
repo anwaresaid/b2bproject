@@ -11,12 +11,6 @@ export interface MenuItem {
 const MainMenuConfig: Array<MenuItem> = [
   {
     pages: [
-      {
-        heading: "dashboard",
-        route: "/dashboard",
-        svgIcon: "/media/icons/duotune/art/art002.svg",
-        fontIcon: "bi-app-indicator",
-      },
       // {
       //   heading: "layoutBuilder",
       //   route: "/builder",
@@ -32,8 +26,8 @@ const MainMenuConfig: Array<MenuItem> = [
       {
         heading: "Users",
         route: "/users",
-        svgIcon: "/media/icons/duotune/general/genPeople.svg",
-        fontIcon: "bi-people-fill",
+        svgIcon: "/media/icons/duotune/art/art002.svg",
+        fontIcon: "bi-app-indicator",
       },
       // {
       //   sectionTitle: "pages",
@@ -90,8 +84,8 @@ const MainMenuConfig: Array<MenuItem> = [
       {
         sectionTitle: "Accounting",
         route: "/account",
-        svgIcon: "/media/icons/duotune/communication/com006.svg",
-        fontIcon: "bi-person",
+        svgIcon: "/media/icons/duotune/art/art002.svg",
+        fontIcon: "bi-app-indicator",
         sub: [
           {
             heading: "General account",
@@ -247,8 +241,8 @@ const MainMenuConfig: Array<MenuItem> = [
       {
         sectionTitle: "customers",
         route: "/customers",
-        svgIcon: "/media/icons/duotune/finance/fin006.svg",
-        fontIcon: "bi-printer",
+        svgIcon: "/media/icons/duotune/art/art002.svg",
+        fontIcon: "bi-app-indicator",
         sub: [
           // {
           //   heading: "gettingStarted",
@@ -267,8 +261,8 @@ const MainMenuConfig: Array<MenuItem> = [
       {
         sectionTitle: "Marketplace",
         route: "/marketplace",
-        svgIcon: "/media/icons/duotune/general/gen070-shop.svg",
-        fontIcon: "bi-shop",
+        svgIcon: "/media/icons/duotune/art/art002.svg",
+        fontIcon: "bi-app-indicator",
         sub: [
           {
             sectionTitle: "Match",
@@ -347,8 +341,8 @@ const MainMenuConfig: Array<MenuItem> = [
       {
         heading: "games",
         route: "/games",
-        svgIcon: "/media/icons/duotune/general/gen063.svg",
-        fontIcon: "bi-controller",
+        svgIcon: "/media/icons/duotune/art/art002.svg",
+        fontIcon: "bi-app-indicator",
       },
       {
         heading: "moneybox",
@@ -359,20 +353,20 @@ const MainMenuConfig: Array<MenuItem> = [
       {
         heading: "Roles",
         route: "/roles",
-        svgIcon: "/media/icons/duotune/general/gen064.svg",
-        fontIcon: "bi-person-fill",
+        svgIcon: "/media/icons/duotune/art/art002.svg",
+        fontIcon: "bi-app-indicator",
       },
       {
         heading: "Suppliers",
         route: "/suppliers",
-        svgIcon: "/media/icons/duotune/general/gen065.svg",
-        fontIcon: "bi-truck",
+        svgIcon: "/media/icons/duotune/art/art002.svg",
+        fontIcon: "bi-app-indicator",
       },
       {
         heading: "Offers",
         route: "/offers",
-        svgIcon: "/media/icons/duotune/general/gen067.svg",
-        fontIcon: "bi-gem",
+        svgIcon: "/media/icons/duotune/art/art002.svg",
+        fontIcon: "bi-app-indicator",
       },
       {
         sectionTitle: "Keys",

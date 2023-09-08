@@ -56,34 +56,36 @@
             >-->
           </div>
         </div>
-        <Datatable
-          :data="ordersData"
-          :header="tableHeaders"
-          :totalPages="paginationData.value?.last_page"
-          :enable-items-per-page-dropdown="true"
-          :checkbox-enabled="true"
-          checkbox-label="id"
-          sortable
-          @on-items-per-page-change="getItemsInTable"
-          @page-change="pageChange"
-        >
-          <template v-slot:component1="slotProps">
-            <slot :action="slotProps.action">
-              <el-button
-                type="primary"
-                icon="View"
-                circle
-                @click="navigateOrderDetails(slotProps.action)"
-              />
-            </slot>
-          </template>
-          <template v-slot:delete-process="slotProps">
-            <slot :action="slotProps.action">
-              <el-button type="danger" icon="View" circle> DELETE </el-button>
-            </slot>
-          </template>
-        </Datatable>
       </div>
+    </div>
+    <div class="card-body pt-0">
+      <Datatable
+        :data="ordersData"
+        :header="tableHeaders"
+        :totalPages="paginationData.value?.last_page"
+        :enable-items-per-page-dropdown="true"
+        :checkbox-enabled="true"
+        checkbox-label="id"
+        sortable
+        @on-items-per-page-change="getItemsInTable"
+        @page-change="pageChange"
+      >
+        <template v-slot:component1="slotProps">
+          <slot :action="slotProps.action">
+            <el-button
+              type="primary"
+              icon="View"
+              circle
+              @click="navigateOrderDetails(slotProps.action)"
+            />
+          </slot>
+        </template>
+        <template v-slot:delete-process="slotProps">
+          <slot :action="slotProps.action">
+            <el-button type="danger" icon="View" circle> DELETE </el-button>
+          </slot>
+        </template>
+      </Datatable>
     </div>
   </div>
 </template>
