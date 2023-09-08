@@ -81,7 +81,7 @@
         <template v-slot:component2="slotProps">
           <slot :action="slotProps.action">
             <span :class="`badge py-3 px-4 fs-7 badge-light-danger`">{{
-              slotProps.action.oldStock
+              slotProps.action.old_stock
             }}</span>
           </slot>
         </template>
@@ -97,7 +97,7 @@
         <template v-slot:component1="slotProps">
           <slot :action="slotProps.action">
             <span :class="`badge py-3 px-4 fs-7 badge-light-success`">{{
-              slotProps.action.newStock
+              slotProps.action.new_stock
             }}</span>
           </slot>
         </template>
@@ -138,12 +138,12 @@ const tableHeaders = ref([
   },
   {
     columnName: "PUBLISHER",
-    columnLabel: "publisher",
+    columnLabel: "publisher.name",
     sortEnabled: false,
   },
   {
     columnName: "SUPPLIER",
-    columnLabel: "supplier",
+    columnLabel: "supplier.name",
     sortEnabled: true,
   },
   {
