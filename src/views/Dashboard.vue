@@ -174,14 +174,10 @@ const fetchOrders = (type) => {
   }
   ApiService.get("keys/mainPage/summary").then((res) => {
     loading.value = false;
-    summaryData.value = res.data.data.lats_ten_game;
+    summaryData.value = res.data.data.last_game_updates;
   });
 };
-const setCustomerId = (value) => {
-  console.log("value", value);
-  dropdownParams.value = {};
-  dropdownParams.value.customer_id = value;
-};
+
 const getItemsInTable = (item) => {
   params.value.per_page = item;
   fetchOrders();
