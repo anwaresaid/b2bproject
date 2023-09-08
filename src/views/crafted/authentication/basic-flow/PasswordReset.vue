@@ -57,7 +57,7 @@
           </span>
         </button>
 
-        <router-link to="/sign-up" class="btn btn-lg btn-light-primary fw-bold"
+        <router-link to="/sign-in" class="btn btn-lg btn-light-primary fw-bold"
           >İptal Et</router-link
         >
       </div>
@@ -133,7 +133,7 @@ export default defineComponent({
 
       submitButton.value?.removeAttribute("data-kt-indicator");
       // eslint-disable-next-line
-        submitButton.value!.disabled = false;
+      submitButton.value!.disabled = false;
     };
 
     return {

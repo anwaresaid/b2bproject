@@ -90,7 +90,7 @@
             <span
               :class="`game-name-link badge py-3 px-4 fs-7 badge-light-warning`"
               @click="navigateToGameDetailsPage(slotProps.action.game.uuid)"
-              >{{ slotProps.action.game.name }}</span
+              >{{ slotProps.action.game?.name }}</span
             >
           </slot>
         </template>
@@ -138,7 +138,7 @@ const tableHeaders = ref([
   },
   {
     columnName: "PUBLISHER",
-    columnLabel: "publisher.name",
+    columnLabel: "game.publisher.name",
     sortEnabled: false,
   },
   {
