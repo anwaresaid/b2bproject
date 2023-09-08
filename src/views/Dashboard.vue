@@ -81,7 +81,7 @@
         <template v-slot:component2="slotProps">
           <slot :action="slotProps.action">
             <span :class="`badge py-3 px-4 fs-7 badge-light-danger`">{{
-              slotProps.action.oldStock
+              slotProps.action.old_stock
             }}</span>
           </slot>
         </template>
@@ -97,7 +97,7 @@
         <template v-slot:component1="slotProps">
           <slot :action="slotProps.action">
             <span :class="`badge py-3 px-4 fs-7 badge-light-success`">{{
-              slotProps.action.newStock
+              slotProps.action.new_stock
             }}</span>
           </slot>
         </template>
@@ -138,12 +138,12 @@ const tableHeaders = ref([
   },
   {
     columnName: "PUBLISHER",
-    columnLabel: "publisher",
+    columnLabel: "publisher.name",
     sortEnabled: false,
   },
   {
     columnName: "SUPPLIER",
-    columnLabel: "supplier",
+    columnLabel: "supplier.name",
     sortEnabled: true,
   },
   {
@@ -174,14 +174,10 @@ const fetchOrders = (type) => {
   }
   ApiService.get("keys/mainPage/summary").then((res) => {
     loading.value = false;
-    summaryData.value = res.data.data.lats_ten_game;
+    summaryData.value = res.data.data.last_game_updates;
   });
 };
-const setCustomerId = (value) => {
-  console.log("value", value);
-  dropdownParams.value = {};
-  dropdownParams.value.customer_id = value;
-};
+
 const getItemsInTable = (item) => {
   params.value.per_page = item;
   fetchOrders();
