@@ -8,6 +8,7 @@ import { useConfigStore } from "@/stores/config";
 import store from "@/store";
 import MainLayout from "@/layouts/main-layout/MainLayout.vue";
 import Dashboard from "@/views/Dashboard.vue";
+import DashboardComp from "@/views/DashboardComp.vue";
 import LayoutBuilder from "@/views/LayoutBuilder.vue";
 import Profile from "@/components/page-layouts/Profile.vue";
 import Horizontal from "@/views/crafted/pages/wizards/Horizontal.vue";
@@ -90,6 +91,15 @@ const routes: Array<RouteRecordRaw> = [
         path: "/dashboard",
         name: "dashboard",
         component: () => Dashboard,
+        meta: {
+          pageTitle: "Dashboard",
+          breadcrumbs: ["Dashboards"],
+        },
+      },
+      {
+        path: "/dashboard-comp",
+        name: "dashboard-comp",
+        component: () => DashboardComp,
         meta: {
           pageTitle: "Dashboard",
           breadcrumbs: ["Dashboards"],

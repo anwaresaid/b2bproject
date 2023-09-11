@@ -1,71 +1,126 @@
 <template>
-  <div class="card">
-    <div class="card-header border-0 pt-6">
-      <!--<div class="card-body pt-0">
-        <div>
-          <div class="d-flex justify-content-between mb-10">
-            <div class="d-flex align-items-center position-relative">
-              <span class="svg-icon svg-icon-1 position-absolute ms-6">
-                <inline-svg src="/media/icons/duotune/general/gen021.svg" />
-              </span>
-              <input
-                type="text"
-                v-model="searchOrders"
-                class="form-control form-control-solid w-250px ps-15"
-                placeholder="search by order code"
-              />
-            </div>
-            <div>
-              <el-button type="primary" icon="plus" round
-                ><router-link to="/create-order" class="text-white px-3"
-                  >Add Order</router-link
-                ></el-button
-              >
-            </div>
-          </div>
-          <div class="d-flex justify-content-between align-items-start">
-            <el-form-item label="Select Order Type">
-              <el-select
-                v-model="tableType"
-                class="select-table-type"
-                placeholder="Select"
-              >
-                <el-option
-                  v-for="item in orderType"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="Select Order status">
-              <el-select
-                v-model="tableStatus"
-                class="select-table-type"
-                placeholder="Select"
-              >
-                <el-option
-                  v-for="item in orderStatus"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="Select Customer">
-              <DropdownRemote
-                :url="customerUrl"
-                @selected-game="setCustomerId"
-                :type="customerType"
-                :keyg="customerKey"
-                wd="150px"
-              />
-            </el-form-item>
-          </div>
-        </div>
-      </div>-->
+  <!--begin::Row-->
+  <div
+    class="d-flex row align-items-start justify-content-between g-5 g-xl-10 mb-5 mb-xl-10"
+  >
+    <!--begin::Col-->
+    <div class="col-xl-6">
+      <SummaryTable
+        :items="items"
+        :navbar="true"
+        :title="'Last game updates'"
+        :headers="tableHeadersWeekly"
+        className="h-md-100"
+      >
+        <template #component3="row">
+          <span
+            :class="`game-name-link badge py-3 px-4 fs-7 badge-light-warning`"
+            @click="navigateToGameDetailsPage(row.game.uuid)"
+            >{{ row.game?.name }}</span
+          >
+        </template>
+        <template #component2="row">
+          <span :class="`badge py-3 px-4 fs-7 badge-light-success`">{{
+            row.new_stock
+          }}</span>
+        </template>
+        <template #component1="row">
+          <span :class="`badge py-3 px-4 fs-7 badge-light-danger`">{{
+            row.old_stock
+          }}</span>
+        </template>
+        <template #component4="row">
+          <span :class="'text-gray-600 fw-bold fs-6'">{{
+            row.customer?.name
+          }}</span>
+        </template>
+        <template #component5="row">
+          <span :class="'text-gray-600 fw-bold fs-6'">{{
+            row.supplier?.name
+          }}</span>
+        </template>
+      </SummaryTable>
     </div>
+    <!--end::Col-->
+    <!--begin::Col-->
+    <div class="col-xl-6">
+      <SummaryTable
+        :data="customersSummaryData"
+        :navbar="false"
+        :headers="customersTableHeaders"
+        :title="'Customer Summary Data'"
+        className="h-md-100"
+      >
+        <template #component2="row">
+          <span :class="`badge py-3 px-4 fs-7 badge-light-warning`">
+            <div v-for="(item, index) in row.order_items">
+              <span
+                :class="`game-name-link px-0  badge badge-light-warning`"
+                @click="navigateToGameDetailsPage(item.game.uuid)"
+                >{{ item.game?.name }}</span
+              >{{
+                ` * ${item.quantity} ${
+                  row.order_items.length > 1 &&
+                  index < row.order_items.length - 1
+                    ? ","
+                    : ""
+                }`
+              }}
+            </div></span
+          >
+        </template>
+        <template #component4="row">
+          <span :class="'text-gray-600 fw-bold fs-6'">{{
+            row.customer?.name
+          }}</span>
+        </template>
+      </SummaryTable>
+    </div>
+    <!--end::Col-->
+    <!--begin::Col-->
+    <div class="col-xl-12">
+      <SummaryTable
+        :data="summaryData"
+        :navbar="false"
+        :headers="tableHeaders"
+        :title="'Daily / Weekly / Monthly Data'"
+        className="h-md-100"
+      >
+        <template #component3="row">
+          <span
+            :class="`game-name-link badge py-3 px-4 fs-7 badge-light-warning`"
+            @click="navigateToGameDetailsPage(row.game.uuid)"
+            >{{ row.game?.name }}</span
+          >
+        </template>
+        <template #component2="row">
+          <span :class="`badge py-3 px-4 fs-7 badge-light-success`">{{
+            row.new_stock
+          }}</span>
+        </template>
+        <template #component1="row">
+          <span :class="`badge py-3 px-4 fs-7 badge-light-danger`">{{
+            row.old_stock
+          }}</span>
+        </template>
+        <template #component4="row">
+          <span :class="'text-gray-600 fw-bold fs-6'">{{
+            row.game?.publisher?.name
+          }}</span>
+        </template>
+        <template #component5="row">
+          <span :class="'text-gray-600 fw-bold fs-6'">{{
+            row.supplier?.name
+          }}</span>
+        </template>
+      </SummaryTable>
+    </div>
+  </div>
+  <!--end::Row-->
+  <!-- <div class="card">
+    <div class="card-header border-0 pt-6"></div>
     <div class="card-body pt-0">
+
       <Datatable
         :data="summaryData"
         :header="tableHeaders"
@@ -103,28 +158,30 @@
         </template>
       </Datatable>
     </div>
-  </div>
+  </div>-->
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive, onMounted, watch, toRefs, onBeforeUnmount } from "vue";
 import ApiService from "@/core/services/ApiService";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
+import SummaryTable from "@/components/kt-datatable/SummaryTable.vue";
 import { orderType, orderStatus } from "./apps/utils/constants";
 import { useRouter } from "vue-router";
 import DropdownRemote from "../components/dropdown/DropdownRemote.vue";
 import store from "../store";
 
 const summaryData = ref([]);
+const customersSummaryData = ref([]);
 const router = useRouter();
 const searchOrders = ref("");
 const dropdownParams = ref({});
-const customerKey = "search";
-const customerUrl = "customers/all";
-const customerType = "customers";
 const params = ref({});
 const tableStatus = ref(null);
 const itemsInTable = ref(10);
+const todayTable = ref([]);
+const weekTable = ref([]);
+const monthTable = ref([]);
 const currentPage = ref(1);
 const paginationData = reactive({});
 const tableType = ref({ value: 2, label: "customer" });
@@ -134,23 +191,15 @@ const tableHeaders = ref([
   {
     columnName: "GAME",
     custom: "component3",
-    sortEnabled: true,
   },
   {
     columnName: "PUBLISHER",
-    columnLabel: "game.publisher.name",
-    sortEnabled: false,
+    custom: "component4",
   },
   {
     columnName: "SUPPLIER",
-    columnLabel: "supplier.name",
-    sortEnabled: true,
-  },
-  {
-    columnName: "OLD STOCK",
-    custom: "component1",
-    sortEnabled: true,
-    columnWidth: 170,
+    columnLabel: "supplier",
+    custom: "component5",
   },
   {
     columnName: "NEW STOCK",
@@ -159,11 +208,113 @@ const tableHeaders = ref([
     columnWidth: 150,
   },
   {
+    columnName: "OLD STOCK",
+    custom: "component1",
+    sortEnabled: true,
+    columnWidth: 170,
+  },
+  {
     columnName: "DATE",
     columnLabel: "date",
     sortEnabled: false,
   },
 ]);
+
+const customersTableHeaders = ref([
+  {
+    columnName: "GAME",
+    custom: "component2",
+  },
+  {
+    columnName: "CUSTOMER",
+    custom: "component4",
+  },
+
+  {
+    columnName: "ORDER CODE",
+    columnLabel: "order_code",
+    sortEnabled: true,
+    columnWidth: 170,
+  },
+]);
+const tableHeadersWeekly = ref([
+  {
+    columnName: "GAME",
+    columnLabel: "game_name",
+  },
+  {
+    columnName: "GAME ID",
+    columnLabel: "game_id",
+  },
+  {
+    columnName: "TOTAL KEYS SOLD",
+    columnLabel: "total_keys_sold",
+  },
+]);
+
+const items = reactive([
+  {
+    title: "Today",
+    icon: "calendar-event",
+    table: todayTable.value,
+  },
+  {
+    title: "This week",
+    icon: "calendar2-check",
+    table: weekTable.value,
+  },
+  {
+    title: "This month",
+    icon: "calendar-check",
+    table: monthTable.value,
+  },
+]);
+const data = [
+  {
+    title: "Today",
+    icon: "fonticon-drive",
+    index: "1",
+    table: [
+      {
+        columnName: "GAME",
+        custom: "component3",
+      },
+      {
+        agent: {
+          avatar: "/media/avatars/300-2.jpg",
+          name: "Jane Cooper",
+          city: "Monaco",
+        },
+        price: "63.83",
+        icon: false,
+        statistics: 10,
+        chartCcolor: "danger",
+      },
+      {
+        agent: {
+          avatar: "/media/avatars/300-9.jpg",
+          name: "Jacob Jones",
+          city: "Poland",
+        },
+        price: "92.56",
+        icon: true,
+        statistics: 9,
+        chartCcolor: "success",
+      },
+      {
+        agent: {
+          avatar: "/media/avatars/300-7.jpg",
+          name: "Cody Fishers",
+          city: "Mexico",
+        },
+        price: "63.08",
+        icon: false,
+        statistics: 9.5,
+        chartCcolor: "success",
+      },
+    ],
+  },
+];
 
 const fetchOrders = (type) => {
   loading.value = true;
@@ -175,16 +326,12 @@ const fetchOrders = (type) => {
   ApiService.get("keys/mainPage/summary").then((res) => {
     loading.value = false;
     summaryData.value = res.data.data.last_game_updates;
+    items[0].table = res.data.data.today;
+    items[2].table = res.data.data.thisMonth;
+    items[1].table = res.data.data.thisWeek;
+    customersSummaryData.value = res.data.data.last_five_customer_orders;
+    console.log("today", items);
   });
-};
-
-const getItemsInTable = (item) => {
-  params.value.per_page = item;
-  fetchOrders();
-};
-const pageChange = (page: number) => {
-  params.value.current_page = page;
-  fetchOrders();
 };
 
 const navigateToGameDetailsPage = (id) => {
