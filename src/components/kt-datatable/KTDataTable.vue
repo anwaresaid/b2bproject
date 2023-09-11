@@ -37,6 +37,7 @@
     </el-table>
     <TableFooter
       @page-change="pageChange"
+      v-if="pagination !== false || pagination === undefined"
       :current-page="currentPage"
       v-model:itemsPerPage="itemsInTable"
       :count="totalItems"
@@ -60,6 +61,7 @@ export default defineComponent({
     data: { type: Array, required: true },
     itemsPerPage: { type: Number, default: 10 },
     totalPages: { type: Number, required: true },
+    pagination: { type: Boolean },
     size: { type: String },
     itemsPerPageDropdownEnabled: {
       type: Boolean,
