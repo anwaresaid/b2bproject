@@ -43,6 +43,7 @@
                 v-model="tableStatus"
                 class="select-table-type"
                 placeholder="Select"
+                clearable
               >
                 <el-option
                   v-for="item in orderStatus"
@@ -73,6 +74,7 @@
         :enable-items-per-page-dropdown="true"
         :checkbox-enabled="true"
         checkbox-label="id"
+        :pagination="true"
         :loading="loading"
         sortable
         @on-items-per-page-change="getItemsInTable"
@@ -80,12 +82,19 @@
       >
         <template v-slot:component1="slotProps">
           <slot :action="slotProps.action">
-            <el-button
-              type="primary"
-              icon="View"
-              circle
-              @click="navigateOrderDetails(slotProps.action)"
-            />
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="Order details"
+              placement="top-start"
+            >
+              <el-button
+                type="primary"
+                icon="View"
+                circle
+                @click="navigateOrderDetails(slotProps.action)"
+              />
+            </el-tooltip>
           </slot>
           <slot :action="slotProps.action">
             <el-tooltip
@@ -223,6 +232,7 @@ const fetchOrders = (type) => {
     params.value.per_page = itemsInTable;
     params.value.page_type = tableType.value;
   }
+  console.log("params", params.value);
   ApiService.postTest("orders/all", params.value).then((res) => {
     loading.value = false;
     ordersData.value = res.data.data.orders;
@@ -232,8 +242,12 @@ const fetchOrders = (type) => {
 };
 const setCustomerId = (value) => {
   console.log("value", value);
-  dropdownParams.value = {};
   dropdownParams.value.customer_id = value;
+  params.value = dropdownParams.value;
+  if (value === undefined) {
+    delete dropdownParams.value["customer_id"];
+  }
+  fetchOrders("filer");
 };
 const getItemsInTable = (item) => {
   params.value.per_page = item;
@@ -260,22 +274,26 @@ const copyText = (obj) => {
 };
 
 watch(tableType, (newValue) => {
-  params.value.order_type = tableType.value;
-
+  params.value = {};
+  dropdownParams.order_type = tableType.value;
+  params.value = dropdownParams.value;
   fetchOrders();
 });
 watch(tableStatus, (newValue) => {
   params.value = {};
-  params.value.order_status = tableStatus.value;
-
+  dropdownParams.value.tableStatus = tableStatus.value;
+  if (tableStatus.value === "") {
+    delete dropdownParams.value["tableStatus"];
+  }
+  params.value = dropdownParams.value;
   fetchOrders("filter");
 });
-watch(dropdownParams, (newValue) => {
-  params.value = {};
-  params.value = dropdownParams.value;
-
-  fetchOrders("filer");
-});
+// watch(dropdownParams, (newValue) => {
+//   params.value = {};
+//   console.log("changed", dropdownParams.value);
+//   params.value = dropdownParams.value;
+//   fetchOrders("filer");
+// });
 watch(searchOrders, (newValue) => {
   params.value = {};
   params.value = { search: searchOrders.value };
@@ -286,6 +304,7 @@ onMounted(() => {
   params.value.current_page = currentPage;
   params.value.per_page = itemsInTable;
   params.value.page_type = tableType.value;
+  dropdownParams.value.page_type = tableType.value.value;
   fetchOrders();
 });
 

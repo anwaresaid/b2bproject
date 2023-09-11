@@ -10,9 +10,9 @@
               </span>
               <input
                 type="text"
-                v-model="searchOrders"
+                v-model="searchKeys"
                 class="form-control form-control-solid w-250px ps-15"
-                placeholder="search by order code"
+                placeholder="search by KEY code"
               />
             </div>
             <div>
@@ -25,12 +25,14 @@
     <Datatable
       :data="keysData"
       :header="tableHeaders"
-      :totalPages="paginationData.value?.last_page"
+      :totalPages="paginationData.last_page"
       :enable-items-per-page-dropdown="true"
       :checkbox-enabled="true"
       checkbox-label="id"
+      :pagination="true"
       :loading="loading"
       sortable
+      :currentPage="currentPage"
       @on-items-per-page-change="getItemsInTable"
       @page-change="pageChange"
     >
@@ -65,7 +67,7 @@ const gameData = ref([]);
 const fromDate = ref();
 const toDate = ref();
 const router = useRouter();
-const searchOrders = ref("");
+const searchKeys = ref("");
 const dropdownParams = ref({});
 const keysData = ref([]);
 
@@ -201,9 +203,9 @@ watch(dropdownParams, (newValue) => {
   fetchGames("filer");
 });
 
-watch(searchOrders, (newValue) => {
+watch(searchKeys, (newValue) => {
   params.value = {};
-  params.value = { search: searchOrders.value };
+  params.value = { keyCode: searchKeys.value };
   fetchGames("filer");
 });
 

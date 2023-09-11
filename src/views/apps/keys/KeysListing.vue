@@ -25,6 +25,7 @@
             v-model="tableStatus"
             class="select-type"
             placeholder="Select key status"
+            clearable
             :style="selectStyle"
           >
             <el-option
@@ -61,6 +62,7 @@
         :totalPages="paginationData.value?.last_page"
         :enable-items-per-page-dropdown="true"
         :checkbox-enabled="true"
+        :pagination="true"
         :current-page="params.value?.current_page"
         checkbox-label="id"
         size="small"
@@ -274,12 +276,15 @@ const navigateGameDetails = (id) => {
   });
 };
 const setGameId = (value) => {
-  dropdownParams.value = {};
+  console.log("value", value);
   dropdownParams.value.game_id = value;
+  params.value = dropdownParams.value;
+  fetchKeys("filer");
 };
 const setSupplierId = (value) => {
-  dropdownParams.value = {};
   dropdownParams.value.supplier_id = value;
+  params.value = dropdownParams.value;
+  fetchKeys("filer");
 };
 const getItemsInTable = (item) => {
   params.value.per_page = item;
@@ -304,21 +309,24 @@ const closeCreateKey = (value) => {
 };
 
 watch(tableStatus, (newValue) => {
-  params.value = {};
-  params.value.status = tableStatus.value;
-  fetchKeys("filter");
-});
-watch(dropdownParams, (newValue) => {
-  params.value = {};
+  dropdownParams.value.status = tableStatus.value;
+  if (tableStatus.value === "") {
+    delete dropdownParams.value["status"];
+  }
   params.value = dropdownParams.value;
   fetchKeys("filer");
 });
+// watch(dropdownParams.value.game_id, (newValue) => {
+//   params.value = {};
+//   console.log("called", dropdownParams.value);
+//   params.value = dropdownParams.value;
+//   fetchKeys("filer");
+// });
 watch(keyCreateVisible, (newValue) => {
   if (!newValue) {
   }
 });
 watch(searchGames, (newValue) => {
-  params.value = {};
   params.value.key_code = searchGames.value;
   fetchKeys();
   if (!newValue) {

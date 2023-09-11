@@ -21,6 +21,7 @@
         :totalPages="paginationData.last_page"
         :enable-items-per-page-dropdown="true"
         :checkbox-enabled="true"
+        :pagination="true"
         :current-page="currentPage"
         checkbox-label="id"
         @on-items-per-page-change="getItemsInTable"

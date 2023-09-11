@@ -105,6 +105,7 @@
         :data="customersData"
         :header="tableHeader"
         :loading="loading"
+        :pagination="true"
         :totalPages="paginationData.last_page"
         :enable-items-per-page-dropdown="true"
         :checkbox-enabled="true"

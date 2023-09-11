@@ -41,6 +41,7 @@
         :enable-items-per-page-dropdown="true"
         :checkbox-enabled="true"
         checkbox-label="id"
+        :pagination="true"
         :loading="loading"
         sortable
         @on-items-per-page-change="getItemsInTable"

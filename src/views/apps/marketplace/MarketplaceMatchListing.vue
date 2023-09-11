@@ -26,6 +26,7 @@
           v-model="marketPlaceStatus"
           placeholder="Select match status"
           :style="selectStyle"
+          clearable
         >
           <el-option
             v-for="item in matchStatus"
@@ -44,6 +45,8 @@
         :enable-items-per-page-dropdown="true"
         :checkbox-enabled="true"
         checkbox-label="id"
+        :size="`small`"
+        :pagination="true"
         sortable
         :loading="loading"
         @on-items-per-page-change="getItemsInTable"
@@ -74,6 +77,54 @@
             </div>
           </slot>
         </template>
+        <template v-slot:component1="slotProps">
+          <slot :action="slotProps.action">
+            <!--       <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="Delete game"
+              placement="top-start"
+            >
+              <el-button
+                type="danger"
+                icon="Delete"
+                circle
+                @click="confirmSubmission(slotProps.action)"
+              />
+            </el-tooltip>-->
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="Edit game"
+              placement="top-start"
+            >
+              <el-button
+                type="warning"
+                icon="Edit"
+                circle
+                @click="handleUpdate(slotProps.action)"
+              />
+            </el-tooltip>
+          </slot>
+        </template>
+        <template v-slot:component4="slotProps">
+          <slot :action="slotProps.action">
+            <div class="d-flex flex-row">
+              <img
+                v-if="slotProps.action.game.match_images.length > 0"
+                v-for="image in slotProps.action.game.match_images"
+                :src="image"
+                class="logos-stock"
+              />
+              <img
+                v-if="slotProps.action?.game.passive_images?.length > 0"
+                v-for="image in slotProps.action.game.passive_images"
+                :src="image"
+                class="logos-stock opacity-50"
+              />
+            </div>
+          </slot>
+        </template>
       </Datatable>
     </div>
   </div>
@@ -87,6 +138,7 @@ import { matchStatus } from "../utils/constants";
 import { useRouter } from "vue-router";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import store from "../../../store";
+import { ElMessage, ElMessageBox } from "element-plus";
 
 const matchData = ref([]);
 const router = useRouter();
@@ -125,6 +177,11 @@ const tableHeaders = ref([
     sortEnabled: true,
   },
   {
+    columnName: "MARKETPALCE",
+    custom: "component4",
+    sortEnabled: true,
+  },
+  {
     columnName: "API ID",
     columnLabel: "product_id_in_api",
     sortEnabled: true,
@@ -141,6 +198,10 @@ const tableHeaders = ref([
     columnLabel: "retail",
     sortEnabled: false,
     columnWidth: 100,
+  },
+  {
+    columnName: "PROCESS",
+    custom: "component1",
   },
 ]);
 
@@ -169,18 +230,56 @@ const pageChange = (page: number) => {
   fetchMatches();
 };
 const setGameId = (value) => {
-  params.value = {};
-
   params.value.games = value.map((item) => item.id);
-  if (params.value.games.length === 0) {
-    delete params.value[games];
+  console.log("value", params.value);
+  if (
+    params.value.games.length === 0 ||
+    params.value.games.length === undefined
+  ) {
+    delete params.value["games"];
   }
   fetchMatches();
 };
 const setMarketPlaceId = (value) => {
-  params.value = {};
   params.value.marketplaces = value.map((market) => market.id);
+  if (
+    params.value.marketplaces.length === 0 ||
+    params.value.marketplaces.length === undefined
+  ) {
+    delete params.value["marketplaces"];
+  }
   fetchMatches();
+};
+const handleUpdate = (data) => {
+  console.log("update", data);
+};
+
+const confirmSubmission = (data) => {
+  ElMessageBox.confirm(
+    `this action will permanently delete the ${data.name}. Continue?`,
+    "Warning",
+    {
+      confirmButtonText: "OK",
+      cancelButtonText: "Cancel",
+      type: "warning",
+    }
+  )
+    .then(() => {
+      ApiService.delete(`games/${data.id}`).then((res) => {
+        store.dispatch("setPageItems", res.data.data.pagination.total_items);
+      });
+      ElMessage({
+        type: "success",
+        message: "Delete completed",
+      });
+      window.location.reload();
+    })
+    .catch(() => {
+      ElMessage({
+        type: "info",
+        message: "Delete canceled",
+      });
+    });
 };
 
 const navigateGameDetails = (id) => {
@@ -194,6 +293,9 @@ const navigateGameDetails = (id) => {
 
 watch(marketPlaceStatus, (newValue) => {
   params.value.status = marketPlaceStatus.value;
+  if (params.value.status === "") {
+    delete params.value["status"];
+  }
   fetchMatches();
 });
 

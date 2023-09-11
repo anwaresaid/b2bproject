@@ -13,13 +13,22 @@
         >
           <template #header>
             {{ item.columnName }}
-            <el-button
-              type="primary"
-              icon="Edit"
-              circle
-              @click="handleEditRole(index, item.columnLabel, setDialogVisible)"
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="edit"
+              placement="top-start"
             >
-            </el-button>
+              <el-button
+                type="primary"
+                icon="Edit"
+                circle
+                @click="
+                  handleEditRole(index, item.columnLabel, setDialogVisible)
+                "
+              >
+              </el-button>
+            </el-tooltip>
           </template>
           <template #default="role">
             <div>
