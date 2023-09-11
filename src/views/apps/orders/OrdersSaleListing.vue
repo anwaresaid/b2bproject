@@ -22,6 +22,7 @@
                 v-model="tableStatus"
                 class="select-table-type"
                 placeholder="Select"
+                clearable
               >
                 <el-option
                   v-for="item in orderStatus"
@@ -68,6 +69,7 @@
         :totalPages="paginationData.value?.last_page"
         :enable-items-per-page-dropdown="true"
         :checkbox-enabled="true"
+        :pagination="true"
         checkbox-label="id"
         :loading="loading"
         sortable
@@ -248,8 +250,11 @@ const fetchOrders = (type) => {
 };
 const setGameId = (value) => {
   console.log("value", value);
-  dropdownParams.value = {};
-  dropdownParams.value.gameId = value;
+  params.value.gameId = value;
+  if (value === undefined) {
+    delete params.value["gameId"];
+  }
+  fetchOrders();
 };
 const getItemsInTable = (item) => {
   params.value.per_page = item;
@@ -297,17 +302,18 @@ const copyText = (obj) => {
 };
 
 watch(tableStatus, (newValue) => {
-  params.value = {};
   params.value.order_status = tableStatus.value;
-
+  if (tableStatus.value === "") {
+    delete params.value["order_status"];
+  }
   fetchOrders("filter");
 });
-watch(dropdownParams, (newValue) => {
-  params.value = {};
-  params.value = dropdownParams.value;
+// watch(dropdownParams, (newValue) => {
+//   params.value = {};
+//   params.value = dropdownParams.value;
 
-  fetchOrders("filer");
-});
+//   fetchOrders("filer");
+// });
 
 watch(searchOrders, (newValue) => {
   params.value = {};

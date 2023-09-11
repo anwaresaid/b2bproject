@@ -114,6 +114,7 @@
             v-model="gameStatus"
             placeholder="Select game status"
             :style="style"
+            clearable
           >
             <el-option
               v-for="item in statusGames"
@@ -137,6 +138,7 @@
         <div class="filterSelect">
           <el-select
             v-model="marketPlaceStatus"
+            clearable
             placeholder="Select marketplace status"
           >
             <el-option
@@ -162,6 +164,8 @@
         :enable-items-per-page-dropdown="true"
         :checkbox-enabled="true"
         checkbox-label="id"
+        :pagination="true"
+        :size="'small'"
         :currentPage="currentPage"
         @on-items-per-page-change="getItemsInTable"
         @page-change="pageChange"
@@ -204,6 +208,24 @@
               @click="navigateGameDetails(slotProps.action.uuid)"
               >{{ slotProps.action.name }}</el-tag
             >
+          </slot>
+        </template>
+        <template v-slot:component4="slotProps">
+          <slot :action="slotProps.action">
+            <div class="d-flex flex-row">
+              <img
+                v-if="slotProps.action.match_images.length > 0"
+                v-for="image in slotProps.action.match_images"
+                :src="image"
+                class="logos-stock"
+              />
+              <img
+                v-if="slotProps.action?.passive_images?.length > 0"
+                v-for="image in slotProps.action.passive_images"
+                :src="image"
+                class="logos-stock opacity-50"
+              />
+            </div>
           </slot>
         </template>
         <template v-slot:component3="slotProps">
@@ -338,14 +360,32 @@ export default defineComponent({
     setCategoryId(category) {
       const items = category.map((cat) => cat.id);
       this.filters.categories = items;
+      if (
+        this.filters.categories.length === 0 ||
+        this.filters.categories.length === undefined
+      ) {
+        delete this.filters["categories"];
+      }
     },
     setMarketPlaceId(marketplace) {
       const items = marketplace.map((mp) => mp.id);
       this.filters.marketplaces = items;
+      if (
+        this.filters.marketplaces.length === 0 ||
+        this.filters.marketplaces.length === undefined
+      ) {
+        delete this.filters["marketplaces"];
+      }
     },
     setPublisherId(publishers) {
       const items = publishers.map((pub) => pub.id);
       this.filters.publishers = items;
+      if (
+        this.filters.publishers.length === 0 ||
+        this.filters.publishers.length === undefined
+      ) {
+        delete this.filters["publishers"];
+      }
     },
     closeCreatePublisher(value) {
       this.publisherCreateVisible = false;
@@ -507,6 +547,11 @@ export default defineComponent({
         sortEnabled: true,
       },
       {
+        columnName: "MARKETPLACE",
+        custom: "component4",
+        sortEnabled: true,
+      },
+      {
         columnName: "Language",
         columnLabel: "language.name",
         sortEnabled: true,
@@ -558,9 +603,15 @@ export default defineComponent({
     searchFilter() {},
     marketPlaceStatus() {
       this.filters.market_place_status = this.marketPlaceStatus;
+      if (this.marketPlaceStatus === "") {
+        delete this.filters["market_place_status"];
+      }
     },
     gameStatus() {
       this.filters.game_status = this.gameStatus;
+      if (this.gameStatus === "") {
+        delete this.filters["game_status"];
+      }
     },
     publisherSearch() {
       let temp = [0];
