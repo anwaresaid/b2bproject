@@ -82,7 +82,21 @@
         <el-input v-model="form.cost" autocomplete="off" />
       </el-form-item>
       <el-form-item label="Keys" label-width="250px" prop="keys" required>
-        <el-input v-model="form.keys" type="textarea" />
+        <div class="editor">
+          <div class="gutter">
+            <span v-for="(line, index) in lines" class="line-number">{{
+              index + 1
+            }}</span>
+          </div>
+          <textarea
+            class="editor-text-area"
+            v-model="form.keys"
+            @input="updateLines"
+            rows="10"
+            placeholder="Enter a keys"
+            style="height: 357px"
+          ></textarea>
+        </div>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -141,6 +155,7 @@ const ruleFormRef = ref<FormInstance>();
 const props = defineProps(["isVisible", "isUpdate", "data"]);
 const setVisible = ref("");
 setVisible.value = props.isVisible;
+const lines = ref([""]);
 
 const form = reactive<RuleForm>({
   game_id: null,
@@ -240,6 +255,10 @@ const createGame = async (formEl: FormInstance | undefined) => {
   });
 };
 
+const updateLines = () => {
+  lines.value = form.keys.split("\n");
+};
+
 watch(props, (newValue) => {
   setVisible.value = props.isVisible;
   if (props.isUpdate) {
@@ -262,9 +281,54 @@ watch(setVisible, (newValue) => {
     emit("create-key", false);
   }
 });
-watch(form, (newValue) => {});
+watch(lines, (newValue) => {
+  console.log("lines", lines);
+});
 
 onBeforeUnmount(() => {
   // Cleanup or perform actions before component unmounts
 });
 </script>
+<style scoped>
+.editor {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
+  border-top-right-radius: 10px;
+  width: 100%;
+}
+.editor-text-area {
+  background-color: #f5f8fa !important;
+  border-color: #f5f8fa !important;
+  color: #5e6278 !important;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+.gutter {
+  background: #11101f;
+  color: grey;
+  display: flex;
+  flex-flow: column wrap;
+  padding: 0.75rem 1rem;
+}
+.editor textarea {
+  background: #1a1930;
+  flex: 1;
+  border: 0;
+  color: white;
+  font-size: 1.1rem;
+  line-height: 2.2;
+  font-weight: 500;
+  padding-top: 10px;
+  overflow: hidden;
+}
+.line-number {
+  color: #62a9b9;
+  font-size: 1.1rem;
+  line-height: 2.2;
+  font-weight: 500;
+  padding: 0px 0.5rem;
+}
+textarea:focus {
+  outline: none;
+}
+</style>
