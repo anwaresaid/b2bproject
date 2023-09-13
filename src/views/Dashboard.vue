@@ -8,7 +8,7 @@
       <SummaryTable
         :items="items"
         :navbar="true"
-        :title="'Last game updates'"
+        :title="'Daily / Weekly / Monthly Data'"
         :headers="tableHeadersWeekly"
         className="h-md-100"
       >
@@ -83,7 +83,7 @@
         :data="summaryData"
         :navbar="false"
         :headers="tableHeaders"
-        :title="'Daily / Weekly / Monthly Data'"
+        :title="'Last game updates'"
         className="h-md-100"
       >
         <template #component3="row">
@@ -214,6 +214,12 @@ const tableHeaders = ref([
     columnWidth: 170,
   },
   {
+    columnName: "QUANTITY",
+    custom: "component1",
+    sortEnabled: true,
+    columnWidth: 170,
+  },
+  {
     columnName: "DATE",
     columnLabel: "date",
     sortEnabled: false,
@@ -325,12 +331,17 @@ const fetchOrders = (type) => {
   }
   ApiService.get("keys/mainPage/summary").then((res) => {
     loading.value = false;
-    summaryData.value = res.data.data.last_game_updates;
     items[0].table = res.data.data.today;
     items[2].table = res.data.data.thisMonth;
     items[1].table = res.data.data.thisWeek;
+  });
+  ApiService.post("/orders/last-customer-orders", {}).then((res) => {
+    loading.value = false;
     customersSummaryData.value = res.data.data.last_five_customer_orders;
-    console.log("today", items);
+  });
+  ApiService.post("/games/last-stock-updates", {}).then((res) => {
+    loading.value = false;
+    summaryData.value = res.data.data.last_game_updates;
   });
 };
 

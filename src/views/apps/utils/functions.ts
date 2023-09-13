@@ -36,3 +36,20 @@ export const dateFormatter = (date, time) => {
     seconds;
   return fullDate;
 };
+
+export const removeEmptyValues = (obj) => {
+  let object = obj;
+  for (var key in object) {
+    if (object.hasOwnProperty(key)) {
+      var value = object[key];
+      if (value === null || value === undefined || value === "") {
+        delete object[key];
+      } else if (typeof value === "object") {
+        if (Object.keys(value).length === 0) {
+          delete object[key];
+        }
+      }
+    }
+  }
+  return object;
+};

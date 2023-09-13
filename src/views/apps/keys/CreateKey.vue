@@ -223,6 +223,9 @@ const rules = reactive<FormRules<RuleForm>>({
     },
   ],
 });
+const emptyForm = (form) => {
+  Object.keys(form).map((key) => (form[key] = null));
+};
 const confirmSubmission = () => {
   ElMessageBox.alert("new key created", "key creation", {
     confirmButtonText: "OK",
@@ -232,6 +235,7 @@ const confirmSubmission = () => {
         message: `action: ${action}`,
       });
       emit("create-key", true);
+      emptyForm(form);
     },
   });
 };

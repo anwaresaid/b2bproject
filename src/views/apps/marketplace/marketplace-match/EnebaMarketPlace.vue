@@ -125,7 +125,7 @@ const disabled = ref(true);
 
 const form = reactive<RuleForm>({
   amount: null,
-  amount_currency: { value: 0, label: "EUR" },
+  amount_currency: { value: 1, label: "EUR" },
   product_api_id: null,
   game_id: null,
 });

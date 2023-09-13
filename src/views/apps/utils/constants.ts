@@ -7,8 +7,8 @@ export const gamivoStatus = [
   { label: "passive", value: 1 },
 ];
 export const matchStatus = [
-  { label: "active", value: 0 },
-  { label: "passive", value: 1 },
+  { label: "active", value: 1 },
+  { label: "passive", value: 0 },
 ];
 
 export const categoryType = [

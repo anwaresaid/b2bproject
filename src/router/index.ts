@@ -77,6 +77,7 @@ import Feeds from "@/views/crafted/widgets/Feeds.vue";
 import MultiStepSignUp from "@/views/crafted/authentication/MultiStepSignUp.vue";
 import SystemLayout from "@/layouts/SystemLayout.vue";
 import MoneyBoxList from "@/views/apps/moneybox/MoneyBoxList.vue";
+import MultipleMatch from "@/views/apps/marketplace/marketplace-match/MultipleMatch.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -251,6 +252,15 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           pageTitle: "Eneba Match",
           breadcrumbs: ["Marketplace", "Eneba Match"],
+        },
+      },
+      {
+        path: "/marketplace/Multiple",
+        name: "apps-marketplace-multiple",
+        component: () => MultipleMatch,
+        meta: {
+          pageTitle: "Multiple Match",
+          breadcrumbs: ["Marketplace", "Multiple Match"],
         },
       },
       {
