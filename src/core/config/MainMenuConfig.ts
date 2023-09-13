@@ -280,6 +280,10 @@ const MainMenuConfig: Array<MenuItem> = [
                 heading: "Kinguin Match",
                 route: "/marketplace/kinguin",
               },
+              {
+                heading: "Multiple Match",
+                route: "/marketplace/Multiple",
+              },
             ],
           },
           {

@@ -64,14 +64,14 @@
             <div v-if="slotProps.action.status === 0">
               <span
                 @click="navigateGameDetails(slotProps.action.game.uuid)"
-                class="game-name-link text-success"
+                class="game-name-link text-danger"
                 >{{ slotProps.action.game.name }}</span
               >
             </div>
             <div v-else-if="slotProps.action.status === 1">
               <span
                 @click="navigateGameDetails(slotProps.action.game.uuid)"
-                class="game-name-link text-danger"
+                class="game-name-link text-success"
                 >{{ slotProps.action.game.name }}</span
               >
             </div>
@@ -128,6 +128,19 @@
       </Datatable>
     </div>
   </div>
+  <el-dialog v-model="setEnebaVisible" title="Update Eneba match" width="50%">
+    <EnebaMarketplace
+  /></el-dialog>
+  <el-dialog v-model="setGamivoVisible" title="Update Gamivo match" width="50%">
+    <GamivoMarketplace
+  /></el-dialog>
+  <el-dialog
+    v-model="setKinguinVisible"
+    title="Update Kinguin match"
+    width="80%"
+  >
+    <KinguinMarketplace :update="kinguinProps.update" :data="kinguinProps.data"
+  /></el-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -139,6 +152,9 @@ import { useRouter } from "vue-router";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import store from "../../../store";
 import { ElMessage, ElMessageBox } from "element-plus";
+import EnebaMarketplace from "./marketplace-match/EnebaMarketPlace.vue";
+import GamivoMarketplace from "./marketplace-match/GamivoMarketPlace.vue";
+import KinguinMarketplace from "./marketplace-match/KinguinMarketPlace.vue";
 
 const matchData = ref([]);
 const router = useRouter();
@@ -156,6 +172,10 @@ const currentPage = ref(1);
 const paginationData = reactive({});
 const tableType = ref();
 const sumStock = ref();
+const setEnebaVisible = ref(false);
+const setGamivoVisible = ref(false);
+const setKinguinVisible = ref(false);
+const kinguinProps = reactive({});
 const loading = ref(false);
 const selectStyle = "width: 25%";
 const tableHeaders = ref([
@@ -252,6 +272,22 @@ const setMarketPlaceId = (value) => {
 };
 const handleUpdate = (data) => {
   console.log("update", data);
+
+  switch (data.marketplace) {
+    case "ENEBA":
+      setEnebaVisible.value = true;
+      break;
+    case "KINGUIN":
+      {
+        setKinguinVisible.value = true;
+        kinguinProps.update = true;
+        kinguinProps.data = data;
+      }
+      break;
+    case "GAMIVO":
+      setGamivoVisible.value = true;
+      break;
+  }
 };
 
 const confirmSubmission = (data) => {

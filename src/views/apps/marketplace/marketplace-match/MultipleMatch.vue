@@ -2,6 +2,11 @@
   <div class="card">
     <div class="card-header border-0 pt-6">
       <div class="card-body pt-0">
+        <div class="form-items-flex">
+          <el-checkbox v-model="checkedEneba" label="Eneba" />
+          <el-checkbox v-model="checkedGamivo" label="Gamivo" />
+          <el-checkbox v-model="checkedKinguin" label="Kinguin" />
+        </div>
         <el-form
           :model="form"
           :rules="rules"
@@ -11,10 +16,10 @@
           class="form-control"
         >
           <el-form-item
-            label="Price"
+            label="price"
             prop="price"
-            label-width="140px"
             class="form-items-flex"
+            label-width="140px"
             required
           >
             <el-input
@@ -25,32 +30,10 @@
             />
           </el-form-item>
           <el-form-item
-            label="Currency"
-            label-width="140px"
-            class="form-items-flex"
-            prop="amount_currency"
-            v-if="!props.update"
-            required
-          >
-            <el-select
-              v-model="form.amount_currency"
-              placeholder="Select"
-              class="w-50"
-            >
-              <el-option
-                v-for="item in currency"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item
             label="Status"
-            label-width="140px"
             class="form-items-flex"
             prop="status"
-            v-if="props.update"
+            label-width="140px"
             required
           >
             <el-select v-model="form.status" placeholder="Select" class="w-50">
@@ -64,10 +47,9 @@
           </el-form-item>
           <el-form-item
             label="Choose game"
-            label-width="140px"
-            class="form-items-flex"
             prop="game_id"
-            v-if="!props.update"
+            class="form-items-flex"
+            label-width="140px"
             required
           >
             <DropdownRemote
@@ -79,24 +61,59 @@
             />
           </el-form-item>
           <el-form-item
-            label="Kinguin game"
-            prop="product_api_id"
+            label="Eneba game"
+            prop="eneba_product"
             required
-            label-width="140px"
+            v-if="checkedEneba"
             class="form-items-flex"
-            v-if="!props.update"
+            label-width="140px"
           >
             <DropdownRemote
-              :url="kinguinGameUrl"
-              @selected-game="setKinguinGameId"
+              :url="enebaGameUrl"
+              @selected-game="setEnebaGameId"
+              :type="enebaGameType"
+              :keyg="enebaGameKey"
               :disabled="disabled"
-              :type="kinguinGameType"
-              :keyg="kinguinGameKey"
               wd="50%"
               :condition="4"
             />
           </el-form-item>
-
+          <el-form-item
+            label="Kinguin game"
+            prop="kinguin_product"
+            required
+            v-if="checkedKinguin"
+            class="form-items-flex"
+            label-width="140px"
+          >
+            <DropdownRemote
+              :url="kinguinGameUrl"
+              @selected-game="setKinguinGameId"
+              :type="enebaGameType"
+              :keyg="enebaGameKey"
+              :disabled="disabled"
+              wd="50%"
+              :condition="4"
+            />
+          </el-form-item>
+          <el-form-item
+            label="Gamivo game"
+            prop="gamivo_product"
+            required
+            v-if="checkedGamivo"
+            class="form-items-flex"
+            label-width="140px"
+          >
+            <DropdownRemote
+              :url="gamivoGameUrl"
+              @selected-game="setGamivoGameId"
+              :type="enebaGameType"
+              :keyg="enebaGameKey"
+              :disabled="disabled"
+              wd="50%"
+              :condition="4"
+            />
+          </el-form-item>
           <div class="d-flex justify-content-end w-100">
             <el-button type="primary" @click="match(ruleFormRef)">
               Match
@@ -124,32 +141,41 @@ import { ElMessage, ElMessageBox } from "element-plus";
 import type { Action, UploadInstance } from "element-plus";
 import DropdownRemote from "../../../../components/dropdown/DropdownRemote.vue";
 import { currency, matchStatus } from "../../utils/constants.ts";
+import { removeEmptyValues } from "../../utils/functions";
 
 interface RuleForm {
   price: Number;
-  amount_currency: {};
-  product_api_id: {};
+  status: {};
+  eneba_product: {};
+  kinguin_product: {};
+  gamivo_product: {};
   game_id: {};
 }
 
-const kinguinGameKey = "search";
+const enebaGameKey = "search";
+const enebaGameUrl = "marketplace/eneba/search";
+const enebaGameType = "games";
 const kinguinGameUrl = "marketplace/kinguin/search";
-const kinguinGameType = "games";
+const gamivoGameUrl = "marketplace/kinguin/search";
+const checkedKinguin = ref(false);
+const checkedGamivo = ref(false);
+const checkedEneba = ref(false);
 const gameKey = "search_game";
 const gameUrl = "games/list";
 const gameType = "games";
-const props = defineProps(["update", "data"]);
-const update = ref(props.update);
 const formSize = ref("large");
-const disabled = ref(true);
 const ruleFormRef = ref<FormInstance>();
+const setVisible = ref("");
+const enebaGameId = ref("");
+const disabled = ref(true);
 
 const form = reactive<RuleForm>({
-  price: props.data?.retail ? props.data?.retail : null,
-  amount_currency: { value: 1, label: "EUR" },
-  product_api_id: null,
+  price: null,
+  status: null,
+  eneba_product: null,
+  gamivo_product: null,
+  kinguin_product: null,
   game_id: null,
-  status: props.data?.status !== null ? props.data?.status : null,
 });
 
 const rules = reactive<FormRules<typeof form>>({
@@ -160,17 +186,31 @@ const rules = reactive<FormRules<typeof form>>({
       trigger: "blur",
     },
   ],
-  amount_currency: [
+  status: [
     {
       required: true,
-      message: "Please select currency",
+      message: "Please select status",
       trigger: "change",
     },
   ],
-  product_api_id: [
+  eneba_product: [
     {
-      required: true,
+      required: checkedEneba.value,
+      message: "Please select Eneba game",
+      trigger: "change",
+    },
+  ],
+  kinguin_product: [
+    {
+      required: checkedKinguin.value,
       message: "Please select Kinguin game",
+      trigger: "change",
+    },
+  ],
+  gamivo_product: [
+    {
+      required: checkedGamivo.value,
+      message: "Please select Gamivo game",
       trigger: "change",
     },
   ],
@@ -183,49 +223,31 @@ const rules = reactive<FormRules<typeof form>>({
   ],
 });
 
+const setEnebaGameId = (value) => {
+  form.eneba_product = value;
+};
 const setKinguinGameId = (value) => {
-  form.product_api_id = value;
+  form.kinguin_product = value;
+};
+const setGamivoGameId = (value) => {
+  form.gamivo_product = value;
 };
 const setGameId = (value) => {
   form.game_id = value;
 };
 const match = (formEl) => {
-  let data = {
-    ...form,
-    price: form.price * 1,
-    amount_currency: form.amount_currency.label
-      ? form.amount_currency.value
-      : form.amount_currency,
-  };
+  let data = removeEmptyValues(form);
   if (!formEl) return;
   formEl.validate((valid) => {
-    if (valid && !props.update) {
-      ApiService.post("marketplace/kinguin/match", data).then((res) => {
+    if (valid) {
+      ApiService.post("marketplace/match/multiple", data).then((res) => {
         ElMessageBox.alert(
           "you have match games successfully!",
-          "marketplace kinguin match",
+          "marketplace eneba match",
           {
             confirmButtonText: "OK",
             callback: (action: Action) => {
-              //   location.reload();
-            },
-          }
-        );
-      });
-    } else if (props.update) {
-      let temp = {
-        price: form.price,
-        status: form.status,
-        offer_system_id: props.data.id,
-      };
-      ApiService.post("marketplace/updateOffer", temp).then((res) => {
-        ElMessageBox.alert(
-          "you have updated offer successfully!",
-          "marketplace kinguin update",
-          {
-            confirmButtonText: "OK",
-            callback: (action: Action) => {
-              //   location.reload();
+              location.reload();
             },
           }
         );
@@ -241,21 +263,21 @@ watch(form, (newValue) => {
     disabled.value = false;
   }
 });
-watch(
-  () => update,
-  (newValue) => {
-    console.log("props", props);
-    form.price = props.data.price ? props.data.price : null;
-    form.status = props.data.status ? props.data.status : null;
-  },
-  { deep: true }
-);
-watch(
-  () => props.data,
-  (newVal, oldVal) => {
-    console.log("myProp changed from", oldVal, "to", newVal);
+watch(checkedEneba, (newValue) => {
+  if (!checkedEneba.value) {
+    form.eneba_product = null;
   }
-);
+});
+watch(checkedKinguin, (newValue) => {
+  if (!checkedKinguin.value) {
+    form.kinguin_product = null;
+  }
+});
+watch(checkedGamivo, (newValue) => {
+  if (!checkedGamivo.value) {
+    form.gamivo_product = null;
+  }
+});
 
 onMounted(() => {});
 
@@ -263,14 +285,10 @@ onBeforeUnmount(() => {
   // Cleanup or perform actions before component unmounts
 });
 </script>
-<style>
+<style scoped>
 .form-control {
   display: flex !important;
   flex-wrap: wrap;
-  justify-content: space-evenly;
-}
-.select-currency {
-  width: 100% !important;
 }
 .form-items-flex {
   display: flex;
