@@ -130,7 +130,6 @@ const tableHeaders = ref([
     columnName: "STATUS DATE",
     columnLabel: "status_date",
     sortEnabled: true,
-    columnWidth: 130,
   },
   {
     columnName: "Order Code",

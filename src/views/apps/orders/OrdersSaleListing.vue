@@ -135,7 +135,7 @@
             <span
               class="game-name-link ml-2"
               @click="navigateGameDetails(slotProps.action.game.uuid)"
-              >{{ slotProps.action.game.name }}</span
+              >{{ slotProps.action.game?.name }}</span
             >
           </slot>
         </template>
