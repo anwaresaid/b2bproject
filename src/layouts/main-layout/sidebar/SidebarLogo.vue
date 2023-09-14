@@ -1,6 +1,6 @@
 <template>
   <!--begin::Logo-->
-  <div class="app-sidebar-logo px-6" id="kt_app_sidebar_logo">
+  <div class="app-sidebar-logo px-6 mt-11" id="kt_app_sidebar_logo">
     <!--begin::Logo image-->
     <router-link to="/">
       <img
@@ -9,8 +9,8 @@
           (themeMode === 'dark' && layout === 'light-sidebar')
         "
         alt="Logo"
-        src="/media/logos/default-dark.svg"
-        class="h-25px app-sidebar-logo-default"
+        src="/media/b2b-logos/b2b.png"
+        class="h-200px mt-50 app-sidebar-logo-default"
         @click="navigateDashBoard"
       />
       <img
