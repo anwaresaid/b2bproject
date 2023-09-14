@@ -386,6 +386,10 @@ const MainMenuConfig: Array<MenuItem> = [
             heading: "Stock List",
             route: "/stock-list",
           },
+          {
+            heading: "Follow Key",
+            route: "/keys/follow",
+          },
         ],
       },
       {

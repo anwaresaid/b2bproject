@@ -72,7 +72,7 @@
               <span
                 @click="navigateGameDetails(slotProps.action.game.uuid)"
                 class="game-name-link text-success"
-                >{{ slotProps.action.game.name }}</span
+                >{{ slotProps.action?.game?.name }}</span
               >
             </div>
           </slot>
@@ -111,14 +111,14 @@
           <slot :action="slotProps.action">
             <div class="d-flex flex-row">
               <img
-                v-if="slotProps.action.game.match_images.length > 0"
-                v-for="image in slotProps.action.game.match_images"
+                v-if="slotProps.action.game?.match_images.length > 0"
+                v-for="image in slotProps.action.game?.match_images"
                 :src="image"
                 class="logos-stock"
               />
               <img
-                v-if="slotProps.action?.game.passive_images?.length > 0"
-                v-for="image in slotProps.action.game.passive_images"
+                v-if="slotProps.action?.game?.passive_images?.length > 0"
+                v-for="image in slotProps.action.game?.passive_images"
                 :src="image"
                 class="logos-stock opacity-50"
               />
