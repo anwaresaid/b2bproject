@@ -34,6 +34,7 @@ import OrdersSaleList from "@/views/apps/orders/OrdersSaleListing.vue";
 import CreateOrder from "@/views/apps/orders/CreateOrder.vue";
 import EditOrder from "@/views/apps/orders/EditOrder.vue";
 import KeysListing from "@/views/apps/keys/KeysListing.vue";
+import KeysFollow from "@/views/apps/keys/FollowKey.vue";
 import OffersListing from "@/views/apps/offers/OffersListing.vue";
 import UsersListing from "@/views/apps/users/UsersListing.vue";
 import SubscriptionGettingStarted from "@/views/apps/subscriptions/GettingStarted.vue";
@@ -397,6 +398,15 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           pageTitle: "Order Details",
           breadcrumbs: ["Apps", "Order Details"],
+        },
+      },
+      {
+        path: "/keys/follow",
+        name: "keys-follow",
+        component: () => KeysFollow,
+        meta: {
+          pageTitle: "Key",
+          breadcrumbs: ["Apps", "Keys"],
         },
       },
       {

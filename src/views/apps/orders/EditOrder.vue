@@ -40,7 +40,7 @@
                   <div v-for="key in keysTypeStatus">
                     <el-tag
                       v-if="
-                        key.turkish.toLowerCase() ===
+                        key.turkish?.toLowerCase() ===
                         slotProps.action.status.toLowerCase()
                       "
                       class="ml-2"
