@@ -2,6 +2,11 @@ export const gameStatus = [
   { label: "active", id: 1 },
   { label: "passive", id: 2 },
 ];
+export const marketPlaces = [
+  { label: "Kinguin", id: 1 },
+  { label: "Eneba", id: 2 },
+  { label: "Gamivo", id: 3 },
+];
 export const gamivoStatus = [
   { label: "active", value: 0 },
   { label: "passive", value: 1 },

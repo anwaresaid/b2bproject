@@ -173,6 +173,11 @@ import store from "../store";
 
 const summaryData = ref([]);
 const customersSummaryData = ref([]);
+const gamesSummaryData = ref([]);
+const loadingItems = ref(false);
+const loadingCustomersSummaryData = ref(false);
+const loadingSummaryData = ref(false);
+const loadingGamesSummaryData = ref(false);
 const router = useRouter();
 const searchOrders = ref("");
 const dropdownParams = ref({});
@@ -257,6 +262,20 @@ const tableHeadersWeekly = ref([
     columnLabel: "total_keys_sold",
   },
 ]);
+const tableHeadersGames = ref([
+  {
+    columnName: "GAME",
+    columnLabel: "game_name",
+  },
+  {
+    columnName: "GAME ID",
+    columnLabel: "game_id",
+  },
+  {
+    columnName: "TOTAL KEYS SOLD",
+    columnLabel: "total_keys_sold",
+  },
+]);
 
 const items = reactive([
   {
@@ -323,25 +342,33 @@ const data = [
 ];
 
 const fetchOrders = (type) => {
-  loading.value = true;
+  loadingItems.value = true;
+  loadingCustomersSummaryData.value = true;
+  loadingSummaryData.value = true;
+  loadingGamesSummaryData.value = true;
   if (type === undefined) {
     params.value.current_page = currentPage;
     params.value.per_page = itemsInTable;
     params.value.page_type = tableType.value;
   }
   ApiService.get("keys/mainPage/summary").then((res) => {
-    loading.value = false;
-    items[0].table = res.data.data.today;
-    items[2].table = res.data.data.thisMonth;
-    items[1].table = res.data.data.thisWeek;
+    loadingItems.value = false;
+    items[0].table = res.data.data?.today;
+    items[2].table = res.data.data?.thisMonth;
+    items[1].table = res.data.data?.thisWeek;
   });
   ApiService.post("/orders/last-customer-orders", {}).then((res) => {
-    loading.value = false;
-    customersSummaryData.value = res.data.data.last_five_customer_orders;
+    loadingCustomersSummaryData.value = false;
+    customersSummaryData.value = res.data.data?.last_five_customer_orders;
   });
   ApiService.post("/games/last-stock-updates", {}).then((res) => {
     loading.value = false;
-    summaryData.value = res.data.data.last_game_updates;
+    loadingSummaryData.value = res.data.data?.last_game_updates;
+  });
+  ApiService.post("/games/get-last-month-summary", {}).then((res) => {
+    loadingGamesSummaryData.value = false;
+    console.log("games summary data", res);
+    gamesSummaryData.value = res.data.data;
   });
 };
 

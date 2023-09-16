@@ -15,19 +15,19 @@
             />
           </div>
           <div>
-            <h3>Key Code: {{ data.key_code }}</h3>
+            <h3>Key Code: {{ searchKey }}</h3>
           </div>
         </div>
       </div>
     </div>
     <div>
       <div
-        v-if="data.histories?.length > 0"
+        v-if="data?.histories?.length > 0"
         class="d-flex flex-row justify-content-center"
       >
         <div class="card-body pt-0">
           <Datatable
-            :data="data.histories"
+            :data="data?.histories"
             :header="tableHeaders"
             checkbox-label="id"
             size="small"
@@ -36,12 +36,12 @@
             <template v-slot:component1="slotProps">
               <slot :action="slotProps.action">
                 <span
-                  v-if="slotProps.action.order !== null"
+                  v-if="slotProps.action?.order !== null"
                   @click="
-                    navigateOrderDetails(slotProps.action.order.order_code)
+                    navigateOrderDetails(slotProps.action?.order?.order_code)
                   "
                   :class="`order-code-link badge py-3 px-4 fs-7 badge-light-warning`"
-                  >{{ slotProps.action.order.order_code }}</span
+                  >{{ slotProps.action?.order?.order_code }}</span
                 >
                 <span v-else> - </span>
               </slot>
@@ -49,36 +49,36 @@
             <template v-slot:component2="slotProps">
               <slot :action="slotProps.action">
                 {{
-                  slotProps.action.order === null
+                  slotProps.action?.order === null
                     ? "-"
-                    : slotProps.action.order.order_type
+                    : slotProps.action?.order?.order_type
                 }}
               </slot>
             </template>
             <template v-slot:component3="slotProps">
               <slot :action="slotProps.action">
                 {{
-                  slotProps.action.order === null
+                  slotProps.action?.order === null
                     ? "-"
-                    : slotProps.action.order.customer
+                    : slotProps.action?.order?.customer
                 }}
               </slot>
             </template>
             <template v-slot:component4="slotProps">
               <slot :action="slotProps.action">
                 {{
-                  slotProps.action.order === null
+                  slotProps.action?.order === null
                     ? "-"
-                    : slotProps.action.order.created_at
+                    : slotProps.action?.order?.created_at
                 }}
               </slot>
             </template>
             <template v-slot:component5="slotProps">
               <slot :action="slotProps.action">
                 <span
-                  v-if="slotProps.action.status === 'Rezerve'"
+                  v-if="slotProps.action?.status === 'Rezerve'"
                   :class="`badge py-3 px-4 fs-7 badge-light-warning`"
-                  >{{ slotProps.action.status }}</span
+                  >{{ slotProps.action?.status }}</span
                 >
                 <span
                   v-else-if="slotProps.action.status === 'Pasif'"
@@ -91,14 +91,14 @@
                   >{{ slotProps.action.status }}</span
                 >
                 <span
-                  v-else-if="slotProps.action.status === 'İade'"
+                  v-else-if="slotProps.action?.status === 'İade'"
                   :class="`badge py-3 px-4 fs-7 badge-light-info`"
-                  >{{ slotProps.action.status }}</span
+                  >{{ slotProps.action?.status }}</span
                 >
                 <span
                   v-else
                   :class="`badge py-3 px-4 fs-7 badge-light-success`"
-                  >{{ slotProps.action.status }}</span
+                  >{{ slotProps.action?.status }}</span
                 >
               </slot>
             </template>
@@ -153,7 +153,7 @@ const fetchKeyData = () => {
   loading.value = true;
   ApiService.post("keys/follow", { key_code: searchKey.value }).then((res) => {
     loading.value = false;
-    data.value = res.data.data.history;
+    data.value = res.data.data?.history;
   });
 };
 

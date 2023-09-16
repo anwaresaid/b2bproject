@@ -205,7 +205,7 @@
             <el-tag
               class="game-name-link ml-2"
               type="warning"
-              @click="navigateGameDetails(slotProps.action.uuid)"
+              @click="navigateGameDetails(slotProps.action?.uuid)"
               >{{ slotProps.action.name }}</el-tag
             >
           </slot>
@@ -214,14 +214,14 @@
           <slot :action="slotProps.action">
             <div class="d-flex flex-row">
               <img
-                v-if="slotProps.action.match_images.length > 0"
-                v-for="image in slotProps.action.match_images"
+                v-if="slotProps.action?.match_images?.length > 0"
+                v-for="image in slotProps.action?.match_images"
                 :src="image"
                 class="logos-stock"
               />
               <img
                 v-if="slotProps.action?.passive_images?.length > 0"
-                v-for="image in slotProps.action.passive_images"
+                v-for="image in slotProps.action?.passive_images"
                 :src="image"
                 class="logos-stock opacity-50"
               />
@@ -368,6 +368,7 @@ export default defineComponent({
       }
     },
     setMarketPlaceId(marketplace) {
+      console.log(marketplace);
       const items = marketplace.map((mp) => mp.id);
       this.filters.marketplaces = items;
       if (

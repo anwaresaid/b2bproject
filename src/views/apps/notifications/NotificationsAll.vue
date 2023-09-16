@@ -64,7 +64,7 @@
               <el-tag
                 class="game-name-link ml-2"
                 type="success"
-                v-if="slotProps.action.isSuccess"
+                v-if="slotProps.action?.isSuccess"
                 >{{ true }}</el-tag
               >
               <el-tag class="game-name-link ml-2" type="danger" v-else>{{
@@ -77,11 +77,11 @@
               <el-tag
                 class="game-name-link ml-2"
                 type="success"
-                v-if="slotProps.action.isRead"
-                >{{ slotProps.action.isRead }}</el-tag
+                v-if="slotProps.action?.isRead"
+                >{{ slotProps.action?.isRead }}</el-tag
               >
               <el-tag class="game-name-link ml-2" type="danger" v-else>{{
-                slotProps.action.isRead
+                slotProps.action?.isRead
               }}</el-tag>
             </slot>
           </template>
@@ -153,8 +153,8 @@ const tableHeaders = ref([
 const fetchNotifications = (type) => {
   let data = { ...dropdownParams.value, ...params.value };
   ApiService.postTest("notifications/all", data).then((res) => {
-    ordersData.value = res.data.data.notifications;
-    paginationData.value = res.data.data.pagination;
+    ordersData.value = res.data.data?.notifications;
+    paginationData.value = res.data.data?.pagination;
   });
 };
 const setGameId = (value) => {
