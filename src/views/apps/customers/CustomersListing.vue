@@ -162,9 +162,9 @@ export default defineComponent({
       this.loading = true;
       ApiService.postTest("customers/all", this.params).then((res) => {
         this.loading = false;
-        this.customersData = res.data.data.customers;
-        this.paginationData = res.data.data.pagination;
-        store.dispatch("setPageItems", res.data.data.pagination.total_items);
+        this.customersData = res.data.data?.customers;
+        this.paginationData = res.data.data?.pagination;
+        store.dispatch("setPageItems", res.data.data.pagination?.total_items);
       });
     },
     getItemsInTable(item) {

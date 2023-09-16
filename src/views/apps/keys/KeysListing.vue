@@ -105,27 +105,27 @@
         <template v-slot:component3="slotProps">
           <slot :action="slotProps.action">
             <span
-              v-if="slotProps.action.status.id === 3"
+              v-if="slotProps.action?.status?.id === 3"
               :class="`badge py-3 px-4 fs-7 badge-light-warning`"
-              >{{ slotProps.action.status?.name }}</span
+              >{{ slotProps.action?.status?.name }}</span
             >
             <span
-              v-else-if="slotProps.action.status.id === 2"
+              v-else-if="slotProps.action?.status?.id === 2"
               :class="`badge py-3 px-4 fs-7 badge-light-danger`"
-              >{{ slotProps.action.status?.name }}</span
+              >{{ slotProps.action?.status?.name }}</span
             >
             <span
               v-else-if="slotProps.action.status.id === 1"
               :class="`badge py-3 px-4 fs-7 badge-light-primary`"
-              >{{ slotProps.action.status?.name }}</span
+              >{{ slotProps.action?.status?.name }}</span
             >
             <span
               v-else-if="slotProps.action.status.id === 5"
               :class="`badge py-3 px-4 fs-7 badge-light-info`"
-              >{{ slotProps.action.status?.name }}</span
+              >{{ slotProps.action?.status?.name }}</span
             >
             <span v-else :class="`badge py-3 px-4 fs-7 badge-light-success`">{{
-              slotProps.action.status?.name
+              slotProps.action?.status?.name
             }}</span>
           </slot>
         </template>
@@ -262,9 +262,9 @@ const fetchKeys = (type) => {
   }
   ApiService.postTest("keys/all", params.value).then((res) => {
     loading.value = false;
-    keysData.value = res.data.data.keys;
-    paginationData.value = res.data.data.pagination;
-    store.dispatch("setPageItems", res.data.data.pagination.total_items);
+    keysData.value = res.data.data?.keys;
+    paginationData.value = res.data.data?.pagination;
+    store.dispatch("setPageItems", res.data.data.pagination?.total_items);
   });
 };
 const navigateGameDetails = (id) => {

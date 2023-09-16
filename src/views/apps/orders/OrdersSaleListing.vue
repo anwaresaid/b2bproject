@@ -106,27 +106,28 @@
             <span
               v-if="slotProps.action.status.id === 'Rezerve'"
               :class="`badge py-3 px-4 fs-7 badge-light-warning`"
-              >{{ slotProps.action.status?.name }}</span
+              >{{ slotProps.action?.status?.name }}</span
             >
             <span
               v-else-if="
-                slotProps.action.status === ('Kabul Edilmedi' || 'İptal Edildi')
+                slotProps.action?.status ===
+                ('Kabul Edilmedi' || 'İptal Edildi')
               "
               :class="`badge py-3 px-4 fs-7 badge-light-danger`"
-              >{{ slotProps.action.status }}</span
+              >{{ slotProps.action?.status }}</span
             >
             <span
               v-else-if="slotProps.action.status === 'Oluşturuldu'"
               :class="`badge py-3 px-4 fs-7 badge-light-primary`"
-              >{{ slotProps.action.status }}</span
+              >{{ slotProps.action?.status }}</span
             >
             <span
               v-else-if="slotProps.action.status === 'Teslim Edildi'"
               :class="`badge py-3 px-4 fs-7 badge-light-info`"
-              >{{ slotProps.action.status }}</span
+              >{{ slotProps.action?.status }}</span
             >
             <span v-else :class="`badge py-3 px-4 fs-7 badge-light-success`">{{
-              slotProps.action.status
+              slotProps.action?.status
             }}</span>
           </slot>
         </template>
@@ -134,8 +135,8 @@
           <slot :action="slotProps.action">
             <span
               class="game-name-link ml-2"
-              @click="navigateGameDetails(slotProps.action.game.uuid)"
-              >{{ slotProps.action.game?.name }}</span
+              @click="navigateGameDetails(slotProps.action?.game?.uuid)"
+              >{{ slotProps.action?.game?.name }}</span
             >
           </slot>
         </template>
@@ -243,9 +244,9 @@ const fetchOrders = (type) => {
   }
   ApiService.postTest("orders/apiSells", params.value).then((res) => {
     loading.value = false;
-    ordersData.value = res.data.data.orders;
-    paginationData.value = res.data.data.pagination;
-    store.dispatch("setPageItems", res.data.data.pagination.total_items);
+    ordersData.value = res.data.data?.orders;
+    paginationData.value = res.data.data?.pagination;
+    store.dispatch("setPageItems", res.data.data.pagination?.total_items);
   });
 };
 const setGameId = (value) => {

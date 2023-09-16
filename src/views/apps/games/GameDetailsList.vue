@@ -16,7 +16,7 @@
               />
             </div>
             <div>
-              <h4>{{ gameData.name }}</h4>
+              <h4>{{ gameData?.name }}</h4>
             </div>
           </div>
         </div>
@@ -40,12 +40,12 @@
         <slot :action="slotProps.action">
           <el-tag
             class="ml-2"
-            v-if="slotProps.action.status === 'Satılmış'"
+            v-if="slotProps.action?.status === 'Satılmış'"
             type="success"
             >Sold</el-tag
           >
           <el-tag class="ml-2" v-else type="danger">{{
-            slotProps.action.status
+            slotProps.action?.status
           }}</el-tag>
         </slot>
       </template>
@@ -146,10 +146,10 @@ const fetchGames = (type) => {
   }
   ApiService.postTest("games/detail", params.value).then((res) => {
     loading.value = false;
-    gameData.value = res.data.data.game;
-    keysData.value = res.data.data.game.keys;
-    paginationData.value = res.data.data.pagination;
-    store.dispatch("setPageItems", res.data.data.pagination.all_data);
+    gameData.value = res.data.data?.game;
+    keysData.value = res.data.data?.game.keys;
+    paginationData.value = res.data.data?.pagination;
+    store.dispatch("setPageItems", res.data.data.pagination?.all_data);
   });
 };
 const getItemsInTable = (item) => {

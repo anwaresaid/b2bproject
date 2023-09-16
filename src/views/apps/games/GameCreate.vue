@@ -46,6 +46,13 @@
           wd="100%"
         />
       </el-form-item>
+      <el-form-item label="Marketplace" label-width="250px" prop="marketplace">
+        <div class="form-items-flex">
+          <el-checkbox v-model="checkedEneba" label="Eneba" />
+          <el-checkbox v-model="checkedGamivo" label="Gamivo" />
+          <el-checkbox v-model="checkedKinguin" label="Kinguin" />
+        </div>
+      </el-form-item>
       <el-form-item
         label="Game Status"
         label-width="250px"
@@ -170,6 +177,9 @@ interface RuleForm {
   min_sales: number;
 }
 const test = ref("Bethesda");
+const checkedKinguin = ref(false);
+const checkedGamivo = ref(false);
+const checkedEneba = ref(false);
 const formSize = ref("default");
 const categoriesUrl = "categories/all";
 const categoriesType = "categories";
@@ -291,19 +301,26 @@ const confirmSubmission = () => {
 };
 
 const createUpdateGame = async (formEl: FormInstance | undefined) => {
+  let tempMarketplaces = [];
+  if (checkedEneba.value) tempMarketplaces.push(2);
+  if (checkedGamivo.value) tempMarketplaces.push(3);
+  if (checkedKinguin.value) tempMarketplaces.push(1);
+
+  console.log(tempMarketplaces);
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
       const submissionData = {
         name: form.name,
-        category_id: form.category.id,
-        publisher_id: form.publisher.id,
-        status: form.stats.id ?? form.stats,
-        min_sales: form.min_sales,
-        region_id: form.region.id,
-        language_id: form.language.id,
-        category_type: form.categoryType.id ?? form.categoryType,
-        description: form.description,
+        category_id: form.category?.id,
+        publisher_id: form.publisher?.id,
+        status: form.stats.id ?? form?.stats,
+        min_sales: form?.min_sales,
+        region_id: form?.region?.id,
+        language_id: form?.language?.id,
+        category_type: form?.categoryType?.id ?? form?.categoryType,
+        description: form?.description,
+        marketPlaces: tempMarketplaces,
       };
       if (isUpdate.value) {
         ApiService.put(`games/${props.update?.id}`, submissionData).then(
@@ -393,6 +410,7 @@ watch(setVisible, (newValue) => {
     form.categoryType = props.update.category_type.id * 1;
     form.min_sales = props.update.sale_price;
     form.description = props.update.description;
+    // checkedEneba.value = props.
   } else if (setVisible.value === false && props.update) {
     setEmpty(form);
   }

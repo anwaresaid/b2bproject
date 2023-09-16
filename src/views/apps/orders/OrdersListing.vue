@@ -58,7 +58,16 @@
                 :url="customerUrl"
                 @selected-game="setCustomerId"
                 :type="customerType"
-                :keyg="customerKey"
+                :keyg="search_game"
+                wd="150px"
+              />
+            </el-form-item>
+            <el-form-item label="Select Game">
+              <DropdownRemote
+                :url="gameUrl"
+                @selected-game="setCustomerId"
+                :type="gameType"
+                :keyg="search_game"
                 wd="150px"
               />
             </el-form-item>
@@ -117,27 +126,28 @@
             <span
               v-if="slotProps.action.status.id === 'Rezerve'"
               :class="`badge py-3 px-4 fs-7 badge-light-warning`"
-              >{{ slotProps.action.status?.name }}</span
+              >{{ slotProps.action?.status?.name }}</span
             >
             <span
               v-else-if="
-                slotProps.action.status === ('Kabul Edilmedi' || 'İptal Edildi')
+                slotProps.action?.status ===
+                ('Kabul Edilmedi' || 'İptal Edildi')
               "
               :class="`badge py-3 px-4 fs-7 badge-light-danger`"
-              >{{ slotProps.action.status }}</span
+              >{{ slotProps.action?.status }}</span
             >
             <span
               v-else-if="slotProps.action.status === 'Oluşturuldu'"
               :class="`badge py-3 px-4 fs-7 badge-light-primary`"
-              >{{ slotProps.action.status }}</span
+              >{{ slotProps.action?.status }}</span
             >
             <span
               v-else-if="slotProps.action.status === 'Teslim Edildi'"
               :class="`badge py-3 px-4 fs-7 badge-light-info`"
-              >{{ slotProps.action.status }}</span
+              >{{ slotProps.action?.status }}</span
             >
             <span v-else :class="`badge py-3 px-4 fs-7 badge-light-success`">{{
-              slotProps.action.status
+              slotProps.action?.status
             }}</span>
           </slot>
         </template>
@@ -162,6 +172,9 @@ const dropdownParams = ref({});
 const customerKey = "search";
 const customerUrl = "customers/all";
 const customerType = "customers";
+const gameUrl = "games/list";
+const gameKey = "search_game";
+const gameType = "games";
 const params = ref({});
 const tableStatus = ref(null);
 const itemsInTable = ref(10);
@@ -232,12 +245,11 @@ const fetchOrders = (type) => {
     params.value.per_page = itemsInTable;
     params.value.page_type = tableType.value;
   }
-  console.log("params", params.value);
   ApiService.postTest("orders/all", params.value).then((res) => {
     loading.value = false;
-    ordersData.value = res.data.data.orders;
-    paginationData.value = res.data.data.pagination;
-    store.dispatch("setPageItems", res.data.data.pagination.total_items);
+    ordersData.value = res.data.data?.orders;
+    paginationData.value = res.data.data?.pagination;
+    store.dispatch("setPageItems", res.data.data.pagination?.total_items);
   });
 };
 const setCustomerId = (value) => {
@@ -246,6 +258,15 @@ const setCustomerId = (value) => {
   params.value = dropdownParams.value;
   if (value === undefined) {
     delete dropdownParams.value["customer_id"];
+  }
+  fetchOrders("filer");
+};
+const setGameId = (value) => {
+  console.log("value", value);
+  dropdownParams.value.gameId = value;
+  params.value = dropdownParams.value;
+  if (value === undefined) {
+    delete dropdownParams.value["gameId"];
   }
   fetchOrders("filer");
 };
@@ -281,9 +302,9 @@ watch(tableType, (newValue) => {
 });
 watch(tableStatus, (newValue) => {
   params.value = {};
-  dropdownParams.value.tableStatus = tableStatus.value;
+  dropdownParams.value.order_status = tableStatus.value;
   if (tableStatus.value === "") {
-    delete dropdownParams.value["tableStatus"];
+    delete dropdownParams.value["order_status"];
   }
   params.value = dropdownParams.value;
   fetchOrders("filter");
