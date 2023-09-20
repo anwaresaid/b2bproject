@@ -433,18 +433,23 @@ watch(props, (newValue) => {
 });
 watch(setVisible, (newValue) => {
   isUpdate.value = props.isUpdate;
-  checkedEneba.value = props.update.match_images.some((item) => item.id === 2);
-  checkedGamivo.value = props.update.match_images.some((item) => item.id === 3);
-  checkedKinguin.value = props.update.match_images.some(
-    (item) => item.id === 1
-  );
-  if (checkedEneba.value || checkedGamivo.value || checkedKinguin.value) {
-    checkedMarketplace.value = true;
-  } else {
-    checkedMarketplace.value = false;
-  }
-  console.log("props update", props.update);
+
   if (setVisible.value === true && props.isUpdate) {
+    checkedEneba.value = props.update.match_images.some(
+      (item) => item.id === 2
+    );
+    checkedGamivo.value = props.update.match_images.some(
+      (item) => item.id === 3
+    );
+    checkedKinguin.value = props.update.match_images.some(
+      (item) => item.id === 1
+    );
+    if (checkedEneba.value || checkedGamivo.value || checkedKinguin.value) {
+      checkedMarketplace.value = true;
+    } else {
+      checkedMarketplace.value = false;
+    }
+    console.log("props update", props.update);
     form.publisher = props.update.publisher;
     form.category = props.update.category;
     form.language = props.update.language;
