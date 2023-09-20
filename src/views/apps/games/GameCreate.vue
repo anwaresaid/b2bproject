@@ -76,10 +76,16 @@
         label-width="250px"
         prop="marketplace"
       >
-        <div class="form-items-flex">
-          <el-checkbox v-model="checkedEneba" label="Eneba" />
-          <el-checkbox v-model="checkedGamivo" label="Gamivo" />
-          <el-checkbox v-model="checkedKinguin" label="Kinguin" />
+        <div class="d-flex flex-row">
+          <div v-if="checkedEneba" class="font-weight-bold text-success ms-5">
+            Eneba
+          </div>
+          <div v-if="checkedGamivo" class="font-weight-bold text-success ms-5">
+            Gamivo
+          </div>
+          <div v-if="checkedKinguin" class="font-weight-bold text-success ms-5">
+            Kinguin
+          </div>
         </div>
       </el-form-item>
       <el-form-item
@@ -314,7 +320,6 @@ const confirmSubmission = () => {
           message: `action: ${action}`,
         });
         emit("create-game", true);
-        window.location.reload();
       },
     });
   } else {
@@ -326,7 +331,6 @@ const confirmSubmission = () => {
           message: `action: ${action}`,
         });
         emit("create-game", true);
-        window.location.reload();
       },
     });
   }
@@ -435,21 +439,16 @@ watch(setVisible, (newValue) => {
   isUpdate.value = props.isUpdate;
 
   if (setVisible.value === true && props.isUpdate) {
-    checkedEneba.value = props.update.match_images.some(
-      (item) => item.id === 2
-    );
-    checkedGamivo.value = props.update.match_images.some(
-      (item) => item.id === 3
-    );
-    checkedKinguin.value = props.update.match_images.some(
-      (item) => item.id === 1
-    );
+    checkedEneba.value = props.update.matches.some((item) => item === 2);
+    checkedGamivo.value = props.update.matches.some((item) => item === 3);
+    checkedKinguin.value = props.update.matches.some((item) => item === 1);
     if (checkedEneba.value || checkedGamivo.value || checkedKinguin.value) {
       checkedMarketplace.value = true;
     } else {
       checkedMarketplace.value = false;
     }
     console.log("props update", props.update);
+
     form.publisher = props.update.publisher;
     form.category = props.update.category;
     form.language = props.update.language;
