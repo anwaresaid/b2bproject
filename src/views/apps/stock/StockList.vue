@@ -43,7 +43,7 @@
             >
               <img
                 v-for="image in slotProps.action.match_images"
-                :src="image"
+                :src="image.image"
                 class="logos-stock"
               />
             </div>
