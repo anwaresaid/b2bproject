@@ -74,6 +74,11 @@ html[data-theme="dark"] {
 html[data-theme="dark"] .el-button {
   --el-button-disabled-text-color: rgba(255, 255, 255, 0.5);
 }
+
+.game-orders-card {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
 html[data-theme="dark"] .el-card {
   --el-card-bg-color: var(--el-bg-color-overlay);
 }

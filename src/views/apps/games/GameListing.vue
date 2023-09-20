@@ -222,7 +222,7 @@
               <img
                 v-if="slotProps.action?.passive_images?.length > 0"
                 v-for="image in slotProps.action?.passive_images"
-                :src="image"
+                :src="image.image"
                 class="logos-stock opacity-50"
               />
             </div>

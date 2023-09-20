@@ -67,6 +67,7 @@
                     v-if="gamesData[index] && gamesData[index] !== ''"
                   >
                     <OrderGamesCard
+                      :theme="store2.mode"
                       :item="item"
                       :name="gamesData[index]"
                       :currency="form.currency"
@@ -115,6 +116,7 @@ import DropdownRemote from "@/components/dropdown/DropdownRemote.vue";
 import type { Action } from "element-plus";
 import Card from "@/components/cards/Card.vue";
 import OrderGamesCard from "@/components/cards/OrderGamesCard.vue";
+import { useThemeStore } from "@/stores/theme";
 import { currency, gameStatus } from "../utils/constants";
 import { ErrorMessage } from "vee-validate";
 
@@ -136,6 +138,7 @@ const ruleFormRef = ref<FormInstance>();
 const gamesData = ref([]);
 const errors = ref("errors");
 const total = ref();
+const store2 = useThemeStore();
 
 const form = reactive<RuleForm>({
   customer: null,
@@ -219,6 +222,7 @@ const totalPrice = () => {
 
 watch(form, (newValue) => {
   totalPrice();
+  console.log("form", form.currency);
 });
 
 watch(form.customer, (newValue) => {

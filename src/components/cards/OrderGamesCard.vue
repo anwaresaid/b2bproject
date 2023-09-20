@@ -1,6 +1,10 @@
 <template>
   <!--begin::Card-->
-  <div class="game-orders-card">
+  <div
+    :class="
+      props.theme === 'light' ? 'game-orders-card' : 'dark-game-orders-card'
+    "
+  >
     <!--begin::Card body-->
     <div class="card-body p-0">
       <!--begin::Heading-->
@@ -10,11 +14,11 @@
         <div class="d-flex justify-content-between w-100">
           <div class="multiplication">
             {{ props.item?.quantity || 0 }} * {{ props.item?.sales_price || 0 }}
-            {{ currency[props.currency]?.symbol || "$" }}
+            {{ displayCurrency() || "$" }}
           </div>
           <div class="result">
             {{ props.item?.quantity * props.item?.sales_price || 0 }}
-            {{ currency[props.currency]?.symbol || "$" }}
+            {{ displayCurrency() || "$" }}
           </div>
         </div>
         <!--begin::Title-->
@@ -58,7 +62,7 @@ import DropdownRemote from "@/components/dropdown/DropdownRemote.vue";
 import { currency } from "../../views/apps/utils/constants";
 import type { Action } from "element-plus";
 
-const props = defineProps(["item", "name", "currency"]);
+const props = defineProps(["item", "name", "currency", "theme"]);
 
 interface RuleForm {
   game_id: number;
@@ -89,6 +93,9 @@ const checkNumber = (rule: any, value: any, callback: any) => {
   }, 0);
 };
 
+const displayCurrency = () => {
+  return currency.find((curr) => curr.value === props.currency)?.symbol;
+};
 const rules = reactive<FormRules<RuleForm>>({
   game_id: [
     {
@@ -135,7 +142,9 @@ const deleteGame = () => {
   emit("delete-game", props.index);
 };
 
-watch(props, (newValue) => {});
+watch(props.currency, (newValue) => {
+  console.log("props", currency[props.currency]);
+});
 
 onBeforeUnmount(() => {
   // Cleanup or perform actions before component unmounts
@@ -146,7 +155,7 @@ onMounted(() => {
 </script>
 <style>
 .game-orders-card {
-  background-color: #f8f5ff !important;
+  background-color: #f8f5ff;
   border-radius: 10px;
 }
 .multiplication {
@@ -155,5 +164,9 @@ onMounted(() => {
 .result {
   font-weight: bold;
   color: purple;
+}
+.dark-game-orders-card {
+  background-color: #161629;
+  border-radius: 10px;
 }
 </style>

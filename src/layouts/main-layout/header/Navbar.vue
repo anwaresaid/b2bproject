@@ -157,6 +157,7 @@ export default defineComponent({
     };
 
     const themeMode = computed(() => {
+      console.log("sotre 2", store2.mode);
       return store2.mode;
     });
 
