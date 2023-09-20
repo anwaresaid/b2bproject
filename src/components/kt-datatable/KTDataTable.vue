@@ -22,7 +22,9 @@
       style="width: 100%"
       v-loading="loading"
       :size="size"
+      @selection-change="handleSelectionChange"
     >
+      <el-table-column v-if="multiSelect" type="selection" width="55" />
       <el-table-column
         v-for="item in header"
         :prop="item.columnLabel"
@@ -67,6 +69,13 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true,
+    },
+    handleSelectionChange: {
+      type: Function, // Ensure the prop is a function
+    },
+    multiSelect: {
+      type: Boolean,
+      default: false,
     },
     checkboxEnabled: { type: Boolean, required: false, default: false },
     checkboxLabel: { type: String, required: false, default: "id" },

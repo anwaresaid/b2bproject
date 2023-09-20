@@ -403,8 +403,12 @@ const MainMenuConfig: Array<MenuItem> = [
             route: "/orders",
           },
           {
-            heading: "Orders Sale",
+            heading: "Api Sales",
             route: "/orders-sale",
+          },
+          {
+            heading: "Etail Sales",
+            route: "/orders-etail-sales",
           },
         ],
       },

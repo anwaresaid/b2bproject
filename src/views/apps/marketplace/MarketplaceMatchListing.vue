@@ -35,6 +35,22 @@
             :value="item.value"
           />
         </el-select>
+        <div>
+          <el-button
+            @click="setStatusToPassive"
+            class="border-secondary border-2"
+            size="large"
+            type="primary"
+            >Seçilenleri Pasife Al</el-button
+          >
+          <el-button
+            @click="setStatusToActive"
+            class="ms-0 border-secondary border-2"
+            size="large"
+            type="primary"
+            >Seçilenleri Aktife Al
+          </el-button>
+        </div>
       </div>
     </div>
     <div class="card-body pt-0">
@@ -47,6 +63,8 @@
         checkbox-label="id"
         :size="`small`"
         :pagination="true"
+        :handleSelectionChange="handleMultiSelect"
+        :multiSelect="true"
         sortable
         :loading="loading"
         @on-items-per-page-change="getItemsInTable"
@@ -177,6 +195,7 @@ const setGamivoVisible = ref(false);
 const setKinguinVisible = ref(false);
 const kinguinProps = reactive({});
 const loading = ref(false);
+const multiSelectMatchesIds = ref([]);
 const selectStyle = "width: 25%";
 const tableHeaders = ref([
   {
@@ -245,9 +264,29 @@ const getItemsInTable = (item) => {
   params.value.per_page = item;
   fetchMatches();
 };
+const handleMultiSelect = (matches) => {
+  console.log("user", matches);
+  multiSelectMatchesIds.value = matches.map((match) => match.id);
+};
 const pageChange = (page: number) => {
   params.value.current_page = page;
   fetchMatches();
+};
+const setStatusToPassive = () => {
+  ApiService.post("marketplace/changeStatus", {
+    matches: multiSelectMatchesIds.value,
+    status: 0,
+  }).then((res) => {
+    fetchMatches();
+  });
+};
+const setStatusToActive = () => {
+  ApiService.post("marketplace/changeStatus", {
+    matches: multiSelectMatchesIds.value,
+    status: 1,
+  }).then((res) => {
+    fetchMatches();
+  });
 };
 const setGameId = (value) => {
   params.value.games = value.map((item) => item.id);

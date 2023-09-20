@@ -30,6 +30,7 @@ import RolesListing from "@/views/apps/roles/RolesListing.vue";
 import CustomerDetails from "@/views/apps/customers/CustomerDetails.vue";
 import SuppliersListing from "@/views/apps/suppliers/SuppliersListing.vue";
 import OrdersListing from "@/views/apps/orders/OrdersListing.vue";
+import OrdersEtailListing from "@/views/apps/orders/OrdersEtailSalesListing.vue";
 import OrdersSaleList from "@/views/apps/orders/OrdersSaleListing.vue";
 import CreateOrder from "@/views/apps/orders/CreateOrder.vue";
 import EditOrder from "@/views/apps/orders/EditOrder.vue";
@@ -378,6 +379,15 @@ const routes: Array<RouteRecordRaw> = [
         component: () => OrdersListing,
         meta: {
           pageTitle: "Orders",
+          breadcrumbs: ["Apps", "Orders"],
+        },
+      },
+      {
+        path: "/orders-etail-sales",
+        name: "orders-etail-listing",
+        component: () => OrdersEtailListing,
+        meta: {
+          pageTitle: "Etail Sales",
           breadcrumbs: ["Apps", "Orders"],
         },
       },
