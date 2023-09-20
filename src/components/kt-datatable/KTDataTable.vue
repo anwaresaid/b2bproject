@@ -59,7 +59,7 @@ export default defineComponent({
     defaultSort: { type: String, required: false },
     sortable: { type: Boolean, required: true, default: false },
     data: { type: Array, required: true },
-    itemsPerPage: { type: Number, default: 10 },
+    itemsPerPage: { type: Number, default: 50 },
     totalPages: { type: Number, required: true },
     pagination: { type: Boolean },
     size: { type: String },

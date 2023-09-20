@@ -31,6 +31,16 @@
         />
       </el-form-item>
       <el-form-item
+        v-if="props.isUpdate"
+        label="Sales Price"
+        prop="sale_price"
+        label-width="250px"
+        required
+      >
+        <el-input v-model="form.sale_price" autocomplete="off" />
+      </el-form-item>
+
+      <el-form-item
         label="Publisher Name"
         label-width="250px"
         prop="publisher"
@@ -46,7 +56,26 @@
           wd="100%"
         />
       </el-form-item>
-      <el-form-item label="Marketplace" label-width="250px" prop="marketplace">
+      <el-form-item v-if="isUpdate" label="" label-width="250px">
+        <div class="d-flex flex-row justify-content-between w-100">
+          <div>
+            <el-checkbox
+              v-model="checkedMarketplace"
+              label="bu fiyat apilerde aktif olsun mu"
+              size="large"
+            />
+          </div>
+          <div class="stock-container">
+            {{ "Stock: " + props.update.stock }}
+          </div>
+        </div>
+      </el-form-item>
+      <el-form-item
+        v-if="checkedMarketplace && isUpdate"
+        label="Marketplace"
+        label-width="250px"
+        prop="marketplace"
+      >
         <div class="form-items-flex">
           <el-checkbox v-model="checkedEneba" label="Eneba" />
           <el-checkbox v-model="checkedGamivo" label="Gamivo" />
@@ -175,6 +204,7 @@ interface RuleForm {
   description: string;
   categoryType: number;
   min_sales: number;
+  sale_price: number;
 }
 const test = ref("Bethesda");
 const checkedKinguin = ref(false);
@@ -190,6 +220,7 @@ const regionUrl = "regions/all";
 const regionType = "regions";
 const languageUrl = "languages/all";
 const languageType = "languages";
+const checkedMarketplace = ref(false);
 const ruleFormRef = ref<FormInstance>();
 const props = defineProps(["isVisible", "update", "isUpdate"]);
 const setVisible = ref("");
@@ -207,6 +238,7 @@ const form = reactive<RuleForm>({
   description: "",
   categoryType: null,
   min_sales: null,
+  sale_price: null,
 });
 
 const statusData = ref(gameStatus);
@@ -321,6 +353,7 @@ const createUpdateGame = async (formEl: FormInstance | undefined) => {
         category_type: form?.categoryType?.id ?? form?.categoryType,
         description: form?.description,
         marketPlaces: tempMarketplaces,
+        sale_price: form.sale_price,
       };
       if (isUpdate.value) {
         ApiService.put(`games/${props.update?.id}`, submissionData).then(
@@ -400,6 +433,17 @@ watch(props, (newValue) => {
 });
 watch(setVisible, (newValue) => {
   isUpdate.value = props.isUpdate;
+  checkedEneba.value = props.update.match_images.some((item) => item.id === 2);
+  checkedGamivo.value = props.update.match_images.some((item) => item.id === 3);
+  checkedKinguin.value = props.update.match_images.some(
+    (item) => item.id === 1
+  );
+  if (checkedEneba.value || checkedGamivo.value || checkedKinguin.value) {
+    checkedMarketplace.value = true;
+  } else {
+    checkedMarketplace.value = false;
+  }
+  console.log("props update", props.update);
   if (setVisible.value === true && props.isUpdate) {
     form.publisher = props.update.publisher;
     form.category = props.update.category;
@@ -410,6 +454,7 @@ watch(setVisible, (newValue) => {
     form.categoryType = props.update.category_type.id * 1;
     form.min_sales = props.update.sale_price;
     form.description = props.update.description;
+    form.sale_price = props.update.sale_price;
     // checkedEneba.value = props.
   } else if (setVisible.value === false && props.update) {
     setEmpty(form);
@@ -430,3 +475,8 @@ onBeforeUnmount(() => {
   // Cleanup or perform actions before component unmounts
 });
 </script>
+<style scoped>
+.stock-container {
+  margin-top: 5px;
+}
+</style>

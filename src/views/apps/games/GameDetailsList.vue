@@ -73,7 +73,7 @@ const keysData = ref([]);
 
 const params = ref({});
 const tableStatus = ref(null);
-const itemsInTable = ref(10);
+const itemsInTable = ref(50);
 const currentPage = ref(1);
 const paginationData = reactive({});
 const loading = ref(false);
