@@ -33,7 +33,7 @@ export default defineComponent({
   name: "table-items-per-page-select",
   components: {},
   props: {
-    itemsPerPage: { type: Number, default: 10 },
+    itemsPerPage: { type: Number, default: 50 },
     itemsPerPageDropdownEnabled: {
       type: Boolean,
       required: false,

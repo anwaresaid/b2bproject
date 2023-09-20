@@ -216,7 +216,7 @@
               <img
                 v-if="slotProps.action?.match_images?.length > 0"
                 v-for="image in slotProps.action?.match_images"
-                :src="image"
+                :src="image.image"
                 class="logos-stock"
               />
               <img
@@ -329,7 +329,7 @@ export default defineComponent({
       publisherSearch: [],
       marketPlaceStatus: "",
       currentPage: 1,
-      itemsInTable: 10,
+      itemsInTable: 50,
       style: { width: "200px" },
       loading: false,
       statusGames: [

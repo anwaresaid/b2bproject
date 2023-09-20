@@ -77,7 +77,7 @@ export default defineComponent({
     return {
       visible: false,
       suppliersData: [],
-      itemsInTable: 10,
+      itemsInTable: 50,
       currentPage: 1,
       params: {},
       paginationData: {},
