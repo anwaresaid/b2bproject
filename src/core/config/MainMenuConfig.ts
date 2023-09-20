@@ -343,13 +343,13 @@ const MainMenuConfig: Array<MenuItem> = [
       //   ],
       // },
       {
-        heading: "games",
+        heading: "Games",
         route: "/games",
         svgIcon: "/media/icons/duotune/art/art002.svg",
         fontIcon: "bi-app-indicator",
       },
       {
-        heading: "moneybox",
+        heading: "Moneybox",
         route: "/moneybox",
         svgIcon: "/media/icons/duotune/art/art002.svg",
         fontIcon: "bi-app-indicator",

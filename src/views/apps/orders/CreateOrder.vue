@@ -199,7 +199,6 @@ const createOrder = async (formEl: FormInstance | undefined) => {
         games: form.game,
         currency: form.currency,
         customer_id: form.customer.id,
-        totalAmount: total.value,
       };
       // const data = { ...form, customer_id: form.customer.id };
       ApiService.post("orders/create", data).then((res) => {
