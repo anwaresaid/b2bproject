@@ -92,6 +92,30 @@
         <template v-slot:component1="slotProps">
           <slot :action="slotProps.action">
             <el-tooltip
+              effect="dark"
+              content="update status"
+              placement="top-start"
+            >
+              <el-dropdown trigger="click" @command="handleStatus">
+                <el-button circle icon="Edit" type="warning"> </el-button>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item
+                      v-for="order in orderStatus"
+                      :command="{
+                        id: slotProps.action.order_code,
+                        status: order.value,
+                      }"
+                    >
+                      {{ order.turkish }}</el-dropdown-item
+                    >
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+            </el-tooltip>
+          </slot>
+          <slot :action="slotProps.action">
+            <el-tooltip
               class="box-item"
               effect="dark"
               content="Order details"
@@ -106,15 +130,11 @@
             </el-tooltip>
           </slot>
           <slot :action="slotProps.action">
-            <el-tooltip
-              class="box-item"
-              effect="dark"
-              content="Copy"
-              placement="top-start"
-            >
+            <el-tooltip effect="dark" content="Copy" placement="top-start">
               <el-button
                 type="success"
                 icon="CopyDocument"
+                class="ms-0"
                 circle
                 @click="copyText(slotProps.action)"
               />
@@ -182,6 +202,7 @@ const currentPage = ref(1);
 const paginationData = reactive({});
 const tableType = ref({ value: 2, label: "customer" });
 const loading = ref(false);
+const statusUpdate = ref({});
 
 const tableHeaders = ref([
   {
@@ -233,7 +254,6 @@ const tableHeaders = ref([
   {
     columnName: "PROCESS",
     sortEnabled: false,
-    columnWidth: 135,
     custom: "component1",
   },
 ]);
@@ -250,6 +270,11 @@ const fetchOrders = (type) => {
     ordersData.value = res.data.data?.orders;
     paginationData.value = res.data.data?.pagination;
     store.dispatch("setPageItems", res.data.data.pagination?.total_items);
+  });
+};
+const updateStatus = (type) => {
+  ApiService.post("orders/updateStatus", statusUpdate.value).then((res) => {
+    fetchOrders();
   });
 };
 const setCustomerId = (value) => {
@@ -273,6 +298,10 @@ const setGameId = (value) => {
 const getItemsInTable = (item) => {
   params.value.per_page = item;
   fetchOrders();
+};
+const handleStatus = (status) => {
+  statusUpdate.value = { order_code: status.id, status: status.status };
+  console.log(statusUpdate.value);
 };
 const pageChange = (page: number) => {
   params.value.current_page = page;
@@ -309,16 +338,14 @@ watch(tableStatus, (newValue) => {
   params.value = dropdownParams.value;
   fetchOrders("filter");
 });
-// watch(dropdownParams, (newValue) => {
-//   params.value = {};
-//   console.log("changed", dropdownParams.value);
-//   params.value = dropdownParams.value;
-//   fetchOrders("filer");
-// });
+
 watch(searchOrders, (newValue) => {
   params.value = {};
   params.value = { search: searchOrders.value };
   fetchOrders("filer");
+});
+watch(statusUpdate, (newValue) => {
+  updateStatus();
 });
 
 onMounted(() => {

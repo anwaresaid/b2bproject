@@ -113,13 +113,13 @@
               <img
                 v-if="slotProps.action.game?.match_images.length > 0"
                 v-for="image in slotProps.action.game?.match_images"
-                :src="image"
+                :src="image.image"
                 class="logos-stock"
               />
               <img
                 v-if="slotProps.action?.game?.passive_images?.length > 0"
                 v-for="image in slotProps.action.game?.passive_images"
-                :src="image"
+                :src="image.image"
                 class="logos-stock opacity-50"
               />
             </div>
