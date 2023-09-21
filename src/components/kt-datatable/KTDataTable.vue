@@ -131,7 +131,7 @@ export default defineComponent({
 
     const totalItems = computed(() => {
       if (props.totalPages) {
-        return props.totalPages * 10;
+        return props.totalPages * props.itemsPerPage;
       }
       if (props.data) {
         if (props.data.length <= itemsInTable.value) {

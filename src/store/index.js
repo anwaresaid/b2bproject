@@ -11,6 +11,7 @@ const store = new Vuex.Store({
       rolePermissions: [],
       orderCode: null,
       pageItems: null,
+      followKey: null,
     };
   },
 
@@ -29,6 +30,9 @@ const store = new Vuex.Store({
     },
     setPageItems(state, payload) {
       state.pageItems = payload;
+    },
+    setFollowKey(state, payload) {
+      state.followKey = payload;
     }
   },
 
@@ -44,6 +48,9 @@ const store = new Vuex.Store({
     },
     setPageItems(context, value) {
       context.commit("setPageItems", value);
+    },
+    setFollowKey(context, value) {
+      context.commit("setFollowKey", value);
     },
     setToken(context) {
       return ApiService.get("users/show")

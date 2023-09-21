@@ -306,7 +306,7 @@ const routes: Array<RouteRecordRaw> = [
         name: "apps-orders-sale",
         component: () => OrdersSaleList,
         meta: {
-          pageTitle: "Orders Sale",
+          pageTitle: "Api Sales",
           breadcrumbs: ["Apps", "Orders"],
         },
       },
@@ -414,6 +414,7 @@ const routes: Array<RouteRecordRaw> = [
         path: "/keys/follow",
         name: "keys-follow",
         component: () => KeysFollow,
+        props: true,
         meta: {
           pageTitle: "Key",
           breadcrumbs: ["Apps", "Keys"],

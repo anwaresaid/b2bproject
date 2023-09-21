@@ -72,6 +72,19 @@
       >
         <template v-slot:component1="slotProps">
           <slot :action="slotProps.action">
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="follow"
+              placement="top-start"
+            >
+              <el-button
+                type="info"
+                icon="Back"
+                circle
+                @click="followKey(slotProps.action)"
+              />
+            </el-tooltip>
             <el-button
               type="danger"
               icon="Delete"
@@ -185,7 +198,6 @@ const tableHeaders = ref([
     columnName: "SUPPLIER",
     columnLabel: "supplier.name",
     sortEnabled: true,
-    columnWidth: 150,
   },
   {
     columnName: "GAME NAME",
@@ -196,7 +208,6 @@ const tableHeaders = ref([
     columnName: "KEY",
     columnLabel: "keycode",
     sortEnabled: true,
-    columnWidth: 130,
   },
   {
     columnName: "STATUS",
@@ -238,18 +249,15 @@ const tableHeaders = ref([
     columnName: "CREATED BY",
     columnLabel: "creator.name",
     sortEnabled: false,
-    columnWidth: 100,
   },
   {
     columnName: "CREATED AT",
     columnLabel: "created_at",
     sortEnabled: false,
-    columnWidth: 100,
   },
   {
     columnName: "PROCESS",
     sortEnabled: false,
-    columnWidth: 100,
     custom: "component1",
   },
 ]);
@@ -307,7 +315,13 @@ const closeCreateKey = (value) => {
   keyCreateVisible.value = false;
   if (value) fetchKeys();
 };
-
+const followKey = (key) => {
+  console.log("key", key);
+  store.dispatch("setFollowKey", key.keycode);
+  router.push({
+    name: "keys-follow",
+  });
+};
 watch(tableStatus, (newValue) => {
   dropdownParams.value.status = tableStatus.value;
   if (tableStatus.value === "") {
