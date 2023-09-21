@@ -80,7 +80,7 @@
     <!--begin::Col-->
     <div class="col-xl-12">
       <SummaryTable
-        :data="summaryData"
+        :data="loadingSummaryData"
         :navbar="false"
         :headers="tableHeaders"
         :title="'Last game updates'"
@@ -210,19 +210,16 @@ const tableHeaders = ref([
     columnName: "NEW STOCK",
     custom: "component2",
     sortEnabled: true,
-    columnWidth: 150,
   },
   {
     columnName: "OLD STOCK",
     custom: "component1",
     sortEnabled: true,
-    columnWidth: 170,
   },
   {
     columnName: "QUANTITY",
     custom: "component1",
     sortEnabled: true,
-    columnWidth: 170,
   },
   {
     columnName: "DATE",
@@ -365,11 +362,11 @@ const fetchOrders = (type) => {
     loading.value = false;
     loadingSummaryData.value = res.data.data?.last_game_updates;
   });
-  ApiService.post("/games/get-last-month-summary", {}).then((res) => {
-    loadingGamesSummaryData.value = false;
-    console.log("games summary data", res);
-    gamesSummaryData.value = res.data.data;
-  });
+  // ApiService.post("/games/get-last-month-summary", {}).then((res) => {
+  //   loadingGamesSummaryData.value = false;
+  //   console.log("games summary data", res);
+  //   gamesSummaryData.value = res.data.data;
+  // });
 };
 
 const navigateToGameDetailsPage = (id) => {
