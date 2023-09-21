@@ -15,6 +15,26 @@
                 placeholder="search by order code"
               />
             </div>
+            <div class="d-flex flex-column">
+              <div class="d-flex flex-row align-items-center">
+                <el-date-picker
+                  v-model="fromDate"
+                  type="datetime"
+                  placeholder="From"
+                  :default-time="defaultTime"
+                />
+                <el-date-picker
+                  v-model="toDate"
+                  type="datetime"
+                  placeholder="To"
+                  :default-time="defaultTime"
+                />
+                <el-button type="primary" @click="handleChangeDates"
+                  >Apply</el-button
+                >
+              </div>
+              <div v-if="errors != null" class="text-danger">{{ errors }}</div>
+            </div>
             <div>
               <el-button type="primary" icon="plus" round
                 ><router-link to="/create-order" class="text-white px-3"
@@ -183,10 +203,15 @@ import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import { orderType, orderStatus } from "../utils/constants";
 import { useRouter } from "vue-router";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
+import { dateFormatter } from "../utils/functions";
 import store from "../../../store";
 
 const ordersData = ref([]);
 const router = useRouter();
+const fromDate = ref();
+const toDate = ref();
+const defaultTime = new Date(2000, 1, 1, 12, 0, 0);
+const errors = ref(null);
 const searchOrders = ref("");
 const dropdownParams = ref({});
 const customerKey = "search";
@@ -265,6 +290,10 @@ const fetchOrders = (type) => {
     params.value.per_page = itemsInTable;
     params.value.page_type = tableType.value;
   }
+  if (typeof params.value.page_type === "object") {
+    params.value.page_type = params.value.page_type.value;
+    console.log("obj");
+  }
   ApiService.postTest("orders/all", params.value).then((res) => {
     loading.value = false;
     ordersData.value = res.data.data?.orders;
@@ -297,6 +326,30 @@ const setGameId = (value) => {
 };
 const getItemsInTable = (item) => {
   params.value.per_page = item;
+  fetchOrders();
+};
+
+const handleChangeDates = () => {
+  errors.value = null;
+  if (
+    toDate.value === null ||
+    fromDate.value === null ||
+    toDate.value === "" ||
+    fromDate.value === "" ||
+    toDate.value === undefined ||
+    fromDate.value === undefined
+  ) {
+    errors.value = "you have set both dates";
+    return;
+  }
+  console.log("insdie if", toDate.value);
+  const date = {
+    start: dateFormatter(fromDate, "time"),
+    finish: dateFormatter(toDate, "time"),
+  };
+  console.log("date", date);
+  params.value.start = date.start;
+  params.value.finish = date.finish;
   fetchOrders();
 };
 const handleStatus = (status) => {
