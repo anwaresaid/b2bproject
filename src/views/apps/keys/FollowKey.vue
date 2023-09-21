@@ -177,7 +177,11 @@ const navigateOrderDetails = (code) => {
   });
 };
 
-onMounted(() => {});
+onMounted(() => {
+  if (store.state.followKey != null) {
+    searchKey.value = store.state.followKey;
+  }
+});
 
 onBeforeUnmount(() => {
   // Cleanup or perform actions before component unmounts
