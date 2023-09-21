@@ -48,12 +48,12 @@ export const useAuthStore = defineStore("auth", () => {
   }
 
   function login(credentials: User) {
-    return ApiService.postTest("users/login", credentials)
+    return ApiService.post("users/login", credentials)
       .then(({ data }) => {
         setAuth(data);
       })
       .catch(({ response }) => {
-        setError(response?.data?.message);
+        setError(response?.data?.messages);
       });
   }
 
