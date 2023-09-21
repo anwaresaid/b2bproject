@@ -23,6 +23,7 @@ import MarketplaceMatchListing from "@/views/apps/marketplace/MarketplaceMatchLi
 import CustomersListing from "@/views/apps/customers/CustomersListing.vue";
 import NotificationsAll from "@/views/apps/notifications/NotificationsAll.vue";
 import GeneralAccount from "@/views/apps/accounting/GeneralAccount.vue";
+import Kebir from "@/views/apps/accounting/Kebir.vue";
 import StockList from "@/views/apps/stock/StockList.vue";
 import GameListing from "@/views/apps/games/GameListing.vue";
 import GameDetailListing from "@/views/apps/games/GameDetailsList.vue";
@@ -316,6 +317,15 @@ const routes: Array<RouteRecordRaw> = [
         component: () => GeneralAccount,
         meta: {
           pageTitle: "General Account",
+          breadcrumbs: ["Account", "General"],
+        },
+      },
+      {
+        path: "/account/kebir",
+        name: "kebir",
+        component: () => Kebir,
+        meta: {
+          pageTitle: "Kebir",
           breadcrumbs: ["Account", "General"],
         },
       },
