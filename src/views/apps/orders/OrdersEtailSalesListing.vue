@@ -31,6 +31,26 @@
                 />
               </el-select>
             </el-form-item>
+            <div class="d-flex flex-column">
+              <div class="d-flex flex-row align-items-center">
+                <el-date-picker
+                  v-model="fromDate"
+                  type="datetime"
+                  placeholder="From"
+                  :default-time="defaultTime"
+                />
+                <el-date-picker
+                  v-model="toDate"
+                  type="datetime"
+                  placeholder="To"
+                  :default-time="defaultTime"
+                />
+                <el-button type="primary" @click="handleChangeDates"
+                  >Apply</el-button
+                >
+              </div>
+              <div v-if="errors != null" class="text-danger">{{ errors }}</div>
+            </div>
             <el-form-item label="Select Order status">
               <el-select
                 v-model="tableStatus"
@@ -106,6 +126,8 @@ import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import { orderType, orderStatus } from "../utils/constants";
 import { useRouter } from "vue-router";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
+import { dateFormatter } from "../utils/functions";
+
 import store from "../../../store";
 
 const ordersData = ref([]);
@@ -122,6 +144,10 @@ const params = ref({});
 const tableStatus = ref(null);
 const itemsInTable = ref(50);
 const currentPage = ref(1);
+const fromDate = ref();
+const toDate = ref();
+const defaultTime = new Date(2000, 1, 1, 12, 0, 0);
+const errors = ref(null);
 const paginationData = reactive({});
 const tableType = ref({ value: 2, label: "customer" });
 const loading = ref(false);
@@ -228,6 +254,30 @@ const handleStatus = (status) => {
 };
 const pageChange = (page: number) => {
   params.value.current_page = page;
+  fetchOrders();
+};
+
+const handleChangeDates = () => {
+  errors.value = null;
+  if (
+    toDate.value === null ||
+    fromDate.value === null ||
+    toDate.value === "" ||
+    fromDate.value === "" ||
+    toDate.value === undefined ||
+    fromDate.value === undefined
+  ) {
+    errors.value = "you have set both dates";
+    return;
+  }
+  console.log("insdie if", toDate.value);
+  const date = {
+    start: dateFormatter(fromDate, "time"),
+    finish: dateFormatter(toDate, "time"),
+  };
+  console.log("date", date);
+  params.value.start = date.start;
+  params.value.finish = date.finish;
   fetchOrders();
 };
 
