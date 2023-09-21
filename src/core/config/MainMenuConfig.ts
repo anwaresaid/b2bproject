@@ -91,6 +91,10 @@ const MainMenuConfig: Array<MenuItem> = [
             heading: "General account",
             route: "/account/general-account",
           },
+          {
+            heading: "Kebir",
+            route: "/account/kebir",
+          },
         ],
       },
 

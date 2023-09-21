@@ -158,10 +158,12 @@ export default defineComponent({
           router.push({ name: "two-factor" });
         });
       } else {
-        console.log("error", error);
+        console.log("error", store.errors);
         let all = "";
-        const obj = Object.values(error[0]);
-        all = obj.join("\n");
+        if (error[0]) {
+          const obj = Object?.values(error[0]);
+          all = obj.join("\n");
+        }
         Swal.fire({
           text: all as string,
           icon: "error",

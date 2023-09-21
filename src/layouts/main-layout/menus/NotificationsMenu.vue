@@ -100,14 +100,13 @@
 
         <!--begin::View more-->
         <div class="py-3 text-center border-top">
-          <a
-            href="/all-notifications"
-            class="btn btn-color-gray-600 btn-active-color-primary"
-          >
-            View All
-            <span class="svg-icon svg-icon-5">
-              <inline-svg src="/media/icons/duotune/arrows/arr064.svg" />
-            </span>
+          <a class="btn btn-color-gray-600 btn-active-color-primary">
+            <router-link to="/all-notifications">
+              View All
+              <span class="svg-icon svg-icon-5">
+                <inline-svg src="/media/icons/duotune/arrows/arr064.svg" />
+              </span>
+            </router-link>
           </a>
         </div>
         <!--end::View more-->

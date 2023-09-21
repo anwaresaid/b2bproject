@@ -35,7 +35,7 @@
             :value="item.value"
           />
         </el-select>
-        <div>
+        <div class="d-flex flex-row">
           <el-button
             @click="setStatusToPassive"
             class="border-secondary border-2"
