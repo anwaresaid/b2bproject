@@ -28,6 +28,7 @@
               :data="allData.order?.keys"
               :header="tableHeader"
               :totalPages="paginationData.last_page"
+              :pagination="true"
               :enable-items-per-page-dropdown="true"
               :checkbox-enabled="true"
               checkbox-label="id"
