@@ -91,6 +91,8 @@ const ruleFormRef = ref<FormInstance>();
 const uploadRef = ref<UploadInstance>();
 const visible = defineProps(["isVisible"]);
 const setVisible = ref("");
+const emit = defineEmits();
+
 setVisible.value = visible.isVisible;
 
 const form = reactive<RuleForm>({

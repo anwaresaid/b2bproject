@@ -301,6 +301,10 @@ const handleChangeDates = () => {
     errors.value = "you have set both dates";
     return;
   }
+  if (fromDate.value > toDate.value) {
+    errors.value = "from date has to be before the to date";
+    return;
+  }
   console.log("insdie if", toDate.value);
   const date = {
     start: dateFormatter(fromDate, "time"),
@@ -337,7 +341,9 @@ watch(searchOrders, (newValue) => {
 });
 
 watch(fromDate, (newValue) => {});
-watch(toDate, (newValue) => {});
+watch(toDate, (newValue) => {
+  console.log("bigger", fromDate.value > toDate.value);
+});
 watch(errors, (newValue) => {});
 
 onMounted(() => {
