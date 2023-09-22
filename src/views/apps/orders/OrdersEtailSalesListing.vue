@@ -269,6 +269,10 @@ const handleChangeDates = () => {
     errors.value = "you have set both dates";
     return;
   }
+  if (fromDate.value > toDate.value) {
+    errors.value = "from date has to be before the to date";
+    return;
+  }
   console.log("insdie if", toDate.value);
   const date = {
     start: dateFormatter(fromDate, "time"),

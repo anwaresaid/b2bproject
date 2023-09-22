@@ -61,6 +61,7 @@
           <div>
             <el-checkbox
               v-model="checkedMarketplace"
+              v-if="showMarketPlace && isUpdate"
               label="bu fiyat apilerde aktif olsun mu"
               size="large"
             />
@@ -71,21 +72,30 @@
         </div>
       </el-form-item>
       <el-form-item
-        v-if="checkedMarketplace && isUpdate"
+        v-if="checkedMarketplace"
         label="Marketplace"
         label-width="250px"
         prop="marketplace"
       >
-        <div class="d-flex flex-row">
-          <div v-if="checkedEneba" class="font-weight-bold text-success ms-5">
-            Eneba
-          </div>
-          <div v-if="checkedGamivo" class="font-weight-bold text-success ms-5">
-            Gamivo
-          </div>
-          <div v-if="checkedKinguin" class="font-weight-bold text-success ms-5">
-            Kinguin
-          </div>
+        <div class="form-items-flex" v-if="checkedMarketplace">
+          <el-checkbox
+            v-if="showEneba"
+            class="font-weight-bold text-success ms-5"
+            v-model="checkedEneba"
+            label="Eneba"
+          />
+          <el-checkbox
+            v-if="showGamivo"
+            class="font-weight-bold text-success ms-5"
+            v-model="checkedGamivo"
+            label="Gamivo"
+          />
+          <el-checkbox
+            v-if="showKinguin"
+            class="font-weight-bold text-success ms-5"
+            v-model="checkedKinguin"
+            label="Kinguin"
+          />
         </div>
       </el-form-item>
       <el-form-item
@@ -216,6 +226,9 @@ const test = ref("Bethesda");
 const checkedKinguin = ref(false);
 const checkedGamivo = ref(false);
 const checkedEneba = ref(false);
+const showEneba = ref(false);
+const showGamivo = ref(false);
+const showKinguin = ref(false);
 const formSize = ref("default");
 const categoriesUrl = "categories/all";
 const categoriesType = "categories";
@@ -230,6 +243,7 @@ const checkedMarketplace = ref(false);
 const ruleFormRef = ref<FormInstance>();
 const props = defineProps(["isVisible", "update", "isUpdate"]);
 const setVisible = ref("");
+const showMarketPlace = ref(false);
 const isUpdate = ref(false);
 setVisible.value = props.isVisible;
 const message = ref("");
@@ -436,18 +450,43 @@ watch(props, (newValue) => {
   }
 });
 watch(setVisible, (newValue) => {
+  //clearing the form items
+  showEneba.value = false;
+  showGamivo.value = false;
+  showKinguin.value = false;
+  showMarketPlace.value = false;
+  checkedMarketplace.value = false;
   isUpdate.value = props.isUpdate;
+  form.publisher = null;
+  form.category = null;
+  form.language = null;
+  form.region = null;
+  form.stats = null;
+  form.name = null;
+  form.categoryType = null;
+  form.min_sales = null;
+  form.description = null;
+  form.sale_price = null;
 
   if (setVisible.value === true && props.isUpdate) {
-    checkedEneba.value = props.update.matches.some((item) => item === 2);
-    checkedGamivo.value = props.update.matches.some((item) => item === 3);
-    checkedKinguin.value = props.update.matches.some((item) => item === 1);
-    if (checkedEneba.value || checkedGamivo.value || checkedKinguin.value) {
-      checkedMarketplace.value = true;
-    } else {
-      checkedMarketplace.value = false;
+    if (
+      props.update.match_images.some((item) => item.id === 2) ||
+      props.update.match_images.some((item) => item.id === 3) ||
+      props.update.match_images.some((item) => item.id === 1)
+    ) {
+      showMarketPlace.value = true;
+      showEneba.value = props.update.match_images.some((item) => item.id === 2)
+        ? true
+        : false;
+      showGamivo.value = props.update.match_images.some((item) => item.id === 3)
+        ? true
+        : false;
+      showKinguin.value = props.update.match_images.some(
+        (item) => item.id === 1
+      )
+        ? true
+        : false;
     }
-    console.log("props update", props.update);
 
     form.publisher = props.update.publisher;
     form.category = props.update.category;
