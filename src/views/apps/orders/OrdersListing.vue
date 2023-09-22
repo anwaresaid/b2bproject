@@ -121,7 +121,7 @@
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item
-                      v-for="order in orderStatus"
+                      v-for="order in twoStatus"
                       :command="{
                         id: slotProps.action.order_code,
                         status: order.value,
@@ -228,6 +228,18 @@ const paginationData = reactive({});
 const tableType = ref({ value: 2, label: "customer" });
 const loading = ref(false);
 const statusUpdate = ref({});
+const twoStatus = [
+  {
+    value: 1,
+    label: "approved",
+    turkish: "Onaylandı",
+  },
+  {
+    value: 2,
+    label: "rejected",
+    turkish: "Kabul Edilmedi",
+  },
+];
 
 const tableHeaders = ref([
   {
