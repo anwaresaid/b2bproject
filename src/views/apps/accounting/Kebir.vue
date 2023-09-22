@@ -30,11 +30,38 @@
         :checkbox-enabled="true"
         checkbox-label="id"
         :pagination="true"
+        show-summary
+        :summary-method="getSummaries"
         :loading="loading"
         sortable
         @on-items-per-page-change="getItemsInTable"
         @page-change="pageChange"
       >
+        <template v-slot:component2="slotProps">
+          <slot :action="slotProps.action">
+            {{ slotProps.action.total_giro }}€
+          </slot>
+        </template>
+        <template v-slot:component3="slotProps">
+          <slot :action="slotProps.action">
+            {{ slotProps.action.total_cost }} €
+          </slot>
+        </template>
+        <template v-slot:component4="slotProps">
+          <slot :action="slotProps.action">
+            {{ slotProps.action.total_margin }}€
+          </slot>
+        </template>
+        <template v-slot:component5="slotProps">
+          <slot :action="slotProps.action">
+            {{ slotProps.action.add_cost }}€
+          </slot>
+        </template>
+        <template v-slot:component6="slotProps">
+          <slot :action="slotProps.action">
+            {{ slotProps.action.net_margin }}€
+          </slot>
+        </template>
       </Datatable>
     </div>
   </div>
@@ -46,6 +73,7 @@ import { ref, reactive, onMounted, watch, onBeforeUnmount } from "vue";
 import ApiService from "@/core/services/ApiService";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import store from "../../../store";
+import type { TableColumnCtx } from "element-plus";
 
 const searchUsers = ref("");
 const dropdownParams = ref({});
@@ -66,27 +94,27 @@ const tableHeaders = ref([
   },
   {
     columnName: "CIRO",
-    columnLabel: "total_giro",
+    custom: "component2",
     sortEnabled: true,
   },
   {
     columnName: "MALIYET",
-    columnLabel: "total_cost",
+    custom: "component3",
     sortEnabled: true,
   },
   {
     columnName: "KÂR",
-    columnLabel: "total_margin",
+    custom: "component4",
     sortEnabled: true,
   },
   {
     columnName: "EK GIDER",
-    columnLabel: "add_cost",
+    custom: "component5",
     sortEnabled: true,
   },
   {
     columnName: "NET KAZANÇ",
-    columnLabel: "net_margin",
+    custom: "component6",
     sortEnabled: true,
   },
 ]);
@@ -117,6 +145,56 @@ const fetchUsers = (type) => {
     // paginationData.value = res.data.data.pagination;
     // store.dispatch("setPageItems", res.data.data.pagination.total_items);
   });
+};
+
+interface SummaryMethodProps<T = Product> {
+  columns: TableColumnCtx<T>[];
+  data: T[];
+}
+
+const getSummaries = (param: SummaryMethodProps) => {
+  const { columns, data } = param;
+  const sums: string[] = [];
+  columns.forEach((column, index) => {
+    if (index === 0) {
+      sums[index] = "Total";
+      return;
+    }
+    const values = data.map((item) => {
+      if (column.no === 1) {
+        return Number(item.total_giro);
+      }
+      if (column.no === 2) {
+        return Number(item.total_cost);
+      }
+      if (column.no === 1) {
+        return Number(item.total_margin);
+      }
+      if (column.no === 1) {
+        return Number(item.add_cost);
+      }
+      if (column.no === 1) {
+        return Number(item.net_margin);
+      }
+    });
+    // const values = data.map((item) => Number(item[column.property]));
+    if (!values.every((value) => Number.isNaN(value))) {
+      sums[index] = `${values
+        .reduce((prev, curr) => {
+          const value = Number(curr);
+          if (!Number.isNaN(value)) {
+            return prev + curr;
+          } else {
+            return prev;
+          }
+        }, 0)
+        .toFixed(2)} €`;
+    } else {
+      sums[index] = "N/A";
+    }
+  });
+
+  return sums;
 };
 
 const getItemsInTable = (item) => {

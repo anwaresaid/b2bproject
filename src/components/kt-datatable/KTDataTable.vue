@@ -22,6 +22,8 @@
       style="width: 100%"
       v-loading="loading"
       :size="size"
+      :show-summary="showSummary"
+      :summary-method="summaryMethod"
       @selection-change="handleSelectionChange"
     >
       <el-table-column v-if="multiSelect" type="selection" width="55" />
@@ -82,6 +84,8 @@ export default defineComponent({
     total: { type: Number, required: false },
     loading: { type: Boolean, required: false, default: false },
     sortLabel: { type: String, required: false, default: null },
+    summaryMethod: { type: Function },
+    showSummary: { type: Boolean, required: false, default: false },
     sortOrder: {
       type: String as () => "asc" | "desc",
       required: false,
