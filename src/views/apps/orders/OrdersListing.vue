@@ -115,6 +115,7 @@
               effect="dark"
               content="update status"
               placement="top-start"
+              v-if="slotProps.action.can_update"
             >
               <el-dropdown trigger="click" @command="handleStatus">
                 <el-button circle icon="Edit" type="warning"> </el-button>

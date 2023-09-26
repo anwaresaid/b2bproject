@@ -93,9 +93,9 @@
                   <template v-for="(row, j) in item.table" :key="j">
                     <tr>
                       <td v-for="(item, index) in headers" :key="index">
-                        <div class="d-flex align-items-center">
+                        <div class="inside-td d-flex align-items-center">
                           <slot :name="item?.custom" v-bind="row">
-                            <div class="d-flex align-items-center">
+                            <div class="inside-td d-flex align-items-center">
                               <span class="text-gray-600 fw-bold fs-6">
                                 {{ row[item.columnLabel] }}
                               </span>
@@ -459,3 +459,8 @@ export default defineComponent({
   },
 });
 </script>
+<style scoped>
+.inside-td {
+  overflow: hidden;
+}
+</style>

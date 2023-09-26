@@ -153,7 +153,7 @@ onMounted(() => {
   // This code will run when the component is mounted
 });
 </script>
-<style>
+<style scoped>
 .game-orders-card {
   background-color: #f8f5ff;
   border-radius: 10px;

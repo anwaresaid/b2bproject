@@ -21,7 +21,7 @@
             <inline-svg src="/media/icons/duotune/general/gen024.svg" />
           </span>
         </button>
-        <Dropdown1></Dropdown1>
+        <Dropdown4></Dropdown4>
         <!--end::Menu-->
       </div>
     </div>
@@ -68,12 +68,12 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import Dropdown1 from "@/components/dropdown/Dropdown1.vue";
+import Dropdown4 from "@/components/dropdown/Dropdown4.vue";
 
 export default defineComponent({
   name: "kt-widget-1",
   components: {
-    Dropdown1,
+    Dropdown4,
   },
   props: {
     widgetClasses: String,
