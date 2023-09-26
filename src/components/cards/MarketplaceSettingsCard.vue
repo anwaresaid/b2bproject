@@ -31,7 +31,7 @@
               :default="
                 props.data?.supplier?.name ? props.data.supplier.name : null
               "
-              @selected-game="setCategoryId"
+              @selected-game="setSupplier"
               returnType="object"
               :type="categoriesType"
               :keyg="categoriesKey"
@@ -46,7 +46,7 @@
           >
             <DropdownRemote
               :url="publishersUrl"
-              @selected-game="setPublisherId"
+              @selected-game="setCustomer"
               returnType="object"
               :default="
                 props.data?.customer?.name ? props.data.customer.name : null
@@ -67,8 +67,7 @@
               class="form-control form-control-solid mb-3 mb-lg-0"
               placeholder="Eneba fixed percent commission"
               id="eneba_percent_commission"
-              :value="form.commission_const + '%'"
-              @input="percentageComissionFunc"
+              v-model="form.commission_const"
             />
           </el-form-item>
           <el-form-item
@@ -82,11 +81,13 @@
               class="form-control form-control-solid mb-3 mb-lg-0"
               placeholder="Eneba fixed commission"
               id="eneba_percent_commission"
-              v-model="form.commission_const"
+              v-model="form.commission_percent"
             />
           </el-form-item>
         </el-form>
-        <el-button type="danger" plain class="mb-5 w-100">Submission</el-button>
+        <el-button type="danger" plain class="mb-5 w-100" @click="submit"
+          >Submission</el-button
+        >
       </div>
     </div>
     <!--end::Card body-->
@@ -109,21 +110,11 @@
     });
     </script> -->
 <script lang="ts" setup>
-import {
-  ref,
-  reactive,
-  onMounted,
-  watch,
-  toRefs,
-  onBeforeUnmount,
-  defineEmits,
-} from "vue";
+import { reactive, onMounted, onBeforeUnmount, defineEmits } from "vue";
 import ApiService from "@/core/services/ApiService";
-import PusherService from "@/core/services/PusherService";
 import type { FormInstance, FormRules } from "element-plus";
 import { ElMessage, ElMessageBox } from "element-plus";
 import DropdownRemote from "@/components/dropdown/DropdownRemote.vue";
-import { currency } from "../../views/apps/utils/constants";
 import type { Action } from "element-plus";
 
 const props = defineProps(["data"]);
@@ -132,8 +123,6 @@ const categoriesType = "suppliers";
 const categoriesKey = "search";
 const publishersUrl = "customers/all";
 const publishersType = "customers";
-const constComission = ref();
-const percentageComission = ref();
 
 interface RuleForm {
   customer_id: number;
@@ -141,8 +130,6 @@ interface RuleForm {
   commission_const: number;
   commission_percent: number;
 }
-
-const stock = ref("");
 
 const form = reactive<RuleForm>({
   customer_id: props.data.customer_id,
@@ -165,14 +152,12 @@ const checkNumber = (rule: any, value: any, callback: any) => {
     }
   }, 0);
 };
-const constComissionFunc = (data) => {
-  constComission.value = data.target.value;
+const setSupplier = (data) => {
+  console.log("data", data);
+  form.supplier_id = data.id;
 };
-const percentageComissionFunc = (data) => {
-  percentageComission.value = data.target.value;
-};
-const displayCurrency = () => {
-  return currency.find((curr) => curr.value === props.currency)?.symbol;
+const setCustomer = (data) => {
+  form.customer_id = data.id;
 };
 const rules = reactive<FormRules<RuleForm>>({
   game_id: [
@@ -212,17 +197,20 @@ const confirmSubmission = () => {
   });
 };
 
-const setGameId = (value) => {
-  form.game_id = value.id;
-  stock.value = value.stock;
+const submit = () => {
+  //   loading.value = true;
+  console.log(props);
+  const data = {
+    marketplace_id: props.data.id,
+    customer_id: form.customer_id,
+    supplier_id: form.supplier_id,
+    commission_percent: form.commission_percent,
+    commission_const: form.commission_const,
+  };
+  ApiService.post("marketplace/updateGeneral", data).then((res) => {
+    console.log("success");
+  });
 };
-const deleteGame = () => {
-  emit("delete-game", props.index);
-};
-
-watch(props.currency, (newValue) => {
-  console.log("props", currency[props.currency]);
-});
 
 onBeforeUnmount(() => {
   // Cleanup or perform actions before component unmounts

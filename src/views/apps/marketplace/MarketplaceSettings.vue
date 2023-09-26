@@ -3,8 +3,11 @@
     v-for="(commission, cindex) in tableData"
     class="mb-10 d-flex flex-column justify-content-center"
   >
-    <div v-if="commission.commission_settings.length > 0">
-      <div class="d-flex flex-row justify-content-center mb-10">
+    <div>
+      <div
+        v-if="commission.commission_settings.length > 0"
+        class="d-flex flex-row justify-content-center mb-10"
+      >
         <MarketplaceSettingsCard :data="commission" class="left-card" />
         <div class="card right-card ms-10">
           <div class="card-header border-0 pt-6 mb-5">
@@ -24,29 +27,6 @@
               </tr>
               <tr v-for="(item, index) in commission?.commission_settings">
                 <td width="100px">
-                  <!-- <el-select
-                v-model="selectedItem[index]"
-                class="m-2"
-                placeholder="Select"
-                size="large"
-              >
-                <el-option
-                  v-for="category in categoryType"
-                  :key="category.id"
-                  :label="category.label"
-                  :value="category.id"
-                />
-              </el-select> -->
-                  <!-- <Dropdownh
-                    :data="item.category"
-                    @selected-item="changeSelectedItem"
-                    @focus="focus($event)"
-                    @blur="test(item, `category_id`, $event, index, cindex)"
-                    :index="index"
-                    :currentItemIndex="cindex"
-                    :currentLength="commission?.commission_settings?.length"
-                    :commission="item"
-                  /> -->
                   <DropdownRemote
                     :url="categoriesUrl"
                     @selected-game="changeSelectedItem"
