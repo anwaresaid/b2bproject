@@ -8,7 +8,8 @@ import { useConfigStore } from "@/stores/config";
 import store from "@/store";
 import MainLayout from "@/layouts/main-layout/MainLayout.vue";
 import Dashboard from "@/views/Dashboard.vue";
-import DashboardComp from "@/views/DashboardComp.vue";
+// import DashboardComp from "@/views/DashboardComp.vue";
+import DashboardComp from "@/views/crafted/widgets/Mixed.vue";
 import LayoutBuilder from "@/views/LayoutBuilder.vue";
 import Profile from "@/components/page-layouts/Profile.vue";
 import Horizontal from "@/views/crafted/pages/wizards/Horizontal.vue";
@@ -20,6 +21,7 @@ import KinguinMarketPlace from "@/views/apps/marketplace/marketplace-match/Kingu
 import GamivoMarketPlace from "@/views/apps/marketplace/marketplace-match/GamivoMarketPlace.vue";
 import EnebaMarketPlace from "@/views/apps/marketplace/marketplace-match/EnebaMarketPlace.vue";
 import MarketplaceMatchListing from "@/views/apps/marketplace/MarketplaceMatchListing.vue";
+import MarketplaceSettings from "@/views/apps/marketplace/MarketplaceSettings.vue";
 import CustomersListing from "@/views/apps/customers/CustomersListing.vue";
 import NotificationsAll from "@/views/apps/notifications/NotificationsAll.vue";
 import GeneralAccount from "@/views/apps/accounting/GeneralAccount.vue";
@@ -246,6 +248,15 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           pageTitle: "Gamivo Match",
           breadcrumbs: ["Marketplace", "Gamivo Match"],
+        },
+      },
+      {
+        path: "/marketplace/settings",
+        name: "marketplace-settings",
+        component: () => MarketplaceSettings,
+        meta: {
+          pageTitle: "Marketplace Settings",
+          breadcrumbs: ["Marketplace", "Marketplace Settings"],
         },
       },
       {

@@ -419,6 +419,7 @@ onBeforeUnmount(() => {
 .game-name-link:hover {
   cursor: pointer;
   filter: brightness(120%);
+  word-wrap: break-word;
 }
 .el-form-item {
   display: flex;

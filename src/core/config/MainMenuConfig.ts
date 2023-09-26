@@ -294,6 +294,10 @@ const MainMenuConfig: Array<MenuItem> = [
             heading: "Marketplace match listing",
             route: "/marketplace-match-list",
           },
+          {
+            heading: "Marketplace settings",
+            route: "/marketplace/settings",
+          },
         ],
       },
       // {
