@@ -11,17 +11,19 @@
           class="form-control"
         >
           <el-form-item
-            label="Price"
-            prop="price"
+            label="Choose game"
             label-width="140px"
             class="form-items-flex"
+            prop="game_id"
+            v-if="!props.update"
             required
           >
-            <el-input
-              v-model="form.price"
-              type="number"
-              class="w-50"
-              autocomplete="off"
+            <DropdownRemote
+              :url="gameUrl"
+              @selected-game="setGameId"
+              :type="gameType"
+              :keyg="gameKey"
+              wd="50%"
             />
           </el-form-item>
           <el-form-item
@@ -63,22 +65,6 @@
             </el-select>
           </el-form-item>
           <el-form-item
-            label="Choose game"
-            label-width="140px"
-            class="form-items-flex"
-            prop="game_id"
-            v-if="!props.update"
-            required
-          >
-            <DropdownRemote
-              :url="gameUrl"
-              @selected-game="setGameId"
-              :type="gameType"
-              :keyg="gameKey"
-              wd="50%"
-            />
-          </el-form-item>
-          <el-form-item
             label="Kinguin game"
             prop="product_api_id"
             required
@@ -96,7 +82,21 @@
               :condition="4"
             />
           </el-form-item>
-
+          <el-form-item
+            label="Price"
+            prop="price"
+            label-width="140px"
+            class="form-items-flex"
+            required
+            type="number"
+          >
+            <el-input
+              v-model="form.price"
+              type="number"
+              class="w-50"
+              autocomplete="off"
+            />
+          </el-form-item>
           <div class="d-flex justify-content-end w-100">
             <el-button type="primary" @click="match(ruleFormRef)">
               Match

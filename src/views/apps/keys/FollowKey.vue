@@ -15,6 +15,11 @@
             />
           </div>
           <div>
+            <el-button @click="createKey" type="primary" icon="plus" round
+              >add keys</el-button
+            >
+          </div>
+          <div>
             <h3>Key Code: {{ searchKey }}</h3>
           </div>
         </div>
@@ -107,6 +112,7 @@
       </div>
     </div>
   </div>
+  <CreateKey :isVisible="keyCreateVisible" @create-key="closeCreateKey" />
 </template>
 
 <script lang="ts" setup>
@@ -115,11 +121,13 @@ import ApiService from "@/core/services/ApiService";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import store from "../../../store";
 import { useRouter } from "vue-router";
+import CreateKey from "./CreateKey.vue";
 
 const searchKey = ref("");
 const data = ref([]);
 const loading = ref(false);
 const router = useRouter();
+const keyCreateVisible = ref(false);
 
 const tableHeaders = ref([
   {
@@ -156,7 +164,13 @@ const fetchKeyData = () => {
     data.value = res.data.data?.history;
   });
 };
-
+const createKey = () => {
+  keyCreateVisible.value = true;
+};
+const closeCreateKey = (value) => {
+  keyCreateVisible.value = false;
+  if (value) fetchKeyData();
+};
 // watch(dropdownParams.value.game_id, (newValue) => {
 //   params.value = {};
 //   console.log("called", dropdownParams.value);

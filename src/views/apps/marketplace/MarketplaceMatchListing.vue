@@ -41,6 +41,7 @@
             class="border-secondary border-2"
             size="large"
             type="primary"
+            :disabled="multiSelectMatchesIds.length > 0 ? false : true"
             >Seçilenleri Pasife Al</el-button
           >
           <el-button
@@ -48,6 +49,7 @@
             class="ms-0 border-secondary border-2"
             size="large"
             type="primary"
+            :disabled="multiSelectMatchesIds.length > 0 ? false : true"
             >Seçilenleri Aktife Al
           </el-button>
         </div>
