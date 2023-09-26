@@ -11,17 +11,18 @@
           class="form-control"
         >
           <el-form-item
-            label="price"
-            prop="seller_price"
+            label="Choose game"
+            prop="game_id"
             label-width="140px"
             class="form-items-flex"
             required
           >
-            <el-input
-              v-model="form.seller_price"
-              type="number"
-              class="w-50"
-              autocomplete="off"
+            <DropdownRemote
+              :url="gameUrl"
+              @selected-game="setGameId"
+              :type="gameType"
+              :keyg="gameKey"
+              wd="50%"
             />
           </el-form-item>
           <el-form-item
@@ -41,21 +42,6 @@
             </el-select>
           </el-form-item>
           <el-form-item
-            label="Choose game"
-            prop="game_id"
-            label-width="140px"
-            class="form-items-flex"
-            required
-          >
-            <DropdownRemote
-              :url="gameUrl"
-              @selected-game="setGameId"
-              :type="gameType"
-              :keyg="gameKey"
-              wd="50%"
-            />
-          </el-form-item>
-          <el-form-item
             label="Gamivo game"
             prop="product"
             label-width="140px"
@@ -70,6 +56,21 @@
               :keyg="gamivoGameKey"
               wd="50%"
               :condition="4"
+            />
+          </el-form-item>
+          <el-form-item
+            label="price"
+            prop="seller_price"
+            label-width="140px"
+            class="form-items-flex"
+            type="number"
+            required
+          >
+            <el-input
+              v-model="form.seller_price"
+              type="number"
+              class="w-50"
+              autocomplete="off"
             />
           </el-form-item>
           <div class="d-flex justify-content-end w-100">

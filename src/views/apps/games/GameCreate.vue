@@ -51,6 +51,7 @@
           @selected-game="setPublisherId"
           returnType="object"
           :default="isUpdate ? form.publisher?.name : null"
+          @clear="confirmSubmission"
           :type="publishersType"
           :keyg="categoriesKey"
           wd="100%"
@@ -123,7 +124,7 @@
         prop="min_sales"
         required
       >
-        <el-input v-model="form.min_sales" autocomplete="off" />
+        <el-input v-model="form.min_sales" type="number" autocomplete="off" />
       </el-form-item>
       <el-form-item label="Region" label-width="250px" prop="region" required>
         <DropdownRemote
@@ -181,6 +182,7 @@
         <el-input v-model="form.description" autocomplete="off" />
       </el-form-item>
     </el-form>
+    <span class="text-danger">{{ errors }}</span>
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="setVisible = false">Cancel</el-button>
@@ -246,6 +248,7 @@ const setVisible = ref("");
 const showMarketPlace = ref(false);
 const isUpdate = ref(false);
 setVisible.value = props.isVisible;
+const errors = ref(null);
 const message = ref("");
 
 const form = reactive<RuleForm>({
@@ -370,7 +373,7 @@ const createUpdateGame = async (formEl: FormInstance | undefined) => {
         language_id: form?.language?.id,
         category_type: form?.categoryType?.id ?? form?.categoryType,
         description: form?.description,
-        marketPlaces: tempMarketplaces,
+        marketplaces: tempMarketplaces,
         sale_price: form.sale_price,
       };
       if (isUpdate.value) {
@@ -381,10 +384,14 @@ const createUpdateGame = async (formEl: FormInstance | undefined) => {
           }
         );
       } else {
-        ApiService.post("games", submissionData).then((res) => {
-          formEl.resetFields();
-          confirmSubmission();
-        });
+        ApiService.post("games", submissionData)
+          .then((res) => {
+            formEl.resetFields();
+            confirmSubmission();
+          })
+          .then((res) => {
+            errors.value = res;
+          });
       }
     } else {
     }

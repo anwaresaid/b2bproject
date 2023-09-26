@@ -79,7 +79,7 @@
         </el-input>
       </el-form-item>
       <el-form-item label="Cost" label-width="250px" prop="cost" required>
-        <el-input v-model="form.cost" autocomplete="off" />
+        <el-input v-model="form.cost" type="number" autocomplete="off" />
       </el-form-item>
       <el-form-item label="Keys" label-width="250px" prop="keys" required>
         <div class="editor">
@@ -160,7 +160,7 @@ const lines = ref([""]);
 const form = reactive<RuleForm>({
   game_id: null,
   supplier_id: null,
-  status: null,
+  status: 1,
   percent_of_kdv: null,
   invoice_no: null,
   kdv: null,
@@ -247,14 +247,18 @@ const setSupplierId = (value) => {
   form.supplier_id = value;
 };
 const createGame = async (formEl: FormInstance | undefined) => {
+  console.log("form ", form);
+
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
+      if (!form.kdv) {
+        delete form["percent_of_kdv"];
+      }
       ApiService.post("keys", form).then((res) => {
         formEl.resetFields();
         confirmSubmission();
       });
-    } else {
     }
   });
 };

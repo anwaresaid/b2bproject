@@ -18,15 +18,15 @@ export const matchStatus = [
 
 export const categoryType = [
   {
-    label: "console",
+    label: "CONSOLE",
     id: 2,
   },
   {
-    label: "pc",
+    label: "PC",
     id: 1,
   },
   {
-    label: "giftcard/epin",
+    label: "GIFTCARD/EPIN",
     id: 3,
   },
 ];

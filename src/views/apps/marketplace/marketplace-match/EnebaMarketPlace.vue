@@ -11,17 +11,18 @@
           class="form-control"
         >
           <el-form-item
-            label="amount"
-            prop="amount"
+            label="Choose game"
+            prop="game_id"
             class="form-items-flex"
             label-width="140px"
             required
           >
-            <el-input
-              v-model="form.amount"
-              type="number"
-              class="w-50"
-              autocomplete="off"
+            <DropdownRemote
+              :url="gameUrl"
+              @selected-game="setGameId"
+              :type="gameType"
+              :keyg="gameKey"
+              wd="50%"
             />
           </el-form-item>
           <el-form-item
@@ -45,21 +46,6 @@
             </el-select>
           </el-form-item>
           <el-form-item
-            label="Choose game"
-            prop="game_id"
-            class="form-items-flex"
-            label-width="140px"
-            required
-          >
-            <DropdownRemote
-              :url="gameUrl"
-              @selected-game="setGameId"
-              :type="gameType"
-              :keyg="gameKey"
-              wd="50%"
-            />
-          </el-form-item>
-          <el-form-item
             label="Eneba game"
             prop="product_api_id"
             required
@@ -74,6 +60,20 @@
               :disabled="disabled"
               wd="50%"
               :condition="4"
+            />
+          </el-form-item>
+          <el-form-item
+            label="amount"
+            prop="amount"
+            class="form-items-flex"
+            label-width="140px"
+            required
+          >
+            <el-input
+              v-model="form.amount"
+              type="number"
+              class="w-50"
+              autocomplete="off"
             />
           </el-form-item>
           <div class="d-flex justify-content-end w-100">

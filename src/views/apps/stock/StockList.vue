@@ -15,6 +15,11 @@
             placeholder="search games"
           />
         </div>
+        <div>
+          <el-button @click="createKey" type="primary" icon="plus" round
+            >add keys</el-button
+          >
+        </div>
         <div class="all-stock p-5">
           <h3>{{ sumStock }}</h3>
           <span>Total value of all stocks</span>
@@ -64,6 +69,7 @@
       </Datatable>
     </div>
   </div>
+  <CreateKey :isVisible="keyCreateVisible" @create-key="closeCreateKey" />
 </template>
 
 <script lang="ts" setup>
@@ -72,6 +78,7 @@ import ApiService from "@/core/services/ApiService";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import { orderType, orderStatus } from "../utils/constants";
 import { useRouter } from "vue-router";
+import CreateKey from "../keys/CreateKey.vue";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import store from "../../../store";
 
@@ -90,6 +97,7 @@ const paginationData = reactive({});
 const tableType = ref();
 const sumStock = ref();
 const loading = ref(false);
+const keyCreateVisible = ref(false);
 
 const tableHeaders = ref([
   {
@@ -162,6 +170,13 @@ const fetchStock = (type) => {
     sumStock.value = res.data.data.sum_stock;
     store.dispatch("setPageItems", res.data.data.pagination.total_items);
   });
+};
+const createKey = () => {
+  keyCreateVisible.value = true;
+};
+const closeCreateKey = (value) => {
+  keyCreateVisible.value = false;
+  if (value) fetchKeyData();
 };
 
 const getItemsInTable = (item) => {

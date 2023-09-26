@@ -103,6 +103,11 @@
             row.old_stock
           }}</span>
         </template>
+        <template #component6="row">
+          <span :class="`badge py-3 px-4 fs-7 badge-light-success`">{{
+            row.qty
+          }}</span>
+        </template>
         <template #component4="row">
           <span :class="'text-gray-600 fw-bold fs-6'">{{
             row.game?.publisher?.name
@@ -218,7 +223,7 @@ const tableHeaders = ref([
   },
   {
     columnName: "QUANTITY",
-    custom: "component1",
+    custom: "component6",
     sortEnabled: true,
   },
   {

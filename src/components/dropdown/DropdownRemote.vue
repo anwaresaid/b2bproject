@@ -56,6 +56,7 @@ const props = defineProps([
   "placeholder",
   "default",
   "disabled",
+  "clear",
 ]);
 
 const data = ref([]);
