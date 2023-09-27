@@ -106,8 +106,8 @@ export default defineComponent({
       await store.forgotPassword(values);
 
       const error = Object.values(store.errors);
-
-      if (!error) {
+      console.log("errors--", error);
+      if (!error || error[0] === null) {
         Swal.fire({
           text: "You have successfully logged in!",
           icon: "success",

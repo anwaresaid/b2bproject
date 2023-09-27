@@ -53,6 +53,7 @@
           :header="tableHeaders"
           :totalPages="paginationData.value?.last_page"
           :enable-items-per-page-dropdown="true"
+          :pagination="true"
           :checkbox-enabled="true"
           checkbox-label="id"
           sortable

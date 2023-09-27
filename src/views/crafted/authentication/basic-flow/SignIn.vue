@@ -141,8 +141,13 @@ export default defineComponent({
 
       // Send login request
       await store.login(values);
-      const error = Object.values(store.errors);
-      if (error.length === 0) {
+      let error;
+      if (typeof store.errors.error === "object") {
+        error = Object.values(store.errors.error);
+      } else {
+        error = store.errors.error;
+      }
+      if (error?.length === 0 || !error?.length) {
         Swal.fire({
           text: "You have successfully logged in!",
           icon: "success",
@@ -158,11 +163,12 @@ export default defineComponent({
           router.push({ name: "two-factor" });
         });
       } else {
-        console.log("error", store.errors);
         let all = "";
-        if (error[0]) {
+        if (error[0] && typeof error !== "string") {
           const obj = Object?.values(error[0]);
           all = obj.join("\n");
+        } else {
+          all = error;
         }
         Swal.fire({
           text: all as string,

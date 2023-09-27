@@ -79,6 +79,17 @@
             </div>
           </slot>
         </template>
+        <template v-slot:status_comp="slotProps">
+          <slot :action="slotProps.action">
+            <span
+              :class="`badge py-3 px-4 fs-7 badge-light-${
+                slotProps.action.status === 1 ? 'success' : 'danger'
+              }`"
+            >
+              {{ slotProps.action.status }}
+            </span>
+          </slot>
+        </template>
         <template v-slot:game_component="slotProps">
           <slot :action="slotProps.action">
             <div v-if="slotProps.action.status === 0">
@@ -203,13 +214,11 @@ const tableHeaders = ref([
   {
     columnName: "API",
     sortEnabled: true,
-    columnWidth: 175,
     custom: "api_component",
   },
   {
     columnName: "OYUN ADI",
     sortEnabled: true,
-    columnWidth: 300,
     custom: "game_component",
   },
   {
@@ -226,19 +235,36 @@ const tableHeaders = ref([
     columnName: "API ID",
     columnLabel: "product_id_in_api",
     sortEnabled: true,
-    columnWidth: 300,
   },
   {
     columnName: "ORTALAMA STOCK DEGERI",
     columnLabel: "average_stock",
     sortEnabled: false,
-    columnWidth: 99,
+  },
+  {
+    columnName: "STATUS",
+    custom: "status_comp",
+    sortEnabled: false,
+  },
+  {
+    columnName: "STOCK",
+    columnLabel: "stock",
+    sortEnabled: false,
+  },
+  {
+    columnName: "RESERVE COUNT",
+    columnLabel: "reserve_count",
+    sortEnabled: false,
+  },
+  {
+    columnName: "SOLD COUNT",
+    columnLabel: "sold_count",
+    sortEnabled: false,
   },
   {
     columnName: "RETAIL",
     columnLabel: "retail",
     sortEnabled: false,
-    columnWidth: 100,
   },
   {
     columnName: "PROCESS",
