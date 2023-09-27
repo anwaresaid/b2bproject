@@ -51,7 +51,6 @@
           @selected-game="setPublisherId"
           returnType="object"
           :default="isUpdate ? form.publisher?.name : null"
-          @clear="confirmSubmission"
           :type="publishersType"
           :keyg="categoriesKey"
           wd="100%"
@@ -174,7 +173,7 @@
         </el-select>
       </el-form-item>
       <el-form-item
-        label="description"
+        label="Description"
         label-width="250px"
         prop="description"
         required
@@ -182,7 +181,7 @@
         <el-input v-model="form.description" autocomplete="off" />
       </el-form-item>
     </el-form>
-    <span class="text-danger">{{ errors }}</span>
+    <span class="text-danger">{{ errors.length > 0 ? errors[0][0] : "" }}</span>
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="setVisible = false">Cancel</el-button>
@@ -248,7 +247,7 @@ const setVisible = ref("");
 const showMarketPlace = ref(false);
 const isUpdate = ref(false);
 setVisible.value = props.isVisible;
-const errors = ref(null);
+const errors = ref([]);
 const message = ref("");
 
 const form = reactive<RuleForm>({
@@ -256,7 +255,7 @@ const form = reactive<RuleForm>({
   category: null,
   language: null,
   region: null,
-  stats: 1,
+  stats: null,
   name: "",
   description: "",
   categoryType: null,
@@ -328,29 +327,33 @@ const rules = reactive<FormRules<RuleForm>>({
   ],
 });
 const confirmSubmission = () => {
-  if (isUpdate.value) {
-    ElMessageBox.alert(`${form.name} is updated`, "game update", {
-      confirmButtonText: "OK",
-      callback: (action: Action) => {
-        ElMessage({
-          type: "info",
-          message: `action: ${action}`,
-        });
-        emit("create-game", true);
-      },
-    });
-  } else {
-    ElMessageBox.alert("new game created", "game creation", {
-      confirmButtonText: "OK",
-      callback: (action: Action) => {
-        ElMessage({
-          type: "info",
-          message: `action: ${action}`,
-        });
-        emit("create-game", true);
-      },
-    });
+  if (typeof form.stats === Object) {
+    console.log("obj");
+    return;
   }
+  // if (isUpdate.value) {
+  //   ElMessageBox.alert(`${form.name} is updated`, "game update", {
+  //     confirmButtonText: "OK",
+  //     callback: (action: Action) => {
+  //       ElMessage({
+  //         type: "info",
+  //         message: `action: ${action}`,
+  //       });
+  //       emit("create-game", true);
+  //     },
+  //   });
+  // } else {
+  //   ElMessageBox.alert("new game created", "game creation", {
+  //     confirmButtonText: "OK",
+  //     callback: (action: Action) => {
+  //       ElMessage({
+  //         type: "info",
+  //         message: `action: ${action}`,
+  //       });
+  //       emit("create-game", true);
+  //     },
+  //   });
+  // }
 };
 
 const createUpdateGame = async (formEl: FormInstance | undefined) => {
@@ -377,20 +380,23 @@ const createUpdateGame = async (formEl: FormInstance | undefined) => {
         sale_price: form.sale_price,
       };
       if (isUpdate.value) {
-        ApiService.put(`games/${props.update?.id}`, submissionData).then(
-          (res) => {
+        ApiService.put(`games/${props.update?.id}`, submissionData)
+          .then((res) => {
             formEl.resetFields();
             confirmSubmission();
-          }
-        );
+          })
+          .catch((e) => {
+            errors.value = Object.values(e.response.data.messages);
+          });
       } else {
         ApiService.post("games", submissionData)
           .then((res) => {
             formEl.resetFields();
             confirmSubmission();
           })
-          .then((res) => {
-            errors.value = res;
+          .then((res) => {})
+          .catch((e) => {
+            errors.value = Object.values(e.response.data.messages);
           });
       }
     } else {
@@ -463,12 +469,13 @@ watch(setVisible, (newValue) => {
   showKinguin.value = false;
   showMarketPlace.value = false;
   checkedMarketplace.value = false;
+  errors.value = [];
   isUpdate.value = props.isUpdate;
   form.publisher = null;
   form.category = null;
   form.language = null;
   form.region = null;
-  form.stats = null;
+  form.stats = 1;
   form.name = null;
   form.categoryType = null;
   form.min_sales = null;

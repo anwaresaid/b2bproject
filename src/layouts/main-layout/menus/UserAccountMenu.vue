@@ -35,28 +35,28 @@
     <!--end::Menu separator-->
 
     <!--begin::Menu item-->
-    <div class="menu-item px-5">
+    <!-- <div class="menu-item px-5">
       <router-link to="/pages/profile/overview" class="menu-link px-5">
         My Profile
       </router-link>
-    </div>
+    </div> -->
     <!--end::Menu item-->
 
     <!--begin::Menu item-->
-    <div class="menu-item px-5">
+    <!-- <div class="menu-item px-5">
       <router-link to="/pages/profile/overview" class="menu-link px-5">
-        <span class="menu-text">My Projects</span>
+        <span class="menu-text">Change password</span>
         <span class="menu-badge">
           <span class="badge badge-light-danger badge-circle fw-bold fs-7"
             >3</span
           >
         </span>
       </router-link>
-    </div>
+    </div> -->
     <!--end::Menu item-->
 
     <!--begin::Menu item-->
-    <div
+    <!-- <div
       class="menu-item px-5"
       data-kt-menu-trigger="hover"
       data-kt-menu-placement="left-start"
@@ -65,36 +65,36 @@
       <router-link to="/pages/profile/overview" class="menu-link px-5">
         <span class="menu-title">My Subscription</span>
         <span class="menu-arrow"></span>
-      </router-link>
+      </router-link> -->
 
-      <!--begin::Menu sub-->
-      <div class="menu-sub menu-sub-dropdown w-175px py-4">
-        <!--begin::Menu item-->
-        <div class="menu-item px-3">
+    <!--begin::Menu sub-->
+    <!-- <div class="menu-sub menu-sub-dropdown w-175px py-4"> -->
+    <!--begin::Menu item-->
+    <!-- <div class="menu-item px-3">
           <router-link to="/pages/profile/overview" class="menu-link px-5">
             Referrals
           </router-link>
-        </div>
-        <!--end::Menu item-->
+        </div> -->
+    <!--end::Menu item-->
 
-        <!--begin::Menu item-->
-        <div class="menu-item px-3">
+    <!--begin::Menu item-->
+    <!-- <div class="menu-item px-3">
           <router-link to="/pages/profile/overview" class="menu-link px-5">
             Billing
           </router-link>
-        </div>
-        <!--end::Menu item-->
+        </div> -->
+    <!--end::Menu item-->
 
-        <!--begin::Menu item-->
-        <div class="menu-item px-3">
+    <!--begin::Menu item-->
+    <!-- <div class="menu-item px-3">
           <router-link to="/pages/profile/overview" class="menu-link px-5">
             Payments
           </router-link>
-        </div>
-        <!--end::Menu item-->
+        </div> -->
+    <!--end::Menu item-->
 
-        <!--begin::Menu item-->
-        <div class="menu-item px-3">
+    <!--begin::Menu item-->
+    <!-- <div class="menu-item px-3">
           <router-link
             to="/pages/profile/overview"
             class="menu-link d-flex flex-stack px-5"
@@ -107,15 +107,15 @@
               title="View your statements"
             ></i>
           </router-link>
-        </div>
-        <!--end::Menu item-->
+        </div> -->
+    <!--end::Menu item-->
 
-        <!--begin::Menu separator-->
-        <div class="separator my-2"></div>
-        <!--end::Menu separator-->
+    <!--begin::Menu separator-->
+    <!-- <div class="separator my-2"></div> -->
+    <!--end::Menu separator-->
 
-        <!--begin::Menu item-->
-        <div class="menu-item px-3">
+    <!--begin::Menu item-->
+    <!-- <div class="menu-item px-3">
           <div class="menu-content px-3">
             <label
               class="form-check form-switch form-check-custom form-check-solid"
@@ -132,27 +132,27 @@
               </span>
             </label>
           </div>
-        </div>
-        <!--end::Menu item-->
-      </div>
-      <!--end::Menu sub-->
-    </div>
+        </div> -->
+    <!--end::Menu item-->
+    <!-- </div> -->
+    <!--end::Menu sub-->
+    <!-- </div> -->
     <!--end::Menu item-->
 
     <!--begin::Menu item-->
-    <div class="menu-item px-5">
+    <!-- <div class="menu-item px-5">
       <router-link to="/pages/profile/overview" class="menu-link px-5">
         My Statements
       </router-link>
-    </div>
+    </div> -->
     <!--end::Menu item-->
 
     <!--begin::Menu separator-->
-    <div class="separator my-2"></div>
+    <!-- <div class="separator my-2"></div> -->
     <!--end::Menu separator-->
 
     <!--begin::Menu item-->
-    <div
+    <!-- <div
       class="menu-item px-5"
       data-kt-menu-trigger="hover"
       data-kt-menu-placement="left-start"
@@ -172,12 +172,12 @@
             />
           </span>
         </span>
-      </router-link>
+      </router-link> -->
 
-      <!--begin::Menu sub-->
-      <div class="menu-sub menu-sub-dropdown w-175px py-4">
-        <!--begin::Menu item-->
-        <div class="menu-item px-3">
+    <!--begin::Menu sub-->
+    <!-- <div class="menu-sub menu-sub-dropdown w-175px py-4"> -->
+    <!--begin::Menu item-->
+    <!-- <div class="menu-item px-3">
           <a
             @click="setLang('en')"
             href="#"
@@ -193,97 +193,90 @@
             </span>
             English
           </a>
-        </div>
-        <!--end::Menu item-->
+        </div> -->
+    <!--end::Menu item-->
 
-        <!--begin::Menu item-->
-        <div class="menu-item px-3">
-          <a
-            @click="setLang('es')"
-            href="#"
-            class="menu-link d-flex px-5"
-            :class="{ active: currentLanguage === 'es' }"
-          >
-            <span class="symbol symbol-20px me-4">
-              <img
-                class="rounded-1"
-                src="/media/flags/spain.svg"
-                alt="metronic"
-              />
-            </span>
-            Spanish
-          </a>
-        </div>
-        <!--end::Menu item-->
+    <!--begin::Menu item-->
+    <!-- <div class="menu-item px-3">
+      <a
+        @click="setLang('es')"
+        href="#"
+        class="menu-link d-flex px-5"
+        :class="{ active: currentLanguage === 'es' }"
+      >
+        <span class="symbol symbol-20px me-4">
+          <img class="rounded-1" src="/media/flags/spain.svg" alt="metronic" />
+        </span>
+        Spanish
+      </a>
+    </div> -->
+    <!--end::Menu item-->
 
-        <!--begin::Menu item-->
-        <div class="menu-item px-3">
-          <a
-            @click="setLang('de')"
-            href="#"
-            class="menu-link d-flex px-5"
-            :class="{ active: currentLanguage === 'de' }"
-          >
-            <span class="symbol symbol-20px me-4">
-              <img
-                class="rounded-1"
-                src="/media/flags/germany.svg"
-                alt="metronic"
-              />
-            </span>
-            German
-          </a>
-        </div>
-        <!--end::Menu item-->
+    <!--begin::Menu item-->
+    <!-- <div class="menu-item px-3">
+      <a
+        @click="setLang('de')"
+        href="#"
+        class="menu-link d-flex px-5"
+        :class="{ active: currentLanguage === 'de' }"
+      >
+        <span class="symbol symbol-20px me-4">
+          <img
+            class="rounded-1"
+            src="/media/flags/germany.svg"
+            alt="metronic"
+          />
+        </span>
+        German
+      </a>
+    </div> -->
+    <!--end::Menu item-->
 
-        <!--begin::Menu item-->
-        <div class="menu-item px-3">
-          <a
-            @click="setLang('ja')"
-            href="#"
-            class="menu-link d-flex px-5"
-            :class="{ active: currentLanguage === 'ja' }"
-          >
-            <span class="symbol symbol-20px me-4">
-              <img
-                class="rounded-1"
-                src="/media/flags/japan.svg"
-                alt="metronic"
-              />
-            </span>
-            Japanese
-          </a>
-        </div>
-        <!--end::Menu item-->
+    <!--begin::Menu item-->
+    <!-- <div class="menu-item px-3">
+      <a
+        @click="setLang('ja')"
+        href="#"
+        class="menu-link d-flex px-5"
+        :class="{ active: currentLanguage === 'ja' }"
+      >
+        <span class="symbol symbol-20px me-4">
+          <img class="rounded-1" src="/media/flags/japan.svg" alt="metronic" />
+        </span>
+        Japanese
+      </a>
+    </div> -->
+    <!--end::Menu item-->
 
-        <!--begin::Menu item-->
-        <div class="menu-item px-3">
-          <a
-            @click="setLang('fr')"
-            href="#"
-            class="menu-link d-flex px-5"
-            :class="{ active: currentLanguage === 'fr' }"
-          >
-            <span class="symbol symbol-20px me-4">
-              <img
-                class="rounded-1"
-                src="/media/flags/france.svg"
-                alt="metronic"
-              />
-            </span>
-            French
-          </a>
-        </div>
-        <!--end::Menu item-->
-      </div>
-      <!--end::Menu sub-->
-    </div>
+    <!--begin::Menu item-->
+    <!-- <div class="menu-item px-3">
+      <a
+        @click="setLang('fr')"
+        href="#"
+        class="menu-link d-flex px-5"
+        :class="{ active: currentLanguage === 'fr' }"
+      >
+        <span class="symbol symbol-20px me-4">
+          <img class="rounded-1" src="/media/flags/france.svg" alt="metronic" />
+        </span>
+        French
+      </a>
+    </div> -->
+    <!--end::Menu item-->
+    <!-- </div> -->
+    <!--end::Menu sub-->
+    <!-- </div> -->
     <!--end::Menu item-->
 
     <!--begin::Menu item-->
     <div class="menu-item px-5 my-1">
-      <router-link to="/pages/profile/overview" class="menu-link px-5">
+      <router-link to="profile" class="menu-link px-5">
         Account Settings
+      </router-link>
+    </div>
+    <div class="menu-item px-5 my-1">
+      <router-link to="change-password" class="menu-link px-5">
+        Reset Password
       </router-link>
     </div>
     <!--end::Menu item-->
@@ -315,28 +308,28 @@ export default defineComponent({
       ? (localStorage.getItem("lang") as string)
       : "en";
 
-    const countries = {
-      en: {
-        flag: "/media/flags/united-states.svg",
-        name: "English",
-      },
-      es: {
-        flag: "/media/flags/spain.svg",
-        name: "Spanish",
-      },
-      de: {
-        flag: "/media/flags/germany.svg",
-        name: "German",
-      },
-      ja: {
-        flag: "/media/flags/japan.svg",
-        name: "Japanese",
-      },
-      fr: {
-        flag: "/media/flags/france.svg",
-        name: "French",
-      },
-    };
+    // const countries = {
+    //   en: {
+    //     flag: "/media/flags/united-states.svg",
+    //     name: "English",
+    //   },
+    //   es: {
+    //     flag: "/media/flags/spain.svg",
+    //     name: "Spanish",
+    //   },
+    //   de: {
+    //     flag: "/media/flags/germany.svg",
+    //     name: "German",
+    //   },
+    //   ja: {
+    //     flag: "/media/flags/japan.svg",
+    //     name: "Japanese",
+    //   },
+    //   fr: {
+    //     flag: "/media/flags/france.svg",
+    //     name: "French",
+    //   },
+    // };
 
     const signOut = () => {
       store.logout();
@@ -352,16 +345,16 @@ export default defineComponent({
       return i18n.locale.value;
     });
 
-    const currentLangugeLocale = computed(() => {
-      return countries[i18n.locale.value as keyof typeof countries];
-    });
+    // const currentLangugeLocale = computed(() => {
+    //   return countries[i18n.locale.value as keyof typeof countries];
+    // });
 
     return {
       signOut,
       setLang,
       currentLanguage,
-      currentLangugeLocale,
-      countries,
+      // currentLangugeLocale,
+      // countries,
     };
   },
 });

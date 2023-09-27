@@ -53,6 +53,7 @@ export const useAuthStore = defineStore("auth", () => {
         setAuth(data);
       })
       .catch(({ response }) => {
+        console.log("response", response);
         setError(response?.data?.messages);
       });
   }
@@ -84,9 +85,9 @@ export const useAuthStore = defineStore("auth", () => {
   }
 
   function forgotPassword(email: string) {
-    return ApiService.post("forgot-password", email)
+    return ApiService.post("users/forgot-password", email)
       .then(() => {
-        setError({});
+        setError(null);
       })
       .catch(({ response }) => {
         setError(response.data.errors);

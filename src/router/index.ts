@@ -9,7 +9,8 @@ import store from "@/store";
 import MainLayout from "@/layouts/main-layout/MainLayout.vue";
 import Dashboard from "@/views/Dashboard.vue";
 // import DashboardComp from "@/views/DashboardComp.vue";
-import DashboardComp from "@/views/crafted/widgets/Mixed.vue";
+import DashboardComp from "@/components/page-layouts/Profile.vue";
+// import DashboardComp from "@/views/crafted/widgets/Mixed.vue";
 import LayoutBuilder from "@/views/LayoutBuilder.vue";
 import Profile from "@/components/page-layouts/Profile.vue";
 import Horizontal from "@/views/crafted/pages/wizards/Horizontal.vue";
@@ -49,6 +50,8 @@ import Calendar from "@/views/apps/Calendar.vue";
 import SignUp from "@/views/crafted/authentication/basic-flow/SignUp.vue";
 import PasswordReset from "@/views/crafted/authentication/basic-flow/PasswordReset.vue";
 import SignIn from "@/views/crafted/authentication/basic-flow/SignIn.vue";
+import ProfileSettings from "@/views/apps/profile/Profile.vue";
+import ChangePassoword from "@/views/apps/profile/ChangePassword.vue";
 import TwoFactor from "@/views/crafted/authentication/basic-flow/TwoFactor.vue";
 import Error404 from "@/views/crafted/authentication/Error404.vue";
 import Error500 from "@/views/crafted/authentication/Error500.vue";
@@ -121,63 +124,79 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
 
+      // {
+      //   path: "/crafted/pages/profile",
+      //   name: "profile",
+      //   component: () => Profile,
+      //   meta: {
+      //     breadcrumbs: ["Pages", "Profile"],
+      //   },
+      //   children: [
+      //     {
+      //       path: "overview",
+      //       name: "profile-overview",
+      //       component: () => Overview,
+      //       meta: {
+      //         pageTitle: "Overview",
+      //       },
+      //     },
+      //     {
+      //       path: "projects",
+      //       name: "profile-projects",
+      //       component: () => Projects.vue,
+      //       meta: {
+      //         pageTitle: "Projects",
+      //       },
+      //     },
+      //     {
+      //       path: "campaigns",
+      //       name: "profile-campaigns",
+      //       component: () => Campaigns,
+      //       meta: {
+      //         pageTitle: "Campaigns",
+      //       },
+      //     },
+      //     {
+      //       path: "documents",
+      //       name: "profile-documents",
+      //       component: () => Documents,
+      //       meta: {
+      //         pageTitle: "Documents",
+      //       },
+      //     },
+      //     {
+      //       path: "connections",
+      //       name: "profile-connections",
+      //       component: () => Connections,
+      //       meta: {
+      //         pageTitle: "Connections",
+      //       },
+      //     },
+      //     {
+      //       path: "activity",
+      //       name: "profile-activity",
+      //       component: () => Activity,
+      //       meta: {
+      //         pageTitle: "Activity",
+      //       },
+      //     },
+      //   ],
+      // },
       {
-        path: "/crafted/pages/profile",
-        name: "profile",
-        component: () => Profile,
+        path: "/profile",
+        name: "profile-settings",
+        component: () => ProfileSettings,
         meta: {
-          breadcrumbs: ["Pages", "Profile"],
+          pageTitle: "Profile Settings",
         },
-        children: [
-          {
-            path: "overview",
-            name: "profile-overview",
-            component: () => Overview,
-            meta: {
-              pageTitle: "Overview",
-            },
-          },
-          {
-            path: "projects",
-            name: "profile-projects",
-            component: () => Projects.vue,
-            meta: {
-              pageTitle: "Projects",
-            },
-          },
-          {
-            path: "campaigns",
-            name: "profile-campaigns",
-            component: () => Campaigns,
-            meta: {
-              pageTitle: "Campaigns",
-            },
-          },
-          {
-            path: "documents",
-            name: "profile-documents",
-            component: () => Documents,
-            meta: {
-              pageTitle: "Documents",
-            },
-          },
-          {
-            path: "connections",
-            name: "profile-connections",
-            component: () => Connections,
-            meta: {
-              pageTitle: "Connections",
-            },
-          },
-          {
-            path: "activity",
-            name: "profile-activity",
-            component: () => Activity,
-            meta: {
-              pageTitle: "Activity",
-            },
-          },
-        ],
+      },
+      {
+        path: "/change-password",
+        name: "change-password",
+        component: () => ChangePassoword,
+        meta: {
+          pageTitle: "Change Password",
+        },
       },
       {
         path: "/crafted/pages/wizards/horizontal",

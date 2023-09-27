@@ -55,6 +55,9 @@ export default defineComponent({
     onSubmit() {
       ApiService.postTest("users/two-factory", this.form)
         .then((res) => {
+          console.log("user", JSON.stringify(res.data?.data.user));
+          localStorage.setItem("user", JSON.stringify(res.data?.data.user));
+
           Swal.fire({
             text: "You have successfully logged in!",
             icon: "success",
@@ -64,7 +67,7 @@ export default defineComponent({
             customClass: {
               confirmButton: "btn fw-semobold btn-light-primary",
             },
-          }).then(() => {
+          }).then((res) => {
             // Go to page after successfully login
             this.router.push({
               name: "dashboard",

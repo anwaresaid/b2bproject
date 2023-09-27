@@ -47,6 +47,7 @@
           <DropdownRemote
             :url="supplierUrl"
             @selected-game="setSupplierId"
+            placeholder="select supplier"
             :type="supplierType"
             :keyg="supplierKey"
             lable="Select supplier"
