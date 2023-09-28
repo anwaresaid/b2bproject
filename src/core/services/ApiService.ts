@@ -130,6 +130,13 @@ class ApiService {
   public static post(resource: string, params: any): Promise<AxiosResponse> {
     return ApiService.vueInstance.axios.post(`${resource}`, params);
   }
+  public static postZip(
+    resource: string,
+    params: any,
+    type: any
+  ): Promise<AxiosResponse> {
+    return ApiService.vueInstance.axios.post(`${resource}`, params, type);
+  }
 
   /**
    * @description send the UPDATE HTTP request
