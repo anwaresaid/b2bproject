@@ -128,7 +128,10 @@
       </div>
       <div
         class="d-flex justify-content-center w-100"
-        v-if="commission.callback_urls"
+        v-if="
+          commission.callback_urls &&
+          typeof commission.callback_urls === 'object'
+        "
       >
         <ReservationCallbackCard :data="commission" class="callback-card" />
       </div>
