@@ -49,6 +49,7 @@ import ViewSubscription from "@/views/apps/subscriptions/ViewSubscription.vue";
 import Calendar from "@/views/apps/Calendar.vue";
 import SignUp from "@/views/crafted/authentication/basic-flow/SignUp.vue";
 import PasswordReset from "@/views/crafted/authentication/basic-flow/PasswordReset.vue";
+import NewPassword from "@/views/crafted/authentication/basic-flow/NewPassword.vue";
 import SignIn from "@/views/crafted/authentication/basic-flow/SignIn.vue";
 import ProfileSettings from "@/views/apps/profile/Profile.vue";
 import ChangePassoword from "@/views/apps/profile/ChangePassword.vue";
@@ -738,6 +739,14 @@ const routes: Array<RouteRecordRaw> = [
         path: "/password-reset",
         name: "password-reset",
         component: () => PasswordReset,
+        meta: {
+          pageTitle: "Password reset",
+        },
+      },
+      {
+        path: "/password/reset/:token",
+        name: "password-reset",
+        component: () => NewPassword,
         meta: {
           pageTitle: "Password reset",
         },

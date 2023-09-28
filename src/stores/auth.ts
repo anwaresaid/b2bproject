@@ -93,6 +93,15 @@ export const useAuthStore = defineStore("auth", () => {
         setError(response.data.errors);
       });
   }
+  function resetPassword(data: object) {
+    return ApiService.post("users/reset-password", data)
+      .then(() => {
+        setError(null);
+      })
+      .catch(({ response }) => {
+        setError(response.data.errors);
+      });
+  }
 
   function verifyAuth() {
     if (JwtService.getToken()) {
@@ -122,5 +131,6 @@ export const useAuthStore = defineStore("auth", () => {
     register,
     forgotPassword,
     verifyAuth,
+    resetPassword,
   };
 });

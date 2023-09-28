@@ -22,7 +22,9 @@
                   paginationData.totalKeyCount
                 }})
               </h2>
-              <el-button class="button-zip"> Download zip</el-button>
+              <el-button class="button-zip" @click="downloadZip">
+                Download zip</el-button
+              >
             </div>
             <Datatable
               :data="allData.order?.keys"
@@ -165,6 +167,18 @@ const fetchData = () => {
   });
 };
 
+const downloadZip = () => {
+  const data = {
+    current_page: params.value.current_page,
+    order_code: params.value.order_code,
+  };
+  ApiService.postTest("orders/detailZip", data).then((res) => {
+    const fileName = "downloaded-file.zip";
+    res.setHeader("Content-Disposition", `attachment; filename="${fileName}"`);
+    // Send the ZIP file to the client
+    res.sendFile("/path/to/your/zipfile.zip");
+  });
+};
 watch(search, (newValue) => {
   params.value = {
     search: search,
