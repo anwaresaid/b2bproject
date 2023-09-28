@@ -37,10 +37,12 @@
                   v-model="fromDate"
                   type="datetime"
                   placeholder="From"
+                  :max="toDate"
                   :default-time="defaultTime"
                 />
                 <el-date-picker
                   v-model="toDate"
+                  :min="fromDate"
                   type="datetime"
                   placeholder="To"
                   :default-time="defaultTime"

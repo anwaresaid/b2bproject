@@ -86,12 +86,6 @@
                 @click="followKey(slotProps.action)"
               />
             </el-tooltip>
-            <el-button
-              type="danger"
-              icon="Delete"
-              circle
-              @click="handleDelete(slotProps.action)"
-            />
             <el-tooltip
               class="box-item"
               effect="dark"

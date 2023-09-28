@@ -19,12 +19,14 @@
               <div class="d-flex flex-row align-items-center">
                 <el-date-picker
                   v-model="fromDate"
+                  :disabled-date="disabledFromDate"
                   type="datetime"
                   placeholder="From"
                   :default-time="defaultTime"
                 />
                 <el-date-picker
                   v-model="toDate"
+                  :disabled-date="disabledToDate"
                   type="datetime"
                   placeholder="To"
                   :default-time="defaultTime"
@@ -305,7 +307,6 @@ const fetchOrders = (type) => {
   }
   if (typeof params.value.page_type === "object") {
     params.value.page_type = params.value.page_type.value;
-    console.log("obj");
   }
   ApiService.postTest("orders/all", params.value).then((res) => {
     loading.value = false;
@@ -319,8 +320,14 @@ const updateStatus = (type) => {
     fetchOrders();
   });
 };
+const disabledFromDate = (time: Date) => {
+  return time.getTime() > toDate.value;
+};
+const disabledToDate = (time: Date) => {
+  return time.getTime() < fromDate.value;
+};
+
 const setCustomerId = (value) => {
-  console.log("value", value);
   dropdownParams.value.customer_id = value;
   params.value = dropdownParams.value;
   if (value === undefined) {
@@ -329,7 +336,6 @@ const setCustomerId = (value) => {
   fetchOrders("filer");
 };
 const setGameId = (value) => {
-  console.log("value", value);
   dropdownParams.value.gameId = value;
   params.value = dropdownParams.value;
   if (value === undefined) {
@@ -359,19 +365,16 @@ const handleChangeDates = () => {
     errors.value = "from date has to be before the to date";
     return;
   }
-  console.log("insdie if", toDate.value);
   const date = {
     start: dateFormatter(fromDate, "time"),
     finish: dateFormatter(toDate, "time"),
   };
-  console.log("date", date);
   params.value.start = date.start;
   params.value.finish = date.finish;
   fetchOrders();
 };
 const handleStatus = (status) => {
   statusUpdate.value = { order_code: status.id, status: status.status };
-  console.log(statusUpdate.value);
 };
 const pageChange = (page: number) => {
   params.value.current_page = page;
