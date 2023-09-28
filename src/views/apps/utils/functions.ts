@@ -53,3 +53,12 @@ export const removeEmptyValues = (obj) => {
   }
   return object;
 };
+
+export const disabledFromDate = (time: Date, from) => {
+  console.log("time", time);
+  console.log("from", from);
+  return time.getTime() < from;
+};
+export const disabledToDate = (time: Date, to) => {
+  return time.getTime() > to;
+};
