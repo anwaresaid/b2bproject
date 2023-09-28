@@ -745,10 +745,10 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "/password/reset/:token",
-        name: "password-reset",
+        name: "new-password-reset",
         component: () => NewPassword,
         meta: {
-          pageTitle: "Password reset",
+          pageTitle: "New Password reset",
         },
       },
       {

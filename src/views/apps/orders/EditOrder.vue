@@ -22,7 +22,11 @@
                   paginationData.totalKeyCount
                 }})
               </h2>
-              <el-button class="button-zip" @click="downloadZip">
+              <el-button
+                class="button-zip"
+                @click="downloadZip"
+                v-if="allData?.order"
+              >
                 Download zip</el-button
               >
             </div>
@@ -172,12 +176,29 @@ const downloadZip = () => {
     current_page: params.value.current_page,
     order_code: params.value.order_code,
   };
-  ApiService.postTest("orders/detailZip", data).then((res) => {
-    const fileName = "downloaded-file.zip";
-    res.setHeader("Content-Disposition", `attachment; filename="${fileName}"`);
-    // Send the ZIP file to the client
-    res.sendFile("/path/to/your/zipfile.zip");
-  });
+  ApiService.postZip("orders/detailZip", data, { responseType: "blob" }).then(
+    (res) => {
+      console.log("res", allData.value);
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute(
+        "download",
+        `${
+          allData.value?.order?.customer +
+          "_" +
+          allData.value?.order?.created_at
+        }.zip`
+      ); // Set the desired file name
+      document.body.appendChild(link);
+
+      // Trigger the download
+      link.click();
+
+      // Clean up
+      window.URL.revokeObjectURL(url);
+    }
+  );
 };
 watch(search, (newValue) => {
   params.value = {
