@@ -65,7 +65,7 @@ export const keysTypeStatus = [
   },
   {
     value: 3,
-    label: "resreve",
+    label: "reserve",
     turkish: "Rezerve",
     status: "warning",
   },

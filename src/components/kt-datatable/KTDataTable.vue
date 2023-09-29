@@ -21,7 +21,7 @@
       :default-sort="{ prop: defaultSort, order: 'descending' }"
       style="width: 100%"
       v-loading="loading"
-      :size="size"
+      size="small"
       :show-summary="showSummary"
       :summary-method="summaryMethod"
       @selection-change="handleSelectionChange"

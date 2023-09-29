@@ -17,11 +17,16 @@
               />
             </div>
             <div class="d-flex justify-content-between w-100 mb-5">
-              <h2 class="customer-name">
-                {{ allData?.order?.customer }} ({{
-                  paginationData.totalKeyCount
-                }})
-              </h2>
+              <div class="d-flex flex-row">
+                <h2 class="customer-name">
+                  {{ allData?.order?.customer }} ({{
+                    paginationData.totalKeyCount
+                  }})
+                </h2>
+                <span :class="`badge py-3 px-4 fs-7 badge-light-info`">{{
+                  allData?.order?.status
+                }}</span>
+              </div>
               <el-button
                 class="button-zip"
                 @click="downloadZip"

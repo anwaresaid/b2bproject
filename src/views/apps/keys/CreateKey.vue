@@ -81,6 +81,16 @@
       <el-form-item label="Cost" label-width="250px" prop="cost" required>
         <el-input v-model="form.cost" type="number" autocomplete="off" />
       </el-form-item>
+      <el-form-item label-width="250px" prop="cost" required>
+        <el-input
+          :value="
+            form.kdv ? form.cost * (form.percent_of_kdv / 100) + 100 : form.cost
+          "
+          type="number"
+          disabled
+          autocomplete="off"
+        />
+      </el-form-item>
       <el-form-item label="Keys" label-width="250px" prop="keys" required>
         <div class="editor">
           <div class="gutter">

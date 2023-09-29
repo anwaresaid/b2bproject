@@ -205,7 +205,10 @@ watch(dropdownParams, (newValue) => {
 
 watch(searchKeys, (newValue) => {
   params.value = {};
-  params.value = { keyCode: searchKeys.value };
+  params.value = {
+    keyCode: searchKeys.value,
+    uuid: router.currentRoute.value.params.id,
+  };
   fetchGames("filer");
 });
 
@@ -215,7 +218,6 @@ watch(toDate, (newValue) => {});
 onMounted(() => {
   params.value.current_page = currentPage;
   params.value.per_page = itemsInTable;
-  console.log("params", router.currentRoute.value.params.id);
   params.value.uuid = router.currentRoute.value.params.id;
   fetchGames();
 });

@@ -86,7 +86,7 @@
                 slotProps.action.status === 1 ? 'success' : 'danger'
               }`"
             >
-              {{ slotProps.action.status }}
+              {{ slotProps.action.status ? "True" : "False" }}
             </span>
           </slot>
         </template>
