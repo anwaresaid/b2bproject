@@ -210,12 +210,7 @@ const tableHeaders = ref([
     sortEnabled: true,
     columnWidth: 100,
   },
-  {
-    columnName: "RESERVE ID",
-    columnLabel: "reservation",
-    sortEnabled: true,
-    columnWidth: 90,
-  },
+
   {
     columnName: "SELL DATE",
     columnLabel: "sell_date",
@@ -336,6 +331,7 @@ watch(keyCreateVisible, (newValue) => {
   }
 });
 watch(searchGames, (newValue) => {
+  params.value.current_page = 1;
   params.value.key_code = searchGames.value;
   fetchKeys();
   if (!newValue) {

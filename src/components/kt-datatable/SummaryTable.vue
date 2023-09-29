@@ -463,4 +463,7 @@ export default defineComponent({
 .inside-td {
   overflow: hidden;
 }
+td {
+  overflow: hidden;
+}
 </style>

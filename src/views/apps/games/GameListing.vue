@@ -129,6 +129,7 @@
             :url="publishersUrl"
             @selected-game="setPublisherId"
             :multiple="true"
+            @clear="true"
             placeholder="please select publisher"
             :type="publishersType"
             :keyg="categoriesKey"

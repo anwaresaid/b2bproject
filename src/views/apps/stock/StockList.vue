@@ -16,9 +16,15 @@
           />
         </div>
         <div>
-          <el-button @click="createKey" type="primary" icon="plus" round
+          <el-button @click="createKey" type="primary" icon="plus"
             >add keys</el-button
           >
+        </div>
+        <div>
+          <el-checkbox
+            v-model="stockAverageValue"
+            label="Stock average value"
+          />
         </div>
         <div class="all-stock p-5">
           <h3>{{ sumStock }}</h3>
@@ -40,6 +46,23 @@
         @on-items-per-page-change="getItemsInTable"
         @page-change="pageChange"
       >
+        <template v-slot:name="slotProps">
+          <slot :action="slotProps.action">
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              :content="row?.game?.name"
+              placement="top-start"
+            >
+              <span
+                :class="`game-name-link badge py-3 px-4 fs-7 badge-light-warning`"
+                @click="navigateToGameDetailsPage(row?.game.uuid)"
+              >
+                {{ slotProps.action.name }}</span
+              >
+            </el-tooltip>
+          </slot>
+        </template>
         <template v-slot:api_component="slotProps">
           <slot :action="slotProps.action">
             <div
@@ -86,9 +109,6 @@ const stockData = ref([]);
 const router = useRouter();
 const customerUrl = "customers/all";
 const searchGames = ref("");
-const customerKey = "search";
-const dropdownParams = ref({});
-const customerType = "customers";
 const params = ref({});
 const tableStatus = ref(null);
 const itemsInTable = ref(50);
@@ -98,6 +118,7 @@ const tableType = ref();
 const sumStock = ref();
 const loading = ref(false);
 const keyCreateVisible = ref(false);
+const stockAverageValue = ref(false);
 
 const tableHeaders = ref([
   {
@@ -108,7 +129,7 @@ const tableHeaders = ref([
   },
   {
     columnName: "GAME NAME",
-    columnLabel: "name",
+    custom: "name",
     sortEnabled: true,
     columnWidth: 230,
   },
@@ -188,9 +209,25 @@ const pageChange = (page: number) => {
   fetchStock();
 };
 
+const navigateToGameDetailsPage = (id) => {
+  router.push({
+    name: "apps-game-detail-listing",
+    params: {
+      id: id,
+    },
+  });
+};
+
 watch(searchGames, (newValue) => {
   params.value = {};
   params.value = { search_game: searchGames.value };
+  fetchStock("filer");
+});
+watch(stockAverageValue, (newValue) => {
+  params.value = {
+    ...params.value,
+    order_stock_value: stockAverageValue.value,
+  };
   fetchStock("filer");
 });
 

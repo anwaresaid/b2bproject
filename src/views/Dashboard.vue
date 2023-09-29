@@ -13,15 +13,22 @@
         className="h-md-100"
       >
         <template #component3="row">
-          <span
-            :class="`game-name-link badge py-3 px-4 fs-7 badge-light-warning`"
-            @click="navigateToGameDetailsPage(row.game.uuid)"
-            >{{ row.game?.name }}</span
+          <el-tooltip
+            class="box-item"
+            effect="dark"
+            :content="row.game?.name"
+            placement="top-start"
           >
+            <span
+              :class="`game-name-link badge py-3 px-4 fs-7 badge-light-warning`"
+              @click="navigateToGameDetailsPage(row.game.uuid)"
+              >{{ row.game?.name }}</span
+            >
+          </el-tooltip>
         </template>
         <template #component2="row">
           <span :class="`badge py-3 px-4 fs-7 badge-light-success`">{{
-            row.new_stock
+            row?.new_stock
           }}</span>
         </template>
         <template #component1="row">
@@ -52,22 +59,28 @@
         className="h-md-100"
       >
         <template #component2="row">
-          <span :class="`badge py-3 px-4 fs-7 badge-light-warning`">
-            <div v-for="(item, index) in row.order_items">
+          <div v-for="(item, index) in row.order_items">
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              :content="item?.game?.name"
+              placement="top-start"
+            >
               <span
                 :class="`game-name-link px-0  badge badge-light-warning`"
                 @click="navigateToGameDetailsPage(item.game.uuid)"
-                >{{ item.game?.name }}</span
-              >{{
-                ` * ${item.quantity} ${
-                  row.order_items.length > 1 &&
-                  index < row.order_items.length - 1
-                    ? ","
-                    : ""
-                }`
-              }}
-            </div></span
-          >
+                >{{ item.game?.name
+                }}{{
+                  ` * ${item.quantity} ${
+                    row.order_items.length > 1 &&
+                    index < row.order_items.length - 1
+                      ? ","
+                      : ""
+                  }`
+                }}
+              </span>
+            </el-tooltip>
+          </div>
         </template>
         <template #component4="row">
           <span :class="'text-gray-600 fw-bold fs-6'">{{
@@ -87,11 +100,18 @@
         className="h-md-100"
       >
         <template #component3="row">
-          <span
-            :class="`game-name-link badge py-3 px-4 fs-7 badge-light-warning`"
-            @click="navigateToGameDetailsPage(row.game.uuid)"
-            >{{ row.game?.name }}</span
+          <el-tooltip
+            class="box-item"
+            effect="dark"
+            :content="row.game?.name"
+            placement="top-start"
           >
+            <span
+              :class="`game-name-link badge py-3 px-4 fs-7 badge-light-warning`"
+              @click="navigateToGameDetailsPage(row.game.uuid)"
+              >{{ row.game?.name }}</span
+            >
+          </el-tooltip>
         </template>
         <template #component2="row">
           <span :class="`badge py-3 px-4 fs-7 badge-light-success`">{{
@@ -260,8 +280,12 @@ const tableHeadersWeekly = ref([
     columnLabel: "game_id",
   },
   {
-    columnName: "TOTAL KEYS SOLD",
-    columnLabel: "total_keys_sold",
+    columnName: "KEYS SOLD",
+    columnLabel: "sale",
+  },
+  {
+    columnName: "Stock",
+    columnLabel: "stock",
   },
 ]);
 const tableHeadersGames = ref([
@@ -356,8 +380,9 @@ const fetchOrders = (type) => {
   ApiService.get("keys/mainPage/summary").then((res) => {
     loadingItems.value = false;
     items[0].table = res.data.data?.today;
-    items[2].table = res.data.data?.thisMonth;
-    items[1].table = res.data.data?.thisWeek;
+    items[2].table = res.data.data?.month;
+    items[1].table = res.data.data?.week;
+    console.log("items", items);
   });
   ApiService.post("/orders/last-customer-orders", {}).then((res) => {
     loadingCustomersSummaryData.value = false;

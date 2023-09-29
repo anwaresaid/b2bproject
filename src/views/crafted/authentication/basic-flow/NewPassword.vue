@@ -106,7 +106,7 @@ export default defineComponent({
 
     //Form submit function
     const onSubmitResetPassword = async (values: any) => {
-      values = { ...values, token: token };
+      values = { ...values, reset_code: token };
 
       //   // eslint-disable-next-line
       submitButton.value!.disabled = true;

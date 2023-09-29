@@ -13,6 +13,11 @@
           placeholder="Search Suppliers"
         />
       </div>
+      <div>
+        <el-button @click="createSupplier" type="primary" icon="plus" round
+          >add supplier</el-button
+        >
+      </div>
     </div>
     <div class="card-body pt-0">
       <Datatable
@@ -22,6 +27,7 @@
         :enable-items-per-page-dropdown="true"
         :checkbox-enabled="true"
         :pagination="true"
+        :loading="loading"
         :current-page="currentPage"
         checkbox-label="id"
         @on-items-per-page-change="getItemsInTable"
@@ -50,6 +56,7 @@
     :isVisible="visible"
     :selectedIndex="selectedIndex"
     :data="suppliersData"
+    :update="isUpdate"
     :loading="loading"
     @visible-change="handleVisibleChange"
     @did-update="refetchData"
@@ -84,6 +91,7 @@ export default defineComponent({
       total: 0,
       itemsCount: 0,
       selectedIndex: 0,
+      isUpdate: false,
       loading: false,
       search: "",
       tableHeader: [
@@ -190,9 +198,14 @@ export default defineComponent({
           });
         });
     },
+    createSupplier() {
+      this.visible = true;
+      this.isUpdate = false;
+    },
     handleEdit(item) {
-      // this.visible = true;
-      // this.selectedIndex = item;
+      this.visible = true;
+      this.isUpdate = true;
+      this.selectedIndex = item;
     },
     handleDelete(item) {
       this.confirmSubmission(item);
