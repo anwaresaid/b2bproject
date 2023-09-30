@@ -109,7 +109,6 @@ export default defineComponent({
         typeof store.errors === "object"
           ? Object.values(store.errors)
           : store.errors;
-
       if (!error || error[0] === null) {
         Swal.fire({
           text: "You have successfully logged in!",

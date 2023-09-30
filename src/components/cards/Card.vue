@@ -46,7 +46,11 @@
             prop="sales_price"
             required
           >
-            <el-input v-model.number="form.sales_price" autocomplete="off" />
+            <el-input
+              v-model="form.sales_price"
+              type="number"
+              autocomplete="off"
+            />
           </el-form-item>
         </el-form>
       </div>
@@ -108,7 +112,7 @@ const gameName = ref("");
 
 const form = reactive<RuleForm>({
   game_id: null,
-  quantity: 0,
+  quantity: null,
   sales_price: null,
 });
 
