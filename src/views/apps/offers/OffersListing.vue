@@ -119,67 +119,56 @@ const tableHeaders = ref([
     columnName: "SUPPLIER",
     columnLabel: "order_code",
     sortEnabled: true,
-    columnWidth: 175,
   },
   {
     columnName: "GAME",
     columnLabel: "total_amount",
     sortEnabled: true,
-    columnWidth: 230,
   },
   {
     columnName: "COST",
     columnLabel: "sold_count",
     sortEnabled: true,
-    columnWidth: 175,
   },
   {
     columnName: "AMOUNT",
     columnLabel: "reserved_count",
     sortEnabled: true,
-    columnWidth: 175,
   },
   {
     columnName: "INFO",
     columnLabel: "customer",
     sortEnabled: false,
-    columnWidth: 135,
   },
   {
     columnName: "CREATE DATE",
     columnLabel: "created_by",
     sortEnabled: false,
-    columnWidth: 135,
   },
   {
     columnName: "WHO ADDED",
     columnLabel: "created_at",
     sortEnabled: false,
-    columnWidth: 50,
   },
   {
     columnName: "PIECE",
     sortEnabled: false,
-    columnWidth: 135,
     custom: "component1",
   },
   {
     columnName: "SELLER TYPE",
     columnLabel: "created_at",
     sortEnabled: false,
-    columnWidth: 50,
   },
   {
     columnName: "OFFER TYPE",
     columnLabel: "created_at",
     sortEnabled: false,
-    columnWidth: 50,
   },
   {
     columnName: "PROCESS",
     custom: "delete-process",
     sortEnabled: false,
-    columnWidth: 50,
   },
 ]);
 

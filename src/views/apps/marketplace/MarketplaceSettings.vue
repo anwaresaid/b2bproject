@@ -311,7 +311,7 @@ onBeforeUnmount(() => {
   // Cleanup or perform actions before component unmounts
 });
 </script>
-<style>
+<style scoped>
 .el-form-item {
   display: flex;
   align-items: center;

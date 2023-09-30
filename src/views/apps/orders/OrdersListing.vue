@@ -254,37 +254,31 @@ const tableHeaders = ref([
     columnName: "CUSTOMER",
     columnLabel: "customer",
     sortEnabled: false,
-    columnWidth: 135,
   },
   {
     columnName: "TOTAL AMOUNT",
     columnLabel: "total_amount",
     sortEnabled: true,
-    columnWidth: 170,
   },
   {
     columnName: "RESERVED PIECE",
     columnLabel: "reserved_count",
     sortEnabled: true,
-    columnWidth: 170,
   },
   {
     columnName: "SOLD PIECE",
     columnLabel: "sold_count",
     sortEnabled: true,
-    columnWidth: 150,
   },
   {
     columnName: "CREATED BY",
     columnLabel: "created_by",
     sortEnabled: false,
-    columnWidth: 135,
   },
   {
     columnName: "STATUS",
     custom: "component2",
     sortEnabled: false,
-    columnWidth: 135,
   },
   {
     columnName: "CREATED AT",

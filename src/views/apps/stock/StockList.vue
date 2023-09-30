@@ -124,55 +124,46 @@ const tableHeaders = ref([
   {
     columnName: "API",
     sortEnabled: true,
-    columnWidth: 175,
     custom: "api_component",
   },
   {
     columnName: "GAME NAME",
     custom: "name",
     sortEnabled: true,
-    columnWidth: 230,
   },
   {
     columnName: "PUBLISHER",
     columnLabel: "publisher",
     sortEnabled: true,
-    columnWidth: 175,
   },
   {
     columnName: "AVERAGE VALUE",
     columnLabel: "avg_value",
     sortEnabled: true,
-    columnWidth: 175,
   },
   {
     columnName: "STOCK VALUE",
     columnLabel: "stock_value",
     sortEnabled: false,
-    columnWidth: 135,
   },
   {
     columnName: "STOCK",
     columnLabel: "stock_count",
     sortEnabled: false,
-    columnWidth: 135,
   },
   {
     columnName: "RESERVE",
     columnLabel: "reserve_count",
     sortEnabled: false,
-    columnWidth: 90,
   },
   {
     columnName: "STOCK + RESERVE",
     sortEnabled: false,
-    columnWidth: 90,
     columnLabel: "reserve_plus_stock",
   },
   {
     columnName: "STATUS",
     sortEnabled: false,
-    columnWidth: 135,
     custom: "status_component",
   },
 ]);

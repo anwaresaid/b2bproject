@@ -196,37 +196,31 @@ const tableHeaders = ref([
     columnName: "COST",
     columnLabel: "cost_price",
     sortEnabled: true,
-    columnWidth: 100,
   },
   {
     columnName: "SALE PRICE",
     columnLabel: "sale_price",
     sortEnabled: true,
-    columnWidth: 100,
   },
   {
     columnName: "RESERVED PIECE",
     columnLabel: "reserved_count",
     sortEnabled: true,
-    columnWidth: 100,
   },
   {
     columnName: "SOLD PIECE",
     columnLabel: "sold_count",
     sortEnabled: true,
-    columnWidth: 100,
   },
   {
     columnName: "CREATED BY",
     columnLabel: "created_by",
     sortEnabled: false,
-    columnWidth: 135,
   },
   {
     columnName: "STATUS",
     custom: "component2",
     sortEnabled: false,
-    columnWidth: 135,
   },
   {
     columnName: "CREATED AT",
