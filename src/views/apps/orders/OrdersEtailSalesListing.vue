@@ -150,7 +150,7 @@ const toDate = ref();
 const defaultTime = new Date(2000, 1, 1, 12, 0, 0);
 const errors = ref(null);
 const paginationData = reactive({});
-const tableType = ref({ value: 2, label: "customer" });
+const tableType = ref(2);
 const loading = ref(false);
 const statusUpdate = ref({});
 

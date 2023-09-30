@@ -173,7 +173,7 @@ const fetchStock = (type) => {
   if (type === undefined) {
     params.value.current_page = currentPage;
     params.value.per_page = itemsInTable;
-    params.value.page_type = tableType.value;
+    params.value.order_type = tableType.value;
   }
   ApiService.postTest("games/stock", params.value).then((res) => {
     loading.value = false;
@@ -225,7 +225,7 @@ watch(stockAverageValue, (newValue) => {
 onMounted(() => {
   params.value.current_page = currentPage;
   params.value.per_page = itemsInTable;
-  params.value.page_type = tableType.value;
+  params.value.order_type = tableType.value;
   fetchStock();
 });
 

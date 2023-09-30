@@ -297,10 +297,10 @@ const fetchOrders = (type) => {
   if (type === undefined) {
     params.value.current_page = currentPage;
     params.value.per_page = itemsInTable;
-    params.value.page_type = tableType.value;
+    params.value.order_type = tableType.value;
   }
-  if (typeof params.value.page_type === "object") {
-    params.value.page_type = params.value.page_type.value;
+  if (typeof params.value.order_type === "object") {
+    params.value.order_type = params.value.order_type.value;
   }
   ApiService.postTest("orders/all", params.value).then((res) => {
     loading.value = false;
@@ -418,8 +418,8 @@ watch(statusUpdate, (newValue) => {
 onMounted(() => {
   params.value.current_page = currentPage;
   params.value.per_page = itemsInTable;
-  params.value.page_type = tableType.value;
-  dropdownParams.value.page_type = tableType.value.value;
+  params.value.order_type = tableType.value;
+  dropdownParams.value.order_type = tableType.value.value;
   fetchOrders();
 });
 
