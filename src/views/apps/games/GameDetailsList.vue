@@ -15,9 +15,6 @@
                 placeholder="search by KEY code"
               />
             </div>
-            <div>
-              <h4>{{ gameData?.name }}</h4>
-            </div>
           </div>
         </div>
       </div>
@@ -94,19 +91,16 @@ const tableHeaders = ref([
     columnName: "STATUS",
     custom: "component1",
     sortEnabled: false,
-    columnWidth: 80,
   },
   {
     columnName: "COST",
     columnLabel: "cost",
     sortEnabled: true,
-    columnWidth: 100,
   },
   {
     columnName: "Sale",
     columnLabel: "sale",
     sortEnabled: true,
-    columnWidth: 100,
   },
   {
     columnName: "CUSTOMER",
@@ -117,19 +111,16 @@ const tableHeaders = ref([
     columnName: "CREATED AT",
     columnLabel: "created_at",
     sortEnabled: true,
-    columnWidth: 100,
   },
   {
     columnName: "SOLD ON",
     columnLabel: "sell_date",
     sortEnabled: false,
-    columnWidth: 135,
   },
   {
     columnName: "SOLD PRICE",
     columnLabel: "sell_price",
     sortEnabled: false,
-    columnWidth: 80,
   },
   {
     columnName: "CREATED AT",
@@ -149,6 +140,8 @@ const fetchGames = (type) => {
     gameData.value = res.data.data?.game;
     keysData.value = res.data.data?.game.keys;
     paginationData.value = res.data.data?.pagination;
+    console.log("details", res.data.data?.game.name);
+    store.dispatch("setGameDetails", res.data.data?.game.name);
     store.dispatch("setPageItems", res.data.data.pagination?.all_data);
   });
 };

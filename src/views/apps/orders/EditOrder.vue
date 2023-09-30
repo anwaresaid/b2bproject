@@ -145,25 +145,21 @@ const tableHeader = ref([
     columnName: "SUPPLIER",
     columnLabel: "supplier",
     sortEnabled: true,
-    columnWidth: 175,
   },
   {
     columnName: "GAME",
     columnLabel: "game",
     sortEnabled: true,
-    columnWidth: 230,
   },
   {
     columnName: "KEY",
     columnLabel: "keycode",
     sortEnabled: true,
-    columnWidth: 175,
   },
   {
     columnName: "KEY STATUS",
     columnLabel: "status",
     sortEnabled: false,
-    columnWidth: 135,
     custom: "component1",
   },
 ]);

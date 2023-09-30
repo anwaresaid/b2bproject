@@ -9,7 +9,8 @@
       <h1
         class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0"
       >
-        {{ pageTitle }} {{ items ? "(" + items + ")" : "" }}
+        {{ pageTitle === "game-detail" ? gameDetailName : pageTitle }}
+        {{ items ? "(" + items + ")" : "" }}
       </h1>
       <!--end::Title-->
 
@@ -64,6 +65,7 @@ export default defineComponent({
   setup() {
     const route = useRoute();
     const items = ref();
+    const gameDetailName = ref("");
     const pageTitle = computed(() => {
       return route.meta.pageTitle;
     });
@@ -73,9 +75,11 @@ export default defineComponent({
     });
     watch(store.state, (newValue) => {
       items.value = store.state.pageItems;
+      gameDetailName.value = store.state.gameDetails;
     });
     watch(pageTitle, (newValue) => {
       items.value = null;
+      console.log("here", store.state.gameDetails);
     });
 
     return {
@@ -84,6 +88,7 @@ export default defineComponent({
       pageTitleDisplay,
       pageTitleBreadcrumbDisplay,
       pageTitleDirection,
+      gameDetailName,
       items,
     };
   },

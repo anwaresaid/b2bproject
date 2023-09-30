@@ -383,8 +383,8 @@ const routes: Array<RouteRecordRaw> = [
         name: "apps-game-detail-listing",
         component: () => GameDetailListing,
         meta: {
-          pageTitle: "Game detail Listing",
-          breadcrumbs: ["Apps", "Game detail"],
+          pageTitle: "game-detail",
+          breadcrumbs: ["Apps", `Game detail`],
         },
       },
       {

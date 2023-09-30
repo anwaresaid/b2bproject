@@ -208,32 +208,27 @@ const tableHeaders = ref([
     columnName: "STATUS",
     custom: "component3",
     sortEnabled: true,
-    columnWidth: 100,
   },
 
   {
     columnName: "SELL DATE",
     columnLabel: "sell_date",
     sortEnabled: false,
-    columnWidth: 100,
   },
   {
     columnName: "CUSTOMER",
     columnLabel: "customer",
     sortEnabled: false,
-    columnWidth: 90,
   },
   {
     columnName: "COST",
     columnLabel: "cost_eur",
     sortEnabled: false,
-    columnWidth: 60,
   },
   {
     columnName: "SALES PRICE",
     columnLabel: "sale",
     sortEnabled: false,
-    columnWidth: 80,
   },
   {
     columnName: "CREATED BY",

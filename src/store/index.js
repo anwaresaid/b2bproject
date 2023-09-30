@@ -12,6 +12,7 @@ const store = new Vuex.Store({
       orderCode: null,
       pageItems: null,
       followKey: null,
+      gameDetails:null,
     };
   },
 
@@ -33,6 +34,10 @@ const store = new Vuex.Store({
     },
     setFollowKey(state, payload) {
       state.followKey = payload;
+    },
+    setGameDetails(state, payload) {
+      console.log('called', payload)
+      state.gameDetails = payload;
     }
   },
 
@@ -48,6 +53,9 @@ const store = new Vuex.Store({
     },
     setPageItems(context, value) {
       context.commit("setPageItems", value);
+    },
+    setGameDetails(context, value) {
+      context.commit("setGameDetails", value);
     },
     setFollowKey(context, value) {
       context.commit("setFollowKey", value);

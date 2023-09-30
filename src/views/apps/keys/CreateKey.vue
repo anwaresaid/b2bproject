@@ -84,7 +84,9 @@
       <el-form-item label-width="250px" prop="cost" required>
         <el-input
           :value="
-            form.kdv ? form.cost * (form.percent_of_kdv / 100) + 100 : form.cost
+            form.kdv
+              ? form.cost * (form.percent_of_kdv / 100) + 1 * form.cost
+              : form.cost
           "
           type="number"
           disabled

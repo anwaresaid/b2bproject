@@ -63,7 +63,7 @@
             />
           </el-form-item>
           <el-form-item
-            label="amount"
+            label="Price"
             prop="amount"
             class="form-items-flex"
             label-width="140px"
@@ -118,10 +118,10 @@ const gameKey = "search_game";
 const gameUrl = "games/list";
 const gameType = "games";
 const formSize = ref("large");
-const ruleFormRef = ref<FormInstance>();
 const setVisible = ref("");
 const enebaGameId = ref("");
 const disabled = ref(true);
+const ruleFormRef = ref<FormInstance>();
 
 const form = reactive<RuleForm>({
   amount: null,

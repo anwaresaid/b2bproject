@@ -204,7 +204,6 @@ export default defineComponent({
         columnName: "Location",
         columnLabel: "location",
         sortEnabled: true,
-        columnWidth: 100,
       },
       {
         columnName: "Vat Number",

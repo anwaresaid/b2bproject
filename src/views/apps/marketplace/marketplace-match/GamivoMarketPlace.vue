@@ -36,7 +36,7 @@
               <el-option
                 v-for="item in gamivoStatus"
                 :key="item.value"
-                :label="item.text"
+                :label="item.label"
                 :value="item.value"
               />
             </el-select>
@@ -59,7 +59,7 @@
             />
           </el-form-item>
           <el-form-item
-            label="price"
+            label="Price"
             prop="seller_price"
             label-width="140px"
             class="form-items-flex"
@@ -109,7 +109,7 @@ interface RuleForm {
 }
 
 const gamivoGameKey = "search";
-const gamivoGameUrl = "marketplace/kinguin/search";
+const gamivoGameUrl = "marketplace/gamivo/search";
 const gamivoGameType = "games";
 const gameKey = "search_game";
 const gameUrl = "games/list";
