@@ -222,7 +222,6 @@ const updateStatus = (type) => {
   });
 };
 const setCustomerId = (value) => {
-  console.log("value", value);
   dropdownParams.value.customer_id = value;
   params.value = dropdownParams.value;
   if (value === undefined) {
@@ -231,7 +230,6 @@ const setCustomerId = (value) => {
   fetchOrders("filer");
 };
 const setGameId = (value) => {
-  console.log("value", value);
   dropdownParams.value.gameId = value;
   params.value = dropdownParams.value;
   if (value === undefined) {
@@ -245,7 +243,6 @@ const getItemsInTable = (item) => {
 };
 const handleStatus = (status) => {
   statusUpdate.value = { order_code: status.id, status: status.status };
-  console.log(statusUpdate.value);
 };
 const pageChange = (page: number) => {
   params.value.current_page = page;
@@ -269,12 +266,10 @@ const handleChangeDates = () => {
     errors.value = "from date has to be before the to date";
     return;
   }
-  console.log("insdie if", toDate.value);
   const date = {
     start: dateFormatter(fromDate, "time"),
     finish: dateFormatter(toDate, "time"),
   };
-  console.log("date", date);
   params.value.start = date.start;
   params.value.finish = date.finish;
   fetchOrders();

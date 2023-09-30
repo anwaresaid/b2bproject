@@ -248,7 +248,6 @@ const fetchOrders = (type) => {
   });
 };
 const setGameId = (value) => {
-  console.log("value", value);
   params.value.gameId = value;
   if (value === undefined) {
     delete params.value["gameId"];
@@ -299,12 +298,10 @@ const handleChangeDates = () => {
     errors.value = "from date has to be before the to date";
     return;
   }
-  console.log("insdie if", toDate.value);
   const date = {
     start: dateFormatter(fromDate, "time"),
     finish: dateFormatter(toDate, "time"),
   };
-  console.log("date", date);
   params.value.start = date.start;
   params.value.finish = date.finish;
   fetchOrders();
@@ -335,9 +332,7 @@ watch(searchOrders, (newValue) => {
 });
 
 watch(fromDate, (newValue) => {});
-watch(toDate, (newValue) => {
-  console.log("bigger", fromDate.value > toDate.value);
-});
+watch(toDate, (newValue) => {});
 watch(errors, (newValue) => {});
 
 onMounted(() => {

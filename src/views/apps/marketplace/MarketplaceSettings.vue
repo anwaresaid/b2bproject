@@ -232,7 +232,6 @@ const updateSettings = () => {
   );
 };
 const addSettings = (param) => {
-  console.log("params", param.value);
   if (
     param.value["category_id"] != undefined &&
     param.value["const_value"] != undefined &&
@@ -244,13 +243,11 @@ const addSettings = (param) => {
   }
 };
 const focus = (data) => {
-  console.log("focus", data.target.value);
   //   prevData.value = data.target.value;
 };
 
 const blur = (setting, dataType, data, index, cindex, commission) => {
   updateData.value = {};
-  console.log("***********da", setting);
   if (setting.id) {
     updateData.value = { ...setting, settings_id: setting.id };
     updateData.value[dataType] = data.target.value;
@@ -263,7 +260,6 @@ const blur = (setting, dataType, data, index, cindex, commission) => {
   } else {
     addData.value["marketplace_id"] = commission.id;
     addData.value[dataType] = data.target.value;
-    console.log("settings", setting);
     addSettings(addData);
   }
 };
@@ -285,7 +281,6 @@ const changeSelectedItem = (data) => {
     updateSettings();
   } else {
     addData.value["category_id"] = data.selected?.id;
-    console.log("----------", addData.value);
     addSettings(addData);
   }
 };

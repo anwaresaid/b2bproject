@@ -142,9 +142,7 @@ const deleteGame = () => {
   emit("delete-game", props.index);
 };
 
-watch(props.currency, (newValue) => {
-  console.log("props", currency[props.currency]);
-});
+watch(props.currency, (newValue) => {});
 
 onBeforeUnmount(() => {
   // Cleanup or perform actions before component unmounts

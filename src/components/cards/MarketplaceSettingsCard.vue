@@ -153,7 +153,6 @@ const checkNumber = (rule: any, value: any, callback: any) => {
   }, 0);
 };
 const setSupplier = (data) => {
-  console.log("data", data);
   form.supplier_id = data.id;
 };
 const setCustomer = (data) => {
@@ -199,7 +198,6 @@ const confirmSubmission = () => {
 
 const submit = () => {
   //   loading.value = true;
-  console.log(props);
   const data = {
     marketplace_id: props.data.id,
     customer_id: form.customer_id,
@@ -207,9 +205,7 @@ const submit = () => {
     commission_percent: form.commission_percent,
     commission_const: form.commission_const,
   };
-  ApiService.post("marketplace/updateGeneral", data).then((res) => {
-    console.log("success");
-  });
+  ApiService.post("marketplace/updateGeneral", data).then((res) => {});
 };
 
 onBeforeUnmount(() => {

@@ -140,7 +140,6 @@ const fetchGames = (type) => {
     gameData.value = res.data.data?.game;
     keysData.value = res.data.data?.game.keys;
     paginationData.value = res.data.data?.pagination;
-    console.log("details", res.data.data?.game.name);
     store.dispatch("setGameDetails", res.data.data?.game.name);
     store.dispatch("setPageItems", res.data.data.pagination?.all_data);
   });
@@ -173,7 +172,6 @@ const handleChangeDates = () => {
     start: dateFormatter(fromDate, "time"),
     finish: dateFormatter(toDate, "time"),
   };
-  console.log("date", date);
   params.value.start = date.start;
   params.value.finish = date.finish;
   fetchGames();

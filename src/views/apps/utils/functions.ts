@@ -21,7 +21,6 @@ export const dateFormatter = (date, time) => {
     ("" + date.value.getSeconds()).length > 1
       ? date.value.getSeconds()
       : "0" + date.value.getSeconds();
-  console.log("hours", seconds);
   const fullDate =
     day +
     "." +
@@ -52,13 +51,4 @@ export const removeEmptyValues = (obj) => {
     }
   }
   return object;
-};
-
-export const disabledFromDate = (time: Date, from) => {
-  console.log("time", time);
-  console.log("from", from);
-  return time.getTime() < from;
-};
-export const disabledToDate = (time: Date, to) => {
-  return time.getTime() > to;
 };

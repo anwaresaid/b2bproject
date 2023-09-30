@@ -129,7 +129,7 @@
             :url="publishersUrl"
             @selected-game="setPublisherId"
             :multiple="true"
-            @clear="true"
+            :clear="true"
             placeholder="please select publisher"
             :type="publishersType"
             :keyg="categoriesKey"
@@ -207,7 +207,7 @@
               class="game-name-link ml-2"
               type="warning"
               @click="navigateGameDetails(slotProps.action?.uuid)"
-              >{{ slotProps.action.name }}</el-tag
+              >{{ slotProps.action?.name }}</el-tag
             >
           </slot>
         </template>
@@ -369,7 +369,6 @@ export default defineComponent({
       }
     },
     setMarketPlaceId(marketplace) {
-      console.log(marketplace);
       const items = marketplace.map((mp) => mp.id);
       this.filters.marketplaces = items;
       if (

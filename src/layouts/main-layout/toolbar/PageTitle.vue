@@ -79,7 +79,6 @@ export default defineComponent({
     });
     watch(pageTitle, (newValue) => {
       items.value = null;
-      console.log("here", store.state.gameDetails);
     });
 
     return {

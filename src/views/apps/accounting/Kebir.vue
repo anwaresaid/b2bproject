@@ -127,7 +127,6 @@ const fetchUsers = (type) => {
   }
   ApiService.postTest("accounting/kebir", params.value).then((res) => {
     loading.value = false;
-    console.log("res", res);
     res.data.data.months.map((item) => {
       if (!years.value.includes(item.year_id)) {
         years.value.push(item.year_id);
@@ -140,10 +139,6 @@ const fetchUsers = (type) => {
       });
     });
     selectYear.value = years.value[0];
-
-    console.log("total", total.value);
-    // paginationData.value = res.data.data.pagination;
-    // store.dispatch("setPageItems", res.data.data.pagination.total_items);
   });
 };
 

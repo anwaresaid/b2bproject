@@ -454,9 +454,7 @@ export default defineComponent({
 
     return {};
   },
-  mounted() {
-    console.log("mounted", this.items);
-  },
+  mounted() {},
 });
 </script>
 <style scoped>

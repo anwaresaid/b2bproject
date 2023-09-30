@@ -255,7 +255,6 @@ onBeforeUnmount(() => {
 });
 onMounted(() => {
   // This code will run when the component is mounted
-  console.log("props.data", props.data);
   urlName.value = props.data?.name?.toLowerCase();
   const keys = props.data.callback_urls
     ? Object.keys(props.data.callback_urls)
@@ -273,7 +272,6 @@ onMounted(() => {
     filteredData.value[temp] = props.data.callback_urls[item];
     // props.data.callbacks[item]
   });
-  console.log("labels", labels.value);
 });
 </script>
 <style scoped>

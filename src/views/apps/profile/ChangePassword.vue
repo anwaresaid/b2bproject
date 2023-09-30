@@ -146,7 +146,6 @@ const confirm = (formEl) => {
           );
         })
         .catch((e) => {
-          console.log("e", e.response.data);
           if (typeof e.response.data.messages !== "string")
             errors.value = Object.values(e.response.data.messages);
           errors.value = e.response.data.messages;

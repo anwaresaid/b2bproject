@@ -53,7 +53,6 @@ export const useAuthStore = defineStore("auth", () => {
         setAuth(data);
       })
       .catch(({ response }) => {
-        console.log("response", response);
         setError(response?.data?.messages);
       });
   }
@@ -66,7 +65,6 @@ export const useAuthStore = defineStore("auth", () => {
     return ApiService.get("users/show")
       .then((res) => {
         isTokenValid.status = true;
-        // console.log("sotre data", store.state.permissions);
         store.dispatch("setPermissions", res.data.user.canSeeUserCreatePage);
       })
       .catch((e) => {
@@ -90,7 +88,7 @@ export const useAuthStore = defineStore("auth", () => {
         setError(null);
       })
       .catch(({ response }) => {
-        setError(response.data.errors);
+        setError(response.data.messages);
       });
   }
   function resetPassword(data: object) {

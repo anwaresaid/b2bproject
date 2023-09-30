@@ -179,7 +179,6 @@ const downloadZip = () => {
   };
   ApiService.postZip("orders/detailZip", data, { responseType: "blob" }).then(
     (res) => {
-      console.log("res", allData.value);
       const url = window.URL.createObjectURL(new Blob([res.data]));
       const link = document.createElement("a");
       link.href = url;
