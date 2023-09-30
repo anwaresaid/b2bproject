@@ -382,7 +382,6 @@ const fetchOrders = (type) => {
     items[0].table = res.data.data?.today;
     items[2].table = res.data.data?.month;
     items[1].table = res.data.data?.week;
-    console.log("items", items);
   });
   ApiService.post("/orders/last-customer-orders", {}).then((res) => {
     loadingCustomersSummaryData.value = false;
@@ -392,11 +391,6 @@ const fetchOrders = (type) => {
     loading.value = false;
     loadingSummaryData.value = res.data.data?.last_game_updates;
   });
-  // ApiService.post("/games/get-last-month-summary", {}).then((res) => {
-  //   loadingGamesSummaryData.value = false;
-  //   console.log("games summary data", res);
-  //   gamesSummaryData.value = res.data.data;
-  // });
 };
 
 const navigateToGameDetailsPage = (id) => {

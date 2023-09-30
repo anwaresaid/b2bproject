@@ -196,7 +196,6 @@ const confirm = (formEl) => {
             {
               confirmButtonText: "OK",
               callback: (action: Action) => {
-                console.log("res", res);
                 localStorage.setItem(
                   "user",
                   JSON.stringify(res.data.data.user)
@@ -208,7 +207,6 @@ const confirm = (formEl) => {
           );
         })
         .catch((e) => {
-          console.log("e", e.response.data);
           errors.value = Object.values(e.response.data.messages);
         });
     } else {
@@ -226,7 +224,6 @@ onMounted(() => {
   lastName.value = JSON.parse(localStorage.getItem("user")).surname;
   firstName.value = JSON.parse(localStorage.getItem("user")).name;
   userId.value = JSON?.parse(localStorage.getItem("user")).id;
-  console.log("data", lastName.value);
 });
 
 onBeforeUnmount(() => {

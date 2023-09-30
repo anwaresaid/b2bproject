@@ -244,7 +244,6 @@ watch(form, (newValue) => {
 watch(
   () => update,
   (newValue) => {
-    console.log("props", props);
     form.price = props.data.price ? props.data.price : null;
     form.status = props.data.status ? props.data.status : null;
   },
@@ -252,9 +251,7 @@ watch(
 );
 watch(
   () => props.data,
-  (newVal, oldVal) => {
-    console.log("myProp changed from", oldVal, "to", newVal);
-  }
+  (newVal, oldVal) => {}
 );
 
 onMounted(() => {});

@@ -328,7 +328,6 @@ const rules = reactive<FormRules<RuleForm>>({
 });
 const confirmSubmission = () => {
   if (typeof form.stats === Object) {
-    console.log("obj");
     return;
   }
   // if (isUpdate.value) {
@@ -362,7 +361,6 @@ const createUpdateGame = async (formEl: FormInstance | undefined) => {
   if (checkedGamivo.value) tempMarketplaces.push(3);
   if (checkedKinguin.value) tempMarketplaces.push(1);
 
-  console.log(tempMarketplaces);
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {

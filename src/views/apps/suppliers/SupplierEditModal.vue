@@ -114,14 +114,12 @@ export default defineComponent({
           this.$emit("did-update", true);
         })
         .catch((e) => {
-          console.log("e", e);
           this.errors = e.response.data.messages;
         });
     },
   },
   mounted() {
     if (this.update) {
-      console.log("------", this.update);
       this.form = this.data;
     } else {
       this.form = {};

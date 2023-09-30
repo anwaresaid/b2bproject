@@ -259,8 +259,6 @@ const setSupplierId = (value) => {
   form.supplier_id = value;
 };
 const createGame = async (formEl: FormInstance | undefined) => {
-  console.log("form ", form);
-
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
@@ -301,9 +299,7 @@ watch(setVisible, (newValue) => {
     emit("create-key", false);
   }
 });
-watch(lines, (newValue) => {
-  console.log("lines", lines);
-});
+watch(lines, (newValue) => {});
 
 onBeforeUnmount(() => {
   // Cleanup or perform actions before component unmounts

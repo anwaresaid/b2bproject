@@ -12,6 +12,7 @@
               v-model="searchGames"
               class="form-control form-control-solid w-250px ps-15"
               placeholder="search key code"
+              @blur="onBlur"
             />
           </div>
           <div>
@@ -269,7 +270,6 @@ const navigateGameDetails = (id) => {
   });
 };
 const setGameId = (value) => {
-  console.log("value", value);
   dropdownParams.value.game_id = value;
   params.value = dropdownParams.value;
   fetchKeys("filer");
@@ -292,6 +292,12 @@ const copyText = (obj) => {
   navigator.clipboard.writeText(obj.keycode);
 };
 
+const onBlur = () => {
+  params.value.current_page = 1;
+  params.value.key_code = searchGames.value;
+  fetchKeys();
+};
+
 const createKey = () => {
   isUpdate.value = false;
   keyCreateVisible.value = true;
@@ -301,7 +307,6 @@ const closeCreateKey = (value) => {
   if (value) fetchKeys();
 };
 const followKey = (key) => {
-  console.log("key", key);
   store.dispatch("setFollowKey", key.keycode);
   router.push({
     name: "keys-follow",
@@ -326,9 +331,6 @@ watch(keyCreateVisible, (newValue) => {
   }
 });
 watch(searchGames, (newValue) => {
-  params.value.current_page = 1;
-  params.value.key_code = searchGames.value;
-  fetchKeys();
   if (!newValue) {
   }
 });

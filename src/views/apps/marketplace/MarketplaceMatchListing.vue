@@ -293,7 +293,6 @@ const getItemsInTable = (item) => {
   fetchMatches();
 };
 const handleMultiSelect = (matches) => {
-  console.log("user", matches);
   multiSelectMatchesIds.value = matches.map((match) => match.id);
 };
 const pageChange = (page: number) => {
@@ -318,7 +317,6 @@ const setStatusToActive = () => {
 };
 const setGameId = (value) => {
   params.value.games = value.map((item) => item.id);
-  console.log("value", params.value);
   if (
     params.value.games.length === 0 ||
     params.value.games.length === undefined
@@ -338,8 +336,6 @@ const setMarketPlaceId = (value) => {
   fetchMatches();
 };
 const handleUpdate = (data) => {
-  console.log("update", data);
-
   switch (data.marketplace) {
     case "ENEBA":
       setEnebaVisible.value = true;

@@ -55,7 +55,6 @@ export default defineComponent({
     onSubmit() {
       ApiService.postTest("users/two-factory", this.form)
         .then((res) => {
-          console.log("user", JSON.stringify(res.data?.data.user));
           localStorage.setItem("user", JSON.stringify(res.data?.data.user));
 
           Swal.fire({
@@ -76,7 +75,7 @@ export default defineComponent({
         })
         .catch(({ response }) => {
           Swal.fire({
-            text: response.data.message,
+            text: response.data?.message,
             icon: "error",
             buttonsStyling: false,
             confirmButtonText: "Try again!",

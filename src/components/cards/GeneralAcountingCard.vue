@@ -15,9 +15,9 @@
             <th class="rounded-end">Profit</th>
           </tr>
           <tr class="body text-center">
-            <td class="ps-10">{{ (1 * data.cost).toFixed(2) }} €</td>
-            <td>{{ (1 * data.giro).toFixed(2) }} €</td>
-            <td>{{ (1 * data.profit).toFixed(2) }} €</td>
+            <td class="ps-10">{{ data.cost }}</td>
+            <td>{{ data.giro }}</td>
+            <td>{{ data.profit }}</td>
           </tr>
         </table>
 

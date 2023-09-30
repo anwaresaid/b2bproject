@@ -221,7 +221,6 @@ const totalPrice = () => {
 
 watch(form, (newValue) => {
   totalPrice();
-  console.log("form", form.currency);
 });
 
 watch(form.customer, (newValue) => {

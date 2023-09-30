@@ -36,7 +36,6 @@ const store = new Vuex.Store({
       state.followKey = payload;
     },
     setGameDetails(state, payload) {
-      console.log('called', payload)
       state.gameDetails = payload;
     }
   },

@@ -105,8 +105,11 @@ export default defineComponent({
       // Send login request
       await store.forgotPassword(values);
 
-      const error = Object.values(store.errors);
-      console.log("errors--", error);
+      const error =
+        typeof store.errors === "object"
+          ? Object.values(store.errors)
+          : store.errors;
+
       if (!error || error[0] === null) {
         Swal.fire({
           text: "You have successfully logged in!",
@@ -116,6 +119,17 @@ export default defineComponent({
           heightAuto: false,
           customClass: {
             confirmButton: "btn fw-semobold btn-light-primary",
+          },
+        });
+      } else if (typeof error === "string") {
+        Swal.fire({
+          text: error as string,
+          icon: "error",
+          buttonsStyling: false,
+          confirmButtonText: "Try again!",
+          heightAuto: false,
+          customClass: {
+            confirmButton: "btn fw-semobold btn-light-danger",
           },
         });
       } else {
