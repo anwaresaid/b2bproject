@@ -17,6 +17,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import ApiService from "@/core/services/ApiService";
+import { errorHandling } from "@/views/apps/utils/functions";
 
 export default defineComponent({
   name: "publisher-create",
@@ -32,10 +33,14 @@ export default defineComponent({
   },
   methods: {
     createPublisher() {
-      ApiService.post(`publishers`, { name: this.name }).then((res) => {
-        this.setVisible = false;
-        this.$emit("create-publisher", true);
-      });
+      ApiService.post(`publishers`, { name: this.name })
+        .then((res) => {
+          this.setVisible = false;
+          this.$emit("create-publisher", true);
+        })
+        .catch((e) => {
+          errorHandling(e?.response?.data?.messages);
+        });
     },
   },
   watch: {

@@ -16,6 +16,7 @@ import ApiService from "@/core/services/ApiService";
 import { useRouter } from "vue-router";
 import { defineComponent } from "vue";
 import Swal from "sweetalert2";
+import { errorHandling } from "@/views/apps/utils/functions";
 
 export default defineComponent({
   name: "two-factor",
@@ -39,18 +40,22 @@ export default defineComponent({
     onResend() {
       ApiService.postTest("users/two-factory-resend", {
         email: this.form.email,
-      }).then((res) => {
-        Swal.fire({
-          text: "code was resent successfully!",
-          icon: "success",
-          buttonsStyling: false,
-          confirmButtonText: "Ok, got it!",
-          heightAuto: false,
-          customClass: {
-            confirmButton: "btn fw-semobold btn-light-primary",
-          },
+      })
+        .then((res) => {
+          Swal.fire({
+            text: "code was resent successfully!",
+            icon: "success",
+            buttonsStyling: false,
+            confirmButtonText: "Ok, got it!",
+            heightAuto: false,
+            customClass: {
+              confirmButton: "btn fw-semobold btn-light-primary",
+            },
+          });
+        })
+        .catch((e) => {
+          errorHandling(e?.response?.data?.messages);
         });
-      });
     },
     onSubmit() {
       ApiService.postTest("users/two-factory", this.form)

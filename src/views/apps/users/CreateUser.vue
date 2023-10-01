@@ -75,6 +75,7 @@ import ApiService from "@/core/services/ApiService";
 import type { FormInstance, FormRules } from "element-plus";
 import { ElMessage, ElMessageBox } from "element-plus";
 import type { Action, UploadInstance } from "element-plus";
+import { errorHandling } from "@/views/apps/utils/functions";
 
 interface RuleForm {
   name: string;
@@ -158,9 +159,13 @@ const rules = reactive<FormRules<typeof form>>({
 
 const fetchRoles = (text) => {
   ApiService.getTest("roles").then((res) => {
-    rolesData.value = res.data.data.roles.map((role) => {
-      return { text: role.name, value: role.id };
-    });
+    rolesData.value = res.data.data.roles
+      .map((role) => {
+        return { text: role.name, value: role.id };
+      })
+      .catch((e) => {
+        errorHandling(e?.response?.data?.messages);
+      });
   });
 };
 const onImageChange = (e) => {
@@ -186,17 +191,25 @@ const confirmSubmission = (formEl) => {
   if (!formEl) return;
   formEl.validate((valid) => {
     if (valid) {
-      ApiService.postTest("users/create", form).then((res) => {
-        ElMessageBox.alert("New user created successfully !", "user creation", {
-          confirmButtonText: "OK",
-          callback: (action: Action) => {
-            ElMessage({
-              type: "info",
-              message: `action: ${action}`,
-            });
-          },
+      ApiService.postTest("users/create", form)
+        .then((res) => {
+          ElMessageBox.alert(
+            "New user created successfully !",
+            "user creation",
+            {
+              confirmButtonText: "OK",
+              callback: (action: Action) => {
+                ElMessage({
+                  type: "info",
+                  message: `action: ${action}`,
+                });
+              },
+            }
+          );
+        })
+        .catch((e) => {
+          errorHandling(e?.response?.data?.messages);
         });
-      });
     } else {
       return false;
     }

@@ -17,6 +17,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import ApiService from "@/core/services/ApiService";
+import { errorHandling } from "@/views/apps/utils/functions";
 
 export default defineComponent({
   name: "category-create",
@@ -32,10 +33,14 @@ export default defineComponent({
   },
   methods: {
     createCategory() {
-      ApiService.post(`languages`, { name: this.name }).then((res) => {
-        this.setVisible = false;
-        this.$emit("create-language", true);
-      });
+      ApiService.post(`languages`, { name: this.name })
+        .then((res) => {
+          this.setVisible = false;
+          this.$emit("create-language", true);
+        })
+        .catch((e) => {
+          errorHandling(e?.response?.data?.messages);
+        });
     },
   },
   watch: {

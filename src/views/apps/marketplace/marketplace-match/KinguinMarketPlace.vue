@@ -124,6 +124,7 @@ import { ElMessage, ElMessageBox } from "element-plus";
 import type { Action, UploadInstance } from "element-plus";
 import DropdownRemote from "../../../../components/dropdown/DropdownRemote.vue";
 import { currency, matchStatus } from "../../utils/constants.ts";
+import { errorHandling } from "@/views/apps/utils/functions";
 
 interface RuleForm {
   price: Number;
@@ -200,36 +201,44 @@ const match = (formEl) => {
   if (!formEl) return;
   formEl.validate((valid) => {
     if (valid && !props.update) {
-      ApiService.post("marketplace/kinguin/match", data).then((res) => {
-        ElMessageBox.alert(
-          "you have match games successfully!",
-          "marketplace kinguin match",
-          {
-            confirmButtonText: "OK",
-            callback: (action: Action) => {
-              //   location.reload();
-            },
-          }
-        );
-      });
+      ApiService.post("marketplace/kinguin/match", data)
+        .then((res) => {
+          ElMessageBox.alert(
+            "you have match games successfully!",
+            "marketplace kinguin match",
+            {
+              confirmButtonText: "OK",
+              callback: (action: Action) => {
+                //   location.reload();
+              },
+            }
+          );
+        })
+        .catch((e) => {
+          errorHandling(e?.response?.data?.messages);
+        });
     } else if (props.update) {
       let temp = {
         price: form.price,
         status: form.status,
         offer_system_id: props.data.id,
       };
-      ApiService.post("marketplace/updateOffer", temp).then((res) => {
-        ElMessageBox.alert(
-          "you have updated offer successfully!",
-          "marketplace kinguin update",
-          {
-            confirmButtonText: "OK",
-            callback: (action: Action) => {
-              //   location.reload();
-            },
-          }
-        );
-      });
+      ApiService.post("marketplace/updateOffer", temp)
+        .then((res) => {
+          ElMessageBox.alert(
+            "you have updated offer successfully!",
+            "marketplace kinguin update",
+            {
+              confirmButtonText: "OK",
+              callback: (action: Action) => {
+                //   location.reload();
+              },
+            }
+          );
+        })
+        .catch((e) => {
+          errorHandling(e?.response?.data?.messages);
+        });
     } else {
       return false;
     }

@@ -1,3 +1,5 @@
+import { ElMessage, ElMessageBox } from "element-plus";
+
 export const dateFormatter = (date, time) => {
   const isTime = time === "time" ? true : false;
   const day =
@@ -51,4 +53,18 @@ export const removeEmptyValues = (obj) => {
     }
   }
   return object;
+};
+
+export const errorHandling = (error) => {
+  console.log("errorhandling", error);
+  let temp;
+  if (typeof error === "object") {
+    temp = error[Object.keys(error)[0]];
+  } else {
+    temp = error;
+  }
+
+  ElMessageBox.alert(`${temp}`, "Crder Creation Error", {
+    confirmButtonText: "OK",
+  });
 };

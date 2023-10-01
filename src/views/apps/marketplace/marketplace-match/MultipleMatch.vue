@@ -142,6 +142,7 @@ import type { Action, UploadInstance } from "element-plus";
 import DropdownRemote from "../../../../components/dropdown/DropdownRemote.vue";
 import { currency, matchStatus } from "../../utils/constants.ts";
 import { removeEmptyValues } from "../../utils/functions";
+import { errorHandling } from "@/views/apps/utils/functions";
 
 interface RuleForm {
   price: Number;
@@ -240,18 +241,22 @@ const match = (formEl) => {
   if (!formEl) return;
   formEl.validate((valid) => {
     if (valid) {
-      ApiService.post("marketplace/match/multiple", data).then((res) => {
-        ElMessageBox.alert(
-          "you have match games successfully!",
-          "marketplace eneba match",
-          {
-            confirmButtonText: "OK",
-            callback: (action: Action) => {
-              location.reload();
-            },
-          }
-        );
-      });
+      ApiService.post("marketplace/match/multiple", data)
+        .then((res) => {
+          ElMessageBox.alert(
+            "you have match games successfully!",
+            "marketplace eneba match",
+            {
+              confirmButtonText: "OK",
+              callback: (action: Action) => {
+                location.reload();
+              },
+            }
+          );
+        })
+        .catch((e) => {
+          errorHandling(e?.response?.data?.messages);
+        });
     } else {
       return false;
     }

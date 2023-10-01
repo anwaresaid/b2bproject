@@ -103,6 +103,7 @@ import { ElMessage, ElMessageBox } from "element-plus";
 import type { Action, UploadInstance } from "element-plus";
 import DropdownRemote from "../../../../components/dropdown/DropdownRemote.vue";
 import { currency } from "../../utils/constants.ts";
+import { errorHandling } from "@/views/apps/utils/functions";
 
 interface RuleForm {
   amount: Number;
@@ -172,18 +173,22 @@ const match = (formEl) => {
   if (!formEl) return;
   formEl.validate((valid) => {
     if (valid) {
-      ApiService.postTest("marketplace/eneba/match", form).then((res) => {
-        ElMessageBox.alert(
-          "you have match games successfully!",
-          "marketplace eneba match",
-          {
-            confirmButtonText: "OK",
-            callback: (action: Action) => {
-              location.reload();
-            },
-          }
-        );
-      });
+      ApiService.postTest("marketplace/eneba/match", form)
+        .then((res) => {
+          ElMessageBox.alert(
+            "you have match games successfully!",
+            "marketplace eneba match",
+            {
+              confirmButtonText: "OK",
+              callback: (action: Action) => {
+                location.reload();
+              },
+            }
+          );
+        })
+        .catch((e) => {
+          errorHandling(e?.response?.data?.messages);
+        });
     } else {
       return false;
     }

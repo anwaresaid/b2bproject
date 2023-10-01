@@ -59,6 +59,7 @@ import { useRouter } from "vue-router";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import { dateFormatter } from "../utils/functions";
 import store from "../../../store";
+import { errorHandling } from "@/views/apps/utils/functions";
 
 const gameData = ref([]);
 const fromDate = ref();
@@ -130,14 +131,18 @@ const fetchGames = (type) => {
     params.value.current_page = currentPage;
     params.value.per_page = itemsInTable;
   }
-  ApiService.postTest("games/detail", params.value).then((res) => {
-    loading.value = false;
-    gameData.value = res.data.data?.game;
-    keysData.value = res.data.data?.game.keys;
-    paginationData.value = res.data.data?.pagination;
-    store.dispatch("setGameDetails", res.data.data?.game.name);
-    store.dispatch("setPageItems", res.data.data.pagination?.all_data);
-  });
+  ApiService.postTest("games/detail", params.value)
+    .then((res) => {
+      loading.value = false;
+      gameData.value = res.data.data?.game;
+      keysData.value = res.data.data?.game.keys;
+      paginationData.value = res.data.data?.pagination;
+      store.dispatch("setGameDetails", res.data.data?.game.name);
+      store.dispatch("setPageItems", res.data.data.pagination?.all_data);
+    })
+    .catch((e) => {
+      errorHandling(e.response.data.messages);
+    });
 };
 const getItemsInTable = (item) => {
   params.value.per_page = item;

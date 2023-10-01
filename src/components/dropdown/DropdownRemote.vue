@@ -45,6 +45,7 @@ import {
   defineEmits,
 } from "vue";
 import ApiService from "@/core/services/ApiService";
+import { errorHandling } from "@/views/apps/utils/functions";
 const props = defineProps([
   "url",
   "type",

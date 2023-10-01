@@ -99,6 +99,7 @@ import { orderType, orderStatus } from "../utils/constants";
 import { useRouter } from "vue-router";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import store from "../../../store";
+import { errorHandling } from "@/views/apps/utils/functions";
 
 const ordersData = ref([]);
 const router = useRouter();
@@ -178,10 +179,14 @@ const fetchOrders = (type) => {
     params.value.per_page = itemsInTable;
     params.value.page_type = tableType.value;
   }
-  ApiService.postTest("offers/all", params.value).then((res) => {
-    ordersData.value = res.data.data.orders;
-    paginationData.value = res.data.data.pagination;
-  });
+  ApiService.postTest("offers/all", params.value)
+    .then((res) => {
+      ordersData.value = res.data.data.orders;
+      paginationData.value = res.data.data.pagination;
+    })
+    .catch((e) => {
+      errorHandling(e?.response?.data?.messages);
+    });
 };
 const setCustomerId = (value) => {
   dropdownParams.value = {};

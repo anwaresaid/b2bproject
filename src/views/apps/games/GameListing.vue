@@ -286,6 +286,8 @@ import GameCreate from "./GameCreate.vue";
 import { MultiListSelect, ModelSelect } from "vue-search-select";
 import { ElMessage, ElMessageBox } from "element-plus";
 import store from "../../../store";
+import { errorHandling } from "@/views/apps/utils/functions";
+
 import { useRouter } from "vue-router";
 
 export default defineComponent({
@@ -434,20 +436,34 @@ export default defineComponent({
     },
     onPublisherChange(text) {
       if (text !== "") {
-        ApiService.getTest("publishers", text, 2).then((res) => {
-          this.publisherData = res.data.data.publishers;
-          store.dispatch("setPageItems", res.data.data.pagination.total_items);
-        });
+        ApiService.getTest("publishers", text, 2)
+          .then((res) => {
+            this.publisherData = res.data.data.publishers;
+            store.dispatch(
+              "setPageItems",
+              res.data.data.pagination.total_items
+            );
+          })
+          .catch((e) => {
+            errorHandling(e.response.data.messages);
+          });
       } else {
         this.publisherData = [];
       }
     },
     onCategoriesChange(text) {
       if (text !== "") {
-        ApiService.getTest("categories").then((res) => {
-          this.categoriesData = res.data.data.categories;
-          store.dispatch("setPageItems", res.data.data.pagination.total_items);
-        });
+        ApiService.getTest("categories")
+          .then((res) => {
+            this.categoriesData = res.data.data.categories;
+            store.dispatch(
+              "setPageItems",
+              res.data.data.pagination.total_items
+            );
+          })
+          .catch((e) => {
+            errorHandling(e.response.data.messages);
+          });
       } else {
         this.categoriesData = [];
       }
@@ -463,12 +479,16 @@ export default defineComponent({
         }
       )
         .then(() => {
-          ApiService.delete(`games/${data.id}`).then((res) => {
-            store.dispatch(
-              "setPageItems",
-              res.data.data.pagination.total_items
-            );
-          });
+          ApiService.delete(`games/${data.id}`)
+            .then((res) => {
+              store.dispatch(
+                "setPageItems",
+                res.data.data.pagination.total_items
+              );
+            })
+            .catch((e) => {
+              errorHandling(e.response.data.messages);
+            });
           ElMessage({
             type: "success",
             message: "Delete completed",
@@ -492,10 +512,17 @@ export default defineComponent({
     },
     onChange(text) {
       if (text !== "") {
-        ApiService.getTest("marketplace", text, 2).then((res) => {
-          this.marketPlaceData = res.data.data.marketplaces;
-          store.dispatch("setPageItems", res.data.data.pagination.total_items);
-        });
+        ApiService.getTest("marketplace", text, 2)
+          .then((res) => {
+            this.marketPlaceData = res.data.data.marketplaces;
+            store.dispatch(
+              "setPageItems",
+              res.data.data.pagination.total_items
+            );
+          })
+          .catch((e) => {
+            errorHandling(e.response.data.messages);
+          });
       } else {
         this.marketPlaceData = [];
       }
@@ -507,12 +534,16 @@ export default defineComponent({
     },
     fetchData() {
       this.loading = true;
-      ApiService.post("games/list", this.params).then((res) => {
-        this.loading = false;
-        this.gamesData = res.data.data.games;
-        this.paginationData = res.data.data.pagination;
-        store.dispatch("setPageItems", res.data.data.pagination.total_items);
-      });
+      ApiService.post("games/list", this.params)
+        .then((res) => {
+          this.loading = false;
+          this.gamesData = res.data.data.games;
+          this.paginationData = res.data.data.pagination;
+          store.dispatch("setPageItems", res.data.data.pagination.total_items);
+        })
+        .catch((e) => {
+          errorHandling(e.response.data.messages);
+        });
     },
   },
   setup() {

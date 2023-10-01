@@ -5,7 +5,9 @@
     <div class="card-body p-0">
       <!--begin::Heading-->
       <div
-        class="card-px pt-3 align-items-center justify-content-center text-white w-100"
+        :class="`${
+          props.theme === 'dark' ? 'dark-' : 'light-'
+        }card card-px pt-3 align-items-center justify-content-center text-white w-100`"
       >
         <div
           class="title-container d-flex align-items-center justify-content-center"
@@ -110,19 +112,27 @@
     });
     </script> -->
 <script lang="ts" setup>
-import { reactive, onMounted, onBeforeUnmount, defineEmits } from "vue";
+import {
+  reactive,
+  onMounted,
+  onBeforeUnmount,
+  defineEmits,
+  ref,
+  watch,
+} from "vue";
 import ApiService from "@/core/services/ApiService";
 import type { FormInstance, FormRules } from "element-plus";
 import { ElMessage, ElMessageBox } from "element-plus";
 import DropdownRemote from "@/components/dropdown/DropdownRemote.vue";
-import type { Action } from "element-plus";
+import { errorHandling } from "@/views/apps/utils/functions";
 
-const props = defineProps(["data"]);
+const props = defineProps(["data", "theme"]);
 const categoriesUrl = "suppliers/all";
 const categoriesType = "suppliers";
 const categoriesKey = "search";
 const publishersUrl = "customers/all";
 const publishersType = "customers";
+const errors = ref(null);
 
 interface RuleForm {
   customer_id: number;
@@ -183,29 +193,21 @@ const rules = reactive<FormRules<RuleForm>>({
   ],
 });
 
-const confirmSubmission = () => {
-  ElMessageBox.alert("new key created", "key creation", {
-    confirmButtonText: "OK",
-    callback: (action: Action) => {
-      ElMessage({
-        type: "info",
-        message: `action: ${action}`,
-      });
-      emit("create-key", true);
-    },
-  });
-};
-
 const submit = () => {
   //   loading.value = true;
   const data = {
-    marketplace_id: props.data.id,
+    // marketplace_id: props.data.id,
     customer_id: form.customer_id,
     supplier_id: form.supplier_id,
     commission_percent: form.commission_percent,
     commission_const: form.commission_const,
   };
-  ApiService.post("marketplace/updateGeneral", data).then((res) => {});
+  ApiService.post("marketplace/updateGeneral", data)
+    .then((res) => {})
+    .catch((e) => {
+      console.log("e", e.response.data);
+      errorHandling(e.response.data.messages);
+    });
 };
 
 onBeforeUnmount(() => {
@@ -227,9 +229,8 @@ onMounted(() => {
   font-weight: bold;
   color: purple;
 }
-.dark-game-orders-card {
-  background-color: #161629;
-  border-radius: 10px;
+.dark-card {
+  background-color: #1e1e2d;
 }
 .title-container {
   background-color: #181c32;

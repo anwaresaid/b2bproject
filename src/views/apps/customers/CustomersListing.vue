@@ -132,6 +132,7 @@ import type { ICustomer } from "@/core/data/customers";
 import arraySort from "array-sort";
 import ApiService from "@/core/services/ApiService";
 import store from "../../../store";
+import { errorHandling } from "@/views/apps/utils/functions";
 
 export default defineComponent({
   name: "customers-listing",
@@ -160,12 +161,16 @@ export default defineComponent({
   methods: {
     fetchData() {
       this.loading = true;
-      ApiService.postTest("customers/all", this.params).then((res) => {
-        this.loading = false;
-        this.customersData = res.data.data?.customers;
-        this.paginationData = res.data.data?.pagination;
-        store.dispatch("setPageItems", res.data.data.pagination?.total_items);
-      });
+      ApiService.postTest("customers/all", this.params)
+        .then((res) => {
+          this.loading = false;
+          this.customersData = res.data.data?.customers;
+          this.paginationData = res.data.data?.pagination;
+          store.dispatch("setPageItems", res.data.data.pagination?.total_items);
+        })
+        .catch((e) => {
+          errorHandling(e.response.data.messages);
+        });
     },
     getItemsInTable(item) {
       this.itemsInTable = item;

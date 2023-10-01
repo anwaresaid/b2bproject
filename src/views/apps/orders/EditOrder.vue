@@ -131,6 +131,7 @@ import { useRouter, useRoute } from "vue-router";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import { keysTypeStatus } from "../utils/constants";
 import store from "../../../store";
+import { errorHandling } from "@/views/apps/utils/functions";
 
 const params = ref({});
 const itemsInTable = ref(10);
@@ -165,11 +166,15 @@ const tableHeader = ref([
 ]);
 
 const fetchData = () => {
-  ApiService.postTest("orders/detail", params.value).then((res) => {
-    allData.value = res.data.data;
-    currencyKeys.value = Object.keys(res.data.data.currency_info);
-    paginationData.value = res.data.data.pagination;
-  });
+  ApiService.postTest("orders/detail", params.value)
+    .then((res) => {
+      allData.value = res.data.data;
+      currencyKeys.value = Object.keys(res.data.data.currency_info);
+      paginationData.value = res.data.data.pagination;
+    })
+    .catch((e) => {
+      errorHandling(e?.response?.data?.messages);
+    });
 };
 
 const downloadZip = () => {
@@ -177,8 +182,8 @@ const downloadZip = () => {
     current_page: params.value.current_page,
     order_code: params.value.order_code,
   };
-  ApiService.postZip("orders/detailZip", data, { responseType: "blob" }).then(
-    (res) => {
+  ApiService.postZip("orders/detailZip", data, { responseType: "blob" })
+    .then((res) => {
       const url = window.URL.createObjectURL(new Blob([res.data]));
       const link = document.createElement("a");
       link.href = url;
@@ -197,8 +202,10 @@ const downloadZip = () => {
 
       // Clean up
       window.URL.revokeObjectURL(url);
-    }
-  );
+    })
+    .catch((e) => {
+      errorHandling(e?.response?.data?.messages);
+    });
 };
 watch(search, (newValue) => {
   params.value = {

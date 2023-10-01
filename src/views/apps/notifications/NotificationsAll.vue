@@ -100,6 +100,7 @@ import { generalStatus, processType } from "../utils/constants";
 import { useRouter } from "vue-router";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import store from "../../../store";
+import { errorHandling } from "@/views/apps/utils/functions";
 
 const ordersData = ref([]);
 const router = useRouter();
@@ -153,10 +154,14 @@ const tableHeaders = ref([
 
 const fetchNotifications = (type) => {
   let data = { ...dropdownParams.value, ...params.value };
-  ApiService.postTest("notifications/all", data).then((res) => {
-    ordersData.value = res.data.data?.notifications;
-    paginationData.value = res.data.data?.pagination;
-  });
+  ApiService.postTest("notifications/all", data)
+    .then((res) => {
+      ordersData.value = res.data.data?.notifications;
+      paginationData.value = res.data.data?.pagination;
+    })
+    .catch((e) => {
+      errorHandling(e?.response?.data?.messages);
+    });
 };
 const setGameId = (value) => {
   dropdownParams.value = {};

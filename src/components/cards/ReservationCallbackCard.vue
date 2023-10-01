@@ -1,7 +1,11 @@
 <template>
   <div class="top-left card ms-10">
     <div class="card-header border-0 pt-6 mb-5 w-100 d-flex align-items-center">
-      <div class="left-card d-flex flex-column align-items-center">
+      <div
+        :class="`${
+          props.theme === 'dark' ? 'dark-' : ''
+        }left-card d-flex flex-column align-items-center`"
+      >
         <div
           class="title-container d-flex align-items-center justify-content-center"
         >
@@ -13,15 +17,21 @@
       </div>
     </div>
   </div>
-  <div class="top-right card ms-10">
+  <div class="card top-right ms-10">
     <div class="card-header border-0 pt-6 mb-5 w-100">
       <!--begin::Heading-->
-      <div :class="'game-orders-card w-100'">
+      <div
+        :class="`${
+          props.theme === 'dark' ? 'dark-' : ''
+        }game-orders-card w-100`"
+      >
         <!--begin::Card body-->
         <div class="card-body p-0">
           <!--begin::Heading-->
           <div
-            class="card-px pt-3 align-items-center justify-content-center text-white w-100"
+            :class="`${
+              props.theme === 'dark' ? 'dark-card ' : 'light-card '
+            }card-px pt-3 align-items-center justify-content-center text-white w-100`"
           >
             <el-form
               :model="form"
@@ -161,9 +171,10 @@ import type { FormInstance, FormRules } from "element-plus";
 import { ElMessage, ElMessageBox } from "element-plus";
 import DropdownRemote from "@/components/dropdown/DropdownRemote.vue";
 import { currency } from "../../views/apps/utils/constants";
+import { errorHandling } from "@/views/apps/utils/functions";
 import type { Action } from "element-plus";
 
-const props = defineProps(["data"]);
+const props = defineProps(["data", "theme"]);
 const urlName = ref("");
 const filteredData = ref([]);
 const labels = ref([]);
@@ -199,10 +210,11 @@ const checkNumber = (rule: any, value: any, callback: any) => {
 };
 
 const submit = () => {
-  ApiService.post(
-    `/marketplace/${urlName.value}/callbacks`,
-    refsInput.value
-  ).then((res) => {});
+  ApiService.post(`/marketplace/${urlName.value}/callbacks`, refsInput.value)
+    .then((res) => {})
+    .catch((e) => {
+      errorHandling(e?.response?.data?.messages);
+    });
 };
 const rules = reactive<FormRules<RuleForm>>({
   game_id: [
@@ -280,6 +292,12 @@ onMounted(() => {
   border-radius: 10px;
   width: 100% !important;
 }
+.dark-card {
+  background-color: #1e1e2d;
+}
+.dark-card .el-form-item {
+  background-color: #1e1e2d !important;
+}
 .multiplication {
   color: grey;
 }
@@ -288,7 +306,7 @@ onMounted(() => {
   color: purple;
 }
 .dark-game-orders-card {
-  background-color: #161629;
+  background-color: #1e1e2d;
   border-radius: 10px;
 }
 .top-left {

@@ -112,6 +112,7 @@ import ChartsWidget1 from "@/components/widgets/charts/Widget1.vue";
 import ApiService from "@/core/services/ApiService";
 import GeneralAccountingCard from "../../../components/cards/GeneralAcountingCard.vue";
 import { dateFormatter } from "../utils/functions";
+import { errorHandling } from "@/views/apps/utils/functions";
 
 import {
   ref,
@@ -222,28 +223,32 @@ const fetchData = () => {
     totalNet: [],
   };
 
-  ApiService.postTest("accounting/general-account", date).then((res) => {
-    years.value = res.data.data.years;
-    generalSummary.value = res.data.data.general_summaries;
-    generalSummaryKeys.value = Object.keys(generalSummary.value);
-    let dataTemp;
-    if (years.value.length > 1) {
-      years.value.map((year) => {
-        fullData.value[year] = res.data.data.per_month_data.filter(
-          (months) => months.year_id === year
-        );
-      });
-      dataTemp = fullData.value;
-      years.value.map((year) => {
-        graphsData.value[year] = handleAssignVariables(dataTemp[year]);
-      });
-    } else {
-      dataTemp = res.data.data.per_month_data;
-      years.value.map((year) => {
-        graphsData.value[year] = handleAssignVariables(dataTemp);
-      });
-    }
-  });
+  ApiService.postTest("accounting/general-account", date)
+    .then((res) => {
+      years.value = res.data.data.years;
+      generalSummary.value = res.data.data.general_summaries;
+      generalSummaryKeys.value = Object.keys(generalSummary.value);
+      let dataTemp;
+      if (years.value.length > 1) {
+        years.value.map((year) => {
+          fullData.value[year] = res.data.data.per_month_data.filter(
+            (months) => months.year_id === year
+          );
+        });
+        dataTemp = fullData.value;
+        years.value.map((year) => {
+          graphsData.value[year] = handleAssignVariables(dataTemp[year]);
+        });
+      } else {
+        dataTemp = res.data.data.per_month_data;
+        years.value.map((year) => {
+          graphsData.value[year] = handleAssignVariables(dataTemp);
+        });
+      }
+    })
+    .catch((e) => {
+      errorHandling(e.response.data.messages);
+    });
 };
 
 const handleAssignVariables = (data) => {

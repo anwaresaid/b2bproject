@@ -171,6 +171,7 @@ import { useRouter } from "vue-router";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import { dateFormatter } from "../utils/functions";
 import store from "../../../store";
+import { errorHandling } from "@/views/apps/utils/functions";
 
 const ordersData = ref([]);
 const fromDate = ref();
@@ -255,12 +256,16 @@ const fetchOrders = (type) => {
     params.value.current_page = currentPage;
     params.value.per_page = itemsInTable;
   }
-  ApiService.postTest("orders/apiSells", params.value).then((res) => {
-    loading.value = false;
-    ordersData.value = res.data.data?.orders;
-    paginationData.value = res.data.data?.pagination;
-    store.dispatch("setPageItems", res.data.data.pagination?.total_items);
-  });
+  ApiService.postTest("orders/apiSells", params.value)
+    .then((res) => {
+      loading.value = false;
+      ordersData.value = res.data.data?.orders;
+      paginationData.value = res.data.data?.pagination;
+      store.dispatch("setPageItems", res.data.data.pagination?.total_items);
+    })
+    .catch((e) => {
+      errorHandling(e?.response?.data?.messages);
+    });
 };
 const setGameId = (value) => {
   params.value.gameId = value;

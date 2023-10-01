@@ -143,6 +143,7 @@ import { ElMessage, ElMessageBox } from "element-plus";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import { keysTypeStatus, currency } from "../utils/constants";
 import type { Action } from "element-plus";
+import { errorHandling } from "@/views/apps/utils/functions";
 
 interface RuleForm {
   game_id: number;
@@ -265,10 +266,14 @@ const createGame = async (formEl: FormInstance | undefined) => {
       if (!form.kdv) {
         delete form["percent_of_kdv"];
       }
-      ApiService.post("keys", form).then((res) => {
-        formEl.resetFields();
-        confirmSubmission();
-      });
+      ApiService.post("keys", form)
+        .then((res) => {
+          formEl.resetFields();
+          confirmSubmission();
+        })
+        .catch((e) => {
+          errorHandling(e?.response?.data?.messages);
+        });
     }
   });
 };
