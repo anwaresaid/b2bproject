@@ -20,6 +20,7 @@ import { orderType, orderStatus } from "../utils/constants";
 import { useRouter } from "vue-router";
 import MoneyBoxCard from "@/components/cards/MoneyBoxCard.vue";
 import store from "../../../store";
+import { errorHandling } from "@/views/apps/utils/functions";
 
 const moneyboxeData = ref([]);
 const router = useRouter();
@@ -38,10 +39,14 @@ const fetchMoneyBox = (type) => {
   //     params.value.per_page = itemsInTable;
   //     params.value.page_type = tableType.value;
   //   }
-  ApiService.postTest("moneyboxes/all", params.value).then((res) => {
-    moneyboxeData.value = res.data.data.MoneyBoxes;
-    store.dispatch("setPageItems", res.data.data.pagination.total_items);
-  });
+  ApiService.postTest("moneyboxes/all", params.value)
+    .then((res) => {
+      moneyboxeData.value = res.data.data.MoneyBoxes;
+      store.dispatch("setPageItems", res.data.data.pagination.total_items);
+    })
+    .catch((e) => {
+      errorHandling(e?.response?.data?.messages);
+    });
 };
 const generateId = (item) => {
   return "kt_card_" + item.id + "_" + item.name;

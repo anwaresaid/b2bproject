@@ -32,10 +32,14 @@ export default defineComponent({
   },
   methods: {
     createCategory() {
-      ApiService.post(`categories`, { name: this.name }).then((res) => {
-        this.setVisible = false;
-        this.$emit("create-category", true);
-      });
+      ApiService.post(`categories`, { name: this.name })
+        .then((res) => {
+          this.setVisible = false;
+          this.$emit("create-category", true);
+        })
+        .catch((e) => {
+          errorHandling(e.response.data.messages);
+        });
     },
   },
   watch: {

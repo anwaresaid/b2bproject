@@ -59,6 +59,7 @@ import ApiService from "@/core/services/ApiService";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import CreateUser from "./CreateUser.vue";
 import store from "../../../store";
+import { errorHandling } from "@/views/apps/utils/functions";
 
 const usersData = ref([]);
 const searchUsers = ref("");
@@ -94,12 +95,16 @@ const fetchUsers = (type) => {
     params.value.current_page = currentPage;
     params.value.per_page = itemsInTable;
   }
-  ApiService.postTest("users/all", params.value).then((res) => {
-    loading.value = false;
-    usersData.value = res.data.data.users;
-    paginationData.value = res.data.data.pagination;
-    store.dispatch("setPageItems", res.data.data.pagination.total_items);
-  });
+  ApiService.postTest("users/all", params.value)
+    .then((res) => {
+      loading.value = false;
+      usersData.value = res.data.data.users;
+      paginationData.value = res.data.data.pagination;
+      store.dispatch("setPageItems", res.data.data.pagination.total_items);
+    })
+    .catch((e) => {
+      errorHandling(e?.response?.data?.messages);
+    });
 };
 
 const getItemsInTable = (item) => {

@@ -77,6 +77,7 @@ import AddCustomerModal from "@/components/modals/forms/AddCustomerModal.vue";
 import ApiService from "@/core/services/ApiService";
 import { MultiListSelect, ModelSelect } from "vue-search-select";
 import { ElTable } from "element-plus";
+import { errorHandling } from "@/views/apps/utils/functions";
 
 export default defineComponent({
   name: "customers-listing",
@@ -107,12 +108,20 @@ export default defineComponent({
 
   methods: {
     fetchData() {
-      ApiService.postTest("roles/all").then((res) => {
-        this.rolesData = res.data.data.roles;
-      });
-      ApiService.postTest("permissions/all").then((res) => {
-        this.allPermmissions = res.data.data.permissions;
-      });
+      ApiService.postTest("roles/all")
+        .then((res) => {
+          this.rolesData = res.data.data.roles;
+        })
+        .catch((e) => {
+          errorHandling(e?.response?.data?.messages);
+        });
+      ApiService.postTest("permissions/all")
+        .then((res) => {
+          this.allPermmissions = res.data.data.permissions;
+        })
+        .catch((e) => {
+          errorHandling(e?.response?.data?.messages);
+        });
     },
     mapHeaders() {
       if (this.rolesData?.length > 1) {
@@ -179,10 +188,14 @@ export default defineComponent({
         name: name[0].columnName,
         permissions: filteredData,
       };
-      ApiService.put(`roles/${this.selectedRoleId}`, data).then((res) => {
-        this.fetchData();
-        this.dialogVisible = false;
-      });
+      ApiService.put(`roles/${this.selectedRoleId}`, data)
+        .then((res) => {
+          this.fetchData();
+          this.dialogVisible = false;
+        })
+        .catch((e) => {
+          errorHandling(e?.response?.data?.messages);
+        });
     },
     hadlePermissionsChange() {
       this.dialogVisible = false;

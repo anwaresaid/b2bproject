@@ -137,6 +137,7 @@ import {
   onBeforeUnmount,
   defineEmits,
 } from "vue";
+import { errorHandling } from "@/views/apps/utils/functions";
 
 export default defineComponent({
   name: "notifications-menu",
@@ -145,11 +146,13 @@ export default defineComponent({
     const pusherEvent =
       "Illuminate\\Notifications\\Events\\BroadcastNotificationCreated";
     const fetchNotifications = () => {
-      ApiService.postTest("notifications/myList", fetchAllNotfications).then(
-        (res) => {
+      ApiService.postTest("notifications/myList", fetchAllNotfications)
+        .then((res) => {
           message.value = res.data.data.notifications;
-        }
-      );
+        })
+        .catch((e) => {
+          errorHandling(e.response.data.messages);
+        });
     };
     const channel = PusherService.subscribe("notification");
     const message = ref([]);

@@ -159,6 +159,7 @@ import CreateKey from "./CreateKey.vue";
 import PusherService from "@/core/services/PusherService";
 import store from "../../../store";
 import { useRouter } from "vue-router";
+import { errorHandling } from "@/views/apps/utils/functions";
 
 const keysData = ref([]);
 const gameUrl = "games/list";
@@ -254,12 +255,16 @@ const fetchKeys = (type) => {
     params.value.current_page = currentPage;
     params.value.per_page = itemsInTable;
   }
-  ApiService.postTest("keys/all", params.value).then((res) => {
-    loading.value = false;
-    keysData.value = res.data.data?.keys;
-    paginationData.value = res.data.data?.pagination;
-    store.dispatch("setPageItems", res.data.data.pagination?.total_items);
-  });
+  ApiService.postTest("keys/all", params.value)
+    .then((res) => {
+      loading.value = false;
+      keysData.value = res.data.data?.keys;
+      paginationData.value = res.data.data?.pagination;
+      store.dispatch("setPageItems", res.data.data.pagination?.total_items);
+    })
+    .catch((e) => {
+      errorHandling(e?.response?.data?.messages);
+    });
 };
 const navigateGameDetails = (id) => {
   router.push({

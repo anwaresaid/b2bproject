@@ -8,7 +8,11 @@
         v-if="commission.commission_settings.length > 0"
         class="d-flex flex-row justify-content-center mb-10"
       >
-        <MarketplaceSettingsCard :data="commission" class="left-card" />
+        <MarketplaceSettingsCard
+          :theme="store2.mode"
+          :data="commission"
+          class="left-card"
+        />
         <div class="card right-card ms-10">
           <div class="card-header border-0 pt-6 mb-5">
             <div
@@ -133,7 +137,11 @@
           typeof commission.callback_urls === 'object'
         "
       >
-        <ReservationCallbackCard :data="commission" class="callback-card" />
+        <ReservationCallbackCard
+          :theme="store2.mode"
+          :data="commission"
+          class="callback-card"
+        />
       </div>
     </div>
   </div>
@@ -149,22 +157,14 @@ import { useRouter } from "vue-router";
 import MarketplaceSettingsCard from "@/components/cards/MarketplaceSettingsCard.vue";
 import ReservationCallbackCard from "@/components/cards/ReservationCallbackCard.vue";
 import DropdownRemote from "../../../components/dropdown/DropdownRemoteMarketplaceSettings.vue";
-import store from "../../../store";
-import { ElMessage, ElMessageBox } from "element-plus";
-import EnebaMarketplace from "./marketplace-match/EnebaMarketPlace.vue";
-import GamivoMarketplace from "./marketplace-match/GamivoMarketPlace.vue";
-import KinguinMarketplace from "./marketplace-match/KinguinMarketPlace.vue";
+import { useThemeStore } from "@/stores/theme";
+import { errorHandling } from "@/views/apps/utils/functions";
 
-const matchData = ref([]);
-const router = useRouter();
-const gameUrl = "games/list";
-const gameKey = "search_game";
-const gameType = "games";
-const marketPlaceUrl = "marketplace/all";
-const marketPlaceType = "marketplaces";
+const store = useThemeStore();
 const categoriesUrl = ref("categories/all");
 const categoriesType = ref("categories");
 const categoriesKey = ref("search");
+const store2 = useThemeStore();
 const marketKey = "search";
 const focused = ref(false);
 const tableData = ref([]);
@@ -219,17 +219,23 @@ const marketPlaceIdByName = (name) => {
 };
 const fetchMarketplaceSettingsData = () => {
   //   loading.value = true;
-  ApiService.post("marketplace/settings").then((res) => {
-    tableData.value = res.data;
-    totalTables.value = tableData.value.filter(
-      (item) => item.commission_settings.length > 0
-    ).length;
-  });
+  ApiService.post("marketplace/settings")
+    .then((res) => {
+      tableData.value = res.data;
+      totalTables.value = tableData.value.filter(
+        (item) => item.commission_settings.length > 0
+      ).length;
+    })
+    .catch((e) => {
+      errorHandling(e?.response?.data?.messages);
+    });
 };
 const updateSettings = () => {
-  ApiService.post("marketplace/settings/update", updateData.value).then(
-    (res) => {}
-  );
+  ApiService.post("marketplace/settings/update", updateData.value)
+    .then((res) => {})
+    .catch((e) => {
+      errorHandling(e?.response?.data?.messages);
+    });
 };
 const addSettings = (param) => {
   if (
@@ -239,7 +245,11 @@ const addSettings = (param) => {
     param.value["min"] !== undefined &&
     param.value["percent_value"] !== undefined
   ) {
-    ApiService.post("marketplace/settings/add", param.value).then((res) => {});
+    ApiService.post("marketplace/settings/add", param.value)
+      .then((res) => {})
+      .catch((e) => {
+        errorHandling(e?.response?.data?.messages);
+      });
   }
 };
 const focus = (data) => {

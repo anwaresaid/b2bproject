@@ -121,6 +121,8 @@ import ApiService from "@/core/services/ApiService";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import store from "../../../store";
 import { useRouter } from "vue-router";
+import { errorHandling } from "@/views/apps/utils/functions";
+
 import CreateKey from "./CreateKey.vue";
 
 const searchKey = ref("");
@@ -159,10 +161,14 @@ const tableHeaders = ref([
 
 const fetchKeyData = () => {
   loading.value = true;
-  ApiService.post("keys/follow", { key_code: searchKey.value }).then((res) => {
-    loading.value = false;
-    data.value = res.data.data?.history;
-  });
+  ApiService.post("keys/follow", { key_code: searchKey.value })
+    .then((res) => {
+      loading.value = false;
+      data.value = res.data.data?.history;
+    })
+    .catch((e) => {
+      errorHandling(e?.response?.data?.messages);
+    });
 };
 const createKey = () => {
   keyCreateVisible.value = true;

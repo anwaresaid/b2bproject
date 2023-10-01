@@ -186,6 +186,7 @@ import { ElMessage, ElMessageBox } from "element-plus";
 import EnebaMarketplace from "./marketplace-match/EnebaMarketPlace.vue";
 import GamivoMarketplace from "./marketplace-match/GamivoMarketPlace.vue";
 import KinguinMarketplace from "./marketplace-match/KinguinMarketPlace.vue";
+import { errorHandling } from "@/views/apps/utils/functions";
 
 const matchData = ref([]);
 const router = useRouter();
@@ -279,13 +280,17 @@ const fetchMatches = (type) => {
     params.value.per_page = itemsInTable;
     params.value.page_type = tableType.value;
   }
-  ApiService.postTest("marketplace/matches", params.value).then((res) => {
-    loading.value = false;
-    matchData.value = res.data.data.matches;
-    paginationData.value = res.data.data.pagination;
-    sumStock.value = res.data.data.sum_stock;
-    store.dispatch("setPageItems", res.data.data.pagination.total_items);
-  });
+  ApiService.postTest("marketplace/matches", params.value)
+    .then((res) => {
+      loading.value = false;
+      matchData.value = res.data.data.matches;
+      paginationData.value = res.data.data.pagination;
+      sumStock.value = res.data.data.sum_stock;
+      store.dispatch("setPageItems", res.data.data.pagination.total_items);
+    })
+    .catch((e) => {
+      errorHandling(e?.response?.data?.messages);
+    });
 };
 
 const getItemsInTable = (item) => {
@@ -303,17 +308,25 @@ const setStatusToPassive = () => {
   ApiService.post("marketplace/changeStatus", {
     matches: multiSelectMatchesIds.value,
     status: 0,
-  }).then((res) => {
-    fetchMatches();
-  });
+  })
+    .then((res) => {
+      fetchMatches();
+    })
+    .catch((e) => {
+      errorHandling(e?.response?.data?.messages);
+    });
 };
 const setStatusToActive = () => {
   ApiService.post("marketplace/changeStatus", {
     matches: multiSelectMatchesIds.value,
     status: 1,
-  }).then((res) => {
-    fetchMatches();
-  });
+  })
+    .then((res) => {
+      fetchMatches();
+    })
+    .catch((e) => {
+      errorHandling(e?.response?.data?.messages);
+    });
 };
 const setGameId = (value) => {
   params.value.games = value.map((item) => item.id);
@@ -373,11 +386,8 @@ const confirmSubmission = (data) => {
       });
       window.location.reload();
     })
-    .catch(() => {
-      ElMessage({
-        type: "info",
-        message: "Delete canceled",
-      });
+    .catch((e) => {
+      errorHandling(e?.response?.data?.messages);
     });
 };
 

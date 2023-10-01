@@ -72,6 +72,7 @@ import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import UpdateSupplier from "./SupplierEditModal.vue";
 import { ElMessage, ElMessageBox } from "element-plus";
 import store from "../../../store";
+import { errorHandling } from "@/views/apps/utils/functions";
 
 export default defineComponent({
   name: "suppliers-listing",
@@ -152,12 +153,16 @@ export default defineComponent({
   methods: {
     fetchData() {
       this.loading = true;
-      ApiService.post("suppliers/all", this.params).then((res) => {
-        this.loading = false;
-        this.suppliersData = res.data.data.suppliers;
-        this.paginationData = res.data.data.pagination;
-        store.dispatch("setPageItems", res.data.data.pagination.total_items);
-      });
+      ApiService.post("suppliers/all", this.params)
+        .then((res) => {
+          this.loading = false;
+          this.suppliersData = res.data.data.suppliers;
+          this.paginationData = res.data.data.pagination;
+          store.dispatch("setPageItems", res.data.data.pagination.total_items);
+        })
+        .catch((e) => {
+          errorHandling(e?.response?.data?.messages);
+        });
     },
     handleVisibleChange(value) {
       this.visible = value;
@@ -181,11 +186,8 @@ export default defineComponent({
             message: "Delete completed",
           });
         })
-        .catch(() => {
-          ElMessage({
-            type: "info",
-            message: "Delete canceled",
-          });
+        .catch((e) => {
+          errorHandling(e?.response?.data?.messages);
         });
     },
     createSupplier() {

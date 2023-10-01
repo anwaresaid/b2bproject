@@ -104,6 +104,7 @@ import { useRouter } from "vue-router";
 import CreateKey from "../keys/CreateKey.vue";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import store from "../../../store";
+import { errorHandling } from "@/views/apps/utils/functions";
 
 const stockData = ref([]);
 const router = useRouter();
@@ -175,13 +176,17 @@ const fetchStock = (type) => {
     params.value.per_page = itemsInTable;
     params.value.order_type = tableType.value;
   }
-  ApiService.postTest("games/stock", params.value).then((res) => {
-    loading.value = false;
-    stockData.value = res.data.data.games;
-    paginationData.value = res.data.data.pagination;
-    sumStock.value = res.data.data.sum_stock;
-    store.dispatch("setPageItems", res.data.data.pagination.total_items);
-  });
+  ApiService.postTest("games/stock", params.value)
+    .then((res) => {
+      loading.value = false;
+      stockData.value = res.data.data.games;
+      paginationData.value = res.data.data.pagination;
+      sumStock.value = res.data.data.sum_stock;
+      store.dispatch("setPageItems", res.data.data.pagination.total_items);
+    })
+    .catch((e) => {
+      errorHandling(e?.response?.data?.messages);
+    });
 };
 const createKey = () => {
   keyCreateVisible.value = true;

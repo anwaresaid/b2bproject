@@ -222,6 +222,7 @@ import { useRouter } from "vue-router";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import { dateFormatter } from "../utils/functions";
 import store from "../../../store";
+import { errorHandling } from "@/views/apps/utils/functions";
 
 const ordersData = ref([]);
 const router = useRouter();
@@ -317,17 +318,25 @@ const fetchOrders = (type) => {
   if (typeof params.value.order_type === "object") {
     params.value.order_type = params.value.order_type.value;
   }
-  ApiService.postTest("orders/all", params.value).then((res) => {
-    loading.value = false;
-    ordersData.value = res.data.data?.orders;
-    paginationData.value = res.data.data?.pagination;
-    store.dispatch("setPageItems", res.data.data.pagination?.total_items);
-  });
+  ApiService.postTest("orders/all", params.value)
+    .then((res) => {
+      loading.value = false;
+      ordersData.value = res.data.data?.orders;
+      paginationData.value = res.data.data?.pagination;
+      store.dispatch("setPageItems", res.data.data.pagination?.total_items);
+    })
+    .catch((e) => {
+      errorHandling(e?.response?.data?.messages);
+    });
 };
 const updateStatus = (type) => {
-  ApiService.post("orders/updateStatus", statusUpdate.value).then((res) => {
-    fetchOrders();
-  });
+  ApiService.post("orders/updateStatus", statusUpdate.value)
+    .then((res) => {
+      fetchOrders();
+    })
+    .catch((e) => {
+      errorHandling(e?.response?.data?.messages);
+    });
 };
 const disabledFromDate = (time: Date) => {
   return time.getTime() > toDate.value;

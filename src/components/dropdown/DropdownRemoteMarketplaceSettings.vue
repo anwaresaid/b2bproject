@@ -45,6 +45,7 @@ import {
   defineEmits,
 } from "vue";
 import ApiService from "@/core/services/ApiService";
+import { errorHandling } from "../../views/apps/utils/functions";
 const props = defineProps([
   "url",
   "type",
@@ -87,14 +88,14 @@ const handleChange = (selected) => {
 };
 const fetchGames = () => {
   loading.value = true;
-  ApiService.postTest(
-    `${props.url}`,
-    { [props.keyg]: params.value },
-    "body"
-  ).then((res) => {
-    loading.value = false;
-    data.value = res.data.data[props.type];
-  });
+  ApiService.postTest(`${props.url}`, { [props.keyg]: params.value }, "body")
+    .then((res) => {
+      loading.value = false;
+      data.value = res.data.data[props.type];
+    })
+    .catch((e) => {
+      errorHandling(e.response.data.messages);
+    });
 };
 
 watch(params, (newValue) => {

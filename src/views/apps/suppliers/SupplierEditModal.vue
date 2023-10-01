@@ -63,6 +63,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import ApiService from "@/core/services/ApiService";
+import { errorHandling } from "@/views/apps/utils/functions";
 
 export default defineComponent({
   name: "suppliers-update",
@@ -97,12 +98,14 @@ export default defineComponent({
   methods: {
     updateSupplier() {
       if (this.update) {
-        ApiService.put(`suppliers/${this.selectedIndex}`, this.form).then(
-          (res) => {
+        ApiService.put(`suppliers/${this.selectedIndex}`, this.form)
+          .then((res) => {
             this.setVisible = false;
             this.$emit("did-update", true);
-          }
-        );
+          })
+          .catch((e) => {
+            errorHandling(e?.response?.data?.messages);
+          });
       } else {
         this.createSupplier();
       }

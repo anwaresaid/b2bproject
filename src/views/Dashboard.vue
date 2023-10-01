@@ -193,6 +193,7 @@ import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import SummaryTable from "@/components/kt-datatable/SummaryTable.vue";
 import { orderType, orderStatus } from "./apps/utils/constants";
 import { useRouter } from "vue-router";
+import { errorHandling } from "@/views/apps/utils/functions";
 import DropdownRemote from "../components/dropdown/DropdownRemote.vue";
 import store from "../store";
 
@@ -377,20 +378,32 @@ const fetchOrders = (type) => {
     params.value.per_page = itemsInTable;
     params.value.page_type = tableType.value;
   }
-  ApiService.get("keys/mainPage/summary").then((res) => {
-    loadingItems.value = false;
-    items[0].table = res.data.data?.today;
-    items[2].table = res.data.data?.month;
-    items[1].table = res.data.data?.week;
-  });
-  ApiService.post("/orders/last-customer-orders", {}).then((res) => {
-    loadingCustomersSummaryData.value = false;
-    customersSummaryData.value = res.data.data?.last_five_customer_orders;
-  });
-  ApiService.post("/games/last-stock-updates", {}).then((res) => {
-    loading.value = false;
-    loadingSummaryData.value = res.data.data?.last_game_updates;
-  });
+  ApiService.get("keys/mainPage/summary")
+    .then((res) => {
+      loadingItems.value = false;
+      items[0].table = res.data.data?.today;
+      items[2].table = res.data.data?.month;
+      items[1].table = res.data.data?.week;
+    })
+    .catch((e) => {
+      errorHandling(e.response.data.messages);
+    });
+  ApiService.post("/orders/last-customer-orders", {})
+    .then((res) => {
+      loadingCustomersSummaryData.value = false;
+      customersSummaryData.value = res.data.data?.last_five_customer_orders;
+    })
+    .catch((e) => {
+      errorHandling(e.response.data.messages);
+    });
+  ApiService.post("/games/last-stock-updates", {})
+    .then((res) => {
+      loading.value = false;
+      loadingSummaryData.value = res.data.data?.last_game_updates;
+    })
+    .catch((e) => {
+      errorHandling(e.response.data.messages);
+    });
 };
 
 const navigateToGameDetailsPage = (id) => {
