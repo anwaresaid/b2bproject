@@ -60,6 +60,20 @@
                 />
               </el-select>
             </el-form-item>
+            <el-form-item label="Order By">
+              <el-select
+                v-model="tableOrder"
+                class="select-table-type"
+                placeholder="Select"
+              >
+                <el-option
+                  v-for="item in orderBy"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
             <el-form-item label="Select Order status">
               <el-select
                 v-model="tableStatus"
@@ -203,7 +217,7 @@
 import { ref, reactive, onMounted, watch, toRefs, onBeforeUnmount } from "vue";
 import ApiService from "@/core/services/ApiService";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
-import { orderType, orderStatus } from "../utils/constants";
+import { orderBy } from "../utils/constants";
 import { useRouter } from "vue-router";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import { dateFormatter } from "../utils/functions";
@@ -222,6 +236,7 @@ const customerUrl = "customers/all";
 const customerType = "customers";
 const gameUrl = "games/list";
 const gameKey = "search_game";
+const tableOrder = ref(null);
 const gameType = "games";
 const params = ref({});
 const tableStatus = ref(null);
@@ -401,6 +416,16 @@ watch(tableStatus, (newValue) => {
   dropdownParams.value.order_status = tableStatus.value;
   if (tableStatus.value === "") {
     delete dropdownParams.value["order_status"];
+  }
+  params.value = dropdownParams.value;
+  fetchOrders("filter");
+});
+watch(tableOrder, (newValue) => {
+  params.value = {};
+  dropdownParams.value = {};
+  dropdownParams.value.order_by_created = tableOrder.value;
+  if (tableStatus.value === "") {
+    delete dropdownParams.value["order_by_created"];
   }
   params.value = dropdownParams.value;
   fetchOrders("filter");

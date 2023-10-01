@@ -24,6 +24,8 @@
           :url="categoriesUrl"
           :default="isUpdate ? form.category?.name : null"
           @selected-game="setCategoryId"
+          :val="form.category"
+          :clear="clear"
           returnType="object"
           :type="categoriesType"
           :keyg="categoriesKey"
@@ -49,6 +51,7 @@
         <DropdownRemote
           :url="publishersUrl"
           @selected-game="setPublisherId"
+          :val="form.publisher"
           returnType="object"
           :default="isUpdate ? form.publisher?.name : null"
           :type="publishersType"
@@ -129,6 +132,7 @@
         <DropdownRemote
           :url="regionUrl"
           @selected-game="setRegionId"
+          :val="form.region"
           returnType="object"
           :default="isUpdate ? form.region?.name : null"
           :type="regionType"
@@ -146,6 +150,7 @@
           :url="languageUrl"
           @selected-game="setLanguageId"
           returnType="object"
+          :val="form.language"
           :default="isUpdate ? form.language?.name : null"
           :type="languageType"
           placeholder="please select Language"
@@ -225,6 +230,7 @@ interface RuleForm {
 }
 const test = ref("Bethesda");
 const checkedKinguin = ref(false);
+const clear = ref(false);
 const checkedGamivo = ref(false);
 const checkedEneba = ref(false);
 const showEneba = ref(false);
@@ -327,32 +333,23 @@ const rules = reactive<FormRules<RuleForm>>({
   ],
 });
 const confirmSubmission = () => {
-  if (typeof form.stats === Object) {
-    return;
+  if (isUpdate.value) {
+    ElMessageBox.alert(`${form.name} is updated`, "game update", {
+      confirmButtonText: "OK",
+      callback: (action: Action) => {
+        // location.reload();
+        emit("create-game", true);
+      },
+    });
+  } else {
+    ElMessageBox.alert("new game created", "game creation", {
+      confirmButtonText: "OK",
+      callback: (action: Action) => {
+        // location.reload();
+        emit("create-game", true);
+      },
+    });
   }
-  // if (isUpdate.value) {
-  //   ElMessageBox.alert(`${form.name} is updated`, "game update", {
-  //     confirmButtonText: "OK",
-  //     callback: (action: Action) => {
-  //       ElMessage({
-  //         type: "info",
-  //         message: `action: ${action}`,
-  //       });
-  //       emit("create-game", true);
-  //     },
-  //   });
-  // } else {
-  //   ElMessageBox.alert("new game created", "game creation", {
-  //     confirmButtonText: "OK",
-  //     callback: (action: Action) => {
-  //       ElMessage({
-  //         type: "info",
-  //         message: `action: ${action}`,
-  //       });
-  //       emit("create-game", true);
-  //     },
-  //   });
-  // }
 };
 
 const createUpdateGame = async (formEl: FormInstance | undefined) => {
@@ -415,22 +412,16 @@ const setRegionId = (regions) => {
   form.region = regions;
 };
 function setEmpty() {
-  // console.log(
-  //   "form inside empty----------------------------------------------------------------",
-  //   input
-  // );
-  // if (typeof input === "object") {
-  //   let keys = Object.keys(input);
+  if (typeof form === "object") {
+    let keys = Object.keys(form);
 
-  //   for (let key of keys) {
-  //     if (typeof input[key] != "object") {
-  //       input[key] = null;
-  //     } else {
-  //       setEmpty(input[key]);
-  //     }
-  //   }
-  //   return input;
-  // }
+    for (let key of keys) {
+      if (typeof form[key] != "object") {
+        form[key] = null;
+      }
+    }
+    return form;
+  }
   let keys = Object.keys(form);
   for (let key of keys) {
     form[key] = null;
@@ -461,6 +452,7 @@ watch(props, (newValue) => {
   }
 });
 watch(setVisible, (newValue) => {
+  clear.value = !clear.value;
   //clearing the form items
   showEneba.value = false;
   showGamivo.value = false;
@@ -511,7 +503,7 @@ watch(setVisible, (newValue) => {
     form.description = props.update.description;
     form.sale_price = props.update.sale_price;
     // checkedEneba.value = props.
-  } else if (setVisible.value === false && props.update) {
+  } else if (setVisible.value === false) {
     setEmpty(form);
   }
   if (!newValue) {

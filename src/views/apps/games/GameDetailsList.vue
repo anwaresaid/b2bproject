@@ -122,11 +122,6 @@ const tableHeaders = ref([
     columnLabel: "sell_price",
     sortEnabled: false,
   },
-  {
-    columnName: "CREATED AT",
-    columnLabel: "created_at",
-    sortEnabled: false,
-  },
 ]);
 
 const fetchGames = (type) => {

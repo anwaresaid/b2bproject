@@ -119,6 +119,7 @@ import OrderGamesCard from "@/components/cards/OrderGamesCard.vue";
 import { useThemeStore } from "@/stores/theme";
 import { currency, gameStatus } from "../utils/constants";
 import { ErrorMessage } from "vee-validate";
+import { useRouter } from "vue-router";
 
 interface RuleForm {
   customer: object;
@@ -131,7 +132,7 @@ interface RuleForm {
 }
 
 const customerUrl = "customers/all";
-const customerKey = "search_customer";
+const customerKey = "search";
 const customerType = "customers";
 const formSize = ref("default");
 const ruleFormRef = ref<FormInstance>();
@@ -139,6 +140,7 @@ const gamesData = ref([]);
 const errors = ref("errors");
 const total = ref();
 const store2 = useThemeStore();
+const router = useRouter();
 
 const form = reactive<RuleForm>({
   customer: null,
@@ -165,14 +167,23 @@ const rules = reactive<FormRules<RuleForm>>({
   ],
 });
 const confirmSubmission = () => {
-  ElMessageBox.alert("new order created", "order creation", {
+  ElMessageBox.alert("new order created", "Order Creation", {
     confirmButtonText: "OK",
     callback: (action: Action) => {
-      ElMessage({
-        type: "info",
-        message: `action: ${action}`,
-      });
+      router.push({ name: "orders-listing" });
     },
+  });
+};
+const confirmError = (error) => {
+  let temp;
+  if (typeof error === "object") {
+    temp = error[Object.keys(error)[0]];
+  } else {
+    temp = error;
+  }
+
+  ElMessageBox.alert(`${temp}`, "Crder Creation Error", {
+    confirmButtonText: "OK",
   });
 };
 
@@ -201,10 +212,13 @@ const createOrder = async (formEl: FormInstance | undefined) => {
         customer_id: form.customer.id,
       };
       // const data = { ...form, customer_id: form.customer.id };
-      ApiService.post("orders/create", data).then((res) => {
-        formEl.resetFields();
-        confirmSubmission();
-      });
+      ApiService.post("orders/create", data)
+        .then((res) => {
+          confirmSubmission();
+        })
+        .catch((e) => {
+          confirmError(e.response.data.messages);
+        });
     }
   });
 };
