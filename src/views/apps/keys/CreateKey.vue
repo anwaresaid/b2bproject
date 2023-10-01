@@ -94,20 +94,20 @@
         />
       </el-form-item>
       <el-form-item label="Keys" label-width="250px" prop="keys" required>
-        <div class="editor">
-          <div class="gutter">
-            <span v-for="(line, index) in lines" class="line-number">{{
-              index + 1
-            }}</span>
+        <div class="code-editor-container">
+          <div class="code-editor">
+            <div class="line-numbers">
+              <div v-for="(line, index) in lines" :key="index">
+                {{ index + 1 }}
+              </div>
+            </div>
+            <textarea
+              v-model="form.keys"
+              @input="updateLines"
+              class="code-textarea"
+              rows="10"
+            ></textarea>
           </div>
-          <textarea
-            class="editor-text-area"
-            v-model="form.keys"
-            @input="updateLines"
-            rows="10"
-            placeholder="Enter a keys"
-            style="height: 357px"
-          ></textarea>
         </div>
       </el-form-item>
     </el-form>
@@ -157,6 +157,15 @@ interface RuleForm {
   kdv: number;
 }
 
+const lines = ref([1]);
+
+// Function to update the code when the user types in the textarea
+const updateLines = () => {
+  // Split the code into lines and update the lines array
+  const lineCount = form.keys.split("\n").length;
+  lines.value = Array.from({ length: lineCount }, (_, i) => i + 1);
+};
+
 const gameUrl = "games/list";
 const gameKey = "search_game";
 const supplierKey = "search";
@@ -168,7 +177,7 @@ const ruleFormRef = ref<FormInstance>();
 const props = defineProps(["isVisible", "isUpdate", "data"]);
 const setVisible = ref("");
 setVisible.value = props.isVisible;
-const lines = ref([""]);
+// const lines = ref([""]);
 
 const form = reactive<RuleForm>({
   game_id: null,
@@ -278,9 +287,9 @@ const createGame = async (formEl: FormInstance | undefined) => {
   });
 };
 
-const updateLines = () => {
-  lines.value = form.keys.split("\n");
-};
+// const updateLines = () => {
+//   lines.value = form.keys.split("\n");
+// };
 
 watch(props, (newValue) => {
   setVisible.value = props.isVisible;
@@ -300,9 +309,16 @@ watch(props, (newValue) => {
   }
 });
 watch(setVisible, (newValue) => {
+  lines.value = [1];
+  form.keys = null;
   if (!newValue) {
     emit("create-key", false);
   }
+});
+// Update the lines array whenever the code changes
+watch(form.keys, (newCode) => {
+  const lineCount = newCode.split("\n").length;
+  lines.value = Array.from({ length: lineCount }, (_, i) => i + 1);
 });
 watch(lines, (newValue) => {});
 
@@ -315,9 +331,11 @@ onBeforeUnmount(() => {
   margin-top: 2rem;
   display: flex;
   flex-direction: row;
+  max-height: 300px; /* You can adjust this value as needed */
   border-top-right-radius: 10px;
   width: 100%;
 }
+
 .editor-text-area {
   background-color: #f5f8fa !important;
   border-color: #f5f8fa !important;
@@ -328,7 +346,7 @@ onBeforeUnmount(() => {
   background: #11101f;
   color: grey;
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column;
   padding: 0.75rem 1rem;
 }
 .editor textarea {
@@ -351,5 +369,55 @@ onBeforeUnmount(() => {
 }
 textarea:focus {
   outline: none;
+}
+
+.code-editor-container {
+  max-height: 200px; /* Set a maximum height for the code editor */
+  overflow-y: scroll; /* Make the entire code editor scrollable vertically */
+  width: 100%;
+}
+
+.code-editor {
+  display: flex;
+  font-family: monospace;
+}
+
+.line-numbers {
+  background: #11101f;
+  flex: 0 0 30px;
+  user-select: none;
+  text-align: right;
+  color: #62a9b9;
+  font-size: 1.1rem;
+  line-height: 25px;
+  font-weight: 500;
+  padding: 0px 1rem;
+}
+.line-numbers div:first-child {
+  padding-top: 9.5px;
+}
+
+.code-container {
+  flex: 1;
+}
+
+.code-textarea {
+  border: none;
+  outline: none;
+  resize: none;
+  padding: 10px;
+  font-family: inherit;
+  line-height: 25px;
+  background-color: #f5f8fa !important;
+  border-color: #f5f8fa !important;
+  color: #5e6278 !important;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden; /* Hide the scrollbar */
+  /*
+  background-color: #f5f8fa !important;
+  border-color: #f5f8fa !important;
+  color: #5e6278 !important;
+  transition: color 0.2s ease, background-color 0.2s ease; */
 }
 </style>
