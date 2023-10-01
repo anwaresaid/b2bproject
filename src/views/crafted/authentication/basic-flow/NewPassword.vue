@@ -116,18 +116,21 @@ export default defineComponent({
       // dummy delay
       // Send login request
       await store.resetPassword(values);
-
+      console.log("errors", store.errors);
       const error = Object.values(store.errors);
       if (!error || error[0] === null) {
         Swal.fire({
-          text: "You have successfully logged in!",
+          text: "You have successfully set new password!",
           icon: "success",
           buttonsStyling: false,
-          confirmButtonText: "Ok, got it!",
+          confirmButtonText: "Ok",
           heightAuto: false,
           customClass: {
             confirmButton: "btn fw-semobold btn-light-primary",
           },
+        }).then(() => {
+          // Go to page after successfully login
+          router.push({ name: "sign-in" });
         });
       } else {
         Swal.fire({

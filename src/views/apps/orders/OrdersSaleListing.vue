@@ -3,7 +3,7 @@
     <div class="card-header border-0 pt-6">
       <div class="card-body pt-0">
         <div>
-          <div class="d-flex justify-content-between mb-10">
+          <div class="d-flex justify-content-between align-items-center mb-10">
             <div class="d-flex align-items-center position-relative">
               <span class="svg-icon svg-icon-1 position-absolute ms-6">
                 <inline-svg src="/media/icons/duotune/general/gen021.svg" />
@@ -15,23 +15,6 @@
                 placeholder="search by order code"
               />
             </div>
-          </div>
-          <div class="d-flex justify-content-between align-items-start">
-            <el-form-item label="Select Order status">
-              <el-select
-                v-model="tableStatus"
-                class="select-table-type"
-                placeholder="Select"
-                clearable
-              >
-                <el-option
-                  v-for="item in orderStatus"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
             <div class="d-flex flex-column">
               <div class="d-flex flex-row align-items-center">
                 <el-date-picker
@@ -52,6 +35,37 @@
               </div>
               <div v-if="errors != null" class="text-danger">{{ errors }}</div>
             </div>
+          </div>
+          <div class="d-flex justify-content-between align-items-start">
+            <el-form-item label="Select Order status">
+              <el-select
+                v-model="tableStatus"
+                class="select-table-type"
+                placeholder="Select"
+                clearable
+              >
+                <el-option
+                  v-for="item in orderStatus"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="Order By">
+              <el-select
+                v-model="tableOrder"
+                class="select-table-type"
+                placeholder="Select"
+              >
+                <el-option
+                  v-for="item in orderBy"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
             <el-form-item label="Select Game">
               <DropdownRemote
                 :url="gameUrl"
@@ -152,7 +166,7 @@
 import { ref, reactive, onMounted, watch, toRefs, onBeforeUnmount } from "vue";
 import ApiService from "@/core/services/ApiService";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
-import { orderType, orderStatus } from "../utils/constants";
+import { orderBy } from "../utils/constants";
 import { useRouter } from "vue-router";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import { dateFormatter } from "../utils/functions";
@@ -163,6 +177,7 @@ const fromDate = ref();
 const toDate = ref();
 const router = useRouter();
 const searchOrders = ref("");
+const tableOrder = ref(null);
 const dropdownParams = ref({});
 const gameKey = "search_game";
 const gameUrl = "games/list";
@@ -315,6 +330,13 @@ watch(tableStatus, (newValue) => {
   params.value.order_status = tableStatus.value;
   if (tableStatus.value === "") {
     delete params.value["order_status"];
+  }
+  fetchOrders("filter");
+});
+watch(tableOrder, (newValue) => {
+  params.value.order_by_created = tableOrder.value;
+  if (tableStatus.value === "") {
+    delete params.value["order_by_created"];
   }
   fetchOrders("filter");
 });

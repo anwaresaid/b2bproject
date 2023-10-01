@@ -48,6 +48,7 @@
           >
             <el-input
               v-model="form.sales_price"
+              @input="handleInput"
               type="number"
               autocomplete="off"
             />
@@ -155,7 +156,9 @@ const rules = reactive<FormRules<RuleForm>>({
     },
   ],
 });
-
+const handleInput = (num) => {
+  form.sales_price = num * 1;
+};
 const confirmSubmission = () => {
   ElMessageBox.alert("new key created", "key creation", {
     confirmButtonText: "OK",

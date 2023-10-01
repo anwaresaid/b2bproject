@@ -97,6 +97,17 @@ export const keysTypeStatus = [
   },
 ];
 
+export const orderBy = [
+  {
+    label: "ASC",
+    value: 1,
+  },
+  {
+    label: "DESC",
+    value: 0,
+  },
+];
+
 export const currency = [
   {
     value: 1,

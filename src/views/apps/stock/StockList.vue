@@ -51,12 +51,12 @@
             <el-tooltip
               class="box-item"
               effect="dark"
-              :content="row?.game?.name"
+              :content="slotProps.action?.name"
               placement="top-start"
             >
               <span
                 :class="`game-name-link badge py-3 px-4 fs-7 badge-light-warning`"
-                @click="navigateToGameDetailsPage(row?.game.uuid)"
+                @click="navigateToGameDetailsPage(slotProps.action?.uuid)"
               >
                 {{ slotProps.action.name }}</span
               >

@@ -57,6 +57,7 @@ const props = defineProps([
   "default",
   "disabled",
   "clear",
+  "val",
 ]);
 
 const data = ref([]);
@@ -90,6 +91,10 @@ const fetchGames = () => {
   });
 };
 
+const onblur = () => {
+  // value.value = null;
+};
+
 watch(params, (newValue) => {
   if (props.condition) {
     if (params.value?.length >= props.condition) fetchGames();
@@ -97,7 +102,9 @@ watch(params, (newValue) => {
     fetchGames();
   }
 });
-watch(value, (newValue) => {});
+watch(props, (newValue) => {
+  value.value = props.val;
+});
 onMounted(() => {
   if (props.placeholder) {
     label.value = props.placeholder;

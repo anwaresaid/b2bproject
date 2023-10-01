@@ -3,7 +3,7 @@
     <div class="card-header border-0 pt-6">
       <div class="card-body pt-0">
         <div>
-          <div class="d-flex justify-content-between mb-10">
+          <div class="d-flex justify-content-between align-items-center mb-10">
             <div class="d-flex align-items-center position-relative">
               <span class="svg-icon svg-icon-1 position-absolute ms-6">
                 <inline-svg src="/media/icons/duotune/general/gen021.svg" />
@@ -15,22 +15,6 @@
                 placeholder="search by order code"
               />
             </div>
-          </div>
-          <div class="d-flex justify-content-between align-items-start">
-            <el-form-item label="Select Order Type">
-              <el-select
-                v-model="tableType"
-                class="select-table-type"
-                placeholder="Select"
-              >
-                <el-option
-                  v-for="item in orderType"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
             <div class="d-flex flex-column">
               <div class="d-flex flex-row align-items-center">
                 <el-date-picker
@@ -53,6 +37,37 @@
               </div>
               <div v-if="errors != null" class="text-danger">{{ errors }}</div>
             </div>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-start">
+            <el-form-item label="Select Order Type">
+              <el-select
+                v-model="tableType"
+                class="select-table-type"
+                placeholder="Select"
+              >
+                <el-option
+                  v-for="item in orderType"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="Order By">
+              <el-select
+                v-model="tableOrder"
+                class="select-table-type"
+                placeholder="Select"
+              >
+                <el-option
+                  v-for="item in orderBy"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
             <el-form-item label="Select Order status">
               <el-select
                 v-model="tableStatus"
@@ -86,6 +101,31 @@
         @on-items-per-page-change="getItemsInTable"
         @page-change="pageChange"
       >
+        <template v-slot:component1="slotProps">
+          <slot :action="slotProps.action">
+            <el-button
+              type="primary"
+              icon="View"
+              circle
+              @click="navigateOrderDetails(slotProps.action)"
+            />
+          </slot>
+          <slot :action="slotProps.action">
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="Copy"
+              placement="top-start"
+            >
+              <el-button
+                type="success"
+                icon="CopyDocument"
+                circle
+                @click="copyText(slotProps.action)"
+              />
+            </el-tooltip>
+          </slot>
+        </template>
         <template v-slot:component2="slotProps">
           <slot :action="slotProps.action">
             <span
@@ -125,7 +165,7 @@
 import { ref, reactive, onMounted, watch, toRefs, onBeforeUnmount } from "vue";
 import ApiService from "@/core/services/ApiService";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
-import { orderType, orderStatus } from "../utils/constants";
+import { orderBy } from "../utils/constants";
 import { useRouter } from "vue-router";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import { dateFormatter } from "../utils/functions";
@@ -142,6 +182,7 @@ const gameUrl = "games/list";
 const gameKey = "search_game";
 const gameType = "games";
 const params = ref({});
+const tableOrder = ref(null);
 const tableStatus = ref(null);
 const itemsInTable = ref(50);
 const currentPage = ref(1);
@@ -200,6 +241,11 @@ const tableHeaders = ref([
     columnLabel: "created_at",
     sortEnabled: false,
   },
+  {
+    columnName: "PROCESS",
+    custom: "component1",
+    sortEnabled: false,
+  },
 ]);
 
 const fetchOrders = (type) => {
@@ -220,22 +266,6 @@ const updateStatus = (type) => {
   ApiService.post("orders/updateStatus", statusUpdate.value).then((res) => {
     fetchOrders();
   });
-};
-const setCustomerId = (value) => {
-  dropdownParams.value.customer_id = value;
-  params.value = dropdownParams.value;
-  if (value === undefined) {
-    delete dropdownParams.value["customer_id"];
-  }
-  fetchOrders("filer");
-};
-const setGameId = (value) => {
-  dropdownParams.value.gameId = value;
-  params.value = dropdownParams.value;
-  if (value === undefined) {
-    delete dropdownParams.value["gameId"];
-  }
-  fetchOrders("filer");
 };
 const getItemsInTable = (item) => {
   params.value.per_page = item;
@@ -313,6 +343,13 @@ watch(searchOrders, (newValue) => {
 });
 watch(statusUpdate, (newValue) => {
   updateStatus();
+});
+watch(tableOrder, (newValue) => {
+  params.value.order_by_created = tableOrder.value;
+  if (tableStatus.value === "") {
+    delete params.value["order_by_created"];
+  }
+  fetchOrders("filter");
 });
 
 onMounted(() => {
