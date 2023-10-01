@@ -82,14 +82,14 @@ const handleChange = (selected) => {
 };
 const fetchGames = () => {
   loading.value = true;
-  ApiService.postTest(`${props.url}`, { [props.keyg]: params.value }, "body")
-    .then((res) => {
-      loading.value = false;
-      data.value = res.data.data[props.type];
-    })
-    .catch((e) => {
-      errorHandling(e.response.data.messages);
-    });
+  ApiService.postTest(
+    `${props.url}`,
+    { [props.keyg]: params.value },
+    "body"
+  ).then((res) => {
+    loading.value = false;
+    data.value = res.data.data[props.type];
+  });
 };
 
 const onblur = () => {
