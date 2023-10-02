@@ -152,7 +152,6 @@ const rules = reactive<FormRules<RuleForm>>({
     {
       required: true,
       trigger: "blur",
-      validator: checkNumber,
     },
   ],
 });

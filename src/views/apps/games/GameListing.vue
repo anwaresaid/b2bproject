@@ -14,20 +14,6 @@
           placeholder="Search Games"
         />
       </div>
-      <div class="d-flex align-items-center w-50">
-        <el-select
-          v-model="OrderByStock"
-          class="select-table-type"
-          placeholder="Order By Updated"
-        >
-          <el-option
-            v-for="item in gamesOrderBy"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-      </div>
       <div class="d-flex align-items-center position-relative my-1">
         <el-tooltip
           class="box-item"
@@ -95,6 +81,50 @@
           />
         </el-tooltip>
       </div>
+    </div>
+    <div class="d-flex px-10 w-100 justify-content-between align-items-center">
+      <el-form-item label="Order By Update Date">
+        <el-select
+          v-model="orderByGame"
+          class="select-table-type"
+          placeholder="Order By Updated"
+        >
+          <el-option
+            v-for="item in gamesOrderBy"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Order By Create Date">
+        <el-select
+          v-model="orderByCreateDate"
+          class="select-table-type"
+          placeholder="Select"
+        >
+          <el-option
+            v-for="item in gamesOrderBy"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="Order By Stock">
+        <el-select
+          v-model="orderByStock"
+          class="select-table-type"
+          placeholder="Order By Stock"
+        >
+          <el-option
+            v-for="item in gamesOrderBy"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
     </div>
     <div class="card-header border-0 pt-6">
       <!--begin::Card title-->
@@ -176,9 +206,11 @@
         :data="gamesData"
         :header="tableHeader"
         :totalPages="paginationData.last_page"
+        :totalItemsPerRequest="paginationData.total_items"
         :enable-items-per-page-dropdown="true"
         :checkbox-enabled="true"
         checkbox-label="id"
+        :itemsPerPage="itemsInTable"
         :pagination="true"
         :size="'small'"
         :currentPage="currentPage"
@@ -301,6 +333,7 @@ import { MultiListSelect, ModelSelect } from "vue-search-select";
 import { ElMessage, ElMessageBox } from "element-plus";
 import store from "../../../store";
 import { errorHandling } from "@/views/apps/utils/functions";
+import { gamesOrderBy, gameStatus } from "@/views/apps/utils/constants";
 
 import { useRouter } from "vue-router";
 
@@ -334,6 +367,10 @@ export default defineComponent({
       publisherCreateVisible: false,
       router: useRouter(),
       gameCreateVisible: false,
+      orderByGame: null,
+      gamesOrderBy: gamesOrderBy,
+      orderByStock: "asc",
+      orderByCreateDate: "",
       regionCreateVisible: false,
       languageCreateVisible: false,
       isUpdate: false,
@@ -357,7 +394,7 @@ export default defineComponent({
         { label: "Passive", value: 1 },
         { label: "Active", value: 2 },
       ],
-      gameStatus: "",
+      gameStatus: gameStatus,
       params: {},
       paginationData: {},
       filters: {},
@@ -417,8 +454,12 @@ export default defineComponent({
       }
     },
     handleSearch() {
-      this.params.search_game = this.search;
-      this.fetchData();
+      if (this.search.length !== 0) {
+        this.params.search_game = this.search;
+      } else {
+        delete this.params.search_game;
+        this.fetchData();
+      }
     },
     closeCreateLanguage(value) {
       this.languageCreateVisible = false;
@@ -459,7 +500,7 @@ export default defineComponent({
             );
           })
           .catch((e) => {
-            errorHandling(e.response.data.messages);
+            errorHandling(e?.response?.data?.messages);
           });
       } else {
         this.publisherData = [];
@@ -476,7 +517,7 @@ export default defineComponent({
             );
           })
           .catch((e) => {
-            errorHandling(e.response.data.messages);
+            errorHandling(e.response?.data?.messages);
           });
       } else {
         this.categoriesData = [];
@@ -501,7 +542,7 @@ export default defineComponent({
               );
             })
             .catch((e) => {
-              errorHandling(e.response.data.messages);
+              errorHandling(e.response?.data?.messages);
             });
           ElMessage({
             type: "success",
@@ -535,7 +576,7 @@ export default defineComponent({
             );
           })
           .catch((e) => {
-            errorHandling(e.response.data.messages);
+            errorHandling(e.response?.data?.messages);
           });
       } else {
         this.marketPlaceData = [];
@@ -547,16 +588,19 @@ export default defineComponent({
       this.gameCreateVisible = true;
     },
     fetchData() {
+      console.log("called");
       this.loading = true;
       ApiService.post("games/list", this.params)
         .then((res) => {
           this.loading = false;
           this.gamesData = res.data.data.games;
           this.paginationData = res.data.data.pagination;
+          console.log("pagination data", this.paginationData);
+
           store.dispatch("setPageItems", res.data.data.pagination.total_items);
         })
         .catch((e) => {
-          errorHandling(e.response.data.messages);
+          errorHandling(e.response?.data?.messages);
         });
     },
   },
@@ -618,6 +662,11 @@ export default defineComponent({
         sortEnabled: false,
       },
       {
+        columnName: "PRICE UPDATED AT",
+        columnLabel: "price_updated_at",
+        sortEnabled: false,
+      },
+      {
         columnName: "PROCESS",
         sortEnabled: false,
         custom: "component1",
@@ -629,7 +678,8 @@ export default defineComponent({
     };
   },
   mounted() {
-    this.fetchData();
+    console.log("mounted");
+    this.params.order_by_stock = this.orderByStock;
   },
 
   watch: {
@@ -640,13 +690,24 @@ export default defineComponent({
     currentPage() {
       this.params.current_page = this.currentPage;
     },
+    orderByGame() {
+      this.params.order_by_updated = this.orderByGame;
+    },
+    orderByStock() {
+      delete this.params.order_by_created;
+      this.params.order_by_stock = this.orderByStock;
+    },
+    orderByCreateDate() {
+      delete this.params.order_by_stock;
+
+      this.params.order_by_created = this.orderByCreateDate;
+    },
     params: {
       handler: function () {
         this.fetchData();
       },
       deep: true,
     },
-    searchFilter() {},
     marketPlaceStatus() {
       this.filters.market_place_status = this.marketPlaceStatus;
       if (this.marketPlaceStatus === "") {
@@ -681,6 +742,7 @@ export default defineComponent({
           ApiService.post("games/list", this.filters).then((res) => {
             this.gamesData = res.data.data.games;
             this.paginationData = res.data.data.pagination;
+            console.log("pagination data", this.paginationData);
             store.dispatch(
               "setPageItems",
               res.data.data.pagination.total_items

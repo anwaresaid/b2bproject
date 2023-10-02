@@ -54,9 +54,37 @@
                 />
               </el-select>
             </el-form-item>
+            <el-form-item label="Order By Sell Date">
+              <el-select
+                v-model="orderBySellDate"
+                class="select-table-type"
+                placeholder="Order By Sell Date"
+              >
+                <el-option
+                  v-for="item in gamesOrderBy"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="Order By Stock">
+              <el-select
+                v-model="orderByStock"
+                class="select-table-type"
+                placeholder="Order By Stock"
+              >
+                <el-option
+                  v-for="item in gamesOrderBy"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
             <el-form-item label="Order By Creat Date">
               <el-select
-                v-model="tableOrder"
+                v-model="orderByCreateDate"
                 class="select-table-type"
                 placeholder="Select"
               >
@@ -83,6 +111,7 @@
         :pagination="true"
         :loading="loading"
         sortable
+        :itemsPerPage="itemsInTable"
         @on-items-per-page-change="getItemsInTable"
         @page-change="pageChange"
       >
@@ -150,7 +179,7 @@
 import { ref, reactive, onMounted, watch, toRefs, onBeforeUnmount } from "vue";
 import ApiService from "@/core/services/ApiService";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
-import { gamesOrderBy } from "../utils/constants";
+import { gamesOrderBy, orderStatus, orderType } from "../utils/constants";
 import { useRouter } from "vue-router";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import { dateFormatter } from "../utils/functions";
@@ -168,10 +197,12 @@ const gameUrl = "games/list";
 const gameKey = "search_game";
 const gameType = "games";
 const params = ref({});
-const tableOrder = ref(null);
+const orderByCreateDate = ref(null);
 const itemsInTable = ref(50);
 const currentPage = ref(1);
 const fromDate = ref();
+const orderByStock = ref(null);
+const orderBySellDate = ref(null);
 const toDate = ref();
 const defaultTime = new Date(2000, 1, 1, 12, 0, 0);
 const errors = ref(null);
@@ -261,6 +292,7 @@ const updateStatus = (type) => {
     });
 };
 const getItemsInTable = (item) => {
+  itemsInTable.value = item;
   params.value.per_page = item;
   fetchOrders();
 };
@@ -270,6 +302,11 @@ const handleStatus = (status) => {
 const pageChange = (page: number) => {
   params.value.current_page = page;
   fetchOrders();
+};
+const emptyOrderbyFilters = (key) => {
+  if (key !== "create") orderByCreateDate.value = null;
+  if (key !== "sell") orderBySellDate.value = null;
+  if (key !== "stock") orderByStock.value = null;
 };
 
 const handleChangeDates = () => {
@@ -319,24 +356,43 @@ watch(tableType, (newValue) => {
   params.value = dropdownParams.value;
   fetchOrders();
 });
+watch(orderByStock, (newValue) => {
+  params.value = {};
+  if (orderByStock.value !== null) {
+    emptyOrderbyFilters("stock");
+    params.value.order_by_stock = orderByStock.value;
+    fetchOrders("filer");
+  }
+});
+watch(orderByCreateDate, (newValue) => {
+  params.value = {};
+  if (orderByCreateDate.value !== null) {
+    emptyOrderbyFilters("create");
+    params.value.order_by_created = orderByCreateDate.value;
+    fetchOrders("filer");
+  }
+});
+watch(orderBySellDate, (newValue) => {
+  params.value = {};
+  if (orderBySellDate.value !== null) {
+    emptyOrderbyFilters("sell");
+    params.value.order_by_sell_date = orderBySellDate.value;
+    fetchOrders("filer");
+  }
+});
 
 watch(searchOrders, (newValue) => {
   params.value = {};
-  params.value = { search: searchOrders.value };
-  fetchOrders("filer");
+  if (searchOrders.value !== 0) {
+    params.value = { search: searchOrders.value };
+    fetchOrders("filer");
+  } else {
+    fetchOrders("filer");
+  }
 });
 watch(statusUpdate, (newValue) => {
   updateStatus();
 });
-watch(tableOrder, (newValue) => {
-  // delete params.value["order_type"];
-  params.value.order_by_created = tableOrder.value;
-  if (tableOrder.value === "") {
-    delete params.value["order_by_created"];
-  }
-  fetchOrders("filter");
-});
-
 onMounted(() => {
   params.value.current_page = currentPage;
   params.value.per_page = itemsInTable;

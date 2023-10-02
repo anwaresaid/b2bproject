@@ -109,6 +109,7 @@
         :totalPages="paginationData.last_page"
         :enable-items-per-page-dropdown="true"
         :checkbox-enabled="true"
+        :itemsPerPage="itemsInTable"
         checkbox-label="id"
         @on-items-per-page-change="getItemsInTable"
         @page-change="pageChange"
@@ -179,8 +180,11 @@ export default defineComponent({
       this.currentPage = page;
     },
     handleSearch() {
-      this.params.search = this.search;
-      this.fetchData();
+      if (this.search.length !== 0) {
+        this.params.search = this.search;
+      } else {
+        this.fetchData();
+      }
     },
   },
   setup() {

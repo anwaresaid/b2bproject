@@ -4,41 +4,74 @@
       <div
         class="container-header pt-0 d-flex align-items-start mh-100 justify-content-between"
       >
-        <div class="d-flex align-items-center position-relative">
-          <span class="svg-icon svg-icon-1 position-absolute ms-6">
-            <inline-svg src="/media/icons/duotune/general/gen021.svg" />
-          </span>
-          <input
-            type="text"
-            v-model="searchGames"
-            class="form-control form-control-solid w-250px ps-15"
-            placeholder="search games"
-          />
-        </div>
-        <el-form-item label="Order By Stock">
-          <el-select
-            v-model="OrderByStock"
-            class="select-table-type"
-            placeholder="Order By Stock"
-          >
-            <el-option
-              v-for="item in gamesOrderBy"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+        <div class="d-flex flex-column w-100">
+          <div class="d-flex align-items-center position-relative">
+            <span class="svg-icon svg-icon-1 position-absolute ms-6">
+              <inline-svg src="/media/icons/duotune/general/gen021.svg" />
+            </span>
+            <input
+              type="text"
+              v-model="searchGames"
+              class="form-control form-control-solid w-250px ps-15"
+              placeholder="search games"
             />
-          </el-select>
-        </el-form-item>
-        <div>
-          <el-button @click="createKey" type="primary" icon="plus"
-            >add keys</el-button
+            <div class="d-flex flex-row px-5 justify-content-between w-100">
+              <el-checkbox
+                v-model="stockAverageValue"
+                label="Stock average value"
+              />
+              <el-button @click="createKey" type="primary" icon="plus"
+                >add keys</el-button
+              >
+            </div>
+          </div>
+
+          <div
+            class="filters pt-5 px-5 d-flex flex-row justify-content-between"
           >
-        </div>
-        <div>
-          <el-checkbox
-            v-model="stockAverageValue"
-            label="Stock average value"
-          />
+            <el-form-item label="Order By Create Date">
+              <el-select
+                v-model="orderByCreateDate"
+                class="select-table-type"
+                placeholder="Order By Create Date"
+              >
+                <el-option
+                  v-for="item in gamesOrderBy"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="Order By Sell Date">
+              <el-select
+                v-model="orderBySellDate"
+                class="select-table-type"
+                placeholder="Order By Sell Date"
+              >
+                <el-option
+                  v-for="item in gamesOrderBy"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="Order By Stock">
+              <el-select
+                v-model="orderByStock"
+                class="select-table-type"
+                placeholder="Order By Stock"
+              >
+                <el-option
+                  v-for="item in gamesOrderBy"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
+          </div>
         </div>
         <div class="all-stock p-5">
           <h3>{{ sumStock }}</h3>
@@ -56,6 +89,7 @@
         checkbox-label="id"
         :pagination="true"
         sortable
+        :itemsPerPage="itemsInTable"
         :loading="loading"
         @on-items-per-page-change="getItemsInTable"
         @page-change="pageChange"
@@ -131,8 +165,11 @@ const currentPage = ref(1);
 const paginationData = reactive({});
 const tableType = ref();
 const sumStock = ref();
+const orderByCreateDate = ref(null);
+const orderBySellDate = ref(null);
+
 const loading = ref(false);
-const OrderByStock = ref(null);
+const orderByStock = ref("asc");
 const keyCreateVisible = ref(false);
 const stockAverageValue = ref(false);
 
@@ -211,7 +248,13 @@ const closeCreateKey = (value) => {
   if (value) fetchKeyData();
 };
 
+const emptyOrderbyFilters = (key) => {
+  if (key !== "create") orderByCreateDate.value = null;
+  if (key !== "sell") orderBySellDate.value = null;
+  if (key !== "stock") orderByStock.value = null;
+};
 const getItemsInTable = (item) => {
+  itemsInTable.value = item;
   params.value.per_page = item;
   fetchStock();
 };
@@ -231,8 +274,12 @@ const navigateToGameDetailsPage = (id) => {
 
 watch(searchGames, (newValue) => {
   params.value = {};
-  params.value = { search_game: searchGames.value };
-  fetchStock("filer");
+  if (searchGames.value.length !== 0) {
+    params.value = { search_game: searchGames.value };
+    fetchStock("filer");
+  } else {
+    fetchStock();
+  }
 });
 watch(stockAverageValue, (newValue) => {
   params.value = {
@@ -241,16 +288,36 @@ watch(stockAverageValue, (newValue) => {
   };
   fetchStock("filer");
 });
-watch(OrderByStock, (newValue) => {
+watch(orderByStock, (newValue) => {
   params.value = {};
-  params.value.order_by_stock = OrderByStock.value;
-  fetchStock("filer");
+  if (orderByStock.value !== null) {
+    emptyOrderbyFilters("stock");
+    params.value.order_by_stock = orderByStock.value;
+    fetchStock("filer");
+  }
+});
+watch(orderByCreateDate, (newValue) => {
+  params.value = {};
+  if (orderByCreateDate.value !== null) {
+    emptyOrderbyFilters("create");
+    params.value.order_by_created = orderByCreateDate.value;
+    fetchStock("filer");
+  }
+});
+watch(orderBySellDate, (newValue) => {
+  params.value = {};
+  if (orderBySellDate.value !== null) {
+    emptyOrderbyFilters("sell");
+    params.value.order_by_sell_date = orderBySellDate.value;
+    fetchStock("filer");
+  }
 });
 
 onMounted(() => {
   params.value.current_page = currentPage;
   params.value.per_page = itemsInTable;
   params.value.order_type = tableType.value;
+  params.value.order_by_stock = orderByStock.value;
   fetchStock();
 });
 
@@ -258,7 +325,7 @@ onBeforeUnmount(() => {
   // Cleanup or perform actions before component unmounts
 });
 </script>
-<style>
+<style scoped>
 .container-header {
   flex: 0 0 100%;
   height: 100%;
@@ -272,5 +339,11 @@ onBeforeUnmount(() => {
   color: #592ef8;
   border-radius: 10px;
   border: 1px solid #bd2ef8;
+}
+.filters {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
 </style>

@@ -15,41 +15,55 @@
               @blur="onBlur"
             />
           </div>
-          <div class="d-flex w-50 justify-content-between align-items-start">
-            <el-form-item label="Order By Create Date">
-              <el-select
-                v-model="OrderByCreateDate"
-                class="select-table-type"
-                placeholder="Order By Create Date"
-              >
-                <el-option
-                  v-for="item in gamesOrderBy"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="Order By Sell Date">
-              <el-select
-                v-model="OrderBySellDate"
-                class="select-table-type"
-                placeholder="Order By Sell Date"
-              >
-                <el-option
-                  v-for="item in gamesOrderBy"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
-          </div>
           <div>
             <el-button @click="createKey" type="primary" icon="plus" round
               >add keys</el-button
             >
           </div>
+        </div>
+        <div class="d-flex w-100 justify-content-between align-items-start">
+          <el-form-item label="Order By Create Date">
+            <el-select
+              v-model="orderByCreateDate"
+              class="select-table-type"
+              placeholder="Order By Create Date"
+            >
+              <el-option
+                v-for="item in gamesOrderBy"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="Order By Sell Date">
+            <el-select
+              v-model="OrderBySellDate"
+              class="select-table-type"
+              placeholder="Order By Sell Date"
+            >
+              <el-option
+                v-for="item in gamesOrderBy"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="Order By Stock">
+            <el-select
+              v-model="orderByStock"
+              class="select-table-type"
+              placeholder="Order By Stock"
+            >
+              <el-option
+                v-for="item in gamesOrderBy"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
         </div>
         <div class="d-flex justify-content-between">
           <el-select
@@ -96,6 +110,7 @@
         :pagination="true"
         :current-page="params.value?.current_page"
         checkbox-label="id"
+        :itemsPerPage="itemsInTable"
         size="small"
         :loading="loading"
         @on-items-per-page-change="getItemsInTable"
@@ -193,7 +208,7 @@ import { errorHandling } from "@/views/apps/utils/functions";
 const keysData = ref([]);
 const gameUrl = "games/list";
 const gameKey = "search_game";
-const OrderByCreateDate = ref(null);
+const orderByCreateDate = ref(null);
 const OrderBySellDate = ref(null);
 const gameType = "games";
 const dropdownParams = ref({});
@@ -203,6 +218,7 @@ const supplierUrl = "suppliers/all";
 const supplierType = "suppliers";
 const params = ref({});
 const tableStatus = ref(null);
+const orderByStock = ref(null);
 const itemsInTable = ref(50);
 const currentPage = ref(1);
 const paginationData = reactive({});
@@ -316,6 +332,7 @@ const setSupplierId = (value) => {
   fetchKeys("filer");
 };
 const getItemsInTable = (item) => {
+  itemsInTable.value = item;
   params.value.per_page = item;
   fetchKeys();
 };
@@ -330,8 +347,13 @@ const copyText = (obj) => {
 
 const onBlur = () => {
   params.value.current_page = 1;
-  params.value.key_code = searchGames.value;
-  fetchKeys();
+  if (searchGames.value.length !== 0) {
+    params.value.key_code = searchGames.value;
+    fetchKeys();
+  } else {
+    delete params.value.key_code;
+    fetchKeys();
+  }
 };
 
 const createKey = () => {
@@ -356,11 +378,20 @@ watch(tableStatus, (newValue) => {
   params.value = dropdownParams.value;
   fetchKeys("filer");
 });
-watch(OrderByCreateDate, (newValue) => {
+watch(orderByCreateDate, (newValue) => {
   dropdownParams.value = {};
-  dropdownParams.value.order_by_created = OrderByCreateDate.value;
-  if (OrderByCreateDate.value === "") {
+  dropdownParams.value.order_by_created = orderByCreateDate.value;
+  if (orderByCreateDate.value === "") {
     delete dropdownParams.value["order_by_created"];
+  }
+  params.value = dropdownParams.value;
+  fetchKeys("filer");
+});
+watch(orderByStock, (newValue) => {
+  dropdownParams.value = {};
+  dropdownParams.value.order_by_stock = orderByStock.value;
+  if (orderByStock.value === "") {
+    delete dropdownParams.value["order_by_stock"];
   }
   params.value = dropdownParams.value;
   fetchKeys("filer");

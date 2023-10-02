@@ -37,6 +37,50 @@
             </div>
           </div>
           <div class="d-flex justify-content-between align-items-start">
+            <el-form-item label="Order By Sell Date">
+              <el-select
+                v-model="orderBySellDate"
+                class="select-table-type"
+                placeholder="Order By Sell Date"
+              >
+                <el-option
+                  v-for="item in gamesOrderBy"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="Order By Stock">
+              <el-select
+                v-model="orderByStock"
+                class="select-table-type"
+                placeholder="Order By Stock"
+              >
+                <el-option
+                  v-for="item in gamesOrderBy"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="Order By Create Date">
+              <el-select
+                v-model="orderByCreateDate"
+                class="select-table-type"
+                placeholder="Select"
+              >
+                <el-option
+                  v-for="item in gamesOrderBy"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
+          </div>
+          <div class="d-flex justify-content-between align-items-start">
             <el-form-item label="Select Order status">
               <el-select
                 v-model="tableStatus"
@@ -46,20 +90,6 @@
               >
                 <el-option
                   v-for="item in orderStatus"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="Order By Create Date">
-              <el-select
-                v-model="tableOrder"
-                class="select-table-type"
-                placeholder="Select"
-              >
-                <el-option
-                  v-for="item in gamesOrderBy"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
@@ -90,6 +120,7 @@
         checkbox-label="id"
         :loading="loading"
         sortable
+        :itemsPerPage="itemsInTable"
         @on-items-per-page-change="getItemsInTable"
         @page-change="pageChange"
       >
@@ -166,7 +197,7 @@
 import { ref, reactive, onMounted, watch, toRefs, onBeforeUnmount } from "vue";
 import ApiService from "@/core/services/ApiService";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
-import { gamesOrderBy } from "../utils/constants";
+import { gamesOrderBy, orderStatus } from "../utils/constants";
 import { useRouter } from "vue-router";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import { dateFormatter } from "../utils/functions";
@@ -178,7 +209,6 @@ const fromDate = ref();
 const toDate = ref();
 const router = useRouter();
 const searchOrders = ref("");
-const tableOrder = ref(null);
 const dropdownParams = ref({});
 const gameKey = "search_game";
 const gameUrl = "games/list";
@@ -190,6 +220,9 @@ const currentPage = ref(1);
 const paginationData = reactive({});
 const errors = ref(null);
 const loading = ref(false);
+const orderByCreateDate = ref(null);
+const orderBySellDate = ref(null);
+const orderByStock = ref(null);
 const defaultTime = new Date(2000, 1, 1, 12, 0, 0);
 
 const tableHeaders = ref([
@@ -275,6 +308,7 @@ const setGameId = (value) => {
   fetchOrders();
 };
 const getItemsInTable = (item) => {
+  itemsInTable.value = item;
   params.value.per_page = item;
   fetchOrders();
 };
@@ -299,6 +333,11 @@ const navigateOrderDetails = (item) => {
       id: order_id,
     },
   });
+};
+const emptyOrderbyFilters = (key) => {
+  if (key !== "create") orderByCreateDate.value = null;
+  if (key !== "sell") orderBySellDate.value = null;
+  if (key !== "stock") orderByStock.value = null;
 };
 
 const handleChangeDates = () => {
@@ -338,8 +377,8 @@ watch(tableStatus, (newValue) => {
   }
   fetchOrders("filter");
 });
-watch(tableOrder, (newValue) => {
-  params.value.order_by_created = tableOrder.value;
+watch(orderByCreateDate, (newValue) => {
+  params.value.order_by_created = orderByCreateDate.value;
   if (tableStatus.value === "") {
     delete params.value["order_by_created"];
   }
@@ -352,10 +391,39 @@ watch(tableOrder, (newValue) => {
 //   fetchOrders("filer");
 // });
 
-watch(searchOrders, (newValue) => {
+watch(orderByStock, (newValue) => {
   params.value = {};
-  params.value = { search: searchOrders.value };
-  fetchOrders("filer");
+  if (orderByStock.value !== null) {
+    emptyOrderbyFilters("stock");
+    params.value.order_by_stock = orderByStock.value;
+    fetchOrders("filer");
+  }
+});
+watch(orderByCreateDate, (newValue) => {
+  params.value = {};
+  if (orderByCreateDate.value !== null) {
+    emptyOrderbyFilters("create");
+    params.value.order_by_created = orderByCreateDate.value;
+    fetchOrders("filer");
+  }
+});
+watch(orderBySellDate, (newValue) => {
+  params.value = {};
+  if (orderBySellDate.value !== null) {
+    emptyOrderbyFilters("sell");
+    params.value.order_by_sell_date = orderBySellDate.value;
+    fetchOrders("filer");
+  }
+});
+watch(searchOrders, (newValue) => {
+  if (searchOrders.value.length !== 0) {
+    params.value = {};
+    params.value = { search: searchOrders.value };
+    fetchOrders("filer");
+  } else {
+    delete params.value.search;
+    fetchOrders();
+  }
 });
 
 watch(fromDate, (newValue) => {});

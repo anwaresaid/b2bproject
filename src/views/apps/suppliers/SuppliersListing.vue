@@ -30,6 +30,7 @@
         :loading="loading"
         :current-page="currentPage"
         checkbox-label="id"
+        :itemsPerPage="itemsInTable"
         @on-items-per-page-change="getItemsInTable"
         @page-change="pageChange"
       >
@@ -206,13 +207,19 @@ export default defineComponent({
       if (update) this.fetchData();
     },
     handleSearch() {
-      this.params.search = this.search;
-      this.fetchData();
+      if (this.search.length !== 0) {
+        this.params.search = this.search;
+        this.fetchData();
+      } else {
+        delete this.params.search;
+        this.fetchData();
+      }
     },
     pageChange(page: number) {
       this.currentPage = page;
     },
     getItemsInTable(item) {
+      this.itemsInTable = item;
       this.itemsInTable = item;
     },
   },

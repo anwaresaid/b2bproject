@@ -41,6 +41,7 @@
         :enable-items-per-page-dropdown="true"
         :checkbox-enabled="true"
         checkbox-label="id"
+        :itemsPerPage="itemsInTable"
         :pagination="true"
         :loading="loading"
         sortable
@@ -108,6 +109,7 @@ const fetchUsers = (type) => {
 };
 
 const getItemsInTable = (item) => {
+  itemsInTable.value = item;
   params.value.per_page = item;
 };
 const pageChange = (page: number) => {
@@ -126,8 +128,12 @@ const createUser = () => {
 };
 watch(searchUsers, (newValue) => {
   params.value = {};
-  params.value = { search: searchUsers.value };
-  fetchUsers("filer");
+  if (searchUsers.value.length !== 0) {
+    params.value = { search: searchUsers.value };
+    fetchUsers("filer");
+  } else {
+    fetchUsers();
+  }
 });
 
 onMounted(() => {

@@ -68,6 +68,7 @@
         checkbox-label="id"
         :pagination="true"
         sortable
+        :itemsPerPage="itemsInTable"
         @on-items-per-page-change="getItemsInTable"
         @page-change="pageChange"
       >
@@ -193,6 +194,7 @@ const setCustomerId = (value) => {
   dropdownParams.value.customer_id = value;
 };
 const getItemsInTable = (item) => {
+  itemsInTable.value = item;
   params.value.per_page = item;
   fetchOrders();
 };

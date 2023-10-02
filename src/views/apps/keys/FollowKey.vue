@@ -184,7 +184,9 @@ const closeCreateKey = (value) => {
 //   fetchKeys("filer");
 // });
 watch(searchKey, (newValue) => {
-  fetchKeyData();
+  if (searchKey.value.length === 0) {
+    data.value = null;
+  } else fetchKeyData();
 });
 const navigateOrderDetails = (code) => {
   const order_id = code;

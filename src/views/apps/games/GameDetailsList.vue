@@ -30,6 +30,7 @@
       :loading="loading"
       sortable
       :currentPage="currentPage"
+      :itemsPerPage="itemsInTable"
       @on-items-per-page-change="getItemsInTable"
       @page-change="pageChange"
     >
@@ -145,6 +146,7 @@ const fetchGames = (type) => {
     });
 };
 const getItemsInTable = (item) => {
+  itemsInTable.value = item;
   params.value.per_page = item;
   fetchGames();
 };
@@ -196,11 +198,14 @@ watch(dropdownParams, (newValue) => {
 
 watch(searchKeys, (newValue) => {
   params.value = {};
-  params.value = {
-    keyCode: searchKeys.value,
-    uuid: router.currentRoute.value.params.id,
-  };
-  fetchGames("filer");
+  if (searchKeys.value.length !== 0) {
+    params.value = {
+      keyCode: searchKeys.value,
+      uuid: router.currentRoute.value.params.id,
+    };
+  } else {
+    fetchGames("filer");
+  }
 });
 
 watch(fromDate, (newValue) => {});
