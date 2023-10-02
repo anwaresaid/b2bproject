@@ -14,6 +14,20 @@
           placeholder="Search Games"
         />
       </div>
+      <div class="d-flex align-items-center w-50">
+        <el-select
+          v-model="OrderByStock"
+          class="select-table-type"
+          placeholder="Order By Updated"
+        >
+          <el-option
+            v-for="item in gamesOrderBy"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
+      </div>
       <div class="d-flex align-items-center position-relative my-1">
         <el-tooltip
           class="box-item"

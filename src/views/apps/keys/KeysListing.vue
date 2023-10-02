@@ -15,6 +15,36 @@
               @blur="onBlur"
             />
           </div>
+          <div class="d-flex w-50 justify-content-between align-items-start">
+            <el-form-item label="Order By Create Date">
+              <el-select
+                v-model="OrderByCreateDate"
+                class="select-table-type"
+                placeholder="Order By Create Date"
+              >
+                <el-option
+                  v-for="item in gamesOrderBy"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
+            <el-form-item label="Order By Sell Date">
+              <el-select
+                v-model="OrderBySellDate"
+                class="select-table-type"
+                placeholder="Order By Sell Date"
+              >
+                <el-option
+                  v-for="item in gamesOrderBy"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
+          </div>
           <div>
             <el-button @click="createKey" type="primary" icon="plus" round
               >add keys</el-button
@@ -36,7 +66,6 @@
               :value="item.value"
             />
           </el-select>
-
           <DropdownRemote
             :url="gameUrl"
             @selected-game="setGameId"
@@ -153,7 +182,7 @@
 import { ref, reactive, onMounted, watch, toRefs, onBeforeUnmount } from "vue";
 import ApiService from "@/core/services/ApiService";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
-import { keysTypeStatus } from "../utils/constants";
+import { keysTypeStatus, gamesOrderBy } from "../utils/constants";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import CreateKey from "./CreateKey.vue";
 import PusherService from "@/core/services/PusherService";
@@ -164,6 +193,8 @@ import { errorHandling } from "@/views/apps/utils/functions";
 const keysData = ref([]);
 const gameUrl = "games/list";
 const gameKey = "search_game";
+const OrderByCreateDate = ref(null);
+const OrderBySellDate = ref(null);
 const gameType = "games";
 const dropdownParams = ref({});
 const router = useRouter();
@@ -321,6 +352,24 @@ watch(tableStatus, (newValue) => {
   dropdownParams.value.status = tableStatus.value;
   if (tableStatus.value === "") {
     delete dropdownParams.value["status"];
+  }
+  params.value = dropdownParams.value;
+  fetchKeys("filer");
+});
+watch(OrderByCreateDate, (newValue) => {
+  dropdownParams.value = {};
+  dropdownParams.value.order_by_created = OrderByCreateDate.value;
+  if (OrderByCreateDate.value === "") {
+    delete dropdownParams.value["order_by_created"];
+  }
+  params.value = dropdownParams.value;
+  fetchKeys("filer");
+});
+watch(OrderBySellDate, (newValue) => {
+  dropdownParams.value = {};
+  dropdownParams.value.order_by_sell_date = OrderBySellDate.value;
+  if (OrderBySellDate.value === "") {
+    delete dropdownParams.value["OrderBySellDate"];
   }
   params.value = dropdownParams.value;
   fetchKeys("filer");

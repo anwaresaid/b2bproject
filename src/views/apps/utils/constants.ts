@@ -108,6 +108,17 @@ export const orderBy = [
   },
 ];
 
+export const gamesOrderBy = [
+  {
+    label: "ASC",
+    value: "asc",
+  },
+  {
+    label: "DESC",
+    value: "desc",
+  },
+];
+
 export const currency = [
   {
     value: 1,

@@ -9,7 +9,9 @@
         <div
           class="title-container d-flex align-items-center justify-content-center"
         >
-          <h4>{{}} Api Callbacks</h4>
+          <h4 :class="`${props.theme === 'dark' ? '' : 'text-white'}`">
+            {{}} Api Callbacks
+          </h4>
         </div>
         <el-button type="danger" plain class="m-10 w-100" @click="submit"
           >Submit</el-button

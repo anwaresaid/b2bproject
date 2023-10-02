@@ -54,29 +54,14 @@
                 />
               </el-select>
             </el-form-item>
-            <el-form-item label="Order By">
+            <el-form-item label="Order By Creat Date">
               <el-select
                 v-model="tableOrder"
                 class="select-table-type"
                 placeholder="Select"
               >
                 <el-option
-                  v-for="item in orderBy"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="Select Order status">
-              <el-select
-                v-model="tableStatus"
-                class="select-table-type"
-                placeholder="Select"
-                clearable
-              >
-                <el-option
-                  v-for="item in orderStatus"
+                  v-for="item in gamesOrderBy"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
@@ -165,7 +150,7 @@
 import { ref, reactive, onMounted, watch, toRefs, onBeforeUnmount } from "vue";
 import ApiService from "@/core/services/ApiService";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
-import { orderBy } from "../utils/constants";
+import { gamesOrderBy } from "../utils/constants";
 import { useRouter } from "vue-router";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import { dateFormatter } from "../utils/functions";
@@ -184,7 +169,6 @@ const gameKey = "search_game";
 const gameType = "games";
 const params = ref({});
 const tableOrder = ref(null);
-const tableStatus = ref(null);
 const itemsInTable = ref(50);
 const currentPage = ref(1);
 const fromDate = ref();
@@ -335,15 +319,6 @@ watch(tableType, (newValue) => {
   params.value = dropdownParams.value;
   fetchOrders();
 });
-watch(tableStatus, (newValue) => {
-  params.value = {};
-  dropdownParams.value.order_status = tableStatus.value;
-  if (tableStatus.value === "") {
-    delete dropdownParams.value["order_status"];
-  }
-  params.value = dropdownParams.value;
-  fetchOrders("filter");
-});
 
 watch(searchOrders, (newValue) => {
   params.value = {};
@@ -354,8 +329,9 @@ watch(statusUpdate, (newValue) => {
   updateStatus();
 });
 watch(tableOrder, (newValue) => {
+  // delete params.value["order_type"];
   params.value.order_by_created = tableOrder.value;
-  if (tableStatus.value === "") {
+  if (tableOrder.value === "") {
     delete params.value["order_by_created"];
   }
   fetchOrders("filter");

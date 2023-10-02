@@ -15,6 +15,20 @@
             placeholder="search games"
           />
         </div>
+        <el-form-item label="Order By Stock">
+          <el-select
+            v-model="OrderByStock"
+            class="select-table-type"
+            placeholder="Order By Stock"
+          >
+            <el-option
+              v-for="item in gamesOrderBy"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
         <div>
           <el-button @click="createKey" type="primary" icon="plus"
             >add keys</el-button
@@ -99,7 +113,7 @@
 import { ref, reactive, onMounted, watch, toRefs, onBeforeUnmount } from "vue";
 import ApiService from "@/core/services/ApiService";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
-import { orderType, orderStatus } from "../utils/constants";
+import { gamesOrderBy } from "../utils/constants";
 import { useRouter } from "vue-router";
 import CreateKey from "../keys/CreateKey.vue";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
@@ -118,6 +132,7 @@ const paginationData = reactive({});
 const tableType = ref();
 const sumStock = ref();
 const loading = ref(false);
+const OrderByStock = ref(null);
 const keyCreateVisible = ref(false);
 const stockAverageValue = ref(false);
 
@@ -224,6 +239,11 @@ watch(stockAverageValue, (newValue) => {
     ...params.value,
     order_stock_value: stockAverageValue.value,
   };
+  fetchStock("filer");
+});
+watch(OrderByStock, (newValue) => {
+  params.value = {};
+  params.value.order_by_stock = OrderByStock.value;
   fetchStock("filer");
 });
 

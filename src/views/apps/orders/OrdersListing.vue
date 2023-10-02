@@ -60,14 +60,14 @@
                 />
               </el-select>
             </el-form-item>
-            <el-form-item label="Order By">
+            <el-form-item label="Order By Create Date">
               <el-select
                 v-model="tableOrder"
                 class="select-table-type"
                 placeholder="Select"
               >
                 <el-option
-                  v-for="item in orderBy"
+                  v-for="item in gamesOrderBy"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
@@ -217,7 +217,7 @@
 import { ref, reactive, onMounted, watch, toRefs, onBeforeUnmount } from "vue";
 import ApiService from "@/core/services/ApiService";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
-import { orderBy } from "../utils/constants";
+import { gamesOrderBy } from "../utils/constants";
 import { useRouter } from "vue-router";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import { dateFormatter } from "../utils/functions";
