@@ -116,7 +116,6 @@ export default defineComponent({
       // dummy delay
       // Send login request
       await store.resetPassword(values);
-      console.log("errors", store.errors);
       const error = Object.values(store.errors);
       if (!error || error[0] === null) {
         Swal.fire({

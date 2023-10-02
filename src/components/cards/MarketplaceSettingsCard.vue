@@ -205,7 +205,6 @@ const submit = () => {
   ApiService.post("marketplace/updateGeneral", data)
     .then((res) => {})
     .catch((e) => {
-      console.log("e", e.response.data);
       errorHandling(e.response.data.messages);
     });
 };

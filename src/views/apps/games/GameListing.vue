@@ -588,14 +588,12 @@ export default defineComponent({
       this.gameCreateVisible = true;
     },
     fetchData() {
-      console.log("called");
       this.loading = true;
       ApiService.post("games/list", this.params)
         .then((res) => {
           this.loading = false;
           this.gamesData = res.data.data.games;
           this.paginationData = res.data.data.pagination;
-          console.log("pagination data", this.paginationData);
 
           store.dispatch("setPageItems", res.data.data.pagination.total_items);
         })
@@ -678,7 +676,6 @@ export default defineComponent({
     };
   },
   mounted() {
-    console.log("mounted");
     this.params.order_by_stock = this.orderByStock;
   },
 
@@ -742,7 +739,6 @@ export default defineComponent({
           ApiService.post("games/list", this.filters).then((res) => {
             this.gamesData = res.data.data.games;
             this.paginationData = res.data.data.pagination;
-            console.log("pagination data", this.paginationData);
             store.dispatch(
               "setPageItems",
               res.data.data.pagination.total_items
