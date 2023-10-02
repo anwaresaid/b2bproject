@@ -56,7 +56,6 @@ export const removeEmptyValues = (obj) => {
 };
 
 export const errorHandling = (error) => {
-  console.log("errorhandling", error);
   let temp;
   if (typeof error === "object") {
     temp = error[Object.keys(error)[0]];

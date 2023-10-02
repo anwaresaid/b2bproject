@@ -56,6 +56,7 @@
           :pagination="true"
           :checkbox-enabled="true"
           checkbox-label="id"
+          :itemsPerPage="itemsInTable"
           sortable
           @on-items-per-page-change="getItemsInTable"
           @page-change="pageChange"
@@ -172,6 +173,7 @@ const setMarketplaceId = (value) => {
   dropdownParams.value.marketplace = value;
 };
 const getItemsInTable = (item) => {
+  itemsInTable.value = item;
   params.value.per_page = item;
   fetchNotifications();
 };

@@ -127,6 +127,15 @@
                 <!--begin::Input group-->
                 <div class="d-flex flex-column mb-7 fv-row">
                   <!--begin::Label-->
+                  <label class="fs-6 fw-semobold mb-2">Company Name</label>
+                  <!--end::Label-->
+
+                  <!--begin::Input-->
+                  <el-input v-model="formData.company_name" />
+                  <!--end::Input-->
+                </div>
+                <div class="d-flex flex-column mb-7 fv-row">
+                  <!--begin::Label-->
                   <label class="fs-6 fw-semobold mb-2"
                     >Company Registration Number</label
                   >
@@ -263,6 +272,7 @@ export default defineComponent({
       email: "",
       address: "",
       vat_number: "",
+      company_name: "",
       company_registration_number: "",
       related_person: "",
       web_site: "",
@@ -296,6 +306,13 @@ export default defineComponent({
         {
           required: true,
           message: "Vat Number is required",
+          trigger: "change",
+        },
+      ],
+      company_name: [
+        {
+          required: true,
+          message: "Company Name is required",
           trigger: "change",
         },
       ],

@@ -1,6 +1,22 @@
 <template>
   <div class="card">
     <div class="card-header border-0 pt-6 mb-5">
+      <div class="d-flex flex-row flex-end w-100">
+        <el-form-item label="Order By Stock">
+          <el-select
+            v-model="OrderByStock"
+            class="select-table-type"
+            placeholder="Order By Stock"
+          >
+            <el-option
+              v-for="item in gamesOrderBy"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+      </div>
       <div
         class="d-flex flex-row justify-content-between align-items-center w-100 position-relative"
       >
@@ -69,6 +85,7 @@
         :multiSelect="true"
         sortable
         :loading="loading"
+        :itemsPerPage="itemsInTable"
         @on-items-per-page-change="getItemsInTable"
         @page-change="pageChange"
       >
@@ -178,7 +195,7 @@
 import { ref, reactive, onMounted, watch, toRefs, onBeforeUnmount } from "vue";
 import ApiService from "@/core/services/ApiService";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
-import { matchStatus } from "../utils/constants";
+import { matchStatus, gamesOrderBy } from "../utils/constants";
 import { useRouter } from "vue-router";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import store from "../../../store";
@@ -199,6 +216,7 @@ const marketKey = "search";
 const marketPlaceStatus = ref();
 const params = ref({});
 const tableStatus = ref(null);
+const OrderByStock = ref(null);
 const itemsInTable = ref(50);
 const currentPage = ref(1);
 const paginationData = reactive({});
@@ -294,6 +312,7 @@ const fetchMatches = (type) => {
 };
 
 const getItemsInTable = (item) => {
+  itemsInTable.value = item;
   params.value.per_page = item;
   fetchMatches();
 };
@@ -407,7 +426,13 @@ watch(marketPlaceStatus, (newValue) => {
   }
   fetchMatches();
 });
-
+watch(OrderByStock, (newValue) => {
+  params.value.order_by_stock = OrderByStock.value;
+  if (params.value.order_by_stock === "") {
+    delete params.value["order_by_stock"];
+  }
+  fetchMatches();
+});
 onMounted(() => {
   params.value.current_page = currentPage;
   params.value.per_page = itemsInTable;

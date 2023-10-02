@@ -11,7 +11,6 @@
               <input
                 type="text"
                 v-model="search"
-                @input="searchItems()"
                 class="form-control form-control-solid w-75 ps-15"
                 placeholder="Search Key or Supplier or Game or Status"
               />
@@ -43,6 +42,7 @@
               :enable-items-per-page-dropdown="true"
               :checkbox-enabled="true"
               checkbox-label="id"
+              :itemsPerPage="itemsInTable"
               @on-items-per-page-change="getItemsInTable"
               @page-change="pageChange"
               class="w-100"
@@ -134,7 +134,7 @@ import store from "../../../store";
 import { errorHandling } from "@/views/apps/utils/functions";
 
 const params = ref({});
-const itemsInTable = ref(10);
+const itemsInTable = ref(50);
 const currentPage = ref(1);
 const paginationData = ref({});
 const allData = ref({});
@@ -208,17 +208,23 @@ const downloadZip = () => {
     });
 };
 watch(search, (newValue) => {
-  params.value = {
-    search: search,
-    order_code: router.currentRoute.value.params.id,
-  };
-  fetchData();
+  if (search.value.length !== 0) {
+    params.value = {
+      search: search,
+      order_code: router.currentRoute.value.params.id,
+    };
+    fetchData();
+  } else {
+    delete params.value.search;
+    fetchData();
+  }
   if (!newValue) {
     // emit("create-game", false);
   }
 });
 
 const getItemsInTable = (item) => {
+  itemsInTable.value = item;
   params.value.per_page = item;
   fetchData();
 };

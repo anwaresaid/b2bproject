@@ -141,55 +141,11 @@
       </SummaryTable>
     </div>
   </div>
-  <!--end::Row-->
-  <!-- <div class="card">
-    <div class="card-header border-0 pt-6"></div>
-    <div class="card-body pt-0">
-
-      <Datatable
-        :data="summaryData"
-        :header="tableHeaders"
-        :totalPages="paginationData.value?.last_page"
-        :enable-items-per-page-dropdown="true"
-        :checkbox-enabled="true"
-        checkbox-label="id"
-        :loading="loading"
-        sortable
-        @on-items-per-page-change="getItemsInTable"
-        @page-change="pageChange"
-      >
-        <template v-slot:component2="slotProps">
-          <slot :action="slotProps.action">
-            <span :class="`badge py-3 px-4 fs-7 badge-light-danger`">{{
-              slotProps.action.old_stock
-            }}</span>
-          </slot>
-        </template>
-        <template v-slot:component3="slotProps">
-          <slot :action="slotProps.action">
-            <span
-              :class="`game-name-link badge py-3 px-4 fs-7 badge-light-warning`"
-              @click="navigateToGameDetailsPage(slotProps.action.game.uuid)"
-              >{{ slotProps.action.game?.name }}</span
-            >
-          </slot>
-        </template>
-        <template v-slot:component1="slotProps">
-          <slot :action="slotProps.action">
-            <span :class="`badge py-3 px-4 fs-7 badge-light-success`">{{
-              slotProps.action.new_stock
-            }}</span>
-          </slot>
-        </template>
-      </Datatable>
-    </div>
-  </div>-->
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive, onMounted, watch, toRefs, onBeforeUnmount } from "vue";
 import ApiService from "@/core/services/ApiService";
-import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import SummaryTable from "@/components/kt-datatable/SummaryTable.vue";
 import { orderType, orderStatus } from "./apps/utils/constants";
 import { useRouter } from "vue-router";

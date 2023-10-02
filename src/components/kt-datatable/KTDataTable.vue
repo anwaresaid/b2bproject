@@ -86,6 +86,7 @@ export default defineComponent({
     sortLabel: { type: String, required: false, default: null },
     summaryMethod: { type: Function },
     showSummary: { type: Boolean, required: false, default: false },
+    totalItemsPerRequest: { type: Number, required: false, default: null },
     sortOrder: {
       type: String as () => "asc" | "desc",
       required: false,
@@ -134,15 +135,11 @@ export default defineComponent({
     });
 
     const totalItems = computed(() => {
+      if (props.totalItemsPerRequest) {
+        // return props.totalItemsPerRequest;
+      }
       if (props.totalPages) {
         return props.totalPages * props.itemsPerPage;
-      }
-      if (props.data) {
-        if (props.data.length <= itemsInTable.value) {
-          return props.total;
-        } else {
-          return props.data.length;
-        }
       }
       return 0;
     });

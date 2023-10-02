@@ -33,6 +33,7 @@
         show-summary
         :summary-method="getSummaries"
         :loading="loading"
+        :itemsPerPage="params.per_page"
         sortable
         @on-items-per-page-change="getItemsInTable"
         @page-change="pageChange"
