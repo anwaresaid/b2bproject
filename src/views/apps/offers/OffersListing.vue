@@ -120,22 +120,22 @@ const tableHeaders = ref([
   {
     columnName: "SUPPLIER",
     columnLabel: "order_code",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "GAME",
     columnLabel: "total_amount",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "COST",
     columnLabel: "sold_count",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "AMOUNT",
     columnLabel: "reserved_count",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "INFO",

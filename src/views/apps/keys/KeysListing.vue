@@ -21,7 +21,7 @@
             >
           </div>
         </div>
-        <div class="d-flex w-100 justify-content-between align-items-start">
+        <div class="d-flex justify-content-between">
           <el-form-item label="Order By Create Date">
             <el-select
               v-model="orderByCreateDate"
@@ -36,36 +36,6 @@
               />
             </el-select>
           </el-form-item>
-          <el-form-item label="Order By Sell Date">
-            <el-select
-              v-model="OrderBySellDate"
-              class="select-table-type"
-              placeholder="Order By Sell Date"
-            >
-              <el-option
-                v-for="item in gamesOrderBy"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="Order By Stock">
-            <el-select
-              v-model="orderByStock"
-              class="select-table-type"
-              placeholder="Order By Stock"
-            >
-              <el-option
-                v-for="item in gamesOrderBy"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item>
-        </div>
-        <div class="d-flex justify-content-between">
           <el-select
             v-model="tableStatus"
             class="select-type"
@@ -208,8 +178,7 @@ import { errorHandling } from "@/views/apps/utils/functions";
 const keysData = ref([]);
 const gameUrl = "games/list";
 const gameKey = "search_game";
-const orderByCreateDate = ref(null);
-const OrderBySellDate = ref(null);
+const orderByCreateDate = ref("desc");
 const gameType = "games";
 const dropdownParams = ref({});
 const router = useRouter();
@@ -218,7 +187,6 @@ const supplierUrl = "suppliers/all";
 const supplierType = "suppliers";
 const params = ref({});
 const tableStatus = ref(null);
-const orderByStock = ref(null);
 const itemsInTable = ref(50);
 const currentPage = ref(1);
 const paginationData = reactive({});
@@ -241,22 +209,22 @@ const tableHeaders = ref([
   {
     columnName: "SUPPLIER",
     columnLabel: "supplier.name",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "GAME NAME",
     custom: "component2",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "KEY",
     columnLabel: "keycode",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "STATUS",
     custom: "component3",
-    sortEnabled: true,
+    sortEnabled: false,
   },
 
   {
@@ -387,24 +355,7 @@ watch(orderByCreateDate, (newValue) => {
   params.value = dropdownParams.value;
   fetchKeys("filer");
 });
-watch(orderByStock, (newValue) => {
-  dropdownParams.value = {};
-  dropdownParams.value.order_by_stock = orderByStock.value;
-  if (orderByStock.value === "") {
-    delete dropdownParams.value["order_by_stock"];
-  }
-  params.value = dropdownParams.value;
-  fetchKeys("filer");
-});
-watch(OrderBySellDate, (newValue) => {
-  dropdownParams.value = {};
-  dropdownParams.value.order_by_sell_date = OrderBySellDate.value;
-  if (OrderBySellDate.value === "") {
-    delete dropdownParams.value["OrderBySellDate"];
-  }
-  params.value = dropdownParams.value;
-  fetchKeys("filer");
-});
+
 // watch(dropdownParams.value.game_id, (newValue) => {
 //   params.value = {};
 //   console.log("called", dropdownParams.value);
@@ -427,6 +378,7 @@ watch(message, (newValue) => {
 onMounted(() => {
   params.value.current_page = currentPage;
   params.value.per_page = itemsInTable;
+  params.value.order_by_created = orderByCreateDate.value;
   fetchKeys();
 });
 

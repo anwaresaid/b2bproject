@@ -15,6 +15,20 @@
                 placeholder="search by order code"
               />
             </div>
+            <el-form-item label="Order By Create Date">
+              <el-select
+                v-model="orderByCreateDate"
+                class="select-table-type"
+                placeholder="Select"
+              >
+                <el-option
+                  v-for="item in gamesOrderBy"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </el-form-item>
             <div class="d-flex flex-column">
               <div class="d-flex flex-row align-items-center">
                 <el-date-picker
@@ -94,50 +108,7 @@
               />
             </el-form-item>
           </div>
-          <div class="d-flex justify-content-between align-items-start">
-            <el-form-item label="Order By Sell Date">
-              <el-select
-                v-model="orderBySellDate"
-                class="select-table-type"
-                placeholder="Order By Sell Date"
-              >
-                <el-option
-                  v-for="item in gamesOrderBy"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="Order By Stock">
-              <el-select
-                v-model="orderByStock"
-                class="select-table-type"
-                placeholder="Order By Stock"
-              >
-                <el-option
-                  v-for="item in gamesOrderBy"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="Order By Create Date">
-              <el-select
-                v-model="orderByCreateDate"
-                class="select-table-type"
-                placeholder="Select"
-              >
-                <el-option
-                  v-for="item in gamesOrderBy"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
-          </div>
+          <div class="d-flex justify-content-between align-items-start"></div>
         </div>
       </div>
     </div>
@@ -268,15 +239,13 @@ const customerUrl = "customers/all";
 const customerType = "customers";
 const gameUrl = "games/list";
 const gameKey = "search_game";
-const orderByCreateDate = ref(null);
+const orderByCreateDate = ref("desc");
 const gameType = "games";
 const params = ref({});
 const tableStatus = ref(null);
 const itemsInTable = ref(50);
 const currentPage = ref(1);
 const paginationData = reactive({});
-const orderBySellDate = ref(null);
-const orderByStock = ref(null);
 const tableType = ref({ value: 2, label: "customer" });
 const loading = ref(false);
 const statusUpdate = ref({});
@@ -297,7 +266,7 @@ const tableHeaders = ref([
   {
     columnName: "ORDER NUMBER",
     columnLabel: "order_code",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "CUSTOMER",
@@ -307,17 +276,17 @@ const tableHeaders = ref([
   {
     columnName: "TOTAL AMOUNT",
     columnLabel: "total_amount",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "RESERVED PIECE",
     columnLabel: "reserved_count",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "SOLD PIECE",
     columnLabel: "sold_count",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "CREATED BY",
@@ -435,8 +404,6 @@ const pageChange = (page: number) => {
 
 const emptyOrderbyFilters = (key) => {
   if (key !== "create") orderByCreateDate.value = null;
-  if (key !== "sell") orderBySellDate.value = null;
-  if (key !== "stock") orderByStock.value = null;
 };
 
 const navigateOrderDetails = (item) => {
@@ -469,14 +436,7 @@ watch(tableStatus, (newValue) => {
   params.value = dropdownParams.value;
   fetchOrders("filter");
 });
-watch(orderByStock, (newValue) => {
-  params.value = {};
-  if (orderByStock.value !== null) {
-    emptyOrderbyFilters("stock");
-    params.value.order_by_stock = orderByStock.value;
-    fetchOrders("filer");
-  }
-});
+
 watch(orderByCreateDate, (newValue) => {
   params.value = {};
   if (orderByCreateDate.value !== null) {
@@ -485,15 +445,6 @@ watch(orderByCreateDate, (newValue) => {
     fetchOrders("filer");
   }
 });
-watch(orderBySellDate, (newValue) => {
-  params.value = {};
-  if (orderBySellDate.value !== null) {
-    emptyOrderbyFilters("sell");
-    params.value.order_by_sell_date = orderBySellDate.value;
-    fetchOrders("filer");
-  }
-});
-
 watch(searchOrders, (newValue) => {
   params.value = {};
   if (searchOrders.value.length !== 0) {
@@ -512,6 +463,8 @@ onMounted(() => {
   params.value.per_page = itemsInTable;
   params.value.order_type = tableType.value;
   dropdownParams.value.order_type = tableType.value.value;
+  params.value.order_by_created = orderByCreateDate.value;
+
   fetchOrders();
 });
 

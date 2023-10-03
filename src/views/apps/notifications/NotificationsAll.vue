@@ -124,32 +124,32 @@ const tableHeaders = ref([
   {
     columnName: "TYPE",
     columnLabel: "type",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "MESSAGE",
     columnLabel: "message",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "IS READ",
     custom: "column2",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "IS SUCCESS",
     custom: "column1",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "READ AT",
     columnLabel: "readAt",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "TYPE",
     columnLabel: "type",
-    sortEnabled: true,
+    sortEnabled: false,
   },
 ]);
 

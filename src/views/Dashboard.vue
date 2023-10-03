@@ -191,17 +191,17 @@ const tableHeaders = ref([
   {
     columnName: "NEW STOCK",
     custom: "component2",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "OLD STOCK",
     custom: "component1",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "QUANTITY",
     custom: "component6",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "DATE",
@@ -223,7 +223,7 @@ const customersTableHeaders = ref([
   {
     columnName: "ORDER CODE",
     columnLabel: "order_code",
-    sortEnabled: true,
+    sortEnabled: false,
     columnWidth: 170,
   },
 ]);

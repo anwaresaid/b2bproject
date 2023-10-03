@@ -91,32 +91,32 @@ const tableHeaders = ref([
   {
     columnName: "AYLAR",
     columnLabel: "month_name",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "CIRO",
     custom: "component2",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "MALIYET",
     custom: "component3",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "KÂR",
     custom: "component4",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "EK GIDER",
     custom: "component5",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "NET KAZANÇ",
     custom: "component6",
-    sortEnabled: true,
+    sortEnabled: false,
   },
 ]);
 

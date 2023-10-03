@@ -192,32 +192,32 @@ export default defineComponent({
       {
         columnName: "Customer Name",
         columnLabel: "name",
-        sortEnabled: true,
+        sortEnabled: false,
       },
       {
         columnName: "Email",
         columnLabel: "email",
-        sortEnabled: true,
+        sortEnabled: false,
       },
       {
         columnName: "Company",
         columnLabel: "company_registration_number",
-        sortEnabled: true,
+        sortEnabled: false,
       },
       {
         columnName: "Payment Method",
         columnLabel: "payment_method",
-        sortEnabled: true,
+        sortEnabled: false,
       },
       {
         columnName: "Location",
         columnLabel: "location",
-        sortEnabled: true,
+        sortEnabled: false,
       },
       {
         columnName: "Vat Number",
         columnLabel: "vat_number",
-        sortEnabled: true,
+        sortEnabled: false,
       },
     ]);
     const selectedIds = ref<Array<number>>([]);

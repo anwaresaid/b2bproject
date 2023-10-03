@@ -232,28 +232,28 @@ const selectStyle = "width: 25%";
 const tableHeaders = ref([
   {
     columnName: "API",
-    sortEnabled: true,
+    sortEnabled: false,
     custom: "api_component",
   },
   {
     columnName: "OYUN ADI",
-    sortEnabled: true,
+    sortEnabled: false,
     custom: "game_component",
   },
   {
     columnName: "AUCTION",
     columnLabel: "offer_id",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "MARKETPALCE",
     custom: "component4",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "API ID",
     columnLabel: "product_id_in_api",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "ORTALAMA STOCK DEGERI",
