@@ -88,7 +88,7 @@ export const useAuthStore = defineStore("auth", () => {
         setError(null);
       })
       .catch(({ response }) => {
-        setError(response.data.messages);
+        setError(response?.data?.messages);
       });
   }
   function resetPassword(data: object) {

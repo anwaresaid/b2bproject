@@ -369,7 +369,7 @@ export default defineComponent({
       gameCreateVisible: false,
       orderByGame: null,
       gamesOrderBy: gamesOrderBy,
-      orderByStock: "asc",
+      orderByStock: "desc",
       orderByCreateDate: "",
       regionCreateVisible: false,
       languageCreateVisible: false,

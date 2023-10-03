@@ -63,7 +63,7 @@ export const errorHandling = (error) => {
     temp = error;
   }
 
-  ElMessageBox.alert(`${temp}`, "Crder Creation Error", {
+  ElMessageBox.alert(`${temp}`, "Request Error", {
     confirmButtonText: "OK",
   });
 };
