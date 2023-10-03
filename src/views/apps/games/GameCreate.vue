@@ -39,7 +39,11 @@
         label-width="250px"
         required
       >
-        <el-input v-model="form.sale_price" autocomplete="off" />
+        <el-input
+          :model-value="(form.sales_price * 1).toLocaleString('en-US')"
+          @input="handleInput"
+          autocomplete="off"
+        />
       </el-form-item>
 
       <el-form-item
@@ -126,7 +130,12 @@
         prop="min_sales"
         required
       >
-        <el-input v-model="form.min_sales" type="number" autocomplete="off" />
+        <el-input
+          :model-value="(form.min_sales * 1).toLocaleString('en-US')"
+          @input="handleInputMin"
+          type="text"
+          autocomplete="off"
+        />
       </el-form-item>
       <el-form-item label="Region" label-width="250px" prop="region" required>
         <DropdownRemote
@@ -213,7 +222,7 @@ import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import { gameStatus, categoryType } from "../utils/constants";
 import type { FormInstance, FormRules } from "element-plus";
 import { ElMessage, ElMessageBox } from "element-plus";
-
+import { errorHandling } from "@/views/apps/utils/functions";
 import type { Action } from "element-plus";
 
 interface RuleForm {
@@ -352,6 +361,12 @@ const confirmSubmission = () => {
   }
 };
 
+const handleInput = (num) => {
+  form.sales_price = num.replace(/[^0-9]/g, ""); // Allow only numbers
+};
+const handleInputMin = (num) => {
+  form.min_sales = num.replace(/[^0-9]/g, ""); // Allow only numbers
+};
 const createUpdateGame = async (formEl: FormInstance | undefined) => {
   let tempMarketplaces = [];
   if (checkedEneba.value) tempMarketplaces.push(2);

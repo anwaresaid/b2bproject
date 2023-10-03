@@ -79,16 +79,23 @@
         </el-input>
       </el-form-item>
       <el-form-item label="Cost" label-width="250px" prop="cost" required>
-        <el-input v-model="form.cost" type="number" autocomplete="off" />
+        <el-input
+          :model-value="(form.cost * 1).toLocaleString('en-US')"
+          type="text"
+          @input="assignCost"
+          autocomplete="off"
+        />
       </el-form-item>
       <el-form-item label-width="250px" prop="cost" required>
         <el-input
           :value="
             form.kdv
-              ? form.cost * (form.percent_of_kdv / 100) + 1 * form.cost
-              : form.cost
+              ? (
+                  form.cost * (form.percent_of_kdv / 100) +
+                  1 * form.cost
+                ).toLocaleString('en-US')
+              : (form.cost * 1).toLocaleString('en-US')
           "
-          type="number"
           disabled
           autocomplete="off"
         />
@@ -268,6 +275,10 @@ const setGameId = (value) => {
 const setSupplierId = (value) => {
   form.supplier_id = value;
 };
+const assignCost = (e) => {
+  const numericValue = e.replace(/[^0-9]/g, ""); // Allow only numbers
+  form.cost = numericValue;
+};
 const createGame = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
@@ -315,6 +326,7 @@ watch(setVisible, (newValue) => {
     emit("create-key", false);
   }
 });
+
 // Update the lines array whenever the code changes
 watch(form.keys, (newCode) => {
   const lineCount = newCode.split("\n").length;

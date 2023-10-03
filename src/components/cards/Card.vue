@@ -47,9 +47,9 @@
             required
           >
             <el-input
-              v-model="form.sales_price"
+              :model-value="(form.sales_price * 1).toLocaleString('en-US')"
               @input="handleInput"
-              type="number"
+              type="text"
               autocomplete="off"
             />
           </el-form-item>
@@ -156,7 +156,7 @@ const rules = reactive<FormRules<RuleForm>>({
   ],
 });
 const handleInput = (num) => {
-  form.sales_price = num * 1;
+  form.sales_price = num.replace(/[^0-9]/g, ""); // Allow only numbers
 };
 const confirmSubmission = () => {
   ElMessageBox.alert("new key created", "key creation", {
