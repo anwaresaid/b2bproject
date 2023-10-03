@@ -17,7 +17,11 @@
             {{ displayCurrency() || "$" }}
           </div>
           <div class="result">
-            {{ props.item?.quantity * props.item?.sales_price || 0 }}
+            {{
+              (props.item?.quantity * props.item?.sales_price).toLocaleString(
+                "en-US"
+              ) || 0
+            }}
             {{ displayCurrency() || "$" }}
           </div>
         </div>

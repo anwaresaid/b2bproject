@@ -213,7 +213,7 @@ const gameUrl = "games/list";
 const gameKey = "search_game";
 const gameType = "games";
 const params = ref({});
-const orderByCreateDate = ref(null);
+const orderByCreateDate = ref("desc");
 const itemsInTable = ref(50);
 const currentPage = ref(1);
 const fromDate = ref();
@@ -427,6 +427,8 @@ onMounted(() => {
   params.value.per_page = itemsInTable;
   params.value.order_type = tableType.value;
   dropdownParams.value.order_type = tableType.value.value;
+  params.value.order_by_created = orderByCreateDate.value;
+
   fetchOrders();
 });
 
