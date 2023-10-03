@@ -169,7 +169,7 @@ const orderByCreateDate = ref(null);
 const orderBySellDate = ref(null);
 
 const loading = ref(false);
-const orderByStock = ref("asc");
+const orderByStock = ref("desc");
 const keyCreateVisible = ref(false);
 const stockAverageValue = ref(false);
 
