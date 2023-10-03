@@ -145,17 +145,17 @@ const tableHeader = ref([
   {
     columnName: "SUPPLIER",
     columnLabel: "supplier",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "GAME",
     columnLabel: "game",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "KEY",
     columnLabel: "keycode",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "KEY STATUS",

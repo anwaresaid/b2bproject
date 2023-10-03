@@ -76,17 +76,17 @@ const tableHeaders = ref([
   {
     columnName: "NAME",
     columnLabel: "name",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "SURNAME",
     columnLabel: "surname",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "E-MAIL",
     columnLabel: "email",
-    sortEnabled: true,
+    sortEnabled: false,
   },
 ]);
 

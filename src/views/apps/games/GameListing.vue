@@ -607,52 +607,52 @@ export default defineComponent({
       {
         columnName: "Game Name",
         custom: "component2",
-        sortEnabled: true,
+        sortEnabled: false,
       },
       {
         columnName: "STOCK",
         columnLabel: "stock",
-        sortEnabled: true,
+        sortEnabled: false,
       },
       {
         columnName: "SALE PRICE",
         columnLabel: "sale_price",
-        sortEnabled: true,
+        sortEnabled: false,
       },
       {
         columnName: "AVERAGE VALUE",
         columnLabel: "average_value",
-        sortEnabled: true,
+        sortEnabled: false,
       },
       {
         columnName: "Category Type",
         columnLabel: "category_type.name",
-        sortEnabled: true,
+        sortEnabled: false,
       },
       {
         columnName: "Status",
         custom: "component3",
-        sortEnabled: true,
+        sortEnabled: false,
       },
       {
         columnName: "MARKETPLACE",
         custom: "component4",
-        sortEnabled: true,
+        sortEnabled: false,
       },
       {
         columnName: "Language",
         columnLabel: "language.name",
-        sortEnabled: true,
+        sortEnabled: false,
       },
       {
         columnName: "Category",
         columnLabel: "category.name",
-        sortEnabled: true,
+        sortEnabled: false,
       },
       {
         columnName: "Publisher",
         columnLabel: "publisher.name",
-        sortEnabled: true,
+        sortEnabled: false,
       },
       {
         columnName: "Region",

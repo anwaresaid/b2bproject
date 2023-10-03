@@ -139,7 +139,7 @@ const tableHeaders = ref([
   {
     columnName: "STATUS DATE",
     columnLabel: "status_date",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "Order Code",

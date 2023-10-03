@@ -74,7 +74,7 @@ const params = ref({});
 const tableStatus = ref(null);
 const itemsInTable = ref(50);
 const currentPage = ref(1);
-const paginationData = reactive({});
+const paginationData = ref({});
 const loading = ref(false);
 const defaultTime = new Date(2000, 1, 1, 12, 0, 0);
 
@@ -82,7 +82,7 @@ const tableHeaders = ref([
   {
     columnName: "KEY CODE",
     columnLabel: "keycode",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "SUPPLIER NAME",
@@ -97,22 +97,22 @@ const tableHeaders = ref([
   {
     columnName: "COST",
     columnLabel: "cost",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "Sale",
     columnLabel: "sale",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "CUSTOMER",
     columnLabel: "customer",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "CREATED AT",
     columnLabel: "created_at",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "SOLD ON",
@@ -138,6 +138,7 @@ const fetchGames = (type) => {
       gameData.value = res.data.data?.game;
       keysData.value = res.data.data?.game.keys;
       paginationData.value = res.data.data?.pagination;
+      console.log("pag", paginationData.value);
       store.dispatch("setGameDetails", res.data.data?.game.name);
       store.dispatch("setPageItems", res.data.data.pagination?.all_data);
     })

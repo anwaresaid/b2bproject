@@ -37,34 +37,6 @@
             </div>
           </div>
           <div class="d-flex justify-content-between align-items-start">
-            <el-form-item label="Order By Sell Date">
-              <el-select
-                v-model="orderBySellDate"
-                class="select-table-type"
-                placeholder="Order By Sell Date"
-              >
-                <el-option
-                  v-for="item in gamesOrderBy"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="Order By Stock">
-              <el-select
-                v-model="orderByStock"
-                class="select-table-type"
-                placeholder="Order By Stock"
-              >
-                <el-option
-                  v-for="item in gamesOrderBy"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
             <el-form-item label="Order By Create Date">
               <el-select
                 v-model="orderByCreateDate"
@@ -79,8 +51,6 @@
                 />
               </el-select>
             </el-form-item>
-          </div>
-          <div class="d-flex justify-content-between align-items-start">
             <el-form-item label="Select Order status">
               <el-select
                 v-model="tableStatus"
@@ -220,16 +190,14 @@ const currentPage = ref(1);
 const paginationData = reactive({});
 const errors = ref(null);
 const loading = ref(false);
-const orderByCreateDate = ref(null);
-const orderBySellDate = ref(null);
-const orderByStock = ref(null);
+const orderByCreateDate = ref("desc");
 const defaultTime = new Date(2000, 1, 1, 12, 0, 0);
 
 const tableHeaders = ref([
   {
     columnName: "ORDER NUMBER",
     columnLabel: "order_code",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "CUSTOMER",
@@ -244,22 +212,22 @@ const tableHeaders = ref([
   {
     columnName: "COST",
     columnLabel: "cost_price",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "SALE PRICE",
     columnLabel: "sale_price",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "RESERVED PIECE",
     columnLabel: "reserved_count",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "SOLD PIECE",
     columnLabel: "sold_count",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "CREATED BY",
@@ -336,8 +304,6 @@ const navigateOrderDetails = (item) => {
 };
 const emptyOrderbyFilters = (key) => {
   if (key !== "create") orderByCreateDate.value = null;
-  if (key !== "sell") orderBySellDate.value = null;
-  if (key !== "stock") orderByStock.value = null;
 };
 
 const handleChangeDates = () => {
@@ -391,14 +357,6 @@ watch(orderByCreateDate, (newValue) => {
 //   fetchOrders("filer");
 // });
 
-watch(orderByStock, (newValue) => {
-  params.value = {};
-  if (orderByStock.value !== null) {
-    emptyOrderbyFilters("stock");
-    params.value.order_by_stock = orderByStock.value;
-    fetchOrders("filer");
-  }
-});
 watch(orderByCreateDate, (newValue) => {
   params.value = {};
   if (orderByCreateDate.value !== null) {
@@ -407,14 +365,7 @@ watch(orderByCreateDate, (newValue) => {
     fetchOrders("filer");
   }
 });
-watch(orderBySellDate, (newValue) => {
-  params.value = {};
-  if (orderBySellDate.value !== null) {
-    emptyOrderbyFilters("sell");
-    params.value.order_by_sell_date = orderBySellDate.value;
-    fetchOrders("filer");
-  }
-});
+
 watch(searchOrders, (newValue) => {
   if (searchOrders.value.length !== 0) {
     params.value = {};
@@ -433,6 +384,7 @@ watch(errors, (newValue) => {});
 onMounted(() => {
   params.value.current_page = currentPage;
   params.value.per_page = itemsInTable;
+  params.value.order_by_created = orderByCreateDate.value;
   fetchOrders();
 });
 

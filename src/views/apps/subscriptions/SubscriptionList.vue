@@ -352,27 +352,27 @@ export default defineComponent({
       {
         columnName: "Customer",
         columnLabel: "customer",
-        sortEnabled: true,
+        sortEnabled: false,
       },
       {
         columnName: "Status",
         columnLabel: "status",
-        sortEnabled: true,
+        sortEnabled: false,
       },
       {
         columnName: "Billing",
         columnLabel: "billing",
-        sortEnabled: true,
+        sortEnabled: false,
       },
       {
         columnName: "Product",
         columnLabel: "product",
-        sortEnabled: true,
+        sortEnabled: false,
       },
       {
         columnName: "Created Date",
         columnLabel: "createdDate",
-        sortEnabled: true,
+        sortEnabled: false,
       },
       {
         columnName: "Actions",

@@ -140,6 +140,22 @@
             </el-tooltip>
           </slot>
         </template>
+        <template v-slot:gamenamecomp="slotProps">
+          <slot :action="slotProps.action">
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              :content="slotProps.action?.game?.name"
+              placement="top-start"
+            >
+              <span
+                :class="`game-name-link badge py-3 px-4 fs-7 badge-light-warning`"
+                @click="navigateToGameDetailsPage(slotProps.action?.game?.uuid)"
+                >{{ slotProps.action.game?.name }}</span
+              >
+            </el-tooltip>
+          </slot>
+        </template>
         <template v-slot:component2="slotProps">
           <slot :action="slotProps.action">
             <span
@@ -215,7 +231,12 @@ const tableHeaders = ref([
   {
     columnName: "ORDER NUMBER",
     columnLabel: "order_code",
-    sortEnabled: true,
+    sortEnabled: false,
+  },
+  {
+    columnName: "GAME NAME",
+    custom: "gamenamecomp",
+    sortEnabled: false,
   },
   {
     columnName: "CUSTOMER",
@@ -225,17 +246,17 @@ const tableHeaders = ref([
   {
     columnName: "TOTAL AMOUNT",
     columnLabel: "total_amount",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "RESERVED PIECE",
     columnLabel: "reserved_count",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "SOLD PIECE",
     columnLabel: "sold_count",
-    sortEnabled: true,
+    sortEnabled: false,
   },
   {
     columnName: "CREATED BY",
@@ -290,6 +311,14 @@ const updateStatus = (type) => {
     .catch((e) => {
       errorHandling(e?.response?.data?.messages);
     });
+};
+const navigateToGameDetailsPage = (id) => {
+  router.push({
+    name: "apps-game-detail-listing",
+    params: {
+      id: id,
+    },
+  });
 };
 const getItemsInTable = (item) => {
   itemsInTable.value = item;

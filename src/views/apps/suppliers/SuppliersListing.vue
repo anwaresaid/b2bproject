@@ -100,27 +100,27 @@ export default defineComponent({
         {
           columnName: "COMPANY NAME",
           columnLabel: "name",
-          sortEnabled: true,
+          sortEnabled: false,
         },
         {
           columnName: "REMAINING BALANCE",
           columnLabel: "remaining_balance",
-          sortEnabled: true,
+          sortEnabled: false,
         },
         {
           columnName: "ADDRESS",
           columnLabel: "address",
-          sortEnabled: true,
+          sortEnabled: false,
         },
         {
           columnName: "VAT Number",
           columnLabel: "vat_number",
-          sortEnabled: true,
+          sortEnabled: false,
         },
         {
           columnName: "COMPANY REGISTRATION NUMBER",
           columnLabel: "company_registration_number",
-          sortEnabled: true,
+          sortEnabled: false,
         },
         {
           columnName: "RELATED PERSON",
