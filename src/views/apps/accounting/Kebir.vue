@@ -87,6 +87,7 @@ const loading = ref(true);
 const years = ref([]);
 const total = ref({});
 const selectYear = ref("");
+const allSums = ref({});
 const tableHeaders = ref([
   {
     columnName: "AYLAR",
@@ -128,6 +129,7 @@ const fetchUsers = (type) => {
   }
   ApiService.postTest("accounting/kebir", params.value).then((res) => {
     loading.value = false;
+    allSums.value = res.data.data.total;
     res.data.data.months.map((item) => {
       if (!years.value.includes(item.year_id)) {
         years.value.push(item.year_id);
@@ -151,42 +153,26 @@ interface SummaryMethodProps<T = Product> {
 const getSummaries = (param: SummaryMethodProps) => {
   const { columns, data } = param;
   const sums: string[] = [];
+
   columns.forEach((column, index) => {
     if (index === 0) {
       sums[index] = "Total";
       return;
     }
-    const values = data.map((item) => {
-      if (column.no === 1) {
-        return Number(item.total_giro);
-      }
-      if (column.no === 2) {
-        return Number(item.total_cost);
-      }
-      if (column.no === 1) {
-        return Number(item.total_margin);
-      }
-      if (column.no === 1) {
-        return Number(item.add_cost);
-      }
-      if (column.no === 1) {
-        return Number(item.net_margin);
-      }
-    });
-    // const values = data.map((item) => Number(item[column.property]));
-    if (!values.every((value) => Number.isNaN(value))) {
-      sums[index] = `${values
-        .reduce((prev, curr) => {
-          const value = Number(curr);
-          if (!Number.isNaN(value)) {
-            return prev + curr;
-          } else {
-            return prev;
-          }
-        }, 0)
-        .toFixed(2)} €`;
-    } else {
-      sums[index] = "N/A";
+    if (index === 1) {
+      sums[index] = Number(allSums?.value["giro"]).toFixed(2);
+    }
+    if (index === 2) {
+      sums[index] = allSums?.value["cost"];
+    }
+    if (index === 3) {
+      sums[index] = allSums?.value["margin"];
+    }
+    if (index === 4) {
+      sums[index] = allSums?.value["add_cost"];
+    }
+    if (index === 5) {
+      sums[index] = allSums?.value["net_margin"];
     }
   });
 

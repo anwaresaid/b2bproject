@@ -358,7 +358,6 @@ watch(orderByCreateDate, (newValue) => {
 // });
 
 watch(orderByCreateDate, (newValue) => {
-  params.value = {};
   if (orderByCreateDate.value !== null) {
     emptyOrderbyFilters("create");
     params.value.order_by_created = orderByCreateDate.value;

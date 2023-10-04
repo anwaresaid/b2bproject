@@ -7,7 +7,7 @@ export const dateFormatter = (date, time) => {
       ? date.value.getDate()
       : "0" + date.value.getDate();
   const month =
-    ("" + date.value.getMonth()).length > 1
+    ("" + date.value.getMonth()).length > 1 || date.value.getMonth() === 9
       ? 1 + date.value.getMonth()
       : "0" + (date.value.getMonth() + 1);
   const year = date.value.getFullYear();
@@ -87,7 +87,6 @@ export const beautifyNumber = (num) => {
   final =
     integerPart +
     (decimalPart ? "." + decimalPart : containsDecimal ? "." : "");
-  console.log("form end", final);
   return final;
 };
 export const switchBeautifulNumber = (num) => {

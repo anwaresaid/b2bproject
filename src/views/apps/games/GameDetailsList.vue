@@ -138,7 +138,6 @@ const fetchGames = (type) => {
       gameData.value = res.data.data?.game;
       keysData.value = res.data.data?.game.keys;
       paginationData.value = res.data.data?.pagination;
-      console.log("pag", paginationData.value);
       store.dispatch("setGameDetails", res.data.data?.game.name);
       store.dispatch("setPageItems", res.data.data.pagination?.all_data);
     })
@@ -198,12 +197,12 @@ watch(dropdownParams, (newValue) => {
 });
 
 watch(searchKeys, (newValue) => {
-  params.value = {};
   if (searchKeys.value.length !== 0) {
     params.value = {
       keyCode: searchKeys.value,
       uuid: router.currentRoute.value.params.id,
     };
+    fetchGames("filer");
   } else {
     fetchGames("filer");
   }
