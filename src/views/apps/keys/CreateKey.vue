@@ -163,7 +163,7 @@ interface RuleForm {
   status: number;
   invoice_no: number;
   currency: number;
-  cost: number;
+  cost: string;
   keys: string;
   percent_of_kdv: number;
   kdv: number;
