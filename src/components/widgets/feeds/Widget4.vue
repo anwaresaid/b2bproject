@@ -9,7 +9,7 @@
         <div class="d-flex align-items-center flex-grow-1">
           <!--begin::Avatar-->
           <div class="symbol symbol-45px me-5">
-            <img src="/media/avatars/300-7.jpg" alt="" />
+            <!-- <img src="/media/avatars/300-7.jpg" alt="" /> -->
           </div>
           <!--end::Avatar-->
 
