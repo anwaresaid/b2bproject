@@ -71,7 +71,7 @@
         <div class="text-dark me-2 fw-bold pb-4">Team</div>
 
         <div class="d-flex">
-          <a
+          <!-- <a
             href="#"
             class="symbol symbol-35px me-2"
             data-bs-toggle="tooltip"
@@ -105,7 +105,7 @@
             title="Alice Micto"
           >
             <img src="/media/avatars/300-10.jpg" alt="" />
-          </a>
+          </a> -->
         </div>
       </div>
       <!--end:Team-->

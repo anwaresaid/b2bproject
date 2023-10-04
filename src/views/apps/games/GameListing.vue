@@ -101,7 +101,7 @@
         <el-select
           v-model="orderByCreateDate"
           class="select-table-type"
-          placeholder="Select"
+          placeholder="Order by creat date"
         >
           <el-option
             v-for="item in gamesOrderBy"

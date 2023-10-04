@@ -149,7 +149,7 @@
               <div class="symbol-group symbol-hover flex-nowrap">
                 <div class="symbol-group symbol-hover flex-nowrap">
                   <div class="symbol symbol-35px symbol-circle">
-                    <img alt="Pic" src="/media/avatars/300-2.jpg" />
+                    <!-- <img alt="Pic" src="/media/avatars/300-2.jpg" /> -->
                   </div>
                   <div class="symbol symbol-35px symbol-circle">
                     <img alt="Pic" src="/media/avatars/300-3.jpg" />

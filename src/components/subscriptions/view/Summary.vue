@@ -48,7 +48,7 @@
         <div class="d-flex align-items-center">
           <!--begin::Avatar-->
           <div class="symbol symbol-60px symbol-circle me-3">
-            <img alt="Pic" src="/media/avatars/300-5.jpg" />
+            <!-- <img alt="Pic" src="/media/avatars/300-5.jpg" /> -->
           </div>
           <!--end::Avatar-->
 

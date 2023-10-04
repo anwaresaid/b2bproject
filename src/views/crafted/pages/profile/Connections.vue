@@ -105,7 +105,7 @@
       total-sales="$236,400"
     ></Card3>
 
-    <Card3
+    <!-- <Card3
       name="Robert Doe"
       position="Marketing Analytic at Avito Ltd."
       :online="false"
@@ -113,7 +113,7 @@
       :connected="false"
       avg-earnings="$14,560"
       total-sales="$236,400"
-    ></Card3>
+    ></Card3> -->
 
     <Card3
       name="Soul Jacob"

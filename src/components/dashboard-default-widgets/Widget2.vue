@@ -75,33 +75,33 @@ export default defineComponent({
   },
   setup() {
     const profiles = [
-      {
-        name: "Alan Warden",
-        initials: "A",
-        state: "warning",
-      },
-      {
-        name: "Michael Eberon",
-        src: "/media/avatars/300-11.jpg",
-      },
-      {
-        name: "Susan Redwood",
-        initials: "S",
-        state: "primary",
-      },
-      {
-        name: "Melody Macy",
-        src: "/media/avatars/300-2.jpg",
-      },
-      {
-        name: "Perry Matthew",
-        initials: "P",
-        state: "danger",
-      },
-      {
-        name: "Barry Walter",
-        src: "/media/avatars/300-12.jpg",
-      },
+      // {
+      //   name: "Alan Warden",
+      //   initials: "A",
+      //   state: "warning",
+      // },
+      // {
+      //   name: "Michael Eberon",
+      //   src: "/media/avatars/300-11.jpg",
+      // },
+      // {
+      //   name: "Susan Redwood",
+      //   initials: "S",
+      //   state: "primary",
+      // },
+      // {
+      //   name: "Melody Macy",
+      //   src: "/media/avatars/300-2.jpg",
+      // },
+      // {
+      //   name: "Perry Matthew",
+      //   initials: "P",
+      //   state: "danger",
+      // },
+      // {
+      //   name: "Barry Walter",
+      //   src: "/media/avatars/300-12.jpg",
+      // },
     ];
 
     return {

@@ -35,18 +35,18 @@
   <!--begin::Row-->
   <div class="row g-6 g-xl-9">
     <!--begin::Col-->
-    <div class="col-md-6 col-xl-4">
+    <!-- <div class="col-md-6 col-xl-4">
       <KTCard
         :progress="50"
         title="Fitnes App"
         icon="/media/svg/brand-logos/plurk.svg"
         :users="users1"
       ></KTCard>
-    </div>
+    </div> -->
     <!--end::Col-->
 
     <!--begin::Col-->
-    <div class="col-md-6 col-xl-4">
+    <!-- <div class="col-md-6 col-xl-4">
       <KTCard
         status="Pending"
         status-data-badge-color="badge-light"
@@ -57,11 +57,11 @@
         budget="$36,400.00"
         :users="users2"
       ></KTCard>
-    </div>
+    </div> -->
     <!--end::Col-->
 
     <!--begin::Col-->
-    <div class="col-md-6 col-xl-4">
+    <!-- <div class="col-md-6 col-xl-4">
       <KTCard
         status="Completed"
         status-data-badge-color="badge-light-success"
@@ -72,11 +72,11 @@
         budget="$605,100.00"
         :users="users3"
       ></KTCard>
-    </div>
+    </div> -->
     <!--end::Col-->
 
     <!--begin::Col-->
-    <div class="col-md-6 col-xl-4">
+    <!-- <div class="col-md-6 col-xl-4">
       <KTCard
         status="Pending"
         :progress="60"
@@ -86,12 +86,12 @@
         budget="$36,400.00"
         :users="users4"
       ></KTCard>
-    </div>
+    </div> -->
     <!--end::Col-->
 
     <!--begin::Col-->
-    <div class="col-md-6 col-xl-4">
-      <KTCard
+    <!-- <div class="col-md-6 col-xl-4"> -->
+    <!-- <KTCard
         status="In Progress"
         :progress="40"
         icon="/media/svg/brand-logos/xing-icon.svg"
@@ -100,11 +100,11 @@
         budget="$36,400.00"
         :users="users5"
       ></KTCard>
-    </div>
+    </div> -->
     <!--end::Col-->
 
     <!--begin::Col-->
-    <div class="col-md-6 col-xl-4">
+    <!-- <div class="col-md-6 col-xl-4">
       <KTCard
         status="In Progress"
         :progress="70"
@@ -114,11 +114,11 @@
         budget="$36,400.00"
         :users="users6"
       ></KTCard>
-    </div>
+    </div> -->
     <!--end::Col-->
 
     <!--begin::Col-->
-    <div class="col-md-6 col-xl-4">
+    <!-- <div class="col-md-6 col-xl-4">
       <KTCard
         status="In Progress"
         :progress="30"
@@ -128,11 +128,11 @@
         budget="$36,400.00"
         :users="users7"
       ></KTCard>
-    </div>
+    </div> -->
     <!--end::Col-->
 
     <!--begin::Col-->
-    <div class="col-md-6 col-xl-4">
+    <!-- <div class="col-md-6 col-xl-4">
       <KTCard
         status="Overdue"
         :progress="10"
@@ -143,11 +143,11 @@
         budget="$36,400.00"
         :users="users8"
       ></KTCard>
-    </div>
+    </div> -->
     <!--end::Col-->
 
     <!--begin::Col-->
-    <div class="col-md-6 col-xl-4">
+    <!-- <div class="col-md-6 col-xl-4">
       <KTCard
         status="Completed"
         :progress="100"
@@ -158,7 +158,7 @@
         budget="$36,400.00"
         :users="users9"
       ></KTCard>
-    </div>
+    </div> -->
     <!--end::Row-->
 
     <!--begin::Pagination-->
@@ -217,67 +217,58 @@ export default defineComponent({
     KTCard,
   },
   setup() {
-    const users1 = [
-      { name: "Emma Smith", src: "/media/avatars/300-6.jpg" },
-      { name: "Rudy Stone", src: "/media/avatars/300-1.jpg" },
-      { name: "Susan Redwood", initials: "S", state: "primary" },
-    ];
-
-    const users2 = [
-      { name: "Alan Warden", initials: "A", state: "warning" },
-      { name: "Brian Cox", src: "/media/avatars/300-5.jpg" },
-    ];
-
-    const users3 = [
-      { name: "Mad Masy", src: "/media/avatars/300-6.jpg" },
-      { name: "Cris Willson", src: "/media/avatars/300-1.jpg" },
-      { name: "Mike Garcie", initials: "M", state: "info" },
-    ];
-
-    const users4 = [
-      { name: "Nich Warden", initials: "N", state: "warning" },
-      { name: "Rob Otto", initials: "R", state: "success" },
-    ];
-
-    const users5 = [
-      { name: "Francis Mitcham", src: "/media/avatars/300-20.jpg" },
-      { name: "Michelle Swanston", src: "/media/avatars/300-7.jpg" },
-      { name: "Susan Redwood", initials: "S", state: "primary" },
-    ];
-
-    const users6 = [
-      { name: "Emma Smith", src: "/media/avatars/300-6.jpg" },
-      { name: "Rudy Stone", src: "/media/avatars/300-1.jpg" },
-      { name: "Susan Redwood", initials: "S", state: "primary" },
-    ];
-
-    const users7 = [
-      { name: "Meloday Macy", src: "/media/avatars/300-2.jpg" },
-      { name: "Rabbin Watterman", initials: "S", state: "success" },
-    ];
-
-    const users8 = [
-      { name: "Emma Smith", src: "/media/avatars/300-6.jpg" },
-      { name: "Rudy Stone", src: "/media/avatars/300-1.jpg" },
-      { name: "Susan Redwood", initials: "S", state: "primary" },
-    ];
-
-    const users9 = [
-      { name: "Meloday Macy", src: "/media/avatars/300-2.jpg" },
-      { name: "Rabbin Watterman", initials: "S", state: "danger" },
-    ];
-
-    return {
-      users1,
-      users2,
-      users3,
-      users4,
-      users5,
-      users6,
-      users7,
-      users8,
-      users9,
-    };
+    // const users1 = [
+    //   { name: "Emma Smith", src: "/media/avatars/300-6.jpg" },
+    //   { name: "Rudy Stone", src: "/media/avatars/300-1.jpg" },
+    //   { name: "Susan Redwood", initials: "S", state: "primary" },
+    // ];
+    // const users2 = [
+    //   { name: "Alan Warden", initials: "A", state: "warning" },
+    //   { name: "Brian Cox", src: "/media/avatars/300-5.jpg" },
+    // ];
+    // const users3 = [
+    //   { name: "Mad Masy", src: "/media/avatars/300-6.jpg" },
+    //   { name: "Cris Willson", src: "/media/avatars/300-1.jpg" },
+    //   { name: "Mike Garcie", initials: "M", state: "info" },
+    // ];
+    // const users4 = [
+    //   { name: "Nich Warden", initials: "N", state: "warning" },
+    //   { name: "Rob Otto", initials: "R", state: "success" },
+    // ];
+    // const users5 = [
+    //   { name: "Francis Mitcham", src: "/media/avatars/300-20.jpg" },
+    //   { name: "Michelle Swanston", src: "/media/avatars/300-7.jpg" },
+    //   { name: "Susan Redwood", initials: "S", state: "primary" },
+    // ];
+    // const users6 = [
+    //   { name: "Emma Smith", src: "/media/avatars/300-6.jpg" },
+    //   { name: "Rudy Stone", src: "/media/avatars/300-1.jpg" },
+    //   { name: "Susan Redwood", initials: "S", state: "primary" },
+    // ];
+    // const users7 = [
+    //   { name: "Meloday Macy", src: "/media/avatars/300-2.jpg" },
+    //   { name: "Rabbin Watterman", initials: "S", state: "success" },
+    // ];
+    // const users8 = [
+    //   { name: "Emma Smith", src: "/media/avatars/300-6.jpg" },
+    //   { name: "Rudy Stone", src: "/media/avatars/300-1.jpg" },
+    //   { name: "Susan Redwood", initials: "S", state: "primary" },
+    // ];
+    // const users9 = [
+    //   { name: "Meloday Macy", src: "/media/avatars/300-2.jpg" },
+    //   { name: "Rabbin Watterman", initials: "S", state: "danger" },
+    // ];
+    // return {
+    //   users1,
+    //   users2,
+    //   users3,
+    //   users4,
+    //   users5,
+    //   users6,
+    //   users7,
+    //   users8,
+    //   users9,
+    // };
   },
 });
 </script>

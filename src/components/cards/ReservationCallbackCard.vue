@@ -294,6 +294,10 @@ onMounted(() => {
   border-radius: 10px;
   width: 100% !important;
 }
+.dark-left-card {
+  border-radius: 10px;
+  width: 100% !important;
+}
 .dark-card {
   background-color: #1e1e2d;
 }
