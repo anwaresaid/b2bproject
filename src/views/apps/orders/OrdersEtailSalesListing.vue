@@ -333,9 +333,18 @@ const pageChange = (page: number) => {
   fetchOrders();
 };
 const emptyOrderbyFilters = (key) => {
-  if (key !== "create") orderByCreateDate.value = null;
-  if (key !== "sell") orderBySellDate.value = null;
-  if (key !== "stock") orderByStock.value = null;
+  if (key !== "create") {
+    orderByCreateDate.value = null;
+    delete params.value.order_by_created;
+  }
+  if (key !== "sell") {
+    orderBySellDate.value = null;
+    delete params.value.order_by_sell_date;
+  }
+  if (key !== "stock") {
+    orderByStock.value = null;
+    delete params.value.order_by_stock;
+  }
 };
 
 const handleChangeDates = () => {
@@ -380,13 +389,11 @@ const copyText = (obj) => {
 };
 
 watch(tableType, (newValue) => {
-  params.value = {};
   dropdownParams.order_type = tableType.value;
   params.value = dropdownParams.value;
   fetchOrders();
 });
 watch(orderByStock, (newValue) => {
-  params.value = {};
   if (orderByStock.value !== null) {
     emptyOrderbyFilters("stock");
     params.value.order_by_stock = orderByStock.value;
@@ -394,7 +401,6 @@ watch(orderByStock, (newValue) => {
   }
 });
 watch(orderByCreateDate, (newValue) => {
-  params.value = {};
   if (orderByCreateDate.value !== null) {
     emptyOrderbyFilters("create");
     params.value.order_by_created = orderByCreateDate.value;
@@ -402,7 +408,6 @@ watch(orderByCreateDate, (newValue) => {
   }
 });
 watch(orderBySellDate, (newValue) => {
-  params.value = {};
   if (orderBySellDate.value !== null) {
     emptyOrderbyFilters("sell");
     params.value.order_by_sell_date = orderBySellDate.value;
@@ -411,7 +416,6 @@ watch(orderBySellDate, (newValue) => {
 });
 
 watch(searchOrders, (newValue) => {
-  params.value = {};
   if (searchOrders.value !== 0) {
     params.value = { search: searchOrders.value };
     fetchOrders("filer");

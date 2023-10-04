@@ -347,7 +347,6 @@ watch(tableStatus, (newValue) => {
   fetchKeys("filer");
 });
 watch(orderByCreateDate, (newValue) => {
-  dropdownParams.value = {};
   dropdownParams.value.order_by_created = orderByCreateDate.value;
   if (orderByCreateDate.value === "") {
     delete dropdownParams.value["order_by_created"];

@@ -405,6 +405,20 @@ export default defineComponent({
   },
 
   methods: {
+    emptyOrderbyFilters(key) {
+      if (key !== "create") {
+        delete this.filters.order_by_created;
+        this.orderByCreateDate = null;
+      }
+      if (key !== "update") {
+        delete this.filters.order_by_updated;
+        this.orderByGame = null;
+      }
+      if (key !== "stock") {
+        delete this.filters.order_by_stock;
+        this.orderByStock = null;
+      }
+    },
     closeCreateCategory(value) {
       this.categoryCreateVisible = false;
       if (value) {
@@ -676,28 +690,34 @@ export default defineComponent({
     };
   },
   mounted() {
-    this.params.order_by_stock = this.orderByStock;
+    this.filters.order_by_stock = this.orderByStock;
   },
 
   watch: {
     itemsInTable() {
-      this.params.per_page = this.itemsInTable;
+      this.filters.per_page = this.itemsInTable;
       this.currentPage = 1;
     },
     currentPage() {
-      this.params.current_page = this.currentPage;
+      this.filters.current_page = this.currentPage;
     },
     orderByGame() {
-      this.params.order_by_updated = this.orderByGame;
+      if (this.orderByGame !== null) {
+        this.emptyOrderbyFilters("update");
+        this.filters.order_by_updated = this.orderByGame;
+      }
     },
     orderByStock() {
-      delete this.params.order_by_created;
-      this.params.order_by_stock = this.orderByStock;
+      if (this.orderByStock !== null) {
+        this.emptyOrderbyFilters("stock");
+        this.filters.order_by_stock = this.orderByStock;
+      }
     },
     orderByCreateDate() {
-      delete this.params.order_by_stock;
-
-      this.params.order_by_created = this.orderByCreateDate;
+      if (this.orderByCreateDate !== null) {
+        this.emptyOrderbyFilters("create");
+        this.filters.order_by_created = this.orderByCreateDate;
+      }
     },
     params: {
       handler: function () {
@@ -733,7 +753,7 @@ export default defineComponent({
       handler: function () {
         if (
           Object.keys(this.filters).some(
-            (k) => this.filters[k].length > 0 || this.filters[k] !== ""
+            (k) => this.filters[k]?.length > 0 || this.filters[k] !== ""
           )
         ) {
           ApiService.post("games/list", this.filters).then((res) => {

@@ -94,16 +94,16 @@
                 :url="customerUrl"
                 @selected-game="setCustomerId"
                 :type="customerType"
-                :keyg="search_game"
+                :keyg="customerKey"
                 wd="150px"
               />
             </el-form-item>
             <el-form-item label="Select Game">
               <DropdownRemote
                 :url="gameUrl"
-                @selected-game="setCustomerId"
+                @selected-game="setGameId"
                 :type="gameType"
-                :keyg="search_game"
+                :keyg="gameKey"
                 wd="150px"
               />
             </el-form-item>
@@ -438,7 +438,6 @@ watch(tableStatus, (newValue) => {
 });
 
 watch(orderByCreateDate, (newValue) => {
-  params.value = {};
   if (orderByCreateDate.value !== null) {
     emptyOrderbyFilters("create");
     params.value.order_by_created = orderByCreateDate.value;
