@@ -59,6 +59,14 @@
             wd="25%"
           />
           <DropdownRemote
+            :url="customerUrl"
+            @selected-game="setCustomerId"
+            :type="customerType"
+            :keyg="supplierKey"
+            placeholder="Select Customer"
+            wd="25%"
+          />
+          <DropdownRemote
             :url="supplierUrl"
             @selected-game="setSupplierId"
             placeholder="select supplier"
@@ -185,6 +193,8 @@ const router = useRouter();
 const supplierKey = "search";
 const supplierUrl = "suppliers/all";
 const supplierType = "suppliers";
+const customerUrl = "customers/all";
+const customerType = "customers";
 const params = ref({});
 const tableStatus = ref(null);
 const itemsInTable = ref(50);
@@ -291,6 +301,11 @@ const navigateGameDetails = (id) => {
 };
 const setGameId = (value) => {
   dropdownParams.value.game_id = value;
+  params.value = dropdownParams.value;
+  fetchKeys("filer");
+};
+const setCustomerId = (value) => {
+  dropdownParams.value.key_code = value;
   params.value = dropdownParams.value;
   fetchKeys("filer");
 };
