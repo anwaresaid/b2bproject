@@ -130,7 +130,7 @@
                       <td class="text-gray-800">
                         Australia
                         <div class="symbol symbol-20px symbol-circle ms-2">
-                          <img src="/media/flags/australia.svg" />
+                          <!-- <img src="/media/flags/australia.svg" /> -->
                         </div>
                       </td>
                     </tr>
@@ -255,7 +255,7 @@
                       <td class="text-gray-800">
                         United Kingdom
                         <div class="symbol symbol-20px symbol-circle ms-2">
-                          <img src="/media/flags/united-kingdom.svg" />
+                          <!-- <img src="/media/flags/united-kingdom.svg" /> -->
                         </div>
                       </td>
                     </tr>
@@ -386,7 +386,7 @@
                       <td class="text-gray-800">
                         United States of America
                         <div class="symbol symbol-20px symbol-circle ms-2">
-                          <img src="/media/flags/united-states.svg" />
+                          <!-- <img src="/media/flags/united-states.svg" /> -->
                         </div>
                       </td>
                     </tr>
