@@ -31,7 +31,7 @@
   <!--begin::Row-->
   <div class="row g-6 mb-6 g-xl-9 mb-xl-9">
     <!--begin::Followers-->
-    <Card3
+    <!-- <Card3
       name="Patric Watson"
       position="Art Director at Novica Co."
       :online="true"
@@ -103,7 +103,7 @@
       :connected="true"
       avg-earnings="$14,560"
       total-sales="$236,400"
-    ></Card3>
+    ></Card3> -->
 
     <!-- <Card3
       name="Robert Doe"
@@ -115,7 +115,7 @@
       total-sales="$236,400"
     ></Card3> -->
 
-    <Card3
+    <!-- <Card3
       name="Soul Jacob"
       position="Art Director at Novica Co."
       :online="false"
@@ -153,7 +153,7 @@
       :connected="false"
       avg-earnings="$14,560"
       total-sales="$236,400"
-    ></Card3>
+    ></Card3> -->
     <!--end::Followers-->
   </div>
   <!--end::Row-->
