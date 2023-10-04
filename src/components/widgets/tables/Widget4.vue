@@ -145,110 +145,108 @@ export default defineComponent({
   },
   setup() {
     const items = [
-      [
-        {
-          image: "/media/avatars/300-14.jpg",
-          user: {
-            name: "Brad Simmons",
-            position: "Movie Creator",
-          },
-          rating: 5,
-        },
-        {
-          image: "/media/avatars/300-5.jpg",
-          user: {
-            name: "Jessie Clarcson",
-            position: "HTML, CSS Coding",
-          },
-          rating: 5,
-        },
-        {
-          image: "/media/avatars/300-20.jpg",
-          user: {
-            name: "Lebron Wayde",
-            position: "ReactJS Developer",
-          },
-          rating: 4,
-        },
-        {
-          image: "/media/avatars/300-23.jpg",
-          user: {
-            name: "Natali Trump",
-            position: "UI/UX Designer",
-          },
-          rating: 5,
-        },
-        {
-          image: "/media/avatars/300-10.jpg",
-          user: {
-            name: "Kevin Leonard",
-            position: "Art Director",
-          },
-          rating: 3,
-        },
-      ],
-
-      [
-        {
-          image: "/media/svg/avatars/043-boy-18.svg",
-          user: {
-            name: "Kevin Leonard",
-            position: "Art Director",
-          },
-          rating: 3,
-        },
-        {
-          image: "/media/svg/avatars/014-girl-7.svg",
-          user: {
-            name: "Natali Trump",
-            position: "UI/UX Designer",
-          },
-          rating: 5,
-        },
-        {
-          image: "/media/svg/avatars/018-girl-9.svg",
-          user: {
-            name: "Jessie Clarcson",
-            position: "HTML, CSS Coding",
-          },
-          rating: 5,
-        },
-        {
-          image: "/media/svg/avatars/001-boy.svg",
-          user: {
-            name: "Brad Simmons",
-            position: "Movie Creator",
-          },
-          rating: 5,
-        },
-      ],
-
-      [
-        {
-          image: "/media/svg/avatars/018-girl-9.svg",
-          user: {
-            name: "Jessie Clarcson",
-            position: "HTML, CSS Coding",
-          },
-          rating: 5,
-        },
-        {
-          image: "/media/svg/avatars/047-girl-25.svg",
-          user: {
-            name: "Lebron Wayde",
-            position: "ReactJS Developer",
-          },
-          rating: 4,
-        },
-        {
-          image: "/media/svg/avatars/014-girl-7.svg",
-          user: {
-            name: "Natali Trump",
-            position: "UI/UX Designer",
-          },
-          rating: 5,
-        },
-      ],
+      // [
+      //   // {
+      //   //   image: "/media/avatars/300-14.jpg",
+      //   //   user: {
+      //   //     name: "Brad Simmons",
+      //   //     position: "Movie Creator",
+      //   //   },
+      //   //   rating: 5,
+      //   // },
+      //   {
+      //     image: "/media/avatars/300-5.jpg",
+      //     user: {
+      //       name: "Jessie Clarcson",
+      //       position: "HTML, CSS Coding",
+      //     },
+      //     rating: 5,
+      //   },
+      //   {
+      //     image: "/media/avatars/300-20.jpg",
+      //     user: {
+      //       name: "Lebron Wayde",
+      //       position: "ReactJS Developer",
+      //     },
+      //     rating: 4,
+      //   },
+      //   {
+      //     image: "/media/avatars/300-23.jpg",
+      //     user: {
+      //       name: "Natali Trump",
+      //       position: "UI/UX Designer",
+      //     },
+      //     rating: 5,
+      //   },
+      //   {
+      //     image: "/media/avatars/300-10.jpg",
+      //     user: {
+      //       name: "Kevin Leonard",
+      //       position: "Art Director",
+      //     },
+      //     rating: 3,
+      //   },
+      // ],
+      // [
+      //   {
+      //     image: "/media/svg/avatars/043-boy-18.svg",
+      //     user: {
+      //       name: "Kevin Leonard",
+      //       position: "Art Director",
+      //     },
+      //     rating: 3,
+      //   },
+      //   {
+      //     image: "/media/svg/avatars/014-girl-7.svg",
+      //     user: {
+      //       name: "Natali Trump",
+      //       position: "UI/UX Designer",
+      //     },
+      //     rating: 5,
+      //   },
+      //   {
+      //     image: "/media/svg/avatars/018-girl-9.svg",
+      //     user: {
+      //       name: "Jessie Clarcson",
+      //       position: "HTML, CSS Coding",
+      //     },
+      //     rating: 5,
+      //   },
+      //   {
+      //     image: "/media/svg/avatars/001-boy.svg",
+      //     user: {
+      //       name: "Brad Simmons",
+      //       position: "Movie Creator",
+      //     },
+      //     rating: 5,
+      //   },
+      // ],
+      // [
+      //   {
+      //     image: "/media/svg/avatars/018-girl-9.svg",
+      //     user: {
+      //       name: "Jessie Clarcson",
+      //       position: "HTML, CSS Coding",
+      //     },
+      //     rating: 5,
+      //   },
+      //   {
+      //     image: "/media/svg/avatars/047-girl-25.svg",
+      //     user: {
+      //       name: "Lebron Wayde",
+      //       position: "ReactJS Developer",
+      //     },
+      //     rating: 4,
+      //   },
+      //   {
+      //     image: "/media/svg/avatars/014-girl-7.svg",
+      //     user: {
+      //       name: "Natali Trump",
+      //       position: "UI/UX Designer",
+      //     },
+      //     rating: 5,
+      //   },
+      // ],
     ];
 
     return {

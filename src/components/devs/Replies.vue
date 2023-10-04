@@ -138,51 +138,51 @@ export default defineComponent({
   components: {},
   setup() {
     const replies = ref([
-      {
-        message:
-          "I’ve been doing some ajax request, to populate a inside drawer, the content of that drawer has a sub menu, that you are using in list and all card toolbar.",
-        author: "Sandra Piquet",
-        date: "24 minutes ago",
-        avatar: "media/avatars/300-2.jpg",
-        upvotes: "",
-        indent: "",
-      },
-      {
-        message:
-          "I’ve been doing some ajax request, to populate a inside drawer, the content of that drawer has a sub menu, that you are using in list and all card toolbar.",
-        author: "Niko Roseberg",
-        date: "1 day ago",
-        avatar: undefined,
-        upvotes: "2",
-        indent: "ms-5 ms-lg-10",
-      },
-      {
-        message:
-          "I’ve been doing some ajax request, to populate a inside drawer, the content of that drawer has a sub menu, that you are using in list and all card toolbar.",
-        author: "Sandra Piquet",
-        date: "24 minutes ago",
-        avatar: "media/avatars/300-12.jpg",
-        upvotes: "6",
-        indent: "",
-      },
-      {
-        message:
-          "I’ve been doing some ajax request, to populate a inside drawer, the content of that drawer has a sub menu, that you are using in list and all card toolbar.",
-        author: "Sandra Piquet",
-        date: "24 minutes ago",
-        avatar: undefined,
-        upvotes: "4",
-        indent: "",
-      },
-      {
-        message:
-          "I’ve been doing some ajax request, to populate a inside drawer, the content of that drawer has a sub menu, that you are using in list and all card toolbar.",
-        author: "Niko Roseberg",
-        date: "1 day ago",
-        avatar: "media/avatars/300-20.jpg",
-        upvotes: "",
-        indent: "",
-      },
+      // {
+      //   message:
+      //     "I’ve been doing some ajax request, to populate a inside drawer, the content of that drawer has a sub menu, that you are using in list and all card toolbar.",
+      //   author: "Sandra Piquet",
+      //   date: "24 minutes ago",
+      //   avatar: "media/avatars/300-2.jpg",
+      //   upvotes: "",
+      //   indent: "",
+      // },
+      // {
+      //   message:
+      //     "I’ve been doing some ajax request, to populate a inside drawer, the content of that drawer has a sub menu, that you are using in list and all card toolbar.",
+      //   author: "Niko Roseberg",
+      //   date: "1 day ago",
+      //   avatar: undefined,
+      //   upvotes: "2",
+      //   indent: "ms-5 ms-lg-10",
+      // },
+      // {
+      //   message:
+      //     "I’ve been doing some ajax request, to populate a inside drawer, the content of that drawer has a sub menu, that you are using in list and all card toolbar.",
+      //   author: "Sandra Piquet",
+      //   date: "24 minutes ago",
+      //   avatar: "media/avatars/300-12.jpg",
+      //   upvotes: "6",
+      //   indent: "",
+      // },
+      // {
+      //   message:
+      //     "I’ve been doing some ajax request, to populate a inside drawer, the content of that drawer has a sub menu, that you are using in list and all card toolbar.",
+      //   author: "Sandra Piquet",
+      //   date: "24 minutes ago",
+      //   avatar: undefined,
+      //   upvotes: "4",
+      //   indent: "",
+      // },
+      // {
+      //   message:
+      //     "I’ve been doing some ajax request, to populate a inside drawer, the content of that drawer has a sub menu, that you are using in list and all card toolbar.",
+      //   author: "Niko Roseberg",
+      //   date: "1 day ago",
+      //   avatar: "media/avatars/300-20.jpg",
+      //   upvotes: "",
+      //   indent: "",
+      // },
     ]);
 
     return {

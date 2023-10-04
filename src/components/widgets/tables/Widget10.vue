@@ -175,64 +175,64 @@ export default defineComponent({
   },
   setup() {
     const list = [
+      // {
+      //   user: {
+      //     avatar: "/media/avatars/300-6.jpg",
+      //     name: "Emma Smith",
+      //     email: "e.smith@kpmg.com.au",
+      //   },
+      //   price: "$560,000",
+      //   technologies: "Laravel, Metronic",
+      //   status: {
+      //     label: "Approved",
+      //     color: "success",
+      //   },
+      // },
+      // {
+      //   user: {
+      //     state: "danger",
+      //     name: "Melody Macy",
+      //     email: "melody@altbox.com",
+      //   },
+      //   price: "$2,000,000",
+      //   technologies: "ReactJs, HTML",
+      //   status: {
+      //     label: "In Progress",
+      //     color: "warning",
+      //   },
+      // },
+      // {
+      //   user: {
+      //     avatar: "/media/avatars/300-1.jpg",
+      //     name: "Max Smith",
+      //     email: "max@kt.com",
+      //   },
+      //   price: "$760,000",
+      //   technologies: "Python, MySQL",
+      //   status: {
+      //     label: "Success",
+      //     color: "danger",
+      //   },
+      // },
+      // {
+      //   user: {
+      //     avatar: "/media/avatars/300-5.jpg",
+      //     name: "Sean Bean",
+      //     email: "sean@dellito.com",
+      //   },
+      //   price: "$257,000",
+      //   technologies: "ReactJS, Ruby",
+      //   status: {
+      //     label: "Rejected",
+      //     color: "info",
+      //   },
+      // },
       {
-        user: {
-          avatar: "/media/avatars/300-6.jpg",
-          name: "Emma Smith",
-          email: "e.smith@kpmg.com.au",
-        },
-        price: "$560,000",
-        technologies: "Laravel, Metronic",
-        status: {
-          label: "Approved",
-          color: "success",
-        },
-      },
-      {
-        user: {
-          state: "danger",
-          name: "Melody Macy",
-          email: "melody@altbox.com",
-        },
-        price: "$2,000,000",
-        technologies: "ReactJs, HTML",
-        status: {
-          label: "In Progress",
-          color: "warning",
-        },
-      },
-      {
-        user: {
-          avatar: "/media/avatars/300-1.jpg",
-          name: "Max Smith",
-          email: "max@kt.com",
-        },
-        price: "$760,000",
-        technologies: "Python, MySQL",
-        status: {
-          label: "Success",
-          color: "danger",
-        },
-      },
-      {
-        user: {
-          avatar: "/media/avatars/300-5.jpg",
-          name: "Sean Bean",
-          email: "sean@dellito.com",
-        },
-        price: "$257,000",
-        technologies: "ReactJS, Ruby",
-        status: {
-          label: "Rejected",
-          color: "info",
-        },
-      },
-      {
-        user: {
-          avatar: "/media/avatars/300-25.jpg",
-          name: "Brian Cox",
-          email: "brian@exchange.com",
-        },
+        // user: {
+        //   avatar: "/media/avatars/300-25.jpg",
+        //   name: "Brian Cox",
+        //   email: "brian@exchange.com",
+        // },
         price: "$560,000",
         technologies: "AngularJS, C#",
         status: {

@@ -277,52 +277,6 @@ const items = reactive([
     table: monthTable.value,
   },
 ]);
-const data = [
-  {
-    title: "Today",
-    icon: "fonticon-drive",
-    index: "1",
-    table: [
-      {
-        columnName: "GAME",
-        custom: "component3",
-      },
-      {
-        agent: {
-          avatar: "/media/avatars/300-2.jpg",
-          name: "Jane Cooper",
-          city: "Monaco",
-        },
-        price: "63.83",
-        icon: false,
-        statistics: 10,
-        chartCcolor: "danger",
-      },
-      {
-        agent: {
-          avatar: "/media/avatars/300-9.jpg",
-          name: "Jacob Jones",
-          city: "Poland",
-        },
-        price: "92.56",
-        icon: true,
-        statistics: 9,
-        chartCcolor: "success",
-      },
-      {
-        agent: {
-          avatar: "/media/avatars/300-7.jpg",
-          name: "Cody Fishers",
-          city: "Mexico",
-        },
-        price: "63.08",
-        icon: false,
-        statistics: 9.5,
-        chartCcolor: "success",
-      },
-    ],
-  },
-];
 
 const fetchOrders = (type) => {
   loadingItems.value = true;

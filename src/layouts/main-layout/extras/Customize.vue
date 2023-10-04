@@ -101,11 +101,11 @@
                     >
                       <!--begin::Image-->
                       <div class="form-check-wrapper">
-                        <img
+                        <!-- <img
                           src="/media/misc/layout/demo1-light.png"
                           class="mw-100"
                           alt=""
-                        />
+                        /> -->
                       </div>
                       <!--end::Image-->
                       <!--begin::Check-->
@@ -138,11 +138,11 @@
                     >
                       <!--begin::Image-->
                       <div class="form-check-wrapper">
-                        <img
+                        <!-- <img
                           src="/media/misc/layout/demo1-dark.png"
                           class="mw-100"
                           alt=""
-                        />
+                        /> -->
                       </div>
                       <!--end::Image-->
                       <!--begin::Check-->

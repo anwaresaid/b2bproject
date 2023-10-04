@@ -39,7 +39,7 @@
             data-bs-placement="top"
             title="Marcus Dotson"
           >
-            <img src="/media/avatars/300-2.jpg" alt="img" />
+            <!-- <img src="/media/avatars/300-2.jpg" alt="img" /> -->
           </div>
           <!--end::User-->
         </div>
@@ -56,11 +56,7 @@
           <div class="overlay me-10">
             <!--begin::Image-->
             <div class="overlay-wrapper">
-              <img
-                alt="img"
-                class="rounded w-200px"
-                src="/media/demos/demo1.png"
-              />
+              <img alt="img" class="rounded w-200px" src="" />
             </div>
             <!--end::Image-->
 
@@ -76,11 +72,11 @@
           <div class="overlay me-10">
             <!--begin::Image-->
             <div class="overlay-wrapper">
-              <img
+              <!-- <img
                 alt="img"
                 class="rounded w-200px"
                 src="/media/demos/demo2.png"
-              />
+              /> -->
             </div>
             <!--end::Image-->
 
@@ -96,11 +92,11 @@
           <div class="overlay">
             <!--begin::Image-->
             <div class="overlay-wrapper">
-              <img
+              <!-- <img
                 alt="img"
                 class="rounded w-200px"
                 src="/media/demos/demo3.png"
-              />
+              /> -->
             </div>
             <!--end::Image-->
 

@@ -221,6 +221,9 @@ onMounted(() => {
   background-color: white;
   border-radius: 10px;
 }
+h4 {
+  color: white;
+}
 .multiplication {
   color: grey;
 }

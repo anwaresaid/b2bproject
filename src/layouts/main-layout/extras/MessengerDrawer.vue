@@ -188,52 +188,52 @@ export default defineComponent({
     const messagesOutRef = ref<null | HTMLElement>(null);
 
     const messages = ref<Array<KTMessage>>([
-      {
-        type: "in",
-        name: "Brian Cox",
-        image: "/media/avatars/300-25.jpg",
-        time: "5 Hours",
-        text: "How likely are you to recommend our company to your friends and family ?",
-      },
-      {
-        type: "out",
-        image: "/media/avatars/300-1.jpg",
-        time: "2 Hours",
-        text: "Hey there, we’re just writing to let you know that you’ve been subscribed to a repository on GitHub.",
-      },
-      {
-        type: "in",
-        name: "Brian Cox",
-        image: "/media/avatars/300-25.jpg",
-        time: "2 Hour",
-        text: "Ok, Understood!",
-      },
-      {
-        type: "out",
-        image: "/media/avatars/300-1.jpg",
-        time: "2 Hours",
-        text: "You’ll receive notifications for all issues, pull requests!",
-      },
-      {
-        type: "in",
-        name: "Brian Cox",
-        image: "/media/avatars/300-25.jpg",
-        time: "1 Hour",
-        text: "You can unwatch this repository immediately by clicking here: Keenthemes.com",
-      },
-      {
-        type: "out",
-        image: "/media/avatars/300-1.jpg",
-        time: "4 mins",
-        text: "Most purchased Business courses during this sale!",
-      },
-      {
-        type: "in",
-        name: "Brian Cox",
-        image: "/media/avatars/300-25.jpg",
-        time: "2 mins",
-        text: "Company BBQ to celebrate the last quater achievements and goals. Food and drinks provided",
-      },
+      // {
+      //   type: "in",
+      //   name: "Brian Cox",
+      //   image: "/media/avatars/300-25.jpg",
+      //   time: "5 Hours",
+      //   text: "How likely are you to recommend our company to your friends and family ?",
+      // },
+      // {
+      //   type: "out",
+      //   image: "/media/avatars/300-1.jpg",
+      //   time: "2 Hours",
+      //   text: "Hey there, we’re just writing to let you know that you’ve been subscribed to a repository on GitHub.",
+      // },
+      // {
+      //   type: "in",
+      //   name: "Brian Cox",
+      //   image: "/media/avatars/300-25.jpg",
+      //   time: "2 Hour",
+      //   text: "Ok, Understood!",
+      // },
+      // {
+      //   type: "out",
+      //   image: "/media/avatars/300-1.jpg",
+      //   time: "2 Hours",
+      //   text: "You’ll receive notifications for all issues, pull requests!",
+      // },
+      // {
+      //   type: "in",
+      //   name: "Brian Cox",
+      //   image: "/media/avatars/300-25.jpg",
+      //   time: "1 Hour",
+      //   text: "You can unwatch this repository immediately by clicking here: Keenthemes.com",
+      // },
+      // {
+      //   type: "out",
+      //   image: "/media/avatars/300-1.jpg",
+      //   time: "4 mins",
+      //   text: "Most purchased Business courses during this sale!",
+      // },
+      // {
+      //   type: "in",
+      //   name: "Brian Cox",
+      //   image: "/media/avatars/300-25.jpg",
+      //   time: "2 mins",
+      //   text: "Company BBQ to celebrate the last quater achievements and goals. Food and drinks provided",
+      // },
     ]);
 
     const newMessageText = ref("");
@@ -256,21 +256,6 @@ export default defineComponent({
       }, 1);
 
       newMessageText.value = "";
-      setTimeout(() => {
-        messages.value.push({
-          type: "in",
-          name: "Ja Morant",
-          image: "/media/avatars/300-25.jpg",
-          time: "Just now",
-          text: "Thank you for your awesome support!",
-        });
-
-        setTimeout(() => {
-          if (messagesRef.value) {
-            messagesRef.value.scrollTop = messagesRef.value.scrollHeight;
-          }
-        }, 1);
-      }, 2000);
     };
 
     return {

@@ -107,10 +107,10 @@
             <div class="d-flex justify-content-center flex-column me-3">
               <div v-if="isGroupChat" class="symbol-group symbol-hover">
                 <div class="symbol symbol-35px symbol-circle">
-                  <img alt="Pic" src="/media/avatars/300-5.jpg" />
+                  <!-- <img alt="Pic" src="/media/avatars/300-5.jpg" /> -->
                 </div>
                 <div class="symbol symbol-35px symbol-circle">
-                  <img alt="Pic" src="/media/avatars/300-25.jpg" />
+                  <!-- <img alt="Pic" src="/media/avatars/300-25.jpg" /> -->
                 </div>
                 <div class="symbol symbol-35px symbol-circle">
                   <span class="symbol-label bg-light-warning text-warning 40px"
@@ -118,7 +118,7 @@
                   >
                 </div>
                 <div class="symbol symbol-35px symbol-circle">
-                  <img alt="Pic" src="/media/avatars/300-9.jpg" />
+                  <!-- <img alt="Pic" src="/media/avatars/300-9.jpg" /> -->
                 </div>
                 <div class="symbol symbol-35px symbol-circle">
                   <span class="symbol-label bg-light-danger text-danger 40px"
@@ -131,7 +131,7 @@
                   >
                 </div>
                 <div class="symbol symbol-35px symbol-circle">
-                  <img alt="Pic" src="/media/avatars/300-23.jpg" />
+                  <!-- <img alt="Pic" src="/media/avatars/300-23.jpg" /> -->
                 </div>
                 <a
                   href="#"
@@ -315,52 +315,52 @@ export default defineComponent({
     const route = useRoute();
 
     const messages = ref<Array<KTMessage>>([
-      {
-        type: "in",
-        name: "Brian Cox",
-        image: "/media/avatars/300-25.jpg",
-        time: "5 Hours",
-        text: "How likely are you to recommend our company to your friends and family ?",
-      },
-      {
-        type: "out",
-        image: "/media/avatars/300-1.jpg",
-        time: "2 Hours",
-        text: "Hey there, we’re just writing to let you know that you’ve been subscribed to a repository on GitHub.",
-      },
-      {
-        type: "in",
-        name: "Brian Cox",
-        image: "/media/avatars/300-25.jpg",
-        time: "2 Hour",
-        text: "Ok, Understood!",
-      },
-      {
-        type: "out",
-        image: "/media/avatars/300-1.jpg",
-        time: "2 Hours",
-        text: "You’ll receive notifications for all issues, pull requests!",
-      },
-      {
-        type: "in",
-        name: "Brian Cox",
-        image: "/media/avatars/300-25.jpg",
-        time: "1 Hour",
-        text: "You can unwatch this repository immediately by clicking here: Keenthemes.com",
-      },
-      {
-        type: "out",
-        image: "/media/avatars/300-1.jpg",
-        time: "4 mins",
-        text: "Most purchased Business courses during this sale!",
-      },
-      {
-        type: "in",
-        name: "Brian Cox",
-        image: "/media/avatars/300-25.jpg",
-        time: "2 mins",
-        text: "Company BBQ to celebrate the last quater achievements and goals. Food and drinks provided",
-      },
+      // {
+      //   type: "in",
+      //   name: "Brian Cox",
+      //   image: "/media/avatars/300-25.jpg",
+      //   time: "5 Hours",
+      //   text: "How likely are you to recommend our company to your friends and family ?",
+      // },
+      // {
+      //   type: "out",
+      //   image: "/media/avatars/300-1.jpg",
+      //   time: "2 Hours",
+      //   text: "Hey there, we’re just writing to let you know that you’ve been subscribed to a repository on GitHub.",
+      // },
+      // {
+      //   type: "in",
+      //   name: "Brian Cox",
+      //   image: "/media/avatars/300-25.jpg",
+      //   time: "2 Hour",
+      //   text: "Ok, Understood!",
+      // },
+      // {
+      //   type: "out",
+      //   image: "/media/avatars/300-1.jpg",
+      //   time: "2 Hours",
+      //   text: "You’ll receive notifications for all issues, pull requests!",
+      // },
+      // {
+      //   type: "in",
+      //   name: "Brian Cox",
+      //   image: "/media/avatars/300-25.jpg",
+      //   time: "1 Hour",
+      //   text: "You can unwatch this repository immediately by clicking here: Keenthemes.com",
+      // },
+      // {
+      //   type: "out",
+      //   image: "/media/avatars/300-1.jpg",
+      //   time: "4 mins",
+      //   text: "Most purchased Business courses during this sale!",
+      // },
+      // {
+      //   type: "in",
+      //   name: "Brian Cox",
+      //   image: "/media/avatars/300-25.jpg",
+      //   time: "2 mins",
+      //   text: "Company BBQ to celebrate the last quater achievements and goals. Food and drinks provided",
+      // },
     ]);
 
     const newMessageText = ref("");

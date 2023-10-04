@@ -30,7 +30,7 @@
 
   <!--begin::Contacts-->
   <div class="row g-6 g-xl-9">
-    <Card4
+    <!-- <Card4
       name="Emma Smith"
       position="Art Director"
       :online="false"
@@ -69,9 +69,9 @@
       :connected="false"
       avg-earnings="$14,560"
       total-sales="$236,400"
-    ></Card4>
+    ></Card4> -->
 
-    <Card4
+    <!-- <Card4
       name="Brian Cox"
       position="UI/UX Designer"
       :online="false"
@@ -79,9 +79,9 @@
       :connected="false"
       avg-earnings="$14,560"
       total-sales="$236,400"
-    ></Card4>
+    ></Card4> -->
 
-    <Card4
+    <!-- <Card4
       name="Mikaela Collins"
       position="Head Of Marketing"
       :online="true"
@@ -122,9 +122,9 @@
       :connected="false"
       avg-earnings="$14,560"
       total-sales="$236,400"
-    ></Card4>
+    ></Card4> -->
 
-    <Card4
+    <!-- <Card4
       name="Dan Wilson"
       position="Web Desinger"
       :online="false"
@@ -132,9 +132,9 @@
       :connected="false"
       avg-earnings="$14,560"
       total-sales="$236,400"
-    ></Card4>
+    ></Card4> -->
 
-    <Card4
+    <!-- <Card4
       name="Emma Bold"
       position="Corporate Finance"
       :online="true"
@@ -153,7 +153,7 @@
       :connected="false"
       avg-earnings="$14,560"
       total-sales="$236,400"
-    ></Card4>
+    ></Card4> -->
   </div>
   <!--end::Contacts-->
 

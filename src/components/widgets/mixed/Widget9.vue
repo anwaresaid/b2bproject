@@ -33,7 +33,7 @@
 
       <!--begin::Team-->
       <div class="d-flex align-items-center">
-        <a
+        <!-- <a
           href="#"
           class="symbol symbol-35px me-2"
           data-bs-toggle="tooltip"
@@ -58,7 +58,7 @@
           title="Sam Harris"
         >
           <img src="/media/avatars/300-9.jpg" alt="" />
-        </a>
+        </a> -->
       </div>
       <!--end::Team-->
     </div>
