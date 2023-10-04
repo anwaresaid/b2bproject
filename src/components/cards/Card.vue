@@ -47,7 +47,7 @@
             required
           >
             <el-input
-              :model-value="(form.sales_price * 1).toLocaleString('en-US')"
+              :model-value="form.sales_price"
               @input="handleInput"
               type="text"
               autocomplete="off"
@@ -86,12 +86,11 @@ import {
   onBeforeUnmount,
   defineEmits,
 } from "vue";
-import ApiService from "@/core/services/ApiService";
-import PusherService from "@/core/services/PusherService";
 import type { FormInstance, FormRules } from "element-plus";
 import { ElMessage, ElMessageBox } from "element-plus";
 import DropdownRemote from "@/components/dropdown/DropdownRemote.vue";
 import type { Action } from "element-plus";
+import { beautifyNumber } from "@/views/apps/utils/functions";
 
 const props = defineProps(["index"]);
 
@@ -156,7 +155,7 @@ const rules = reactive<FormRules<RuleForm>>({
   ],
 });
 const handleInput = (num) => {
-  form.sales_price = num.replace(/[^0-9]/g, ""); // Allow only numbers
+  form.sales_price = beautifyNumber(num);
 };
 const confirmSubmission = () => {
   ElMessageBox.alert("new key created", "key creation", {

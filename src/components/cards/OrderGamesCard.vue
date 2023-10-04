@@ -18,8 +18,9 @@
           </div>
           <div class="result">
             {{
-              (props.item?.quantity * props.item?.sales_price).toLocaleString(
-                "en-US"
+              beautifyNumber(
+                switchBeautifulNumber(props.item?.quantity) *
+                  switchBeautifulNumber(props.item?.sales_price)
               ) || 0
             }}
             {{ displayCurrency() || "$" }}
@@ -65,6 +66,10 @@ import { ElMessage, ElMessageBox } from "element-plus";
 import DropdownRemote from "@/components/dropdown/DropdownRemote.vue";
 import { currency } from "../../views/apps/utils/constants";
 import type { Action } from "element-plus";
+import {
+  beautifyNumber,
+  switchBeautifulNumber,
+} from "@/views/apps/utils/functions";
 
 const props = defineProps(["item", "name", "currency", "theme"]);
 

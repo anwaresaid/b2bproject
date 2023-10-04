@@ -67,3 +67,30 @@ export const errorHandling = (error) => {
     confirmButtonText: "OK",
   });
 };
+
+export const beautifyNumber = (num) => {
+  const temp = num + "";
+  let final = temp.replace(/[^0-9.]/g, "");
+
+  // Split the value into integer and decimal parts
+  const parts = final.split(".");
+  let containsDecimal = false;
+  if (final.includes(".")) {
+    containsDecimal = true;
+  }
+  let integerPart = parts[0] || "";
+  let decimalPart = parts[1] || "";
+
+  // Add commas to the integer part every three digits
+  integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  // Reassemble the formatted value
+  final =
+    integerPart +
+    (decimalPart ? "." + decimalPart : containsDecimal ? "." : "");
+  console.log("form end", final);
+  return final;
+};
+export const switchBeautifulNumber = (num) => {
+  const number = (num + "").replace(",", "");
+  return parseFloat(number);
+};

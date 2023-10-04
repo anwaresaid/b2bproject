@@ -80,7 +80,7 @@
       </el-form-item>
       <el-form-item label="Cost" label-width="250px" prop="cost" required>
         <el-input
-          :model-value="(form.cost * 1).toLocaleString('en-US')"
+          :model-value="form.cost"
           type="text"
           @input="assignCost"
           autocomplete="off"
@@ -90,11 +90,12 @@
         <el-input
           :value="
             form.kdv
-              ? (
-                  form.cost * (form.percent_of_kdv / 100) +
-                  1 * form.cost
-                ).toLocaleString('en-US')
-              : (form.cost * 1).toLocaleString('en-US')
+              ? beautifyNumber(
+                  switchBeautifulNumber(form.cost) *
+                    (form.percent_of_kdv / 100) +
+                    switchBeautifulNumber(form.cost)
+                )
+              : beautifyNumber(switchBeautifulNumber(form.cost))
           "
           disabled
           autocomplete="off"
@@ -150,7 +151,11 @@ import { ElMessage, ElMessageBox } from "element-plus";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import { keysTypeStatus, currency } from "../utils/constants";
 import type { Action } from "element-plus";
-import { errorHandling } from "@/views/apps/utils/functions";
+import {
+  errorHandling,
+  beautifyNumber,
+  switchBeautifulNumber,
+} from "@/views/apps/utils/functions";
 
 interface RuleForm {
   game_id: number;
@@ -276,8 +281,7 @@ const setSupplierId = (value) => {
   form.supplier_id = value;
 };
 const assignCost = (e) => {
-  const numericValue = e.replace(/[^0-9]/g, ""); // Allow only numbers
-  form.cost = numericValue;
+  form.cost = beautifyNumber(e);
 };
 const createGame = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;

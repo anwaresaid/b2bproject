@@ -40,7 +40,7 @@
         required
       >
         <el-input
-          :model-value="(form.sales_price * 1).toLocaleString('en-US')"
+          :model-value="(form.sale_price * 1).toLocaleString('en-US')"
           @input="handleInput"
           autocomplete="off"
         />
@@ -131,7 +131,7 @@
         required
       >
         <el-input
-          :model-value="(form.min_sales * 1).toLocaleString('en-US')"
+          :model-value="form.min_sales"
           @input="handleInputMin"
           type="text"
           autocomplete="off"
@@ -222,7 +222,11 @@ import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import { gameStatus, categoryType } from "../utils/constants";
 import type { FormInstance, FormRules } from "element-plus";
 import { ElMessage, ElMessageBox } from "element-plus";
-import { errorHandling } from "@/views/apps/utils/functions";
+import {
+  errorHandling,
+  beautifyNumber,
+  switchBeautifulNumber,
+} from "@/views/apps/utils/functions";
 import type { Action } from "element-plus";
 
 interface RuleForm {
@@ -362,10 +366,10 @@ const confirmSubmission = () => {
 };
 
 const handleInput = (num) => {
-  form.sales_price = num.replace(/[^0-9]/g, ""); // Allow only numbers
+  form.sale_price = beautifyNumber(num); // Allow only numbers
 };
 const handleInputMin = (num) => {
-  form.min_sales = num.replace(/[^0-9]/g, ""); // Allow only numbers
+  form.min_sales = beautifyNumber(num); // Allow only numbers
 };
 const createUpdateGame = async (formEl: FormInstance | undefined) => {
   let tempMarketplaces = [];
