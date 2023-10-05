@@ -339,10 +339,6 @@ onBeforeUnmount(() => {
 h4 {
   color: white;
 }
-.:hover {
-  cursor: pointer;
-  filter: brightness(120%);
-}
 .table-cell {
   width: 100px;
 }
