@@ -339,7 +339,7 @@ onBeforeUnmount(() => {
 h4 {
   color: white;
 }
-.game-name-link:hover {
+.:hover {
   cursor: pointer;
   filter: brightness(120%);
 }

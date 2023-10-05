@@ -460,8 +460,4 @@ onBeforeUnmount(() => {
   border-radius: 10px;
   border: 1px solid #bd2ef8;
 }
-.game-name-link:hover {
-  cursor: pointer;
-  filter: brightness(120%);
-}
 </style>

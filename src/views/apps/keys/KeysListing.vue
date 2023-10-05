@@ -20,6 +20,20 @@
               >add keys</el-button
             >
           </div>
+          <el-tooltip
+            class="box-item"
+            effect="dark"
+            content="Add game"
+            placement="top-start"
+          >
+            <el-button
+              type="danger"
+              icon="Football"
+              @click="handleCreateGame"
+              round
+              >Add Game</el-button
+            >
+          </el-tooltip>
         </div>
         <div class="d-flex justify-content-between">
           <el-form-item label="Order By Create Date">
@@ -169,6 +183,10 @@
     :isUpdate="isUpdate"
     @create-key="closeCreateKey"
   />
+  <GameCreate
+    :isVisible="gameCreateVisible"
+    @create-game="closeCreateGame"
+  ></GameCreate>
 </template>
 
 <script lang="ts" setup>
@@ -182,6 +200,7 @@ import PusherService from "@/core/services/PusherService";
 import store from "../../../store";
 import { useRouter } from "vue-router";
 import { errorHandling } from "@/views/apps/utils/functions";
+import GameCreate from "../games/GameCreate.vue";
 
 const keysData = ref([]);
 const gameUrl = "games/list";
@@ -195,6 +214,7 @@ const supplierUrl = "suppliers/all";
 const supplierType = "suppliers";
 const customerUrl = "customers/all";
 const customerType = "customers";
+const gameCreateVisible = ref(false);
 const params = ref({});
 const tableStatus = ref(null);
 const itemsInTable = ref(50);
@@ -298,6 +318,12 @@ const navigateGameDetails = (id) => {
       id: id,
     },
   });
+};
+const closeCreateGame = (value) => {
+  gameCreateVisible.value = false;
+};
+const handleCreateGame = () => {
+  gameCreateVisible.value = true;
 };
 const setGameId = (value) => {
   dropdownParams.value.game_id = value;

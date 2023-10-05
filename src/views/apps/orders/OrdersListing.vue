@@ -189,8 +189,9 @@
             >
             <span
               v-else-if="
-                slotProps.action?.status ===
-                ('Kabul Edilmedi' || 'İptal Edildi')
+                slotProps.action?.status === 'Kabul Edilmedi' ||
+                slotProps.action?.status === 'İptal Edildi' ||
+                slotProps.action?.status === 'Reddedilmiş'
               "
               :class="`badge py-3 px-4 fs-7 badge-light-danger`"
               >{{ slotProps.action?.status }}</span

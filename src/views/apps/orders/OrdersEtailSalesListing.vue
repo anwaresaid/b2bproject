@@ -149,7 +149,7 @@
               placement="top-start"
             >
               <span
-                :class="`game-name-link badge py-3 px-4 fs-7 badge-light-warning`"
+                :class="` game-name-link badge py-3 px-4 fs-7 badge-light-warning`"
                 @click="navigateToGameDetailsPage(slotProps.action?.game?.uuid)"
                 >{{ slotProps.action.game?.name }}</span
               >
@@ -448,5 +448,17 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.badge {
+  white-space: wrap;
+}
+.el-table .cell {
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  word-break: break-all;
+  line-height: 23px;
+  padding: 0 12px;
 }
 </style>

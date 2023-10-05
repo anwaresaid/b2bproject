@@ -249,11 +249,10 @@
         </template>
         <template v-slot:component2="slotProps">
           <slot :action="slotProps.action">
-            <el-tag
-              class="game-name-link ml-2"
-              type="warning"
+            <span
+              :class="`game-name-link badge py-3 px-4 fs-7 badge-light-warning`"
               @click="navigateGameDetails(slotProps.action?.uuid)"
-              >{{ slotProps.action?.name }}</el-tag
+              >{{ slotProps.action?.name }}</span
             >
           </slot>
         </template>
@@ -789,6 +788,6 @@ export default defineComponent({
 }
 .game-name-link:hover {
   cursor: pointer;
-  filter: brightness(120%);
+  filter: brightness(200%);
 }
 </style>
