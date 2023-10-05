@@ -40,7 +40,7 @@
         required
       >
         <el-input
-          :model-value="(form.sale_price * 1).toLocaleString('en-US')"
+          :model-value="beautifyNumber(form.sale_price)"
           @input="handleInput"
           autocomplete="off"
         />
@@ -518,7 +518,7 @@ watch(setVisible, (newValue) => {
     form.stats = props.update.status.id * 1;
     form.name = props.update.name;
     form.categoryType = props.update.category_type.id * 1;
-    form.min_sales = props.update.sale_price;
+    form.min_sales = switchBeautifulNumber(props.update.sale_price);
     form.description = props.update.description;
     form.sale_price = props.update.sale_price;
     // checkedEneba.value = props.
