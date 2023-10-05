@@ -22,6 +22,7 @@
       >
         <DropdownRemote
           :url="categoriesUrl"
+          :default="isUpdate ? form.category?.name : null"
           @selected-game="setCategoryId"
           :val="form.category"
           :clear="clear"
