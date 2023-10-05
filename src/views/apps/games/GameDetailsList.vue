@@ -15,6 +15,11 @@
                 placeholder="search by KEY code"
               />
             </div>
+            <div>
+              <el-button @click="createKey" type="primary" icon="plus" round
+                >add keys</el-button
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -39,7 +44,7 @@
           <el-tag
             class="ml-2"
             v-if="slotProps.action?.status === 'Satılmış'"
-            type="success"
+            type="danger"
             >Sold</el-tag
           >
           <el-tag class="ml-2" v-else type="danger">{{
@@ -49,10 +54,17 @@
       </template>
     </Datatable>
   </div>
+  <CreateKey
+    :isVisible="keyCreateVisible"
+    :isUpdate="isUpdate"
+    @create-key="closeCreateKey"
+    :gameDropdown="gameObject"
+  />
 </template>
 
 <script lang="ts" setup>
 import { ref, reactive, onMounted, watch, toRefs, onBeforeUnmount } from "vue";
+import CreateKey from "../keys/CreateKey.vue";
 import ApiService from "@/core/services/ApiService";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import { orderType, orderStatus } from "../utils/constants";
@@ -77,6 +89,9 @@ const currentPage = ref(1);
 const paginationData = ref({});
 const loading = ref(false);
 const defaultTime = new Date(2000, 1, 1, 12, 0, 0);
+const isUpdate = ref(false);
+const keyCreateVisible = ref(false);
+const gameObject = ref({});
 
 const tableHeaders = ref([
   {
@@ -155,6 +170,11 @@ const pageChange = (page: number) => {
   fetchGames();
 };
 
+const closeCreateKey = (value) => {
+  keyCreateVisible.value = false;
+  if (value) fetchKeys();
+};
+
 const navigateOrderDetails = (item) => {
   const order_id = item.order_code;
   store.dispatch("setOrderCode", order_id);
@@ -164,6 +184,11 @@ const navigateOrderDetails = (item) => {
       id: order_id,
     },
   });
+};
+const createKey = () => {
+  isUpdate.value = false;
+  gameObject.value = { id: gameData.value.id, name: gameData.value.name };
+  keyCreateVisible.value = true;
 };
 
 const handleChangeDates = () => {

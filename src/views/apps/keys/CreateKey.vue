@@ -11,6 +11,7 @@
         <DropdownRemote
           :url="gameUrl"
           @selected-game="setGameId"
+          :default="props.gameDropdown ? props.gameDropdown?.name : null"
           :type="gameType"
           :keyg="gameKey"
         />
@@ -186,7 +187,7 @@ const gameType = "games";
 const supplierType = "suppliers";
 const formSize = ref("default");
 const ruleFormRef = ref<FormInstance>();
-const props = defineProps(["isVisible", "isUpdate", "data"]);
+const props = defineProps(["isVisible", "isUpdate", "data", "gameDropdown"]);
 const setVisible = ref("");
 setVisible.value = props.isVisible;
 // const lines = ref([""]);
@@ -324,6 +325,10 @@ watch(props, (newValue) => {
   }
 });
 watch(setVisible, (newValue) => {
+  if (props.gameDropdown) {
+    form.game_id = props.gameDropdown;
+    console.log("form", form);
+  }
   lines.value = [1];
   form.keys = null;
   if (!newValue) {
