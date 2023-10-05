@@ -464,7 +464,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/keys",
         name: "keys-listing",
-        component: () => KeysListing,
+        component: KeysListing,
         meta: {
           pageTitle: "Keys",
           breadcrumbs: ["Apps", "Keys"],
