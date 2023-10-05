@@ -203,6 +203,7 @@ onMounted(() => {
   if (store.state.followKey != null) {
     searchKey.value = store.state.followKey;
   }
+  searchKey.value = router.currentRoute.value.params?.id;
 });
 
 onBeforeUnmount(() => {

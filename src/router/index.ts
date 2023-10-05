@@ -452,7 +452,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/keys/follow",
+        path: "/keys/follow/:id?",
         name: "keys-follow",
         component: () => KeysFollow,
         props: true,

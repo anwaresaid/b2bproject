@@ -62,6 +62,23 @@
                   </div>
                 </slot>
               </template>
+              <template v-slot:component2="slotProps" #default="scope">
+                <slot :action="slotProps.action">
+                  <el-tooltip
+                    class="box-item"
+                    effect="dark"
+                    content="Follow Key"
+                    placement="top-start"
+                  >
+                    <el-button
+                      type="info"
+                      icon="Back"
+                      circle
+                      @click="navigateFollowPage(slotProps.action)"
+                    />
+                  </el-tooltip>
+                </slot>
+              </template>
             </Datatable>
             <div class="w-100">
               <h3 class="total-header mt-10">ORDER DETAIL</h3>
@@ -163,6 +180,11 @@ const tableHeader = ref([
     sortEnabled: false,
     custom: "component1",
   },
+  {
+    columnName: "FOLLOW",
+    sortEnabled: false,
+    custom: "component2",
+  },
 ]);
 
 const fetchData = () => {
@@ -175,6 +197,17 @@ const fetchData = () => {
     .catch((e) => {
       errorHandling(e?.response?.data?.messages);
     });
+};
+
+const navigateFollowPage = (item) => {
+  console.log("item", item);
+  const keycode = item.keycode;
+  router.push({
+    name: "keys-follow",
+    params: {
+      id: keycode,
+    },
+  });
 };
 
 const downloadZip = () => {

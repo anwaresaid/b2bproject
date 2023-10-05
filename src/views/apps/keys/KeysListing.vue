@@ -351,6 +351,9 @@ const followKey = (key) => {
   store.dispatch("setFollowKey", key.keycode);
   router.push({
     name: "keys-follow",
+    params: {
+      id: key.keycode,
+    },
   });
 };
 watch(tableStatus, (newValue) => {
