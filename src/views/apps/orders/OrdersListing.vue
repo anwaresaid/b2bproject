@@ -409,13 +409,14 @@ const emptyOrderbyFilters = (key) => {
 
 const navigateOrderDetails = (item) => {
   const order_id = item.order_code;
-  store.dispatch("setOrderCode", order_id);
-  router.push({
-    name: "order-details",
-    params: {
-      id: order_id,
-    },
-  });
+  window.open(`/order-details/${order_id}`);
+  // store.dispatch("setOrderCode", order_id);
+  // router.push({
+  //   name: "order-details",
+  //   params: {
+  //     id: order_id,
+  //   },
+  // });
 };
 
 const copyText = (obj) => {
