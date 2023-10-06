@@ -16,6 +16,21 @@
               />
             </div>
             <div>
+              <el-select
+                v-model="keySearchStatus"
+                class="select-type"
+                placeholder="Select key status"
+                clearable
+              >
+                <el-option
+                  v-for="item in keyStatus"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+            </div>
+            <div>
               <el-button @click="createKey" type="primary" icon="plus" round
                 >add keys</el-button
               >
@@ -67,7 +82,7 @@ import { ref, reactive, onMounted, watch, toRefs, onBeforeUnmount } from "vue";
 import CreateKey from "../keys/CreateKey.vue";
 import ApiService from "@/core/services/ApiService";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
-import { orderType, orderStatus } from "../utils/constants";
+import { orderType, orderStatus, keyStatus } from "../utils/constants";
 import { useRouter } from "vue-router";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import { dateFormatter } from "../utils/functions";
@@ -81,6 +96,7 @@ const router = useRouter();
 const searchKeys = ref("");
 const dropdownParams = ref({});
 const keysData = ref([]);
+const keySearchStatus = ref(null);
 
 const params = ref({});
 const tableStatus = ref(null);
@@ -172,7 +188,6 @@ const pageChange = (page: number) => {
 
 const closeCreateKey = (value) => {
   keyCreateVisible.value = false;
-  if (value) fetchKeys();
 };
 
 const navigateOrderDetails = (item) => {
@@ -185,6 +200,17 @@ const navigateOrderDetails = (item) => {
     },
   });
 };
+watch(keySearchStatus, (newValue) => {
+  dropdownParams.value = {
+    keyStatus: keySearchStatus.value,
+    uuid: router.currentRoute.value.params.id,
+  };
+  if (keySearchStatus.value === "") {
+    delete dropdownParams.value["status"];
+  }
+  params.value = dropdownParams.value;
+  fetchGames("filer");
+});
 const createKey = () => {
   isUpdate.value = false;
   gameObject.value = { id: gameData.value.id, name: gameData.value.name };

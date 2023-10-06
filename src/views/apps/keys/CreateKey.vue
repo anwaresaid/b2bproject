@@ -197,7 +197,7 @@ const form = reactive<RuleForm>({
   supplier_id: null,
   status: 1,
   percent_of_kdv: null,
-  invoice_no: null,
+  invoice_no: new Date().toLocaleDateString(),
   kdv: null,
   currency: null,
   cost: null,

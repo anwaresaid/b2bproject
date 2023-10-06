@@ -97,6 +97,45 @@ export const keysTypeStatus = [
   },
 ];
 
+export const keyStatus = [
+  {
+    label: "ACTIVE",
+    value: 1,
+  },
+  {
+    label: "PASSIV",
+    value: 2,
+  },
+  {
+    label: "RESERVED",
+    value: 3,
+  },
+  {
+    label: "SOLD",
+    value: 4,
+  },
+  {
+    label: "REFUNDED",
+    value: 5,
+  },
+  {
+    label: "DELIVERED",
+    value: 6,
+  },
+  {
+    label: "KINGUIN_STOCK",
+    value: 7,
+  },
+  {
+    label: "CANCEL",
+    value: 8,
+  },
+  {
+    label: "DELETED",
+    value: -1,
+  },
+];
+
 export const orderBy = [
   {
     label: "ASC",
