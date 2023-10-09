@@ -23,9 +23,9 @@
 
     <div class="card-body pt-0">
       <Datatable
-        :data="total[selectYear]"
+        :data="total[selectYear] ? total[selectYear] : []"
         :header="tableHeaders"
-        :totalPages="paginationData.last_page"
+        :totalPages="paginationData.last_page ? paginationData.last_page : 0"
         :enable-items-per-page-dropdown="true"
         :checkbox-enabled="true"
         checkbox-label="id"
@@ -66,7 +66,6 @@
       </Datatable>
     </div>
   </div>
-  <CreateUser :isVisible="userCreateVisible" @create-key="closeCreateUser" />
 </template>
 
 <script lang="ts" setup>

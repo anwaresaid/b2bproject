@@ -159,7 +159,7 @@ const rules = reactive<FormRules<typeof form>>({
 
 const fetchRoles = (text) => {
   ApiService.getTest("roles").then((res) => {
-    rolesData.value = res.data.data.roles
+    rolesData.value = res.data.data?.roles
       .map((role) => {
         return { text: role.name, value: role.id };
       })

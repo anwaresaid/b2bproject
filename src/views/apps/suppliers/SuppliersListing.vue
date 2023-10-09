@@ -20,10 +20,12 @@
       </div>
     </div>
     <div class="card-body pt-0">
+      {{ paginationData.last_page }}
       <Datatable
         :data="suppliersData"
+        :sortable="false"
         :header="tableHeader"
-        :totalPages="paginationData.last_page"
+        :totalPages="paginationData.last_page ? paginationData.last_page : 0"
         :enable-items-per-page-dropdown="true"
         :checkbox-enabled="true"
         :pagination="true"

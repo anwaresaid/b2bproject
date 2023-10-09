@@ -72,7 +72,7 @@ const emit = defineEmits();
 const label = ref("Please enter a keyword");
 const selectedObject = ref({});
 const value = ref(null);
-const loading = ref([false]);
+const loading = ref(false);
 const setParams = (query: string) => {
   params.value = query;
 };

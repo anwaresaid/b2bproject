@@ -93,10 +93,12 @@
       </div>
     </div>
     <div class="card-body pt-0">
+      {{ typeof loading }}
       <Datatable
         :data="keysData"
         :header="tableHeaders"
-        :totalPages="paginationData.value?.last_page"
+        :sortable="false"
+        :totalPages="paginationData.last_page ? paginationData.last_page : 0"
         :enable-items-per-page-dropdown="true"
         :checkbox-enabled="true"
         :pagination="true"
@@ -405,18 +407,6 @@ watch(orderByCreateDate, (newValue) => {
 //   params.value = dropdownParams.value;
 //   fetchKeys("filer");
 // });
-watch(keyCreateVisible, (newValue) => {
-  if (!newValue) {
-  }
-});
-watch(searchGames, (newValue) => {
-  if (!newValue) {
-  }
-});
-watch(message, (newValue) => {
-  if (!newValue) {
-  }
-});
 
 onMounted(() => {
   params.value.current_page = currentPage;

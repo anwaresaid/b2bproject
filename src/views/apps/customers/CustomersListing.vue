@@ -100,7 +100,7 @@
     </div>
     <div class="card-body pt-0">
       <Datatable
-        @on-sort="sort"
+        :sortable="false"
         @on-items-select="onItemSelect"
         :data="customersData"
         :header="tableHeader"

@@ -41,7 +41,6 @@
               :rules="rules"
               ref="ruleFormRef"
               status-icon
-              :size="formSize"
             >
               <el-form-item
                 v-for="label in labels"
