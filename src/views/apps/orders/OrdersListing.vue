@@ -183,32 +183,9 @@
         <template v-slot:component2="slotProps">
           <slot :action="slotProps.action">
             <span
-              v-if="slotProps.action.status.id === 'Rezerve'"
-              :class="`badge py-3 px-4 fs-7 badge-light-warning`"
-              >{{ slotProps.action?.status?.name }}</span
-            >
-            <span
-              v-else-if="
-                slotProps.action?.status === 'Kabul Edilmedi' ||
-                slotProps.action?.status === 'İptal Edildi' ||
-                slotProps.action?.status === 'Reddedilmiş'
-              "
-              :class="`badge py-3 px-4 fs-7 badge-light-danger`"
+              :class="`badge py-3 px-4 fs-7 badge-light-${slotProps.action.color}`"
               >{{ slotProps.action?.status }}</span
             >
-            <span
-              v-else-if="slotProps.action.status === 'Oluşturuldu'"
-              :class="`badge py-3 px-4 fs-7 badge-light-primary`"
-              >{{ slotProps.action?.status }}</span
-            >
-            <span
-              v-else-if="slotProps.action.status === 'Teslim Edildi'"
-              :class="`badge py-3 px-4 fs-7 badge-light-info`"
-              >{{ slotProps.action?.status }}</span
-            >
-            <span v-else :class="`badge py-3 px-4 fs-7 badge-light-success`">{{
-              slotProps.action?.status
-            }}</span>
           </slot>
         </template>
       </Datatable>

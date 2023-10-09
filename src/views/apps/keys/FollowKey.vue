@@ -34,6 +34,8 @@
           <Datatable
             :data="data?.histories"
             :header="tableHeaders"
+            :sortable="false"
+            :totalPages="0"
             checkbox-label="id"
             size="small"
             :loading="loading"
@@ -200,8 +202,8 @@ const navigateOrderDetails = (code) => {
 };
 
 onMounted(() => {
-  if (store.state.followKey != null) {
-    searchKey.value = store.state.followKey;
+  if (router.currentRoute.value.params.id) {
+    searchKey.value = router.currentRoute.value.params.id;
   }
   // searchKey.value = router.currentRoute.value.params?.id;
 });

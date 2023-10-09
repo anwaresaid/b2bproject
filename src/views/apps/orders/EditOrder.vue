@@ -35,9 +35,12 @@
               >
             </div>
             <Datatable
-              :data="allData.order?.keys"
+              :data="allData.order?.keys ? allData.order?.keys : []"
               :header="tableHeader"
-              :totalPages="paginationData.last_page"
+              :sortable="false"
+              :totalPages="
+                paginationData.last_page ? paginationData.last_page : 0
+              "
               :pagination="true"
               :enable-items-per-page-dropdown="true"
               :checkbox-enabled="true"
@@ -126,11 +129,11 @@
                 v-for="item in allData.order?.items"
                 class="d-flex flex-column align-items-center"
               >
-                <h7 class="game-title">{{ item.game }}</h7>
-                <h7 class="mt-5"
+                <span class="game-title">{{ item.game }}</span>
+                <span class="mt-5"
                   >{{ item.quantity }} * {{ item.unit_price
                   }}{{ item.currency }} = {{ item.calculation
-                  }}{{ item.currency }}</h7
+                  }}{{ item.currency }}</span
                 >
               </div>
             </div>
