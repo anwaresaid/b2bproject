@@ -200,7 +200,6 @@ const fetchData = () => {
 };
 
 const navigateFollowPage = (item) => {
-  console.log("item", item);
   const keycode = item.keycode;
   router.push({
     name: "keys-follow",

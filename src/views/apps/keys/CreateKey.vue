@@ -337,11 +337,10 @@ watch(setVisible, (newValue) => {
 });
 
 // Update the lines array whenever the code changes
-watch(form.keys, (newCode) => {
-  const lineCount = newCode.split("\n").length;
+watch(form, (newCode) => {
+  const lineCount = form.keys?.split("\n").length;
   lines.value = Array.from({ length: lineCount }, (_, i) => i + 1);
 });
-watch(lines, (newValue) => {});
 
 onBeforeUnmount(() => {
   // Cleanup or perform actions before component unmounts

@@ -60,9 +60,9 @@ const config: LayoutConfigTypes = {
       mobile: false,
     },
   },
-  illustrations: {
-    set: "sketchy-1",
-  },
+  // illustrations: {
+  //   set: "sketchy-1",
+  // },
   scrolltop: {
     display: true,
   },

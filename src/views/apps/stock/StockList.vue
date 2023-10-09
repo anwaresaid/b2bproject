@@ -83,7 +83,7 @@
       <Datatable
         :data="stockData"
         :header="tableHeaders"
-        :totalPages="paginationData.value?.last_page"
+        :totalPages="paginationData.last_page ? paginationData.last_page : 0"
         :enable-items-per-page-dropdown="true"
         :checkbox-enabled="true"
         checkbox-label="id"

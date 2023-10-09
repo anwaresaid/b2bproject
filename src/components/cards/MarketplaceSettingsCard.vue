@@ -20,7 +20,6 @@
           :rules="rules"
           ref="ruleFormRef"
           status-icon
-          :size="formSize"
         >
           <el-form-item
             label="Tedarikçi Seçiniz "

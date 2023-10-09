@@ -37,7 +37,7 @@
       <Datatable
         :data="usersData"
         :header="tableHeaders"
-        :totalPages="paginationData.last_page"
+        :totalPages="paginationData.last_page ? paginationData.last_page : 0"
         :enable-items-per-page-dropdown="true"
         :checkbox-enabled="true"
         checkbox-label="id"

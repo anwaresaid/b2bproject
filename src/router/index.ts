@@ -92,7 +92,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     redirect: "/dashboard",
-    component: () => MainLayout,
+    component: MainLayout,
     meta: {
       middleware: "auth",
     },
@@ -100,7 +100,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/dashboard",
         name: "dashboard",
-        component: () => Dashboard,
+        component: Dashboard,
         meta: {
           pageTitle: "Dashboard",
           breadcrumbs: ["Dashboards"],
@@ -109,7 +109,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/dashboard-comp",
         name: "dashboard-comp",
-        component: () => DashboardComp,
+        component: DashboardComp,
         meta: {
           pageTitle: "Dashboard",
           breadcrumbs: ["Dashboards"],
@@ -118,7 +118,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/builder",
         name: "builder",
-        component: () => LayoutBuilder,
+        component: LayoutBuilder,
         meta: {
           pageTitle: "Layout Builder",
           breadcrumbs: ["Layout"],
@@ -186,7 +186,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/profile",
         name: "profile-settings",
-        component: () => ProfileSettings,
+        component: ProfileSettings,
         meta: {
           pageTitle: "Profile Settings",
         },
@@ -194,7 +194,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/change-password",
         name: "change-password",
-        component: () => ChangePassoword,
+        component: ChangePassoword,
         meta: {
           pageTitle: "Change Password",
         },
@@ -202,7 +202,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/pages/wizards/horizontal",
         name: "horizontal-wizard",
-        component: () => Horizontal,
+        component: Horizontal,
         meta: {
           pageTitle: "Horizontal",
           breadcrumbs: ["Pages", "Wizard"],
@@ -211,7 +211,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/pages/wizards/vertical",
         name: "vertical-wizard",
-        component: () => Vertical,
+        component: Vertical,
         meta: {
           pageTitle: "Vertical",
           breadcrumbs: ["Pages", "Wizard"],
@@ -220,7 +220,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/account",
         name: "account",
-        component: () => Account,
+        component: Account,
         meta: {
           breadcrumbs: ["Crafted", "Account"],
         },
@@ -228,7 +228,7 @@ const routes: Array<RouteRecordRaw> = [
           {
             path: "overview",
             name: "account-overview",
-            component: () => OverView,
+            component: OverView,
             meta: {
               pageTitle: "Overview",
             },
@@ -236,7 +236,7 @@ const routes: Array<RouteRecordRaw> = [
           {
             path: "settings",
             name: "account-settings",
-            component: () => Settings,
+            component: Settings,
             meta: {
               pageTitle: "Settings",
             },
@@ -246,7 +246,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/customers/getting-started",
         name: "apps-customers-getting-started",
-        component: () => GettingStarted,
+        component: GettingStarted,
         meta: {
           pageTitle: "Getting Started",
           breadcrumbs: ["Apps", "Customers"],
@@ -255,7 +255,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/marketplace/kinguin",
         name: "apps-marketplace-kinguin",
-        component: () => KinguinMarketPlace,
+        component: KinguinMarketPlace,
         meta: {
           pageTitle: "Kinguin Match",
           breadcrumbs: ["Marketplace", "Kinguin Match"],
@@ -264,7 +264,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/marketplace/gamivo",
         name: "apps-marketplace-gamivo",
-        component: () => GamivoMarketPlace,
+        component: GamivoMarketPlace,
         meta: {
           pageTitle: "Gamivo Match",
           breadcrumbs: ["Marketplace", "Gamivo Match"],
@@ -273,7 +273,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/marketplace/settings",
         name: "marketplace-settings",
-        component: () => MarketplaceSettings,
+        component: MarketplaceSettings,
         meta: {
           pageTitle: "Marketplace Settings",
           breadcrumbs: ["Marketplace", "Marketplace Settings"],
@@ -282,7 +282,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/marketplace/Eneba",
         name: "apps-marketplace-eneba",
-        component: () => EnebaMarketPlace,
+        component: EnebaMarketPlace,
         meta: {
           pageTitle: "Eneba Match",
           breadcrumbs: ["Marketplace", "Eneba Match"],
@@ -291,7 +291,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/marketplace/Multiple",
         name: "apps-marketplace-multiple",
-        component: () => MultipleMatch,
+        component: MultipleMatch,
         meta: {
           pageTitle: "Multiple Match",
           breadcrumbs: ["Marketplace", "Multiple Match"],
@@ -300,7 +300,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/marketplace-match-list",
         name: "apps-marketplace-list",
-        component: () => MarketplaceMatchListing,
+        component: MarketplaceMatchListing,
         meta: {
           pageTitle: "Marketplace-match List",
           breadcrumbs: ["Apps", "Marketplace-match-list"],
@@ -309,7 +309,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/customers/customers-listing",
         name: "apps-customers-listing",
-        component: () => CustomersListing,
+        component: CustomersListing,
         meta: {
           pageTitle: "Customers Listing",
           breadcrumbs: ["Apps", "Customers"],
@@ -318,7 +318,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/all-notifications",
         name: "apps-notifications-all",
-        component: () => NotificationsAll,
+        component: NotificationsAll,
         meta: {
           pageTitle: "Notifications List",
           breadcrumbs: ["Apps", "Notifications"],
@@ -327,7 +327,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/moneybox",
         name: "apps-money-box",
-        component: () => MoneyBoxList,
+        component: MoneyBoxList,
         meta: {
           pageTitle: "Money Box",
           breadcrumbs: ["Apps", "Moneybox"],
@@ -336,7 +336,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/orders-sale",
         name: "apps-orders-sale",
-        component: () => OrdersSaleList,
+        component: OrdersSaleList,
         meta: {
           pageTitle: "Api Sales",
           breadcrumbs: ["Apps", "Orders"],
@@ -345,7 +345,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/account/general-account",
         name: "general-account",
-        component: () => GeneralAccount,
+        component: GeneralAccount,
         meta: {
           pageTitle: "General Account",
           breadcrumbs: ["Account", "General"],
@@ -354,7 +354,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/account/kebir",
         name: "kebir",
-        component: () => Kebir,
+        component: Kebir,
         meta: {
           pageTitle: "Kebir",
           breadcrumbs: ["Account", "General"],
@@ -363,7 +363,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/stock-list",
         name: "stock-list",
-        component: () => StockList,
+        component: StockList,
         meta: {
           pageTitle: "Stock List",
           breadcrumbs: ["apps", "stock-list"],
@@ -372,7 +372,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/games",
         name: "apps-games-listing",
-        component: () => GameListing,
+        component: GameListing,
         meta: {
           pageTitle: "Game Listing",
           breadcrumbs: ["Apps", "Games"],
@@ -381,7 +381,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/game-detail/:id",
         name: "apps-game-detail-listing",
-        component: () => GameDetailListing,
+        component: GameDetailListing,
         meta: {
           pageTitle: "game-detail",
           breadcrumbs: ["Apps", `Game detail`],
@@ -390,7 +390,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/roles",
         name: "apps-roles-listing",
-        component: () => RolesListing,
+        component: RolesListing,
         meta: {
           pageTitle: "Roles Listing",
           breadcrumbs: ["Apps", "Roles"],
@@ -399,7 +399,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/customers/customer-details",
         name: "apps-customers-details",
-        component: () => CustomerDetails,
+        component: CustomerDetails,
         meta: {
           pageTitle: "Customers Details",
           breadcrumbs: ["Apps", "Customers"],
@@ -408,7 +408,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/suppliers",
         name: "suppliers-listing",
-        component: () => SuppliersListing,
+        component: SuppliersListing,
         meta: {
           pageTitle: "Suppliers",
           breadcrumbs: ["Apps", "Suppliers"],
@@ -417,7 +417,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/orders",
         name: "orders-listing",
-        component: () => OrdersListing,
+        component: OrdersListing,
         meta: {
           pageTitle: "Orders",
           breadcrumbs: ["Apps", "Orders"],
@@ -426,7 +426,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/orders-etail-sales",
         name: "orders-etail-listing",
-        component: () => OrdersEtailListing,
+        component: OrdersEtailListing,
         meta: {
           pageTitle: "Etail Sales",
           breadcrumbs: ["Apps", "Orders"],
@@ -435,7 +435,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/create-order",
         name: "orders-create",
-        component: () => CreateOrder,
+        component: CreateOrder,
         meta: {
           pageTitle: "Orders",
           breadcrumbs: ["Apps", "Orders"],
@@ -444,7 +444,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/order-details/:id",
         name: "order-details",
-        component: () => EditOrder,
+        component: EditOrder,
         props: true,
         meta: {
           pageTitle: "Order Details",
@@ -454,7 +454,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/keys/follow/:id?",
         name: "keys-follow",
-        component: () => KeysFollow,
+        component: KeysFollow,
         props: true,
         meta: {
           pageTitle: "Key",
@@ -473,7 +473,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/offers",
         name: "offers-listing",
-        component: () => OffersListing,
+        component: OffersListing,
         meta: {
           pageTitle: "Offers Listing",
           breadcrumbs: ["Apps", "Offers Listing"],
@@ -482,7 +482,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/users",
         name: "users-listing",
-        component: () => UsersListing,
+        component: UsersListing,
         meta: {
           pageTitle: "Users Listing",
           breadcrumbs: ["Apps", "Users Listing"],
@@ -491,7 +491,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/subscriptions/getting-started",
         name: "apps-subscriptions-getting-started",
-        component: () => SubscriptionGettingStarted,
+        component: SubscriptionGettingStarted,
         meta: {
           pageTitle: "Getting Started",
           breadcrumbs: ["Apps", "Subscriptions"],
@@ -500,7 +500,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/subscriptions/subscription-list",
         name: "apps-subscriptions-subscription-list",
-        component: () => SubscriptionList,
+        component: SubscriptionList,
         meta: {
           pageTitle: "Getting Started",
           breadcrumbs: ["Apps", "Subscriptions"],
@@ -509,7 +509,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/subscriptions/add-subscription",
         name: "apps-subscriptions-add-subscription",
-        component: () => AddSubscription,
+        component: AddSubscription,
         meta: {
           pageTitle: "Add Subscription",
           breadcrumbs: ["Apps", "Subscriptions"],
@@ -518,7 +518,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/subscriptions/view-subscription",
         name: "apps-subscriptions-view-subscription",
-        component: () => ViewSubscription,
+        component: ViewSubscription,
         meta: {
           pageTitle: "View Subscription",
           breadcrumbs: ["Apps", "Subscriptions"],
@@ -527,7 +527,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/calendar",
         name: "apps-calendar",
-        component: () => Calendar,
+        component: Calendar,
         meta: {
           pageTitle: "Calendar",
           breadcrumbs: ["Apps"],
@@ -536,7 +536,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/chat/private-chat",
         name: "apps-private-chat",
-        component: () => Chat,
+        component: Chat,
         meta: {
           pageTitle: "Private Chat",
           breadcrumbs: ["Apps", "Chat"],
@@ -545,7 +545,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/chat/group-chat",
         name: "apps-group-chat",
-        component: () => Chat,
+        component: Chat,
         meta: {
           pageTitle: "Group Chat",
           breadcrumbs: ["Apps", "Chat"],
@@ -554,7 +554,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/apps/chat/drawer-chat",
         name: "apps-drawer-chat",
-        component: () => DrawerChat,
+        component: DrawerChat,
         meta: {
           pageTitle: "Drawer Chat",
           breadcrumbs: ["Apps", "Chat"],
@@ -563,7 +563,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/modals/general/invite-friends",
         name: "modals-general-invite-friends",
-        component: () => InviteFriends,
+        component: InviteFriends,
         meta: {
           pageTitle: "Invite Friends",
           breadcrumbs: ["Crafted", "Modals", "General"],
@@ -572,7 +572,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/modals/general/view-user",
         name: "modals-general-view-user",
-        component: () => ViewUsers,
+        component: ViewUsers,
         meta: {
           pageTitle: "View User",
           breadcrumbs: ["Crafted", "Modals", "General"],
@@ -581,7 +581,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/modals/general/upgrade-plan",
         name: "modals-general-upgrade-plan",
-        component: () => UpgradePlan,
+        component: UpgradePlan,
         meta: {
           pageTitle: "Upgrade Plan",
           breadcrumbs: ["Crafted", "Modals", "General"],
@@ -590,7 +590,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/modals/general/share-and-earn",
         name: "modals-general-share-and-earn",
-        component: () => ShareAndEarn,
+        component: ShareAndEarn,
         meta: {
           pageTitle: "Share And Earn",
           breadcrumbs: ["Crafted", "Modals", "General"],
@@ -599,7 +599,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/modals/forms/new-target",
         name: "modals-forms-new-target",
-        component: () => NewTarget,
+        component: NewTarget,
         meta: {
           pageTitle: "New Target",
           breadcrumbs: ["Crafted", "Modals", "Forms"],
@@ -608,7 +608,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/modals/forms/new-card",
         name: "modals-forms-new-card",
-        component: () => NewCard,
+        component: NewCard,
         meta: {
           pageTitle: "New Card",
           breadcrumbs: ["Crafted", "Modals", "Forms"],
@@ -617,7 +617,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/modals/forms/new-address",
         name: "modals-forms-new-address",
-        component: () => NewAddress,
+        component: NewAddress,
         meta: {
           pageTitle: "New Address",
           breadcrumbs: ["Crafted", "Modals", "Forms"],
@@ -626,7 +626,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/modals/forms/create-api-key",
         name: "modals-forms-create-api-key",
-        component: () => CreateApiKey,
+        component: CreateApiKey,
         meta: {
           pageTitle: "Create Api Key",
           breadcrumbs: ["Crafted", "Modals", "Forms"],
@@ -635,7 +635,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/modals/wizards/two-factor-auth",
         name: "modals-wizards-two-factor-auth",
-        component: () => TwoFactorAuth,
+        component: TwoFactorAuth,
         meta: {
           pageTitle: "Two Factory Auth",
           breadcrumbs: ["Crafted", "Modals", "Wizards"],
@@ -644,7 +644,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/modals/wizards/create-app",
         name: "modals-wizards-create-app",
-        component: () => CreateApp,
+        component: CreateApp,
         meta: {
           pageTitle: "Create App",
           breadcrumbs: ["Crafted", "Modals", "Wizards"],
@@ -653,7 +653,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/modals/wizards/create-account",
         name: "modals-wizards-create-account",
-        component: () => CreateAccount,
+        component: CreateAccount,
         meta: {
           pageTitle: "Create Account",
           breadcrumbs: ["Crafted", "Modals", "Wizards"],
@@ -662,7 +662,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/widgets/lists",
         name: "widgets-list",
-        component: () => Lists,
+        component: Lists,
         meta: {
           pageTitle: "Lists",
           breadcrumbs: ["Crafted", "Widgets"],
@@ -671,7 +671,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/widgets/statistics",
         name: "widgets-statistics",
-        component: () => Statistics,
+        component: Statistics,
         meta: {
           pageTitle: "Statistics",
           breadcrumbs: ["Crafted", "Widgets"],
@@ -680,7 +680,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/widgets/charts",
         name: "widgets-charts",
-        component: () => Charts,
+        component: Charts,
         meta: {
           pageTitle: "Charts",
           breadcrumbs: ["Crafted", "Widgets"],
@@ -689,7 +689,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/widgets/mixed",
         name: "widgets-mixed",
-        component: () => Mixed,
+        component: Mixed,
         meta: {
           pageTitle: "Mixed",
           breadcrumbs: ["Crafted", "Widgets"],
@@ -698,7 +698,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/widgets/tables",
         name: "widgets-tables",
-        component: () => Tables,
+        component: Tables,
         meta: {
           pageTitle: "Tables",
           breadcrumbs: ["Crafted", "Widgets"],
@@ -707,7 +707,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/crafted/widgets/feeds",
         name: "widgets-feeds",
-        component: () => Feeds,
+        component: Feeds,
         meta: {
           pageTitle: "Feeds",
           breadcrumbs: ["Crafted", "Widgets"],
@@ -717,12 +717,12 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/",
-    component: () => AuthLayout,
+    component: AuthLayout,
     children: [
       {
         path: "/sign-in",
         name: "sign-in",
-        component: () => SignIn,
+        component: SignIn,
         meta: {
           pageTitle: "Sign In",
         },
@@ -730,7 +730,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/sign-up",
         name: "sign-up",
-        component: () => SignUp,
+        component: SignUp,
         meta: {
           pageTitle: "Sign Up",
         },
@@ -738,7 +738,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/password-reset",
         name: "password-reset",
-        component: () => PasswordReset,
+        component: PasswordReset,
         meta: {
           pageTitle: "Password reset",
         },
@@ -746,7 +746,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/password/reset/:token",
         name: "new-password-reset",
-        component: () => NewPassword,
+        component: NewPassword,
         meta: {
           pageTitle: "New Password reset",
         },
@@ -754,7 +754,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/two-factor",
         name: "two-factor",
-        component: () => TwoFactor,
+        component: TwoFactor,
         meta: {
           pageTitle: "Two Factor Authentication",
         },
@@ -764,20 +764,20 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/multi-step-sign-up",
     name: "multi-step-sign-up",
-    component: () => MultiStepSignUp,
+    component: MultiStepSignUp,
     meta: {
       pageTitle: "Multi-step Sign up",
     },
   },
   {
     path: "/",
-    component: () => SystemLayout,
+    component: SystemLayout,
     children: [
       {
         // the 404 route, when none of the above matches
         path: "/404",
         name: "404",
-        component: () => Error404,
+        component: Error404,
         meta: {
           pageTitle: "Error 404",
         },
@@ -785,7 +785,7 @@ const routes: Array<RouteRecordRaw> = [
       {
         path: "/500",
         name: "500",
-        component: () => Error500,
+        component: Error500,
         meta: {
           pageTitle: "Error 500",
         },

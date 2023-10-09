@@ -155,7 +155,7 @@
         </div>
         <div class="filterSelect">
           <el-select
-            v-model="gameStatus"
+            v-model="gameStatusIn"
             placeholder="Select game status"
             :style="style"
             clearable
@@ -200,12 +200,11 @@
     </div>
     <div class="card-body pt-0">
       <Datatable
-        @on-sort="sort"
-        @on-items-select="onItemSelect"
+        :sortable="false"
         :loading="loading"
         :data="gamesData"
         :header="tableHeader"
-        :totalPages="paginationData.last_page"
+        :totalPages="paginationData.last_page ? paginationData.last_page : 0"
         :totalItemsPerRequest="paginationData.total_items"
         :enable-items-per-page-dropdown="true"
         :checkbox-enabled="true"
@@ -393,7 +392,7 @@ export default defineComponent({
         { label: "Passive", value: 1 },
         { label: "Active", value: 2 },
       ],
-      gameStatus: gameStatus,
+      gameStatusIn: gameStatus,
       params: {},
       paginationData: {},
       filters: {},
@@ -730,9 +729,9 @@ export default defineComponent({
         delete this.filters["market_place_status"];
       }
     },
-    gameStatus() {
-      this.filters.game_status = this.gameStatus;
-      if (this.gameStatus === "") {
+    gameStatusIn() {
+      this.filters.game_status = this.gameStatusIn;
+      if (this.gameStatusIn === "") {
         delete this.filters["game_status"];
       }
     },
