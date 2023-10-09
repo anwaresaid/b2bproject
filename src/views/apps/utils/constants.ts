@@ -66,13 +66,13 @@ export const keysTypeStatus = [
   {
     value: 3,
     label: "reserve",
-    turkish: "Rezerve",
+    turkish: "Reserve",
     status: "warning",
   },
   {
     value: 4,
     label: "sold",
-    turkish: "Satıldı",
+    turkish: "Satılmış",
     status: "success",
   },
   {
@@ -84,16 +84,22 @@ export const keysTypeStatus = [
   {
     value: 6,
     label: "delivered",
-    turkish: "Teslim Edilmiş",
+    turkish: "Teslim edilmiş",
     status: "success",
   },
   {
     value: 7,
     label: "kinguin stock",
+    turkish: "Kinguin de stokta",
+  },
+  {
+    value: 8,
+    label: "cancel",
   },
   {
     value: -1,
-    label: "all",
+    label: "deleted",
+    turkish: "Silinmiş",
   },
 ];
 
