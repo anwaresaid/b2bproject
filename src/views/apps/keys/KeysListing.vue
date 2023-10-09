@@ -93,7 +93,6 @@
       </div>
     </div>
     <div class="card-body pt-0">
-      {{ typeof loading }}
       <Datatable
         :data="keysData"
         :header="tableHeaders"
