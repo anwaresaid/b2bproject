@@ -1,6 +1,6 @@
 <template>
   <el-dialog v-model="setVisible" title="Publisher Create" width="30%">
-    <el-form :model="name">
+    <el-form>
       <el-form-item label="Publisher Name">
         <el-input v-model="name" autocomplete="off" />
       </el-form-item>

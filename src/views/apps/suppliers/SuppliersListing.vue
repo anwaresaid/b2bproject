@@ -93,7 +93,7 @@ export default defineComponent({
       paginationData: {},
       total: 0,
       itemsCount: 0,
-      selectedIndex: 0,
+      selectedIndex: {},
       isUpdate: false,
       loading: false,
       search: "",

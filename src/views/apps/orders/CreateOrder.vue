@@ -233,16 +233,6 @@ const totalPrice = () => {
   );
 };
 
-watch(form, (newValue) => {
-  totalPrice();
-});
-
-watch(form.customer, (newValue) => {
-  if (!newValue) {
-    // emit("create-game", false);
-  }
-});
-
 onBeforeUnmount(() => {
   // Cleanup or perform actions before component unmounts
 });
