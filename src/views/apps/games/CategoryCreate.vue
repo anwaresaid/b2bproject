@@ -1,6 +1,6 @@
 <template>
   <el-dialog v-model="setVisible" title="Category Create" width="30%">
-    <el-form :model="name">
+    <el-form>
       <el-form-item label="Category Name">
         <el-input v-model="name" autocomplete="off" />
       </el-form-item>

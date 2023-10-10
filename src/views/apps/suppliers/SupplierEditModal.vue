@@ -69,7 +69,7 @@ export default defineComponent({
   name: "suppliers-update",
   props: {
     isVisible: { type: Boolean, required: true },
-    selectedIndex: { type: Number, required: true },
+    selectedIndex: { type: Object, required: true },
     data: { type: Array, required: true },
     update: { type: Boolean, default: false },
   },
@@ -98,7 +98,7 @@ export default defineComponent({
   methods: {
     updateSupplier() {
       if (this.update) {
-        ApiService.put(`suppliers/${this.selectedIndex}`, this.form)
+        ApiService.put(`suppliers/${this.selectedIndex.id}`, this.form)
           .then((res) => {
             this.setVisible = false;
             this.$emit("did-update", true);

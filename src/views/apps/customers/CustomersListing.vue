@@ -28,7 +28,7 @@
           data-kt-customer-table-toolbar="base"
         >
           <!--begin::Export-->
-          <button
+          <!-- <button
             type="button"
             class="btn btn-light-primary me-3"
             data-bs-toggle="modal"
@@ -38,7 +38,7 @@
               <inline-svg src="/media/icons/duotune/arrows/arr078.svg" />
             </span>
             Export
-          </button>
+          </button> -->
           <!--end::Export-->
           <!--begin::Add customer-->
           <button
