@@ -11,7 +11,8 @@
     >
       <!--begin::Title-->
       <h3 class="text-white fw-semobold px-9 mt-10 mb-6">
-        Notifications <span class="fs-8 opacity-75 ps-3">24 reports</span>
+        Notifications
+        <span class="fs-8 opacity-75 ps-3">{{ message.length }} reports</span>
       </h3>
       <!--end::Title-->
 
@@ -41,6 +42,7 @@
         role="tabpanel"
       >
         <!--begin::Items-->
+
         <div class="scroll-y mh-325px my-5 px-8">
           <div v-if="message.length === 0">
             <div class="d-flex align-items-center justify-content-center">
@@ -62,7 +64,7 @@
                         :class="`svg-icon-primary`"
                         class="svg-icon svg-icon-2"
                       >
-                        <inline-svg :src="item.image" />
+                        <inline-svg :src="item.image?.image" />
                       </span>
                     </span>
                   </div>
@@ -149,6 +151,7 @@ export default defineComponent({
       ApiService.postTest("notifications/myList", fetchAllNotfications)
         .then((res) => {
           message.value = res.data.data.notifications;
+          console.log(res);
         })
         .catch((e) => {
           errorHandling(e.response.data.messages);

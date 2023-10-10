@@ -209,7 +209,7 @@ const match = (formEl) => {
             {
               confirmButtonText: "OK",
               callback: (action: Action) => {
-                //   location.reload();
+                location.reload();
               },
             }
           );
@@ -249,6 +249,10 @@ watch(form, (newValue) => {
   if (form.game_id !== null) {
     disabled.value = false;
   }
+});
+watch(props, (newValue) => {
+  form.price = props.data.retail ? props.data.retail : null;
+  form.status = props.data.status != undefined ? props.data.status : null;
 });
 watch(
   () => update,

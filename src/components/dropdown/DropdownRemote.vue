@@ -104,15 +104,16 @@ watch(params, (newValue) => {
   }
 });
 watch(props, (newValue) => {
-  value.value = props.val;
+  console.log("called", props.default);
+  value.value = props.default;
 });
 onMounted(() => {
   if (props.placeholder) {
     label.value = props.placeholder;
   }
-  if (props.default) {
-    value.value = props.default;
-  }
+  value.value = props.default;
+
+  console.log("mounted");
 });
 
 onBeforeUnmount(() => {

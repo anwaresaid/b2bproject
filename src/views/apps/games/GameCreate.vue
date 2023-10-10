@@ -22,7 +22,7 @@
       >
         <DropdownRemote
           :url="categoriesUrl"
-          :default="isUpdate ? form.category?.name : null"
+          :default="form.category?.name"
           @selected-game="setCategoryId"
           :val="form.category"
           :clear="clear"
@@ -52,6 +52,7 @@
         prop="publisher"
         required
       >
+        {{ isUpdate }}
         <DropdownRemote
           :url="publishersUrl"
           @selected-game="setPublisherId"

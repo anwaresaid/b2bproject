@@ -20,7 +20,6 @@
       </div>
     </div>
     <div class="card-body pt-0">
-      {{ paginationData.last_page }}
       <Datatable
         :data="suppliersData"
         :sortable="false"

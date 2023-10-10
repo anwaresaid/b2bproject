@@ -6,7 +6,7 @@
     <!--begin::Col-->
     <div class="col-xl-6">
       <SummaryTable
-        :items="items"
+        :items="items ? items : []"
         :navbar="true"
         :title="'Daily / Weekly / Monthly Data'"
         :headers="tableHeadersWeekly"
@@ -52,7 +52,7 @@
     <!--begin::Col-->
     <div class="col-xl-6">
       <SummaryTable
-        :data="customersSummaryData"
+        :data="customersSummaryData ? customersSummaryData : []"
         :navbar="false"
         :headers="customersTableHeaders"
         :title="'Customer Summary Data'"
@@ -93,7 +93,7 @@
     <!--begin::Col-->
     <div class="col-xl-12">
       <SummaryTable
-        :data="loadingSummaryData"
+        :data="summaryData ? summaryData : []"
         :navbar="false"
         :headers="tableHeaders"
         :title="'Last game updates'"
@@ -245,20 +245,6 @@ const tableHeadersWeekly = ref([
     columnLabel: "stock",
   },
 ]);
-const tableHeadersGames = ref([
-  {
-    columnName: "GAME",
-    columnLabel: "game_name",
-  },
-  {
-    columnName: "GAME ID",
-    columnLabel: "game_id",
-  },
-  {
-    columnName: "TOTAL KEYS SOLD",
-    columnLabel: "total_keys_sold",
-  },
-]);
 
 const items = reactive([
   {
@@ -309,7 +295,7 @@ const fetchOrders = (type) => {
   ApiService.post("/games/last-stock-updates", {})
     .then((res) => {
       loading.value = false;
-      loadingSummaryData.value = res.data.data?.last_game_updates;
+      summaryData.value = res.data.data?.last_game_updates;
     })
     .catch((e) => {
       errorHandling(e.response.data.messages);

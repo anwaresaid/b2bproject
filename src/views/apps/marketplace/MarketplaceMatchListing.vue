@@ -176,11 +176,11 @@
       </Datatable>
     </div>
   </div>
-  <el-dialog v-model="setEnebaVisible" title="Update Eneba match" width="50%">
-    <EnebaMarketplace
+  <el-dialog v-model="setEnebaVisible" title="Update Eneba match" width="80%">
+    <EnebaMarketplace :update="enebaProps.update" :data="enebaProps.data"
   /></el-dialog>
-  <el-dialog v-model="setGamivoVisible" title="Update Gamivo match" width="50%">
-    <GamivoMarketplace
+  <el-dialog v-model="setGamivoVisible" title="Update Gamivo match" width="80%">
+    <GamivoMarketplace :update="gamivoProps.update" :data="gamivoProps.data"
   /></el-dialog>
   <el-dialog
     v-model="setKinguinVisible"
@@ -226,6 +226,8 @@ const setEnebaVisible = ref(false);
 const setGamivoVisible = ref(false);
 const setKinguinVisible = ref(false);
 const kinguinProps = reactive({});
+const enebaProps = reactive({});
+const gamivoProps = reactive({});
 const loading = ref(false);
 const multiSelectMatchesIds = ref([]);
 const selectStyle = "width: 25%";
@@ -370,7 +372,11 @@ const setMarketPlaceId = (value) => {
 const handleUpdate = (data) => {
   switch (data.marketplace) {
     case "ENEBA":
-      setEnebaVisible.value = true;
+      {
+        setEnebaVisible.value = true;
+        enebaProps.update = true;
+        enebaProps.data = data;
+      }
       break;
     case "KINGUIN":
       {
@@ -380,7 +386,11 @@ const handleUpdate = (data) => {
       }
       break;
     case "GAMIVO":
-      setGamivoVisible.value = true;
+      {
+        setGamivoVisible.value = true;
+        gamivoProps.update = true;
+        gamivoProps.data = data;
+      }
       break;
   }
 };
