@@ -151,7 +151,6 @@ export default defineComponent({
       ApiService.postTest("notifications/myList", fetchAllNotfications)
         .then((res) => {
           message.value = res.data.data.notifications;
-          console.log(res);
         })
         .catch((e) => {
           errorHandling(e.response.data.messages);

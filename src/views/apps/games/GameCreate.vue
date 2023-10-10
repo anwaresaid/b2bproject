@@ -52,7 +52,6 @@
         prop="publisher"
         required
       >
-        {{ isUpdate }}
         <DropdownRemote
           :url="publishersUrl"
           @selected-game="setPublisherId"

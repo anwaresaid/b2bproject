@@ -327,7 +327,6 @@ watch(props, (newValue) => {
 watch(setVisible, (newValue) => {
   if (props.gameDropdown) {
     form.game_id = props.gameDropdown;
-    console.log("form", form);
   }
   lines.value = [1];
   form.keys = null;
