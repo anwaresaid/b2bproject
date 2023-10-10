@@ -379,7 +379,7 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/game-detail/:id",
+        path: "/game-detail/:id?",
         name: "apps-game-detail-listing",
         component: GameDetailListing,
         meta: {

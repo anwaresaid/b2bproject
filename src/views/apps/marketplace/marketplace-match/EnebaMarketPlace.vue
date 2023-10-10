@@ -15,6 +15,7 @@
             prop="game_id"
             class="form-items-flex"
             label-width="140px"
+            v-if="!props.update"
             required
           >
             <DropdownRemote
@@ -30,6 +31,7 @@
             class="form-items-flex"
             prop="amount_currency"
             label-width="140px"
+            v-if="!props.update"
             required
           >
             <el-select
@@ -48,6 +50,7 @@
           <el-form-item
             label="Eneba game"
             prop="product_api_id"
+            v-if="!props.update"
             required
             class="form-items-flex"
             label-width="140px"
@@ -61,6 +64,23 @@
               wd="50%"
               :condition="4"
             />
+          </el-form-item>
+          <el-form-item
+            label="Status"
+            label-width="140px"
+            class="form-items-flex"
+            prop="status"
+            v-if="props.update"
+            required
+          >
+            <el-select v-model="form.status" placeholder="Select" class="w-50">
+              <el-option
+                v-for="item in matchStatus"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
           </el-form-item>
           <el-form-item
             label="Price"
@@ -102,7 +122,7 @@ import type { FormInstance, FormRules } from "element-plus";
 import { ElMessage, ElMessageBox } from "element-plus";
 import type { Action, UploadInstance } from "element-plus";
 import DropdownRemote from "../../../../components/dropdown/DropdownRemote.vue";
-import { currency } from "../../utils/constants.ts";
+import { currency, matchStatus } from "../../utils/constants.ts";
 import { errorHandling } from "@/views/apps/utils/functions";
 
 interface RuleForm {
@@ -119,16 +139,17 @@ const gameKey = "search_game";
 const gameUrl = "games/list";
 const gameType = "games";
 const formSize = ref("large");
-const setVisible = ref("");
-const enebaGameId = ref("");
+const props = defineProps(["update", "data"]);
+const update = ref(props.update);
 const disabled = ref(true);
 const ruleFormRef = ref<FormInstance>();
 
 const form = reactive<RuleForm>({
-  amount: null,
+  amount: props.data?.retail ? props.data?.retail : null,
   amount_currency: { value: 1, label: "EUR" },
   product_api_id: null,
   game_id: null,
+  status: props.data?.status !== null ? props.data?.status : null,
 });
 
 const rules = reactive<FormRules<typeof form>>({
@@ -172,12 +193,34 @@ const match = (formEl) => {
   let data = { ...form, amount: form.amount * 1 };
   if (!formEl) return;
   formEl.validate((valid) => {
-    if (valid) {
+    if (valid && !props.update) {
       ApiService.postTest("marketplace/eneba/match", form)
         .then((res) => {
           ElMessageBox.alert(
             "you have match games successfully!",
             "marketplace eneba match",
+            {
+              confirmButtonText: "OK",
+              callback: (action: Action) => {
+                location.reload();
+              },
+            }
+          );
+        })
+        .catch((e) => {
+          errorHandling(e?.response?.data?.messages);
+        });
+    } else if (props.update) {
+      let temp = {
+        price: form.amount,
+        status: form.status,
+        offer_system_id: props.data.id,
+      };
+      ApiService.post("marketplace/updateOffer", temp)
+        .then((res) => {
+          ElMessageBox.alert(
+            "you have updated offer successfully!",
+            "marketplace Eneba update",
             {
               confirmButtonText: "OK",
               callback: (action: Action) => {
@@ -199,6 +242,10 @@ watch(form, (newValue) => {
   if (form.game_id !== null) {
     disabled.value = false;
   }
+});
+watch(props, (newValue) => {
+  form.amount = props.data.retail ? props.data.retail : null;
+  form.status = props.data.status != undefined ? props.data.status : null;
 });
 
 onMounted(() => {});

@@ -137,11 +137,7 @@
           typeof commission.callback_urls === 'object'
         "
       >
-        <ReservationCallbackCard
-          :theme="store2.mode"
-          :data="commission"
-          class="callback-card"
-        />
+        <ReservationCallbackCard :theme="store2.mode" :data="commission" />
       </div>
     </div>
   </div>
@@ -150,10 +146,6 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted, watch, toRefs, onBeforeUnmount } from "vue";
 import ApiService from "@/core/services/ApiService";
-import Datatable from "@/components/kt-datatable/KTDataTable.vue";
-import Dropdownh from "@/components/dropdown/DropdownSettingsTable.vue";
-import { categoryType } from "../utils/constants";
-import { useRouter } from "vue-router";
 import MarketplaceSettingsCard from "@/components/cards/MarketplaceSettingsCard.vue";
 import ReservationCallbackCard from "@/components/cards/ReservationCallbackCard.vue";
 import DropdownRemote from "../../../components/dropdown/DropdownRemoteMarketplaceSettings.vue";
