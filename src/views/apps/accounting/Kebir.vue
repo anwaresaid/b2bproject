@@ -4,18 +4,37 @@
       <div class="card-body pt-0">
         <div class="d-flex justify-content-between mb-5">
           <div class="d-flex align-items-center w-100 position-relative">
-            <el-select
-              v-model="selectYear"
-              class="select-year w-50 broder-0"
-              placeholder="Select"
-            >
-              <el-option
-                v-for="item in years"
-                :key="item"
-                :label="item"
-                :value="item"
-              />
-            </el-select>
+            <div class="mb-5">
+              <div class="card d-flex flex-row">
+                <span
+                  class="date-header d-flex align-items-center ps-2 border w-100"
+                  >from</span
+                >
+                <span
+                  class="date-header d-flex align-items-center ps-2 border w-100"
+                  >to</span
+                >
+              </div>
+              <div class="d-flex flex-row">
+                <el-date-picker
+                  v-model="dateFrom"
+                  type="date"
+                  placeholder="Pick a day"
+                  size="large"
+                />
+                <el-date-picker
+                  v-model="dateTo"
+                  type="date"
+                  placeholder="Pick a day"
+                  size="large"
+                />
+                <div class="d-flex justify-content-end ms-2">
+                  <el-button type="primary" @click="fetchUsers"
+                    >Apply Dates</el-button
+                  >
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -74,11 +93,14 @@ import ApiService from "@/core/services/ApiService";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import store from "../../../store";
 import type { TableColumnCtx } from "element-plus";
+import { dateFormatter } from "../utils/functions";
 
 const searchUsers = ref("");
 const dropdownParams = ref({});
 const params = ref({});
 const itemsInTable = ref(50);
+const dateFrom = ref();
+const dateTo = ref(null);
 const currentPage = ref(1);
 const paginationData = reactive({});
 const userCreateVisible = ref(false);
@@ -121,12 +143,15 @@ const tableHeaders = ref([
 ]);
 
 const fetchUsers = (type) => {
+  const date = dateTo.value
+    ? { from: dateFormatter(dateFrom), to: dateFormatter(dateTo) }
+    : { from: "01.01.2023" };
   loading.value = true;
   if (type === undefined) {
     params.value.current_page = currentPage;
     params.value.per_page = itemsInTable;
   }
-  ApiService.postTest("accounting/kebir", params.value).then((res) => {
+  ApiService.postTest("accounting/kebir", date).then((res) => {
     loading.value = false;
     allSums.value = res.data.data.total;
     res.data.data.months.map((item) => {
@@ -208,6 +233,7 @@ watch(years, (newValue) => {
 onMounted(() => {
   params.value.current_page = currentPage;
   params.value.per_page = itemsInTable;
+  dateFrom.value = new Date("2023, 01, 01");
   fetchUsers();
 });
 
