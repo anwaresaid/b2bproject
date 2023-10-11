@@ -23,18 +23,8 @@ export const dateFormatter = (date, time) => {
     ("" + date.value.getSeconds()).length > 1
       ? date.value.getSeconds()
       : "0" + date.value.getSeconds();
-  const fullDate =
-    day +
-    "." +
-    month +
-    "." +
-    year +
-    " " +
-    hours +
-    ":" +
-    minutes +
-    ":" +
-    seconds;
+  const timeFull = isTime ? hours + ":" + minutes + ":" + seconds : "";
+  const fullDate = day + "." + month + "." + year + " " + timeFull;
   return fullDate;
 };
 

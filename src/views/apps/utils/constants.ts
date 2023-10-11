@@ -228,4 +228,24 @@ export const orderStatus = [
     label: "reserved",
     turkish: "Rezerve",
   },
+  {
+    value: 7,
+    label: "auto reject",
+    turkish: "Otomatik İptal ",
+  },
+  {
+    value: 8,
+    label: "returned",
+    turkish: "Geri İade",
+  },
+  {
+    value: 9,
+    label: "pending",
+    turkish: "Beklenen",
+  },
+  {
+    value: -1,
+    label: "all",
+    turkish: "Tümü",
+  },
 ];

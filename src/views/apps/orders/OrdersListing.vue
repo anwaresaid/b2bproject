@@ -48,6 +48,9 @@
                 <el-button type="primary" @click="handleChangeDates"
                   >Apply</el-button
                 >
+                <el-button type="primary" @click="handleExport"
+                  >Export</el-button
+                >
               </div>
               <div v-if="errors != null" class="text-danger">{{ errors }}</div>
             </div>
@@ -203,6 +206,7 @@ import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import { dateFormatter } from "../utils/functions";
 import store from "../../../store";
 import { errorHandling } from "@/views/apps/utils/functions";
+import { ElMessage, ElMessageBox } from "element-plus";
 
 const ordersData = ref([]);
 const router = useRouter();
@@ -347,6 +351,21 @@ const getItemsInTable = (item) => {
   fetchOrders();
 };
 
+const exportData = (data) => {
+  ApiService.postTest("orders/export", data)
+    .then((res) => {
+      confirmSubmission();
+    })
+    .catch((e) => {
+      errorHandling(e?.response?.data?.messages);
+    });
+};
+const confirmSubmission = () => {
+  ElMessageBox.alert("Order exported", "Order Export", {
+    confirmButtonText: "OK",
+    callback: (action: Action) => {},
+  });
+};
 const handleChangeDates = () => {
   errors.value = null;
   if (
@@ -371,6 +390,40 @@ const handleChangeDates = () => {
   params.value.start = date.start;
   params.value.finish = date.finish;
   fetchOrders();
+};
+
+const handleExport = () => {
+  errors.value = null;
+  if (
+    toDate.value === null ||
+    fromDate.value === null ||
+    toDate.value === "" ||
+    fromDate.value === "" ||
+    toDate.value === undefined ||
+    fromDate.value === undefined
+  ) {
+    errors.value = "you have set both dates";
+    return;
+  }
+  if (tableStatus.value === null) {
+    errors.value = "please choose order status";
+    return;
+  }
+  if (fromDate.value > toDate.value) {
+    errors.value = "from date has to be before the to date";
+    return;
+  }
+  const date = {
+    start: dateFormatter(fromDate, "time"),
+    finish: dateFormatter(toDate, "time"),
+  };
+  params.value.start = date.start;
+  params.value.finish = date.finish;
+  exportData({
+    start: params.value.start,
+    end: params.value.finish,
+    status: params.value.order_status,
+  });
 };
 const handleStatus = (status) => {
   statusUpdate.value = { order_code: status.id, status: status.status };
