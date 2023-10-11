@@ -139,7 +139,6 @@ const gift_id = "3";
 const giftTitle = "Gift Card/Epin";
 
 const currentYear = new Date().getFullYear();
-
 const dateFrom = ref();
 const dateTo = ref(null);
 const generalSummary = ref({});
@@ -226,8 +225,6 @@ const fetchData = () => {
   ApiService.postTest("accounting/general-account", date)
     .then((res) => {
       years.value = res.data.data.years;
-      generalSummary.value = res.data.data.general_summaries;
-      generalSummaryKeys.value = Object.keys(generalSummary.value);
       let dataTemp;
       if (years.value.length > 1) {
         years.value.map((year) => {
@@ -245,6 +242,14 @@ const fetchData = () => {
           graphsData.value[year] = handleAssignVariables(dataTemp);
         });
       }
+    })
+    .catch((e) => {
+      errorHandling(e.response.data.messages);
+    });
+  ApiService.postTest("accounting/frequency")
+    .then((res) => {
+      generalSummary.value = res.data.data;
+      generalSummaryKeys.value = Object.keys(generalSummary.value);
     })
     .catch((e) => {
       errorHandling(e.response.data.messages);
