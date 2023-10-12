@@ -3,51 +3,6 @@
     <div class="card-header border-0 pt-6">
       <div class="card-body pt-0">
         <div class="d-flex justify-content-between">
-          <!--     <el-form-item>
-            <el-input
-              v-model="searchOrders"
-              class="w-100 m-2"
-              placeholder="search orders"
-              prefix-icon="Search"
-            />
-          </el-form-item>
-          <el-form-item label="Select Order Type">
-            <el-select
-              v-model="tableType"
-              class="select-type"
-              placeholder="Select"
-            >
-              <el-option
-                v-for="item in orderType"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="Select Order status">
-            <el-select
-              v-model="tableStatus"
-              class="select-type"
-              placeholder="Select"
-            >
-              <el-option
-                v-for="item in orderStatus"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="Select Customer">
-            <DropdownRemote
-              :url="customerUrl"
-              @selected-game="setCustomerId"
-              :type="customerType"
-              :keyg="customerKey"
-              wd="100px"
-            />
-          </el-form-item>-->
           <div>
             <!--      <el-button type="primary" icon="plus" round
               ><router-link to="/apps/create-order" class="text-white px-3"
@@ -96,7 +51,6 @@
 import { ref, reactive, onMounted, watch, toRefs, onBeforeUnmount } from "vue";
 import ApiService from "@/core/services/ApiService";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
-import { orderType, orderStatus } from "../utils/constants";
 import { useRouter } from "vue-router";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import store from "../../../store";

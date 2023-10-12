@@ -227,12 +227,15 @@ const totalPieces = () => {
   return form.game.reduce((acc, current) => acc + current.quantity, 0);
 };
 const totalPrice = () => {
-  total.value = form.game.reduce(
+  total.value = form.game?.reduce(
     (acc, current) => acc + current.sales_price * current.quantity,
     0
   );
 };
 
+watch(form, (newValue) => {
+  totalPrice();
+});
 onBeforeUnmount(() => {
   // Cleanup or perform actions before component unmounts
 });

@@ -147,7 +147,6 @@
 import { ref, reactive, onMounted, watch, toRefs, onBeforeUnmount } from "vue";
 import ApiService from "@/core/services/ApiService";
 import SummaryTable from "@/components/kt-datatable/SummaryTable.vue";
-import { orderType, orderStatus } from "./apps/utils/constants";
 import { useRouter } from "vue-router";
 import { errorHandling } from "@/views/apps/utils/functions";
 import DropdownRemote from "../components/dropdown/DropdownRemote.vue";

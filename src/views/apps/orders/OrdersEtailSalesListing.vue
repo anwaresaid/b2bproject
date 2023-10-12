@@ -40,20 +40,6 @@
           </div>
 
           <div class="d-flex justify-content-between align-items-start">
-            <el-form-item label="Select Order Type">
-              <el-select
-                v-model="tableType"
-                class="select-table-type"
-                placeholder="Select"
-              >
-                <el-option
-                  v-for="item in orderType"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
             <el-form-item label="Order By Sell Date">
               <el-select
                 v-model="orderBySellDate"
@@ -223,7 +209,6 @@ const toDate = ref();
 const defaultTime = new Date(2000, 1, 1, 12, 0, 0);
 const errors = ref(null);
 const paginationData = reactive({});
-const tableType = ref(2);
 const loading = ref(false);
 const statusUpdate = ref({});
 
@@ -290,7 +275,6 @@ const fetchOrders = (type) => {
   if (type === undefined) {
     params.value.current_page = currentPage;
     params.value.per_page = itemsInTable;
-    params.value.order_type = tableType.value;
   }
   ApiService.postTest("orders/etailSales", params.value)
     .then((res) => {
@@ -388,11 +372,6 @@ const copyText = (obj) => {
   navigator.clipboard.writeText(obj.order_code);
 };
 
-watch(tableType, (newValue) => {
-  dropdownParams.order_type = tableType.value;
-  params.value = dropdownParams.value;
-  fetchOrders();
-});
 watch(orderByStock, (newValue) => {
   if (orderByStock.value !== null) {
     emptyOrderbyFilters("stock");
@@ -429,8 +408,6 @@ watch(statusUpdate, (newValue) => {
 onMounted(() => {
   params.value.current_page = currentPage;
   params.value.per_page = itemsInTable;
-  params.value.order_type = tableType.value;
-  dropdownParams.value.order_type = tableType.value.value;
   params.value.order_by_created = orderByCreateDate.value;
 
   fetchOrders();

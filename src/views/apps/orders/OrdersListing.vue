@@ -387,6 +387,8 @@ const handleChangeDates = () => {
     start: dateFormatter(fromDate, "time"),
     finish: dateFormatter(toDate, "time"),
   };
+  dropdownParams.value.start = date.start;
+  dropdownParams.value.finish = date.finish;
   params.value.start = date.start;
   params.value.finish = date.finish;
   fetchOrders();
@@ -454,13 +456,11 @@ const copyText = (obj) => {
 };
 
 watch(tableType, (newValue) => {
-  params.value = {};
   dropdownParams.order_type = tableType.value;
   params.value = dropdownParams.value;
   fetchOrders();
 });
 watch(tableStatus, (newValue) => {
-  params.value = {};
   dropdownParams.value.order_status = tableStatus.value;
   if (tableStatus.value === "") {
     delete dropdownParams.value["order_status"];
