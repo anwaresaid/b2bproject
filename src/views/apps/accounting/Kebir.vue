@@ -210,16 +210,6 @@ const pageChange = (page: number) => {
   params.value.current_page = page;
 };
 
-const closeCreateUser = (value) => {
-  userCreateVisible.value = false;
-  if (value) {
-    fetchUsers();
-  }
-};
-
-const createUser = () => {
-  userCreateVisible.value = true;
-};
 watch(searchUsers, (newValue) => {
   params.value = {};
   params.value = { search: searchUsers.value };
