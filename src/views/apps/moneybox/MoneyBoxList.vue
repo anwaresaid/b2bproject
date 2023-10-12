@@ -30,7 +30,7 @@ const params = ref({});
 const tableStatus = ref(null);
 const itemsInTable = ref(10);
 const currentPage = ref(1);
-const paginationData = reactive({});
+const paginationData = ref({});
 const tableType = ref();
 
 const fetchMoneyBox = (type) => {

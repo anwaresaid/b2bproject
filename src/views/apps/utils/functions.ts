@@ -3,7 +3,7 @@ import { ElMessage, ElMessageBox } from "element-plus";
 export const dateFormatter = (date, time) => {
   const isTime = time === "time" ? true : false;
   const day =
-    ("" + (date.value.getDate() + 1)).length > 1
+    ("" + date.value.getDate()).length > 1
       ? date.value.getDate()
       : "0" + date.value.getDate();
   const month =

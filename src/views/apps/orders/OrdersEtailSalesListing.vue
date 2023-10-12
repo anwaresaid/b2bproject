@@ -208,7 +208,7 @@ const orderBySellDate = ref(null);
 const toDate = ref();
 const defaultTime = new Date(2000, 1, 1, 12, 0, 0);
 const errors = ref(null);
-const paginationData = reactive({});
+const paginationData = ref({});
 const loading = ref(false);
 const statusUpdate = ref({});
 
