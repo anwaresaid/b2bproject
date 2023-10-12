@@ -68,7 +68,7 @@ const dropdownParams = ref({});
 const params = ref({});
 const itemsInTable = ref(50);
 const currentPage = ref(1);
-const paginationData = reactive({});
+const paginationData = ref({});
 const userCreateVisible = ref(false);
 const loading = ref(true);
 

@@ -51,7 +51,7 @@
         <Datatable
           :data="ordersData"
           :header="tableHeaders"
-          :totalPages="paginationData.value?.last_page"
+          :totalPages="paginationData.last_page ? paginationData.last_page : 0"
           :enable-items-per-page-dropdown="true"
           :pagination="true"
           :checkbox-enabled="true"
@@ -117,7 +117,7 @@ const params = ref({});
 const type = ref(null);
 const itemsInTable = ref(50);
 const currentPage = ref(1);
-const paginationData = reactive({});
+const paginationData = ref({});
 const status = ref();
 
 const tableHeaders = ref([

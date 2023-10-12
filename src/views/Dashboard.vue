@@ -169,7 +169,6 @@ const todayTable = ref([]);
 const weekTable = ref([]);
 const monthTable = ref([]);
 const currentPage = ref(1);
-const paginationData = reactive({});
 const tableType = ref({ value: 2, label: "customer" });
 const loading = ref(false);
 
