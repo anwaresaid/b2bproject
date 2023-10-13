@@ -38,16 +38,40 @@
             <div v-if="errors != null" class="text-danger">{{ errors }}</div>
           </div>
           <div>
-            <el-button @click="createKey" type="primary" icon="plus" round
-              >add keys</el-button
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="Add Key"
+              placement="top-start"
             >
-            <el-button
-              type="danger"
-              icon="Football"
-              @click="handleCreateGame"
-              round
-              >Add Game</el-button
+              <el-button @click="createKey" type="primary" icon="plus" circle />
+            </el-tooltip>
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="Add Game"
+              placement="top-start"
             >
+              <el-button
+                type="primary"
+                icon="Football"
+                @click="handleCreateGame"
+                circle
+              />
+            </el-tooltip>
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="Delete Keys"
+              placement="top-start"
+            >
+              <el-button
+                @click="deleteKey"
+                type="danger"
+                icon="Delete"
+                circle
+              />
+            </el-tooltip>
           </div>
         </div>
         <div class="d-flex justify-content-between">
@@ -111,6 +135,8 @@
       <Datatable
         :data="keysData"
         :header="tableHeaders"
+        :multiSelect="true"
+        :handleSelectionChange="handleMultiSelect"
         :sortable="false"
         :totalPages="paginationData.last_page ? paginationData.last_page : 0"
         :enable-items-per-page-dropdown="true"
@@ -246,6 +272,7 @@ const isUpdate = ref(false);
 const loading = ref(false);
 const selectStyle = "width: 25%";
 const errors = ref(null);
+const multiSelectKeysIds = ref([]);
 const pusherEvent =
   "Illuminate\\Notifications\\Events\\BroadcastNotificationCreated";
 const channel = PusherService.subscribe("notification");
@@ -331,6 +358,9 @@ const fetchKeys = (type) => {
       errorHandling(e?.response?.data?.messages);
     });
 };
+const handleMultiSelect = (keys) => {
+  multiSelectKeysIds.value = keys.map((match) => match.id);
+};
 const navigateGameDetails = (id) => {
   router.push({
     name: "apps-game-detail-listing",
@@ -377,6 +407,25 @@ const closeCreateGame = (value) => {
 };
 const handleCreateGame = () => {
   gameCreateVisible.value = true;
+};
+const deleteKey = () => {
+  if (multiSelectKeysIds.value.length > 1) {
+    ApiService.post(`keys/delete/multiple`, multiSelectKeysIds.value)
+      .then((res) => {
+        fetchKeys();
+      })
+      .catch((e) => {
+        errorHandling(e?.response?.data?.messages);
+      });
+  } else {
+    ApiService.delete(`keys/${multiSelectKeysIds.value[0]}`)
+      .then((res) => {
+        fetchKeys();
+      })
+      .catch((e) => {
+        errorHandling(e?.response?.data?.messages);
+      });
+  }
 };
 const setGameId = (value) => {
   dropdownParams.value.game_id = value;
@@ -451,13 +500,6 @@ watch(orderByCreateDate, (newValue) => {
   params.value = dropdownParams.value;
   fetchKeys("filer");
 });
-
-// watch(dropdownParams.value.game_id, (newValue) => {
-//   params.value = {};
-//   console.log("called", dropdownParams.value);
-//   params.value = dropdownParams.value;
-//   fetchKeys("filer");
-// });
 
 onMounted(() => {
   params.value.current_page = currentPage;

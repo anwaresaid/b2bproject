@@ -104,6 +104,24 @@
         :title="cardTitles(key)"
       />
     </div>
+    <div class="row g-5 g-xl-8">
+      <div class="card">
+        <span class="card-title">{{ kdvTitle }}</span>
+        <div
+          class="col-xl-10"
+          v-for="year in totalKdvYears"
+          v-if="totalKdvGraph !== null"
+        >
+          <ChartsWidget1
+            widget-classes="card-xl-stretch mb-xl-8"
+            :options="options"
+            :height="400"
+            :data="totalKdvGraph[year]"
+            :title="year"
+          ></ChartsWidget1>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -137,6 +155,7 @@ const console_id = "2";
 const consoleTitle = "Console";
 const gift_id = "3";
 const giftTitle = "Gift Card/Epin";
+const kdvTitle = "Total KDV";
 
 const currentYear = new Date().getFullYear();
 const dateFrom = ref();
@@ -175,8 +194,15 @@ const giftData = ref({
   totalRevenue: [],
   totalNet: [],
 });
+const totalKdv = ref({
+  monthsData: [],
+  total: [],
+});
+const totalKdvYears = ref([]);
+const totalKdvMonths = ref([]);
 const fullData = ref({});
 const graphsData = ref({});
+const totalKdvGraph = ref({});
 // const dateFormatter = (date) => {
 //   const day =
 //     ("" + (date.value.getDate() + 1)).length > 1
@@ -221,6 +247,67 @@ const fetchData = () => {
     totalRevenue: [],
     totalNet: [],
   };
+
+  ApiService.postTest("accounting/total/kdv", date).then((res) => {
+    res.data.data.months.map((item) => {
+      if (!totalKdvYears.value.includes(item.year_id)) {
+        totalKdvYears.value.push(item.year_id);
+      }
+    });
+    totalKdv.value = {
+      monthsData: [],
+      total: [],
+    };
+
+    res.data.data.months.map((item) => {
+      if (totalKdvYears.value.length > 1) {
+        totalKdvYears.value.map((year) => {
+          if (!totalKdv.value.monthsData[year]?.length) {
+            if (item.year_id === year) {
+              totalKdv.value.monthsData[year] = [item?.month_name];
+              totalKdv.value.total[year] = [item?.total_kdv];
+            }
+          } else {
+            if (item.year_id === year) {
+              totalKdv.value.monthsData[year].push(item?.month_name);
+              totalKdv.value.total[year].push(item?.total_kdv);
+            }
+          }
+        });
+      } else {
+        totalKdv.value.monthsData.push(item?.month_name);
+        totalKdv.value.total.push(item?.total_kdv);
+      }
+    });
+    if (totalKdvYears.value.length > 1) {
+      totalKdvYears.value.map((year) => {
+        let temp = [
+          {
+            name: "Total KDV",
+            data: totalKdv.value.total[year],
+          },
+        ];
+        totalKdvGraph.value[year] = {
+          ...totalKdv.value,
+          series: temp,
+        };
+      });
+    } else {
+      let temp = [
+        {
+          name: "Total KDV",
+          data: totalKdv.value.total,
+        },
+      ];
+      totalKdvGraph.value[totalKdvYears.value[0]] = {
+        series: temp,
+        ...totalKdv.value,
+      };
+    }
+  });
+  // .catch((e) => {
+  //   errorHandling(e.response.data.messages);
+  // });
 
   ApiService.postTest("accounting/general-account", date)
     .then((res) => {
