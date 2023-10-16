@@ -224,7 +224,7 @@ const gameKey = "search_game";
 const orderByCreateDate = ref("desc");
 const gameType = "games";
 const params = ref({});
-const tableStatus = ref(null);
+const tableStatus = ref(-1);
 const itemsInTable = ref(50);
 const currentPage = ref(1);
 const paginationData = ref({});
@@ -408,8 +408,7 @@ const handleExport = () => {
     return;
   }
   if (tableStatus.value === null) {
-    errors.value = "please choose order status";
-    return;
+    tableStatus.value = -1;
   }
   if (fromDate.value > toDate.value) {
     errors.value = "from date has to be before the to date";
