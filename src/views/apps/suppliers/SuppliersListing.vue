@@ -40,13 +40,13 @@
             <el-button
               type="danger"
               icon="Delete"
-              circle
+              link
               @click="handleDelete(slotProps.action)"
             />
             <el-button
               type="warning"
               icon="Edit"
-              circle
+              link
               @click="handleEdit(slotProps.action)"
             />
           </slot>

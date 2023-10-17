@@ -227,7 +227,7 @@
               <el-button
                 type="danger"
                 icon="Delete"
-                circle
+                link
                 @click="confirmSubmission(slotProps.action)"
               />
             </el-tooltip>
@@ -240,7 +240,7 @@
               <el-button
                 type="warning"
                 icon="Edit"
-                circle
+                link
                 @click="handleUpdate(slotProps.action)"
               />
             </el-tooltip>

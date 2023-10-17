@@ -96,12 +96,9 @@
       >
         <template v-slot:component1="slotProps">
           <slot :action="slotProps.action">
-            <el-button
-              type="primary"
-              icon="View"
-              circle
-              @click="navigateOrderDetails(slotProps.action)"
-            />
+            <router-link :to="`/order-details/${slotProps.action.order_code}`">
+              <el-button type="primary" icon="View" link />
+            </router-link>
           </slot>
           <slot :action="slotProps.action">
             <el-tooltip
@@ -113,7 +110,7 @@
               <el-button
                 type="success"
                 icon="CopyDocument"
-                circle
+                link
                 @click="copyText(slotProps.action)"
               />
             </el-tooltip>
