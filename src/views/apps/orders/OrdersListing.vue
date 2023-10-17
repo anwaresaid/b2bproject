@@ -132,55 +132,52 @@
       >
         <template v-slot:component1="slotProps">
           <slot :action="slotProps.action">
-            <el-tooltip
-              effect="dark"
-              content="update status"
-              placement="top-start"
-              v-if="slotProps.action.can_update"
-            >
-              <el-dropdown trigger="click" @command="handleStatus">
-                <el-button circle icon="Edit" type="warning"> </el-button>
-                <template #dropdown>
-                  <el-dropdown-menu>
-                    <el-dropdown-item
-                      v-for="order in twoStatus"
-                      :command="{
-                        id: slotProps.action.order_code,
-                        status: order.value,
-                      }"
-                    >
-                      {{ order.turkish }}</el-dropdown-item
-                    >
-                  </el-dropdown-menu>
-                </template>
-              </el-dropdown>
-            </el-tooltip>
-          </slot>
-          <slot :action="slotProps.action">
-            <el-tooltip
-              class="box-item"
-              effect="dark"
-              content="Order details"
-              placement="top-start"
-            >
-              <el-button
-                type="primary"
-                icon="View"
-                circle
-                @click="navigateOrderDetails(slotProps.action)"
-              />
-            </el-tooltip>
-          </slot>
-          <slot :action="slotProps.action">
-            <el-tooltip effect="dark" content="Copy" placement="top-start">
-              <el-button
-                type="success"
-                icon="CopyDocument"
-                class="ms-0"
-                circle
-                @click="copyText(slotProps.action)"
-              />
-            </el-tooltip>
+            <div class="d-flex align-items-center">
+              <el-tooltip
+                effect="dark"
+                content="update status"
+                placement="top-start"
+                v-if="slotProps.action.can_update"
+              >
+                <el-dropdown trigger="click" @command="handleStatus">
+                  <el-button link icon="Edit" type="warning"> </el-button>
+                  <template #dropdown>
+                    <el-dropdown-menu>
+                      <el-dropdown-item
+                        v-for="order in twoStatus"
+                        :command="{
+                          id: slotProps.action.order_code,
+                          status: order.value,
+                        }"
+                      >
+                        {{ order.turkish }}</el-dropdown-item
+                      >
+                    </el-dropdown-menu>
+                  </template>
+                </el-dropdown>
+              </el-tooltip>
+              <el-tooltip
+                class="box-item"
+                effect="dark"
+                content="Order details"
+                placement="top-start"
+              >
+                <router-link
+                  :to="`/order-details/${slotProps.action.order_code}`"
+                >
+                  <el-button type="primary" icon="View" link />
+                </router-link>
+              </el-tooltip>
+              <el-tooltip effect="dark" content="Copy" placement="top-start">
+                <el-button
+                  type="success"
+                  icon="CopyDocument"
+                  class="ms-0"
+                  link
+                  @click="copyText(slotProps.action)"
+                />
+              </el-tooltip>
+            </div>
           </slot>
         </template>
         <template v-slot:component2="slotProps">

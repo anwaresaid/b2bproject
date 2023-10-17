@@ -34,6 +34,9 @@
                 <el-button type="primary" @click="handleChangeDates"
                   >Apply</el-button
                 >
+                <el-button type="primary" @click="handleExport"
+                  >Export</el-button
+                >
               </div>
               <div v-if="errors != null" class="text-danger">{{ errors }}</div>
             </div>
@@ -103,12 +106,9 @@
       >
         <template v-slot:component1="slotProps">
           <slot :action="slotProps.action">
-            <el-button
-              type="primary"
-              icon="View"
-              circle
-              @click="navigateOrderDetails(slotProps.action)"
-            />
+            <router-link :to="`/order-details/${slotProps.action.order_code}`">
+              <el-button type="primary" icon="View" link />
+            </router-link>
           </slot>
           <slot :action="slotProps.action">
             <el-tooltip
@@ -120,7 +120,7 @@
               <el-button
                 type="success"
                 icon="CopyDocument"
-                circle
+                link
                 @click="copyText(slotProps.action)"
               />
             </el-tooltip>
@@ -184,6 +184,7 @@ import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import { gamesOrderBy, orderStatus, orderType } from "../utils/constants";
 import { useRouter } from "vue-router";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
+import { ElMessage, ElMessageBox } from "element-plus";
 import { dateFormatter } from "../utils/functions";
 import store from "../../../store";
 import { errorHandling } from "@/views/apps/utils/functions";
@@ -309,8 +310,47 @@ const getItemsInTable = (item) => {
   params.value.per_page = item;
   fetchOrders();
 };
-const handleStatus = (status) => {
-  statusUpdate.value = { order_code: status.id, status: status.status };
+const confirmSubmission = () => {
+  ElMessageBox.alert("Order exported", "Order Export", {
+    confirmButtonText: "OK",
+    callback: (action: Action) => {},
+  });
+};
+const exportData = (data) => {
+  ApiService.postTest("orders/export", data)
+    .then((res) => {
+      confirmSubmission();
+    })
+    .catch((e) => {
+      errorHandling(e?.response?.data?.messages);
+    });
+};
+const handleExport = () => {
+  errors.value = null;
+  if (
+    toDate.value === null ||
+    fromDate.value === null ||
+    toDate.value === "" ||
+    fromDate.value === "" ||
+    toDate.value === undefined ||
+    fromDate.value === undefined
+  ) {
+    errors.value = "you have set both dates";
+    return;
+  }
+  if (fromDate.value > toDate.value) {
+    errors.value = "from date has to be before the to date";
+    return;
+  }
+  const date = {
+    start: dateFormatter(fromDate, "time"),
+    finish: dateFormatter(toDate, "time"),
+  };
+  exportData({
+    start: date.start,
+    end: date.finish,
+    status: -1,
+  });
 };
 const pageChange = (page: number) => {
   params.value.current_page = page;

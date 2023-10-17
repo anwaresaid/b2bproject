@@ -158,12 +158,9 @@
               content="follow"
               placement="top-start"
             >
-              <el-button
-                type="info"
-                icon="Back"
-                circle
-                @click="followKey(slotProps.action)"
-              />
+              <router-link :to="`/keys/follow/${slotProps.action.keycode}`">
+                <el-button type="info" icon="Back" link />
+              </router-link>
             </el-tooltip>
             <el-tooltip
               class="box-item"
@@ -174,7 +171,7 @@
               <el-button
                 type="success"
                 icon="CopyDocument"
-                circle
+                link
                 @click="copyText(slotProps.action)"
               />
             </el-tooltip>
@@ -433,7 +430,7 @@ const setGameId = (value) => {
   fetchKeys("filer");
 };
 const setCustomerId = (value) => {
-  dropdownParams.value.key_code = value;
+  dropdownParams.value.customer_id = value;
   params.value = dropdownParams.value;
   fetchKeys("filer");
 };

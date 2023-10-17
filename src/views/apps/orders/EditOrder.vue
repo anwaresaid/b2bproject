@@ -73,12 +73,11 @@
                     content="Follow Key"
                     placement="top-start"
                   >
-                    <el-button
-                      type="info"
-                      icon="Back"
-                      circle
-                      @click="navigateFollowPage(slotProps.action)"
-                    />
+                    <router-link
+                      :to="`/keys/follow/${slotProps.action.keycode}`"
+                    >
+                      <el-button type="info" icon="Back" link />
+                    </router-link>
                   </el-tooltip>
                 </slot>
               </template>

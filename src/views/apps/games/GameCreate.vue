@@ -194,6 +194,29 @@
       >
         <el-input v-model="form.description" autocomplete="off" />
       </el-form-item>
+      <el-form-item
+        label="'Make passive offers active"
+        label-width="250px"
+        prop="marketplace"
+      >
+        <div class="form-items-flex">
+          <el-checkbox
+            class="font-weight-bold ms-5"
+            v-model="passivingOffers.eneba"
+            label="Eneba"
+          />
+          <el-checkbox
+            class="font-weight-bold ms-5"
+            v-model="passivingOffers.gamivo"
+            label="Gamivo"
+          />
+          <el-checkbox
+            class="font-weight-bold ms-5"
+            v-model="passivingOffers.kinguin"
+            label="Kinguin"
+          />
+        </div>
+      </el-form-item>
     </el-form>
     <span class="text-danger">{{ errors.length > 0 ? errors[0][0] : "" }}</span>
     <template #footer>
@@ -240,6 +263,7 @@ interface RuleForm {
   categoryType: number;
   min_sales: number;
   sale_price: number;
+  auto_marketplaces: Array;
 }
 const test = ref("Bethesda");
 const checkedKinguin = ref(false);
@@ -257,6 +281,7 @@ const publishersUrl = "publishers/all";
 const publishersType = "publishers";
 const regionUrl = "regions/all";
 const regionType = "regions";
+const passivingOffers = reactive({});
 const languageUrl = "languages/all";
 const languageType = "languages";
 const checkedMarketplace = ref(false);
@@ -280,6 +305,7 @@ const form = reactive<RuleForm>({
   categoryType: null,
   min_sales: null,
   sale_price: null,
+  auto_marketplaces: [],
 });
 
 const statusData = ref(gameStatus);
@@ -377,6 +403,31 @@ const createUpdateGame = async (formEl: FormInstance | undefined) => {
   if (checkedGamivo.value) tempMarketplaces.push(3);
   if (checkedKinguin.value) tempMarketplaces.push(1);
 
+  if (passivingOffers.kinguin) {
+    if (!form.auto_marketplaces.includes(1)) form.auto_marketplaces.push(1);
+  } else {
+    const index = form.auto_marketplaces.indexOf(1);
+    if (index > -1) {
+      form.auto_marketplaces.splice(index, 1);
+    }
+  }
+  if (passivingOffers.eneba) {
+    if (!form.auto_marketplaces.includes(2)) form.auto_marketplaces.push(2);
+  } else {
+    const index = form.auto_marketplaces.indexOf(1);
+    if (index > -1) {
+      form.auto_marketplaces.splice(index, 1);
+    }
+  }
+  if (passivingOffers.gamivo) {
+    if (!form.auto_marketplaces.includes(3)) form.auto_marketplaces.push(3);
+  } else {
+    const index = form.auto_marketplaces.indexOf(1);
+    if (index > -1) {
+      form.auto_marketplaces.splice(index, 1);
+    }
+  }
+
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
@@ -392,6 +443,7 @@ const createUpdateGame = async (formEl: FormInstance | undefined) => {
         description: form?.description,
         marketplaces: tempMarketplaces,
         sale_price: form.sale_price,
+        auto_marketplaces: form.auto_marketplaces,
       };
       if (isUpdate.value) {
         ApiService.put(`games/${props.update?.id}`, submissionData)
@@ -470,6 +522,7 @@ watch(props, (newValue) => {
     // Emit event or perform other actions when dialog visibility changes
   }
 });
+
 watch(setVisible, (newValue) => {
   clear.value = !clear.value;
   //clearing the form items

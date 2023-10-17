@@ -149,7 +149,7 @@
               <el-button
                 type="warning"
                 icon="Edit"
-                circle
+                link
                 @click="handleUpdate(slotProps.action)"
               />
             </el-tooltip>
