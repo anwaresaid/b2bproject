@@ -57,7 +57,7 @@
           @selected-game="setPublisherId"
           :val="form.publisher"
           returnType="object"
-          :default="isUpdate ? form.publisher?.name : null"
+          :default="form.publisher?.name"
           :type="publishersType"
           :keyg="categoriesKey"
           wd="100%"
@@ -143,7 +143,7 @@
           @selected-game="setRegionId"
           :val="form.region"
           returnType="object"
-          :default="isUpdate ? form.region?.name : null"
+          :default="form.region?.name"
           :type="regionType"
           :keyg="categoriesKey"
           wd="100%"
@@ -160,7 +160,7 @@
           @selected-game="setLanguageId"
           returnType="object"
           :val="form.language"
-          :default="isUpdate ? form.language?.name : null"
+          :default="form.language?.name"
           :type="languageType"
           placeholder="please select Language"
           :keyg="categoriesKey"
@@ -324,35 +324,42 @@ const rules = reactive<FormRules<RuleForm>>({
     {
       required: true,
       message: "Please select a publisher",
-      trigger: "change",
+      trigger: "blur",
     },
   ],
   category: [
     {
       required: true,
       message: "Please select category",
-      trigger: "change",
+      trigger: "blur",
     },
   ],
   region: [
     {
       required: true,
       message: "Please select region",
-      trigger: "change",
+      trigger: "blur",
     },
   ],
   status: [
     {
       required: true,
       message: "Please select status",
-      trigger: "change",
+      trigger: "blur",
     },
   ],
   categoryType: [
     {
       required: true,
       message: "Please select category type",
-      trigger: "change",
+      trigger: "blur",
+    },
+  ],
+  language: [
+    {
+      required: true,
+      message: "Please select language",
+      trigger: "blur",
     },
   ],
   info: [
