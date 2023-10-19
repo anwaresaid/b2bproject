@@ -754,7 +754,9 @@ export default defineComponent({
             (k) => this.filters[k]?.length > 0 || this.filters[k] !== ""
           )
         ) {
+          this.loading = true;
           ApiService.post("games/list", this.filters).then((res) => {
+            this.loading = false;
             this.gamesData = res.data.data.games;
             this.paginationData = res.data.data.pagination;
             store.dispatch(

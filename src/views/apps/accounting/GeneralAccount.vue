@@ -130,7 +130,10 @@ import ChartsWidget1 from "@/components/widgets/charts/Widget1.vue";
 import ApiService from "@/core/services/ApiService";
 import GeneralAccountingCard from "../../../components/cards/GeneralAcountingCard.vue";
 import { dateFormatter } from "../utils/functions";
-import { errorHandling } from "@/views/apps/utils/functions";
+import {
+  errorHandling,
+  switchBeautifulNumber,
+} from "@/views/apps/utils/functions";
 
 import {
   ref,
@@ -265,18 +268,18 @@ const fetchData = () => {
           if (!totalKdv.value.monthsData[year]?.length) {
             if (item.year_id === year) {
               totalKdv.value.monthsData[year] = [item?.month_name];
-              totalKdv.value.total[year] = [item?.total_kdv];
+              totalKdv.value.total[year] = [item?.total_as_float];
             }
           } else {
             if (item.year_id === year) {
               totalKdv.value.monthsData[year].push(item?.month_name);
-              totalKdv.value.total[year].push(item?.total_kdv);
+              totalKdv.value.total[year].push(item?.total_as_float);
             }
           }
         });
       } else {
         totalKdv.value.monthsData.push(item?.month_name);
-        totalKdv.value.total.push(item?.total_kdv);
+        totalKdv.value.total.push(item?.total_as_float);
       }
     });
     if (totalKdvYears.value.length > 1) {
@@ -285,10 +288,12 @@ const fetchData = () => {
           {
             name: "Total KDV",
             data: totalKdv.value.total[year],
+            monthsData: totalKdv.value.monthsData[year],
           },
         ];
         totalKdvGraph.value[year] = {
           ...totalKdv.value,
+          monthsData: totalKdv.value.monthsData[year],
           series: temp,
         };
       });
