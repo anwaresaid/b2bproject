@@ -96,24 +96,48 @@
       >
         <template v-slot:component1="slotProps">
           <slot :action="slotProps.action">
-            <router-link :to="`/order-details/${slotProps.action.order_code}`">
-              <el-button type="primary" icon="View" link />
-            </router-link>
-          </slot>
-          <slot :action="slotProps.action">
-            <el-tooltip
-              class="box-item"
-              effect="dark"
-              content="Copy"
-              placement="top-start"
-            >
-              <el-button
-                type="success"
-                icon="CopyDocument"
-                link
-                @click="copyText(slotProps.action)"
-              />
-            </el-tooltip>
+            <div class="d-flex align-items-center">
+              <el-tooltip
+                effect="dark"
+                content="update status"
+                placement="top-start"
+              >
+                <el-dropdown trigger="click" @command="handleStatus">
+                  <el-button link icon="Edit" type="warning"> </el-button>
+                  <template #dropdown>
+                    <el-dropdown-menu>
+                      <el-dropdown-item
+                        v-for="order in twoStatus"
+                        :command="{
+                          id: slotProps.action.order_code,
+                          status: order.value,
+                        }"
+                      >
+                        {{ order.turkish }}</el-dropdown-item
+                      >
+                    </el-dropdown-menu>
+                  </template>
+                </el-dropdown>
+              </el-tooltip>
+              <router-link
+                :to="`/order-details/${slotProps.action.order_code}`"
+              >
+                <el-button type="primary" icon="View" link />
+              </router-link>
+              <el-tooltip
+                class="box-item"
+                effect="dark"
+                content="Copy"
+                placement="top-start"
+              >
+                <el-button
+                  type="success"
+                  icon="CopyDocument"
+                  link
+                  @click="copyText(slotProps.action)"
+                />
+              </el-tooltip>
+            </div>
           </slot>
         </template>
         <template v-slot:component2="slotProps">
@@ -189,6 +213,19 @@ const errors = ref(null);
 const loading = ref(false);
 const orderByCreateDate = ref("desc");
 const defaultTime = new Date(2000, 1, 1, 12, 0, 0);
+const statusUpdate = ref({});
+const twoStatus = [
+  {
+    value: 1,
+    label: "approved",
+    turkish: "Onaylandı",
+  },
+  {
+    value: 2,
+    label: "rejected",
+    turkish: "Kabul Edilmedi",
+  },
+];
 
 const tableHeaders = ref([
   {
@@ -247,7 +284,15 @@ const tableHeaders = ref([
     custom: "component1",
   },
 ]);
-
+const updateStatus = (type) => {
+  ApiService.post("orders/updateStatus", statusUpdate.value)
+    .then((res) => {
+      fetchOrders();
+    })
+    .catch((e) => {
+      errorHandling(e?.response?.data?.messages);
+    });
+};
 const fetchOrders = (type) => {
   loading.value = true;
   if (type === undefined) {
@@ -299,6 +344,9 @@ const navigateOrderDetails = (item) => {
     },
   });
 };
+const handleStatus = (status) => {
+  statusUpdate.value = { order_code: status.id, status: status.status };
+};
 const emptyOrderbyFilters = (key) => {
   if (key !== "create") orderByCreateDate.value = null;
 };
@@ -333,6 +381,9 @@ const copyText = (obj) => {
   navigator.clipboard.writeText(obj.order_code);
 };
 
+watch(statusUpdate, (newValue) => {
+  updateStatus();
+});
 watch(tableStatus, (newValue) => {
   params.value.order_status = tableStatus.value;
   if (tableStatus.value === "") {
