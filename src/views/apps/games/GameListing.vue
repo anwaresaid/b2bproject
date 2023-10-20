@@ -248,11 +248,12 @@
         </template>
         <template v-slot:component2="slotProps">
           <slot :action="slotProps.action">
-            <span
-              :class="`game-name-link badge py-3 px-4 fs-7 badge-light-warning`"
-              @click="navigateGameDetails(slotProps.action?.uuid)"
-              >{{ slotProps.action?.name }}</span
-            >
+            <router-link :to="`/game-detail/${slotProps.action?.uuid}`">
+              <span
+                :class="`game-name-link badge py-3 px-4 fs-7 badge-light-warning`"
+                >{{ slotProps.action?.name }}</span
+              >
+            </router-link>
           </slot>
         </template>
         <template v-slot:component4="slotProps">
@@ -467,10 +468,9 @@ export default defineComponent({
     },
     handleSearch() {
       if (this.search.length !== 0) {
-        this.params.search_game = this.search;
+        this.filters.search_game = this.search;
       } else {
-        delete this.params.search_game;
-        this.fetchData();
+        delete this.filters.search_game;
       }
     },
     closeCreateLanguage(value) {
@@ -488,6 +488,7 @@ export default defineComponent({
     closeCreateGame(value) {
       this.gameCreateVisible = false;
       if (value) {
+        this.filters.order_by_stock = "desc";
         this.fetchData();
       }
     },
@@ -569,14 +570,7 @@ export default defineComponent({
           });
         });
     },
-    navigateGameDetails(id) {
-      this.router.push({
-        name: "apps-game-detail-listing",
-        params: {
-          id: id,
-        },
-      });
-    },
+
     onChange(text) {
       if (text !== "") {
         ApiService.getTest("marketplace", text, 2)
@@ -601,7 +595,7 @@ export default defineComponent({
     },
     fetchData() {
       this.loading = true;
-      ApiService.post("games/list", this.params)
+      ApiService.post("games/list", this.filters)
         .then((res) => {
           this.loading = false;
           this.gamesData = res.data.data.games;
@@ -689,6 +683,8 @@ export default defineComponent({
   },
   mounted() {
     this.filters.order_by_stock = this.orderByStock;
+    this.filters.per_page = this.itemsInTable;
+    this.filters.current_page = this.currentPage;
   },
 
   watch: {

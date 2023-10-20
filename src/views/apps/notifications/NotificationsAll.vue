@@ -147,6 +147,11 @@ const tableHeaders = ref([
     sortEnabled: false,
   },
   {
+    columnName: "CREATED AT",
+    columnLabel: "createdAt",
+    sortEnabled: false,
+  },
+  {
     columnName: "TYPE",
     columnLabel: "type",
     sortEnabled: false,

@@ -96,19 +96,20 @@
       >
         <template v-slot:name="slotProps">
           <slot :action="slotProps.action">
-            <el-tooltip
-              class="box-item"
-              effect="dark"
-              :content="slotProps.action?.name"
-              placement="top-start"
-            >
-              <span
-                :class="`game-name-link badge py-3 px-4 fs-7 badge-light-warning`"
-                @click="navigateToGameDetailsPage(slotProps.action?.uuid)"
+            <router-link :to="`/game-detail/${slotProps.action?.uuid}`">
+              <el-tooltip
+                class="box-item"
+                effect="dark"
+                :content="slotProps.action?.name"
+                placement="top-start"
               >
-                {{ slotProps.action.name }}</span
-              >
-            </el-tooltip>
+                <span
+                  :class="`game-name-link badge py-3 px-4 fs-7 badge-light-warning`"
+                >
+                  {{ slotProps.action.name }}</span
+                >
+              </el-tooltip>
+            </router-link>
           </slot>
         </template>
         <template v-slot:api_component="slotProps">
@@ -261,15 +262,6 @@ const getItemsInTable = (item) => {
 const pageChange = (page: number) => {
   params.value.current_page = page;
   fetchStock();
-};
-
-const navigateToGameDetailsPage = (id) => {
-  router.push({
-    name: "apps-game-detail-listing",
-    params: {
-      id: id,
-    },
-  });
 };
 
 watch(searchGames, (newValue) => {

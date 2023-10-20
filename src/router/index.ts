@@ -30,6 +30,7 @@ import Kebir from "@/views/apps/accounting/Kebir.vue";
 import StockList from "@/views/apps/stock/StockList.vue";
 import GameListing from "@/views/apps/games/GameListing.vue";
 import GameDetailListing from "@/views/apps/games/GameDetailsList.vue";
+import ZiraatListing from "@/views/apps/ziraat/detailsList.vue";
 import RolesListing from "@/views/apps/roles/RolesListing.vue";
 import CustomerDetails from "@/views/apps/customers/CustomerDetails.vue";
 import SuppliersListing from "@/views/apps/suppliers/SuppliersListing.vue";
@@ -385,6 +386,15 @@ const routes: Array<RouteRecordRaw> = [
         meta: {
           pageTitle: "game-detail",
           breadcrumbs: ["Apps", `Game detail`],
+        },
+      },
+      {
+        path: "/ziraat-details",
+        name: "apps-ziraat-detail-listing",
+        component: ZiraatListing,
+        meta: {
+          pageTitle: "ziraat-detail",
+          breadcrumbs: ["Apps", `Ziraat detail`],
         },
       },
       {

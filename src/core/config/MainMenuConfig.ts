@@ -97,6 +97,12 @@ const MainMenuConfig: Array<MenuItem> = [
           },
         ],
       },
+      {
+        heading: "Ziraat",
+        route: "/ziraat-details",
+        svgIcon: "/media/icons/duotune/art/art002.svg",
+        fontIcon: "bi-app-indicator",
+      },
 
       //     {
       //       sectionTitle: "authentication",

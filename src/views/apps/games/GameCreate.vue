@@ -586,7 +586,6 @@ watch(setVisible, (newValue) => {
     );
     if (props.update.auto_marketplaces?.length > 0) {
       if (props.update.auto_marketplaces.some((item) => item.id === 1)) {
-        console.log("has some");
         passivingOffers.kinguin = true;
       }
       if (props.update.auto_marketplaces.some((item) => item.id === 2)) {
