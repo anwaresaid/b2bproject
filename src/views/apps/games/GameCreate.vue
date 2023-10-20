@@ -421,7 +421,7 @@ const createUpdateGame = async (formEl: FormInstance | undefined) => {
   if (passivingOffers.eneba) {
     if (!form.auto_marketplaces.includes(2)) form.auto_marketplaces.push(2);
   } else {
-    const index = form.auto_marketplaces.indexOf(1);
+    const index = form.auto_marketplaces.indexOf(3);
     if (index > -1) {
       form.auto_marketplaces.splice(index, 1);
     }
@@ -429,7 +429,7 @@ const createUpdateGame = async (formEl: FormInstance | undefined) => {
   if (passivingOffers.gamivo) {
     if (!form.auto_marketplaces.includes(3)) form.auto_marketplaces.push(3);
   } else {
-    const index = form.auto_marketplaces.indexOf(1);
+    const index = form.auto_marketplaces.indexOf(3);
     if (index > -1) {
       form.auto_marketplaces.splice(index, 1);
     }
@@ -581,6 +581,21 @@ watch(setVisible, (newValue) => {
     form.min_sales = switchBeautifulNumber(props.update.sale_price);
     form.description = props.update.description;
     form.sale_price = props.update.sale_price;
+    form.auto_marketplaces = props.update.auto_marketplaces.map(
+      (item) => item.id
+    );
+    if (props.update.auto_marketplaces?.length > 0) {
+      if (props.update.auto_marketplaces.some((item) => item.id === 1)) {
+        console.log("has some");
+        passivingOffers.kinguin = true;
+      }
+      if (props.update.auto_marketplaces.some((item) => item.id === 2)) {
+        passivingOffers.eneba = true;
+      }
+      if (props.update.auto_marketplaces.some((item) => item.id === 3)) {
+        passivingOffers.gamivo = true;
+      }
+    }
     // checkedEneba.value = props.
   } else if (setVisible.value === false) {
     setEmpty(form);
