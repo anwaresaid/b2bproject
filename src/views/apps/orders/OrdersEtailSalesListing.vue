@@ -152,18 +152,19 @@
         </template>
         <template v-slot:gamenamecomp="slotProps">
           <slot :action="slotProps.action">
-            <el-tooltip
-              class="box-item"
-              effect="dark"
-              :content="slotProps.action?.game?.name"
-              placement="top-start"
-            >
-              <span
-                :class="` game-name-link badge py-3 px-4 fs-7 badge-light-warning`"
-                @click="navigateToGameDetailsPage(slotProps.action?.game?.uuid)"
-                >{{ slotProps.action.game?.name }}</span
+            <router-link :to="`/game-detail/${slotProps.action?.game?.uuid}`">
+              <el-tooltip
+                class="box-item"
+                effect="dark"
+                :content="slotProps.action?.game?.name"
+                placement="top-start"
               >
-            </el-tooltip>
+                <span
+                  :class="` game-name-link badge py-3 px-4 fs-7 badge-light-warning`"
+                  >{{ slotProps.action.game?.name }}</span
+                >
+              </el-tooltip>
+            </router-link>
           </slot>
         </template>
         <template v-slot:component2="slotProps">
@@ -325,14 +326,6 @@ const updateStatus = (type) => {
     .catch((e) => {
       errorHandling(e?.response?.data?.messages);
     });
-};
-const navigateToGameDetailsPage = (id) => {
-  router.push({
-    name: "apps-game-detail-listing",
-    params: {
-      id: id,
-    },
-  });
 };
 const handleStatus = (status) => {
   statusUpdate.value = { order_code: status.id, status: status.status };

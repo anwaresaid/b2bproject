@@ -172,11 +172,13 @@
         </template>
         <template v-slot:component3="slotProps">
           <slot :action="slotProps.action">
-            <span
-              class="game-name-link ml-2"
-              @click="navigateGameDetails(slotProps.action?.game?.uuid)"
-              >{{ slotProps.action?.game?.name }}</span
-            >
+            <router-link :to="`/game-detail/${slotProps.action?.game?.uuid}`">
+              <span
+                :class="`game-name-link badge py-3 px-4 fs-7 badge-light-warning`"
+              >
+                >{{ slotProps.action?.game?.name }}</span
+              >
+            </router-link>
           </slot>
         </template>
       </Datatable>
@@ -326,14 +328,7 @@ const pageChange = (page: number) => {
   params.value.current_page = page;
   fetchOrders();
 };
-const navigateGameDetails = (id) => {
-  router.push({
-    name: "apps-game-detail-listing",
-    params: {
-      id: id,
-    },
-  });
-};
+
 const navigateOrderDetails = (item) => {
   const order_id = item.order_code;
   store.dispatch("setOrderCode", order_id);

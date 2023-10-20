@@ -179,11 +179,12 @@
         </template>
         <template v-slot:component2="slotProps">
           <slot :action="slotProps.action">
-            <span
-              class="game-name-link ml-2"
-              @click="navigateGameDetails(slotProps.action.game.uuid)"
-              >{{ slotProps.action.game?.name }}</span
-            >
+            <router-link :to="`/game-detail/${slotProps.action?.uuid}`">
+              <span
+                :class="`game-name-link badge py-3 px-4 fs-7 badge-light-warning`"
+                >{{ slotProps.action.game?.name }}</span
+              >
+            </router-link>
           </slot>
         </template>
         <template v-slot:component3="slotProps">

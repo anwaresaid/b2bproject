@@ -110,18 +110,18 @@
         <template v-slot:game_component="slotProps">
           <slot :action="slotProps.action">
             <div v-if="slotProps.action.status === 0">
-              <span
-                @click="navigateGameDetails(slotProps.action.game.uuid)"
-                class="game-name-link text-danger"
-                >{{ slotProps.action.game.name }}</span
-              >
+              <router-link :to="`/game-detail/${slotProps.action?.game?.uuid}`">
+                <span class="game-name-link text-danger">{{
+                  slotProps.action.game.name
+                }}</span>
+              </router-link>
             </div>
             <div v-else-if="slotProps.action.status === 1">
-              <span
-                @click="navigateGameDetails(slotProps.action.game.uuid)"
-                class="game-name-link text-success"
-                >{{ slotProps.action?.game?.name }}</span
-              >
+              <router-link :to="`/game-detail/${slotProps.action?.game?.uuid}`">
+                <span class="game-name-link text-success">{{
+                  slotProps.action?.game?.name
+                }}</span>
+              </router-link>
             </div>
           </slot>
         </template>
@@ -418,15 +418,6 @@ const confirmSubmission = (data) => {
     .catch((e) => {
       errorHandling(e?.response?.data?.messages);
     });
-};
-
-const navigateGameDetails = (id) => {
-  router.push({
-    name: "apps-game-detail-listing",
-    params: {
-      id: id,
-    },
-  });
 };
 
 watch(marketPlaceStatus, (newValue) => {
