@@ -195,7 +195,7 @@
         <el-input v-model="form.description" autocomplete="off" />
       </el-form-item>
       <el-form-item
-        label="'Make passive offers active"
+        label="Make passive offers active"
         label-width="250px"
         prop="marketplace"
       >
