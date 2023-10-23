@@ -120,6 +120,29 @@
         </div>
       </el-form-item>
     </el-form>
+    <el-form-item
+      label="Make passive offers active"
+      label-width="250px"
+      prop="marketplace"
+    >
+      <div class="form-items-flex">
+        <el-checkbox
+          class="font-weight-bold ms-5"
+          v-model="passivingOffers.eneba"
+          label="Eneba"
+        />
+        <el-checkbox
+          class="font-weight-bold ms-5"
+          v-model="passivingOffers.gamivo"
+          label="Gamivo"
+        />
+        <el-checkbox
+          class="font-weight-bold ms-5"
+          v-model="passivingOffers.kinguin"
+          label="Kinguin"
+        />
+      </div>
+    </el-form-item>
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="setVisible = false">Cancel</el-button>
@@ -168,6 +191,7 @@ interface RuleForm {
   keys: string;
   percent_of_kdv: number;
   kdv: number;
+  auto_marketplaces: Array;
 }
 
 const lines = ref([1]);
@@ -188,6 +212,8 @@ const supplierType = "suppliers";
 const formSize = ref("default");
 const ruleFormRef = ref<FormInstance>();
 const props = defineProps(["isVisible", "isUpdate", "data", "gameDropdown"]);
+const passivingOffers = reactive({});
+
 const setVisible = ref("");
 setVisible.value = props.isVisible;
 // const lines = ref([""]);
@@ -202,6 +228,7 @@ const form = reactive<RuleForm>({
   currency: null,
   cost: null,
   keys: "",
+  auto_marketplaces: [],
 });
 
 const emit = defineEmits();
@@ -285,6 +312,30 @@ const assignCost = (e) => {
   form.cost = beautifyNumber(e);
 };
 const createGame = async (formEl: FormInstance | undefined) => {
+  if (passivingOffers.kinguin) {
+    if (!form.auto_marketplaces.includes(1)) form.auto_marketplaces.push(1);
+  } else {
+    const index = form.auto_marketplaces.indexOf(1);
+    if (index > -1) {
+      form.auto_marketplaces.splice(index, 1);
+    }
+  }
+  if (passivingOffers.eneba) {
+    if (!form.auto_marketplaces.includes(2)) form.auto_marketplaces.push(2);
+  } else {
+    const index = form.auto_marketplaces.indexOf(3);
+    if (index > -1) {
+      form.auto_marketplaces.splice(index, 1);
+    }
+  }
+  if (passivingOffers.gamivo) {
+    if (!form.auto_marketplaces.includes(3)) form.auto_marketplaces.push(3);
+  } else {
+    const index = form.auto_marketplaces.indexOf(3);
+    if (index > -1) {
+      form.auto_marketplaces.splice(index, 1);
+    }
+  }
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
@@ -319,6 +370,17 @@ watch(props, (newValue) => {
     form.currency = props.data.currency;
     form.cost = props.data.cost;
     form.keys = props.data.keys;
+  }
+  if (props.isUpdate.auto_marketplaces?.length > 0) {
+    if (props.update.auto_marketplaces.some((item) => item.id === 1)) {
+      passivingOffers.kinguin = true;
+    }
+    if (props.update.auto_marketplaces.some((item) => item.id === 2)) {
+      passivingOffers.eneba = true;
+    }
+    if (props.update.auto_marketplaces.some((item) => item.id === 3)) {
+      passivingOffers.gamivo = true;
+    }
   }
   if (!newValue) {
     // Emit event or perform other actions when dialog visibility changes
