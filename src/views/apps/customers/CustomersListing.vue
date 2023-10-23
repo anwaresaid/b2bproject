@@ -114,6 +114,15 @@
         @on-items-per-page-change="getItemsInTable"
         @page-change="pageChange"
       >
+        <template v-slot:component2="slotProps">
+          <slot :action="slotProps.action">
+            <el-checkbox
+              class="font-weight-bold ms-5"
+              :checked="slotProps.action.is_verify"
+              @change="(e) => handleCheckbox(e, slotProps.action.id)"
+            />
+          </slot>
+        </template>
       </Datatable>
     </div>
   </div>
@@ -147,6 +156,7 @@ export default defineComponent({
       customersData: [],
       itemsInTable: 10,
       currentPage: 1,
+      verified: {},
       params: {
         search: "",
         per_page: 0,
@@ -178,6 +188,13 @@ export default defineComponent({
     },
     pageChange(page) {
       this.currentPage = page;
+    },
+    handleCheckbox(e, id) {
+      ApiService.postTest("customers/verify", { customer_id: id, verify: e })
+        .then((res) => {})
+        .catch((e) => {
+          errorHandling(e.response.data.messages);
+        });
     },
     handleSearch() {
       if (this.search.length !== 0) {
@@ -217,6 +234,11 @@ export default defineComponent({
       {
         columnName: "Vat Number",
         columnLabel: "vat_number",
+        sortEnabled: false,
+      },
+      {
+        columnName: "verified",
+        custom: "component2",
         sortEnabled: false,
       },
     ]);
@@ -273,6 +295,15 @@ export default defineComponent({
     itemsInTable() {
       this.params.per_page = this.itemsInTable;
       this.currentPage = 1;
+    },
+    // verified() {
+    //   console.log("changed");
+    // },
+    verified: {
+      handler: function () {
+        console.log("changed");
+      },
+      deep: true,
     },
     currentPage() {
       this.params.current_page = this.currentPage;

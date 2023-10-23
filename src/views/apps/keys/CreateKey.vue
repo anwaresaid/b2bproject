@@ -11,6 +11,7 @@
         <DropdownRemote
           :url="gameUrl"
           @selected-game="setGameId"
+          returnType="object"
           :default="props.gameDropdown ? props.gameDropdown?.name : null"
           :type="gameType"
           :keyg="gameKey"
@@ -124,6 +125,7 @@
       label="Make passive offers active"
       label-width="250px"
       prop="marketplace"
+      v-if="form.game_id"
     >
       <div class="form-items-flex">
         <el-checkbox
@@ -303,7 +305,24 @@ const confirmSubmission = () => {
 };
 
 const setGameId = (value) => {
-  form.game_id = value;
+  form.game_id = value.id;
+  if (value.auto_marketplaces?.length > 0) {
+    if (value.auto_marketplaces.contains(1)) {
+      passivingOffers.kinguin = true;
+    } else {
+      passivingOffers.kinguin = false;
+    }
+    if (value.auto_marketplaces.contains(2)) {
+      passivingOffers.eneba = true;
+    } else {
+      passivingOffers.eneba = false;
+    }
+    if (value.auto_marketplaces.contains(3)) {
+      passivingOffers.gamivo = true;
+    } else {
+      passivingOffers.gamivo = false;
+    }
+  }
 };
 const setSupplierId = (value) => {
   form.supplier_id = value;
