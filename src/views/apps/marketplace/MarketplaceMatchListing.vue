@@ -127,7 +127,7 @@
         </template>
         <template v-slot:component1="slotProps">
           <slot :action="slotProps.action">
-            <!--       <el-tooltip
+            <el-tooltip
               class="box-item"
               effect="dark"
               content="Delete game"
@@ -136,10 +136,10 @@
               <el-button
                 type="danger"
                 icon="Delete"
-                circle
+                link
                 @click="confirmSubmission(slotProps.action)"
               />
-            </el-tooltip>-->
+            </el-tooltip>
             <el-tooltip
               class="box-item"
               effect="dark"
@@ -238,9 +238,14 @@ const tableHeaders = ref([
     custom: "api_component",
   },
   {
-    columnName: "OYUN ADI",
+    columnName: "Sistem Oyun Adı",
     sortEnabled: false,
     custom: "game_component",
+  },
+  {
+    columnName: "Api Oyun İsmi",
+    sortEnabled: false,
+    columnLabel: "api_game_name",
   },
   {
     columnName: "AUCTION",
@@ -397,7 +402,7 @@ const handleUpdate = (data) => {
 
 const confirmSubmission = (data) => {
   ElMessageBox.confirm(
-    `this action will permanently delete the ${data.name}. Continue?`,
+    `this action will permanently delete the ${data.game.name} match. Continue?`,
     "Warning",
     {
       confirmButtonText: "OK",
@@ -406,8 +411,8 @@ const confirmSubmission = (data) => {
     }
   )
     .then(() => {
-      ApiService.delete(`games/${data.id}`).then((res) => {
-        store.dispatch("setPageItems", res.data.data.pagination.total_items);
+      ApiService.post(`/marketplace/delete/match`, data.id).then((res) => {
+        fetchMatches();
       });
       ElMessage({
         type: "success",

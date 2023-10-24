@@ -26,13 +26,14 @@
     </div>
 
     <div class="card-body pt-0">
+      {{ typeof usersData }}
       <Datatable
         :data="usersData"
         :header="tableHeaders"
         :totalPages="paginationData.last_page ? paginationData.last_page : 0"
         :enable-items-per-page-dropdown="true"
-        :checkbox-enabled="true"
         checkbox-label="id"
+        :size="`small`"
         :itemsPerPage="itemsInTable"
         :pagination="true"
         :loading="loading"
@@ -47,7 +48,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, onMounted, watch, onBeforeUnmount } from "vue";
+import { ref, onMounted, watch, onBeforeUnmount } from "vue";
 import ApiService from "@/core/services/ApiService";
 import Datatable from "@/components/kt-datatable/KTDataTable.vue";
 import store from "../../../store";
@@ -130,7 +131,7 @@ const fetchTransaction = (type) => {
     params.value.current_page = currentPage;
     params.value.per_page = itemsInTable;
   }
-  ApiService.postTest("/ziraat/extre", params.value)
+  ApiService.postTest("ziraat/extre", params.value)
     .then((res) => {
       loading.value = false;
       usersData.value = res.data.data.list;
@@ -170,9 +171,11 @@ const handleChangeDates = () => {
 const getItemsInTable = (item) => {
   itemsInTable.value = item;
   params.value.per_page = item;
+  fetchTransaction();
 };
 const pageChange = (page: number) => {
   params.value.current_page = page;
+  fetchTransaction();
 };
 
 const closeCreateUser = (value) => {

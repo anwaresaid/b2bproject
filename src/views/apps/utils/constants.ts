@@ -46,6 +46,10 @@ export const processType = [
     value: "UpdateStock",
   },
   {
+    label: "Stock notification",
+    value: "StockNotification",
+  },
+  {
     label: "match",
     value: "Match",
   },
