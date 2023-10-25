@@ -149,6 +149,7 @@
         :loading="loading"
         @on-items-per-page-change="getItemsInTable"
         @page-change="pageChange"
+        :row-color="tableRowClassName"
       >
         <template v-slot:component1="slotProps">
           <slot :action="slotProps.action">
@@ -273,12 +274,7 @@ const errors = ref(null);
 const multiSelectKeysIds = ref([]);
 const pusherEvent =
   "Illuminate\\Notifications\\Events\\BroadcastNotificationCreated";
-const channel = PusherService.subscribe("notification");
 const message = ref("");
-channel.bind(
-  "Illuminate\\Notifications\\Events\\BroadcastNotificationCreated",
-  (data) => {}
-);
 
 const tableHeaders = ref([
   {
@@ -339,6 +335,26 @@ const tableHeaders = ref([
   },
 ]);
 
+const tableRowClassName = ({ row }: { row }) => {
+  if (row.warning === "danger") {
+    return "danger-row";
+  }
+  return "";
+};
+// const tableRowClassName = ({
+//   row,
+//   rowIndex,
+// }: {
+//   row: any;
+//   rowIndex: number;
+// }) => {
+//   if (rowIndex === 1) {
+//     return "warning-row";
+//   } else if (rowIndex === 3) {
+//     return "success-row";
+//   }
+//   return "";
+// };
 const fetchKeys = (type) => {
   loading.value = true;
   if (type === undefined) {

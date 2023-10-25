@@ -25,6 +25,7 @@
       :show-summary="showSummary"
       :summary-method="summaryMethod"
       @selection-change="handleSelectionChange"
+      :row-class-name="rowColor"
     >
       <el-table-column v-if="multiSelect" type="selection" width="55" />
       <el-table-column
@@ -87,6 +88,7 @@ export default defineComponent({
     summaryMethod: { type: Function },
     showSummary: { type: Boolean, required: false, default: false },
     totalItemsPerRequest: { type: Number, required: false, default: null },
+    rowColor: { type: Function, required: false },
     sortOrder: {
       type: String as () => "asc" | "desc",
       required: false,
@@ -164,3 +166,14 @@ export default defineComponent({
   },
 });
 </script>
+<style>
+.el-table .warning-row {
+  --el-table-tr-bg-color: var(--el-color-warning-light-9);
+}
+.el-table .success-row {
+  --el-table-tr-bg-color: var(--el-color-success-light-9);
+}
+.el-table .danger-row {
+  --el-table-tr-bg-color: var(--el-color-danger-light-9);
+}
+</style>

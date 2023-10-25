@@ -103,6 +103,22 @@ const MainMenuConfig: Array<MenuItem> = [
         svgIcon: "/media/icons/duotune/art/art002.svg",
         fontIcon: "bi-app-indicator",
       },
+      {
+        sectionTitle: "Jar",
+        route: "/jar",
+        svgIcon: "/media/icons/duotune/art/art002.svg",
+        fontIcon: "bi-app-indicator",
+        sub: [
+          {
+            heading: "Jar List",
+            route: "/jar",
+          },
+          {
+            heading: "Jar Transactions",
+            route: "jar/transactions",
+          },
+        ],
+      },
 
       //     {
       //       sectionTitle: "authentication",
@@ -399,6 +415,10 @@ const MainMenuConfig: Array<MenuItem> = [
           {
             heading: "Stock List",
             route: "/stock-list",
+          },
+          {
+            heading: "Loss Sales",
+            route: "/keys/  loss-sales",
           },
           {
             heading: "Follow Key",

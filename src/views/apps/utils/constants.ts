@@ -190,6 +190,51 @@ export const currency = [
     symbol: "$",
   },
 ];
+export const jarTransactionType = [
+  {
+    label: "INCOME",
+    value: 1,
+  },
+  {
+    label: "EXPENSE",
+    value: 2,
+  },
+];
+
+export const salesEnum = [
+  {
+    label: "Yesterday Sales",
+    value: 1,
+  },
+  {
+    label: "Today Sales",
+    value: 2,
+  },
+  {
+    label: "This Week Sales",
+    value: 3,
+  },
+  {
+    label: "This Month Sales",
+    value: 4,
+  },
+  {
+    label: "This Year Sales",
+    value: 5,
+  },
+  {
+    label: "Last Week And This Week Sales",
+    value: 6,
+  },
+  {
+    label: "Last Month Sales",
+    value: 7,
+  },
+  {
+    label: "General Sales",
+    value: 8,
+  },
+];
 
 export const orderType = [
   {
