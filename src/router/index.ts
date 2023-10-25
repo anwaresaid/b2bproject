@@ -31,6 +31,8 @@ import StockList from "@/views/apps/stock/StockList.vue";
 import GameListing from "@/views/apps/games/GameListing.vue";
 import GameDetailListing from "@/views/apps/games/GameDetailsList.vue";
 import ZiraatListing from "@/views/apps/ziraat/detailsList.vue";
+import JarListing from "@/views/apps/jar/JarList.vue";
+import JarTransaction from "@/views/apps/jar/JarTransaction.vue";
 import RolesListing from "@/views/apps/roles/RolesListing.vue";
 import CustomerDetails from "@/views/apps/customers/CustomerDetails.vue";
 import SuppliersListing from "@/views/apps/suppliers/SuppliersListing.vue";
@@ -40,6 +42,7 @@ import OrdersSaleList from "@/views/apps/orders/OrdersSaleListing.vue";
 import CreateOrder from "@/views/apps/orders/CreateOrder.vue";
 import EditOrder from "@/views/apps/orders/EditOrder.vue";
 import KeysListing from "@/views/apps/keys/KeysListing.vue";
+import LossSales from "@/views/apps/keys/LossSales.vue";
 import KeysFollow from "@/views/apps/keys/FollowKey.vue";
 import OffersListing from "@/views/apps/offers/OffersListing.vue";
 import UsersListing from "@/views/apps/users/UsersListing.vue";
@@ -398,6 +401,24 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
+        path: "/jar",
+        name: "Jar-listing",
+        component: JarListing,
+        meta: {
+          pageTitle: "jar-listing",
+          breadcrumbs: ["Apps", `jar listing`],
+        },
+      },
+      {
+        path: "/jar/transactions",
+        name: "Jar-Transaction",
+        component: JarTransaction,
+        meta: {
+          pageTitle: "jar-transaction",
+          breadcrumbs: ["Apps", `jar transactions`],
+        },
+      },
+      {
         path: "/roles",
         name: "apps-roles-listing",
         component: RolesListing,
@@ -477,6 +498,15 @@ const routes: Array<RouteRecordRaw> = [
         component: KeysListing,
         meta: {
           pageTitle: "Keys",
+          breadcrumbs: ["Apps", "Keys"],
+        },
+      },
+      {
+        path: "/keys/loss-sales",
+        name: "Loss-Sales",
+        component: LossSales,
+        meta: {
+          pageTitle: "Loss Sales",
           breadcrumbs: ["Apps", "Keys"],
         },
       },

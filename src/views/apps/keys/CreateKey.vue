@@ -303,6 +303,18 @@ const confirmSubmission = () => {
     },
   });
 };
+const confirmKeyPrice = (message) => {
+  ElMessageBox.confirm(message, "Warning", {
+    confirmButtonText: "OK",
+    cancelButtonText: "Cancel",
+    type: "warning",
+  })
+    .then(() => {
+      form.user_is_sure = true;
+      createGame();
+    })
+    .catch(() => {});
+};
 
 const setGameId = (value) => {
   form.game_id = value.id;
@@ -367,7 +379,11 @@ const createGame = async (formEl: FormInstance | undefined) => {
           confirmSubmission();
         })
         .catch((e) => {
-          errorHandling(e?.response?.data?.messages);
+          if (e?.response.data.error === 1001) {
+            confirmKeyPrice(e?.response.data.messages);
+          } else {
+            errorHandling(e?.response?.data?.messages);
+          }
         });
     }
   });
