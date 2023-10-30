@@ -27,6 +27,33 @@ export const dateFormatter = (date, time) => {
   const fullDate = day + "." + month + "." + year + " " + timeFull;
   return fullDate;
 };
+export const dateFormatter2 = (date, time) => {
+  const isTime = time === "time" ? true : false;
+  const day =
+    ("" + date.value.getDate()).length > 1
+      ? date.value.getDate()
+      : "0" + date.value.getDate();
+  const month =
+    ("" + date.value.getMonth()).length > 1 || date.value.getMonth() === 9
+      ? 1 + date.value.getMonth()
+      : "0" + (date.value.getMonth() + 1);
+  const year = date.value.getFullYear();
+  const hours =
+    ("" + date.value.getHours()).length > 1
+      ? date.value.getHours()
+      : "0" + date.value.getHours();
+  const minutes =
+    ("" + date.value.getMinutes()).length > 1
+      ? date.value.getMinutes()
+      : "0" + date.value.getMinutes();
+  const seconds =
+    ("" + date.value.getSeconds()).length > 1
+      ? date.value.getSeconds()
+      : "0" + date.value.getSeconds();
+  const timeFull = isTime ? hours + ":" + minutes + ":" + seconds : "";
+  const fullDate = year + "-" + month + "-" + day + " " + timeFull;
+  return fullDate;
+};
 
 export const removeEmptyValues = (obj) => {
   let object = obj;

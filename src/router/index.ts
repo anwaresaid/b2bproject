@@ -33,6 +33,7 @@ import GameDetailListing from "@/views/apps/games/GameDetailsList.vue";
 import ZiraatListing from "@/views/apps/ziraat/detailsList.vue";
 import JarListing from "@/views/apps/jar/JarList.vue";
 import JarTransaction from "@/views/apps/jar/JarTransaction.vue";
+import ExpenseListing from "@/views/apps/expense/ExpenseList.vue";
 import RolesListing from "@/views/apps/roles/RolesListing.vue";
 import CustomerDetails from "@/views/apps/customers/CustomerDetails.vue";
 import SuppliersListing from "@/views/apps/suppliers/SuppliersListing.vue";
@@ -89,7 +90,7 @@ import Tables from "@/views/crafted/widgets/Tables.vue";
 import Feeds from "@/views/crafted/widgets/Feeds.vue";
 import MultiStepSignUp from "@/views/crafted/authentication/MultiStepSignUp.vue";
 import SystemLayout from "@/layouts/SystemLayout.vue";
-import MoneyBoxList from "@/views/apps/moneybox/MoneyBoxList.vue";
+// import MoneyBoxList from "@/views/apps/moneybox/MoneyBoxList.vue";
 import MultipleMatch from "@/views/apps/marketplace/marketplace-match/MultipleMatch.vue";
 
 const routes: Array<RouteRecordRaw> = [
@@ -328,15 +329,15 @@ const routes: Array<RouteRecordRaw> = [
           breadcrumbs: ["Apps", "Notifications"],
         },
       },
-      {
-        path: "/moneybox",
-        name: "apps-money-box",
-        component: MoneyBoxList,
-        meta: {
-          pageTitle: "Money Box",
-          breadcrumbs: ["Apps", "Moneybox"],
-        },
-      },
+      // {
+      //   path: "/moneybox",
+      //   name: "apps-money-box",
+      //   component: MoneyBoxList,
+      //   meta: {
+      //     pageTitle: "Money Box",
+      //     breadcrumbs: ["Apps", "Moneybox"],
+      //   },
+      // },
       {
         path: "/orders-sale",
         name: "apps-orders-sale",
@@ -401,21 +402,30 @@ const routes: Array<RouteRecordRaw> = [
         },
       },
       {
-        path: "/jar",
-        name: "Jar-listing",
+        path: "/moneybox",
+        name: "Moneybox-listing",
         component: JarListing,
         meta: {
-          pageTitle: "jar-listing",
-          breadcrumbs: ["Apps", `jar listing`],
+          pageTitle: "moneybox-listing",
+          breadcrumbs: ["Apps", `moneybox listing`],
         },
       },
       {
-        path: "/jar/transactions",
-        name: "Jar-Transaction",
+        path: "/expense",
+        name: "Expense-listing",
+        component: ExpenseListing,
+        meta: {
+          pageTitle: "expense-listing",
+          breadcrumbs: ["Apps", `expense listing`],
+        },
+      },
+      {
+        path: "/moneybox/transactions",
+        name: "Moneybox-Transaction",
         component: JarTransaction,
         meta: {
-          pageTitle: "jar-transaction",
-          breadcrumbs: ["Apps", `jar transactions`],
+          pageTitle: "moneybox-transaction",
+          breadcrumbs: ["Apps", `moneybox transactions`],
         },
       },
       {

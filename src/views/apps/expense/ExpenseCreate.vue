@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="setVisible" title="Moneybox Create" width="50%">
+  <el-dialog v-model="setVisible" title="Expense Create" width="50%">
     <el-form
       :model="form"
       :rules="rules"
@@ -7,35 +7,29 @@
       status-icon
       :size="formSize"
     >
-      <el-form-item label="Name" prop="name" label-width="250px" required>
-        <el-input v-model="form.name" autocomplete="off" />
+      <el-form-item
+        label="Description"
+        prop="description"
+        label-width="250px"
+        required
+      >
+        <el-input v-model="form.description" autocomplete="off" />
       </el-form-item>
-      <el-form-item label="Balance" label-width="250px" prop="balance" required>
+      <el-form-item label="Amount" label-width="250px" prop="amount" required>
         <el-input
-          :model-value="form.balance"
+          :model-value="form.amount"
           @input="handleInput"
           type="text"
           autocomplete="off"
         />
       </el-form-item>
-      <el-form-item label="Owner" prop="owner_id" label-width="250px" required>
-        <DropdownRemote
-          :url="supplierUrl"
-          @selected-game="setSupplierId"
-          placeholder="select supplier"
-          :type="supplierType"
-          :keyg="supplierKey"
-          lable="Select supplier"
-          wd="100%"
-        />
-      </el-form-item>
       <el-form-item
         label="Currency"
         label-width="250px"
-        prop="currency"
+        prop="amount_currency"
         required
       >
-        <el-select v-model="form.currency" placeholder="Select">
+        <el-select v-model="form.amount_currency" placeholder="Select">
           <el-option
             v-for="item in currency"
             :key="item.value"
@@ -72,13 +66,15 @@ import type { Action, UploadInstance } from "element-plus";
 import { errorHandling } from "@/views/apps/utils/functions";
 import { currency } from "@/views/apps/utils/constants";
 import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
-import { beautifyNumber } from "@/views/apps/utils/functions";
+import {
+  beautifyNumber,
+  switchBeautifulNumber,
+} from "@/views/apps/utils/functions";
 
 interface RuleForm {
-  name: string;
-  currency: number;
-  owner_id: number;
-  balance: number;
+  description: string;
+  amount_currency: number;
+  amount: number;
 }
 
 const formSize = ref("large");
@@ -87,42 +83,31 @@ const uploadRef = ref<UploadInstance>();
 const visible = defineProps(["isVisible"]);
 const setVisible = ref("");
 const emit = defineEmits();
-const supplierKey = "search";
-const supplierUrl = "suppliers/all";
-const supplierType = "suppliers";
 
 setVisible.value = visible.isVisible;
 
 const form = reactive<RuleForm>({
-  name: "",
-  currency: null,
-  owner_id: null,
-  balance: 0,
+  description: "",
+  amount_currency: null,
+  amount: 0,
 });
 
 const rules = reactive<FormRules<typeof form>>({
-  name: [
+  description: [
     {
-      required: true,
-      message: "Please enter name",
+      required: false,
+      message: "Please enter description",
       trigger: "blur",
     },
   ],
-  balance: [
+  amount: [
     {
       required: true,
-      message: "Please enter balance",
+      message: "Please enter amount",
       trigger: "blur",
     },
   ],
-  owner_id: [
-    {
-      required: true,
-      message: "Please select owner",
-      trigger: "change",
-    },
-  ],
-  currency: [
+  amount_currency: [
     {
       required: true,
       message: "Please select currency",
@@ -131,11 +116,8 @@ const rules = reactive<FormRules<typeof form>>({
   ],
 });
 
-const setSupplierId = (value) => {
-  form.owner_id = value;
-};
 const handleInput = (num) => {
-  form.balance = beautifyNumber(num);
+  form.amount = beautifyNumber(num);
 };
 const emptyForm = (form) => {
   Object.keys(form).map((key) => (form[key] = null));
@@ -145,11 +127,15 @@ const confirmSubmission = (formEl) => {
   if (!formEl) return;
   formEl.validate((valid) => {
     if (valid) {
-      ApiService.postTest("jars", form)
+      const data = {
+        ...form,
+        amount: switchBeautifulNumber(form.amount).toFixed(2),
+      };
+      ApiService.postTest("expenses", data)
         .then((res) => {
           ElMessageBox.alert(
-            "Moneybox created successfully !",
-            "Moneybox creation",
+            "Expenses created successfully !",
+            "Expense creation",
             {
               confirmButtonText: "OK",
               callback: (action: Action) => {

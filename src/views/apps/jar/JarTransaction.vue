@@ -6,17 +6,17 @@
           <DropdownRemote
             :url="jarUrl"
             @selected-game="setJarId"
-            placeholder="select jar"
+            placeholder="select moneybox"
             :type="jarType"
             :keyg="jarKey"
-            lable="Select Jar"
+            lable="Select Moneybox"
             wd="25%"
           />
           <div>
             <el-tooltip
               class="box-item"
               effect="dark"
-              content="Add jar"
+              content="Add moneybox"
               placement="top-start"
             >
               <el-button
@@ -104,7 +104,7 @@ const tableHeaders = ref([
     sortEnabled: false,
   },
   {
-    columnName: "PROCESS JAR CURRENCY   ",
+    columnName: "PROCESS MONEYBOX CURRENCY   ",
     columnLabel: "process_convert_eur",
     sortEnabled: false,
   },

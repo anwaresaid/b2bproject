@@ -11,14 +11,14 @@
               type="text"
               v-model="searchUsers"
               class="form-control form-control-solid w-250px ps-15"
-              placeholder="search by jar name"
+              placeholder="search by moneybox name"
             />
           </div>
           <div>
             <el-tooltip
               class="box-item"
               effect="dark"
-              content="Add Jar"
+              content="Add Moneybox"
               placement="top-start"
             >
               <el-button
