@@ -15,6 +15,10 @@ export const matchStatus = [
   { label: "active", value: 1 },
   { label: "passive", value: 0 },
 ];
+export const isApproved = [
+  { label: "Approved", value: 1 },
+  { label: "Not Approved", value: 0 },
+];
 
 export const categoryType = [
   {

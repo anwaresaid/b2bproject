@@ -104,18 +104,24 @@ const MainMenuConfig: Array<MenuItem> = [
         fontIcon: "bi-app-indicator",
       },
       {
-        sectionTitle: "Jar",
-        route: "/jar",
+        heading: "Expense",
+        route: "/expense",
+        svgIcon: "/media/icons/duotune/art/art002.svg",
+        fontIcon: "bi-app-indicator",
+      },
+      {
+        sectionTitle: "Moneybox",
+        route: "/moneybox",
         svgIcon: "/media/icons/duotune/art/art002.svg",
         fontIcon: "bi-app-indicator",
         sub: [
           {
-            heading: "Jar List",
-            route: "/jar",
+            heading: "Moneybox List",
+            route: "/moneybox",
           },
           {
-            heading: "Jar Transactions",
-            route: "jar/transactions",
+            heading: "Moneybox Transactions",
+            route: "/moneybox/transactions",
           },
         ],
       },
@@ -378,12 +384,12 @@ const MainMenuConfig: Array<MenuItem> = [
         svgIcon: "/media/icons/duotune/art/art002.svg",
         fontIcon: "bi-app-indicator",
       },
-      {
-        heading: "Moneybox",
-        route: "/moneybox",
-        svgIcon: "/media/icons/duotune/art/art002.svg",
-        fontIcon: "bi-app-indicator",
-      },
+      // {
+      //   heading: "Moneybox",
+      //   route: "/moneybox",
+      //   svgIcon: "/media/icons/duotune/art/art002.svg",
+      //   fontIcon: "bi-app-indicator",
+      // },
       {
         heading: "Roles",
         route: "/roles",
