@@ -30,6 +30,18 @@
                 />
               </el-select>
             </div>
+            <el-select
+              v-model="orderByCreateDate"
+              class="select-table-type"
+              placeholder="Create Date"
+            >
+              <el-option
+                v-for="item in gamesOrderBy"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
             <div>
               <el-button @click="createKey" type="primary" icon="plus" round
                 >add keys</el-button
@@ -88,6 +100,7 @@ import DropdownRemote from "../../../components/dropdown/DropdownRemote.vue";
 import { dateFormatter } from "../utils/functions";
 import store from "../../../store";
 import { errorHandling } from "@/views/apps/utils/functions";
+import { gamesOrderBy, gameStatus } from "@/views/apps/utils/constants";
 
 const gameData = ref([]);
 const fromDate = ref();
@@ -97,6 +110,7 @@ const searchKeys = ref("");
 const dropdownParams = ref({});
 const keysData = ref([]);
 const keySearchStatus = ref(null);
+const orderByCreateDate = ref(null);
 
 const params = ref({});
 const tableStatus = ref(null);
@@ -207,6 +221,17 @@ watch(keySearchStatus, (newValue) => {
   };
   if (keySearchStatus.value === "") {
     delete dropdownParams.value["status"];
+  }
+  params.value = dropdownParams.value;
+  fetchGames("filer");
+});
+watch(orderByCreateDate, (newValue) => {
+  dropdownParams.value = {
+    order_by_created: orderByCreateDate.value,
+    uuid: router.currentRoute.value.params.id,
+  };
+  if (orderByCreateDate.value === "") {
+    delete dropdownParams.value["order_by_created"];
   }
   params.value = dropdownParams.value;
   fetchGames("filer");
